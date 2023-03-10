@@ -3,13 +3,17 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import "./Test.css";
 
+import character from "./moving_man.gif"
+
 function App() {
   return (
-    <Container maxWidth="xs">
-      <Box className="bg" sx={{ height: "100vh" }}>
-        <div className="top"></div>
-        <div className="subway"></div>
-        <div className="bottom"></div>
+    <Container className="container" maxWidth="xs">
+      <Box className="bg" sx={{ height: "100vh" }} >
+        <div className="subway-background">
+          <div className="subway">
+            <img src={ character } alt="character"/>
+          </div>
+        </div>
       </Box>
     </Container>
   );

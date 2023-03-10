@@ -1,26 +1,33 @@
-.bg {
-    display: grid;
-    grid-template-rows: 3fr 6fr 1fr;
+.container{
+    padding: 0px !important;
 }
 
-.top {
-    background-color: #E0E0E0;
+.subway-background {
+    height: 100%;
+    background-image: url('../public/test_night.png');
+    background-size : 150% 100%;
+    animation: movement 2s linear infinite;
+    position: relative;
+    z-index: 1000;
 }
 
 .subway {
     height: 100%;
-    background-image: url('../public/subway.png');
-    /* position:absolute; */
-    background-color: black;
+    background-image: url('../public/test_subway.png');
     background-size : 150% 100%;
-    animation: displace 4s linear infinite;
+    animation: movement 4s linear infinite;
+    position: relative;
+    z-index: 1001;
 }
 
-.bottom {
-    background-color: #376BB8;
+.subway > img {
+    transform: scale(0.5);
+    position: relative;
+    left: 0%;
+    top: 53%;
 }
 
-@keyframes displace {
+@keyframes movement {
         from { 
             background-position: 0% center;
         } 
