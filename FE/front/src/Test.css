@@ -6,7 +6,7 @@
     height: 100%;
     background-image: url('../public/test_night.png');
     background-size : 150% 100%;
-    animation: movement 2s linear infinite;
+    animation: movement 3.5s linear infinite;
     position: relative;
     z-index: 1000;
 }
@@ -15,7 +15,7 @@
     height: 100%;
     background-image: url('../public/test_subway.png');
     background-size : 150% 100%;
-    animation: movement 4s linear infinite;
+    animation: movement 6s linear infinite;
     position: relative;
     z-index: 1001;
 }
