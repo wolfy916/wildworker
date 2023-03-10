@@ -1,0 +1,30 @@
+.bg {
+    display: grid;
+    grid-template-rows: 3fr 6fr 1fr;
+}
+
+.top {
+    background-color: #E0E0E0;
+}
+
+.subway {
+    height: 100%;
+    background-image: url('../public/subway.png');
+    /* position:absolute; */
+    background-color: black;
+    background-size : 150% 100%;
+    animation: displace 4s linear infinite;
+}
+
+.bottom {
+    background-color: #376BB8;
+}
+
+@keyframes displace {
+        from { 
+            background-position: 0% center;
+        } 
+        to { 
+            background-position: 300% center;
+        }
+}
