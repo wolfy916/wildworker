@@ -1,11 +1,10 @@
 import * as React from "react"
 import Box from "@mui/material/Box"
 import Container from "@mui/material/Container"
-import "./Test.css"
+import "./MainPage.css"
+import character from "../moving_man.gif"
 
-import character from "./moving_man.gif"
-
-function App() {
+function MainPage() {
   return (
     <Container className="container" maxWidth="xs">
       <Box className="bg" sx={{ height: "100vh" }}>
@@ -19,4 +18,4 @@ function App() {
   )
 }
 
-export default App
+export default MainPage
