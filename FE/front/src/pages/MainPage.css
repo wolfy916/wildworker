@@ -4,7 +4,7 @@
 
 .subway-background {
   height: 100%;
-  background-image: url("../test_morning.png");
+  background-image: url("../asset/image/test_morning.png");
   background-size: 150% 100%;
   animation: movement 4s linear infinite;
   position: relative;
@@ -13,7 +13,7 @@
 
 .subway {
   height: 100%;
-  background-image: url("../test_subway.png");
+  background-image: url("../asset/image/test_subway.png");
   background-size: 150% 100%;
   animation: movement 9s linear infinite;
   position: relative;

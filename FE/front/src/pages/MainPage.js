@@ -2,7 +2,7 @@ import * as React from "react"
 import Box from "@mui/material/Box"
 import Container from "@mui/material/Container"
 import "./MainPage.css"
-import character from "../moving_man.gif"
+import character from "../asset/image/moving_man.gif"
 
 function MainPage() {
   return (
