@@ -1,0 +1,15 @@
+.battleDialog {
+  /* border: 2px solid blue; */
+  top: 65vh;
+  position: absolute;
+  height: 35vh;
+  width: 100%;
+}
+
+.battleDialog > img {
+  /* border: 3px solid red; */
+  /* height: 17.6rem; */
+  /* position: absolute; */
+  width: 100%;
+  height: 100%;
+}

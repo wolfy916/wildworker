@@ -1,0 +1,37 @@
+.container{
+    padding: 0px !important;
+}
+
+.subway-background {
+    height: 100%;
+    background-image: url('../public/test_night.png');
+    background-size : 150% 100%;
+    animation: movement 3.5s linear infinite;
+    position: relative;
+    z-index: 1000;
+}
+
+.subway {
+    height: 100%;
+    background-image: url('../public/test_subway.png');
+    background-size : 150% 100%;
+    animation: movement 10s linear infinite;
+    position: relative;
+    z-index: 1001;
+}
+
+.subway > img {
+    transform: scale(0.5);
+    position: relative;
+    left: 0%;
+    top: 53%;
+}
+
+@keyframes movement {
+        from { 
+            background-position: 0% center;
+        } 
+        to { 
+            background-position: 300% center;
+        }
+}
