@@ -1,0 +1,30 @@
+.login-background {
+  height: 100%;
+  background-image: url("../asset/image/login_background.png");
+  background-size: 150% 100%;
+  animation: movement 9s linear infinite;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.login-title-img {
+  width: 100%;
+  height: 30%;
+}
+.login-kakao-img {
+  width: 70%;
+  height: 10%;
+}
+.login-kakao-img:hover {
+  cursor: pointer;
+}
+
+@keyframes movement {
+  from {
+    background-position: 0% center;
+  }
+  to {
+    background-position: 300% center;
+  }
+}
