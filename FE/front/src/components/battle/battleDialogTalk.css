@@ -1,0 +1,17 @@
+/* @import url('https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css'); */
+
+.battleDialogTalk{
+    /* border: 1px black solid; */
+    position: absolute;
+    left: 2rem;
+    top: 2rem;
+    font-family: galmuri9;
+    font-size: large;
+   
+}
+@font-face {
+    font-family: 'galmuri9';
+    src: url(/src/asset/font/Galmuri9.ttf);
+    font-weight: normal;
+    font-style: normal;
+  }

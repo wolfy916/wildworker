@@ -4,9 +4,9 @@
 
 .subway-background {
   height: 100%;
-  background-image: url("../test_night.png");
+  background-image: url("../test_morning.png");
   background-size: 150% 100%;
-  animation: movement 2s linear infinite;
+  animation: movement 4s linear infinite;
   position: relative;
   z-index: 1000;
 }
@@ -15,7 +15,7 @@
   height: 100%;
   background-image: url("../test_subway.png");
   background-size: 150% 100%;
-  animation: movement 4s linear infinite;
+  animation: movement 9s linear infinite;
   position: relative;
   z-index: 1001;
 }
