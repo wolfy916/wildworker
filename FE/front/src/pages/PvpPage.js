@@ -1,10 +1,10 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import BattleDialog from "../components/battle/battleDialog";
-import BattleCharater from "../components/battle/battlecharacter";
-import battleDirection from "../asset/image/battleDirection.png";
-import "./PvpPage.css";
+import * as React from "react"
+import Box from "@mui/material/Box"
+import Container from "@mui/material/Container"
+import BattleDialog from "../components/battle/battleDialog"
+import BattleCharater from "../components/battle/battlecharacter"
+import battleDirection from "../asset/image/battleDirection.png"
+import "./PvpPage.css"
 
 function MainPage() {
   return (
@@ -24,7 +24,7 @@ function MainPage() {
         <BattleDialog />
       </Box>
     </Container>
-  );
+  )
 }
 
-export default MainPage;
+export default MainPage
