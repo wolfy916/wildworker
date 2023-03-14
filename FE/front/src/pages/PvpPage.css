@@ -16,7 +16,7 @@
 }
 
 .battleCharacter1 > p {
-  margin-top: 35%;
+  margin-top: 33%;
   margin-left: 9%;
   position: absolute;
   /* border: 1px solid blue; */
@@ -43,7 +43,7 @@
 }
 
 .battleCharacter2 > p {
-  margin-top: 25%;
+  margin-top: 23%;
   margin-left: 9%;
   position: absolute;
   transform: scaleX(-1);

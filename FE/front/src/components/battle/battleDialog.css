@@ -1,10 +1,10 @@
 .battleDialog {
   /* border: 2px solid blue; */
-  top: 100%;
+  top: 9%;
   /* position: absolute; */
   position: relative;
   display: flex;
-  height: 35%;
+  height: 30%;
   width: 100%;
 }
 
