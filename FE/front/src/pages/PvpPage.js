@@ -21,7 +21,7 @@ function MainPage() {
       </div>
       <div className="battleCharacter2">
         <img src={battleDirection} alt="battleDirection" />
-        <BattleCharater className="char" />
+        <BattleCharater />
         <p>신도림의 지배자 권태형</p>
       </div>
 

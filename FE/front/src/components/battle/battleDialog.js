@@ -18,6 +18,14 @@ export default function BattleDialog() {
   function handleClick() {
     setIndex(index + 1);
   }
+  let audio = new Audio("../../asset/audio/battleAudio.mp3");
+  function audioplay() {
+    audio.play().catch(e => {
+      console.log(e);
+    });
+    console.log("dd");
+  }
+
   return (
     <Box className="battleDialog">
       <img src={battleDialogImg} alt="battleDialogImg" />
@@ -26,6 +34,7 @@ export default function BattleDialog() {
       <div onClick={handleClick} className="battleDialog-talk">
         <p>{sentences[index]}</p>
       </div>
+      <button onClick={audioplay} className="battleAudio"></button>
     </Box>
   );
 }
