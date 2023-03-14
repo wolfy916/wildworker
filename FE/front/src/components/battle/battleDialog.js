@@ -4,6 +4,7 @@ import "./battleDialog.css";
 // import BattleDialogTalk from "./battleDialogTalk";
 import { useState } from "react";
 import battleDialogImg from "../../asset/image/battleTalk.png";
+import battleAudio from "../../asset/audio/battleAudio.mp3";
 
 export default function BattleDialog() {
   const sentences = [
@@ -18,7 +19,7 @@ export default function BattleDialog() {
   function handleClick() {
     setIndex(index + 1);
   }
-  let audio = new Audio("../../asset/audio/battleAudio.mp3");
+  let audio = new Audio(battleAudio);
   function audioplay() {
     audio.play().catch(e => {
       console.log(e);
