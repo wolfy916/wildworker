@@ -1,7 +1,9 @@
 .PvpPageBg {
   /* border: 1px black solid; */
-  height: 100vh;
+  height: 100%;
   width: 100%;
+  overflow: hidden;
+  /* overflow: visible; */
 }
 
 .battleCharacter1 {
@@ -10,10 +12,11 @@
   width: 100%;
   height: 30%;
   display: flex;
+  animation: battleChar1 1s linear alternate;
 }
 
 .battleCharacter1 > p {
-  margin-top: 28%;
+  margin-top: 35%;
   margin-left: 9%;
   position: absolute;
   /* border: 1px solid blue; */
@@ -23,24 +26,27 @@
   /* height: 30%; */
   /* border: 1px solid blue; */
   height: 20%;
-  width: 100%;
-  margin-left: 5%;
-  margin-top: 25%;
-  margin-right: 5%;
+  width: 70%;
+  margin-left: 2%;
+  margin-top: 30%;
+  margin-right: -7%;
 }
+
 .battleCharacter2 {
   /* border: 1px solid red; */
   position: relative;
   width: 100%;
   height: 30%;
   display: flex;
-  flex-direction: row-reverse;
+  transform: scaleX(-1);
+  animation: battleChar2 1s linear alternate;
 }
 
 .battleCharacter2 > p {
-  margin-top: 28%;
-  margin-right: 8%;
+  margin-top: 25%;
+  margin-left: 9%;
   position: absolute;
+  transform: scaleX(-1);
   /* border: 1px solid blue; */
 }
 .battleCharacter2 > img {
@@ -48,11 +54,18 @@
   /* height: 30%; */
   /* border: 1px solid blue; */
   height: 20%;
+  width: 70%;
+  margin-left: 2%;
+  margin-top: 20%;
+  margin-right: -6%;
+}
+
+.pvpPageLoading {
+  position: absolute;
+  left: 0%;
   width: 100%;
-  margin-left: 5%;
-  margin-top: 25%;
-  margin-right: 5%;
-  transform: scaleX(-1);
+  height: 100%;
+  z-index: 1001;
 }
 
 p {
@@ -64,4 +77,22 @@ p {
   src: url(/src/asset/font/Galmuri9.ttf);
   font-weight: normal;
   font-style: normal;
+}
+
+@keyframes battleChar1 {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes battleChar2 {
+  from {
+    transform: translateX(100%) scaleX(-1);
+  }
+  to {
+    transform: translateX(0%) scaleX(-1);
+  }
 }
