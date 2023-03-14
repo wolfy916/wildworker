@@ -2,9 +2,9 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import "./battleDialog.css";
 // import BattleDialogTalk from "./battleDialogTalk";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import battleDialogImg from "../../asset/image/battleTalk.png";
-import battleAudio from "../../asset/audio/battleAudio.mp3";
+import battleAudio from "../../asset/audio/battleAudioBack.mp3";
 
 export default function BattleDialog() {
   const sentences = [
@@ -15,6 +15,7 @@ export default function BattleDialog() {
     "결투가 곧 시작될 것 같다!!!",
   ];
   const [index, setIndex] = useState(0);
+  const [audioChange, setAudioChange] = useState("");
 
   function handleClick() {
     setIndex(index + 1);
@@ -27,6 +28,10 @@ export default function BattleDialog() {
     console.log("dd");
   }
 
+  useEffect(() => {
+    console.log("dd");
+  }, []);
+
   return (
     <Box className="battleDialog">
       <img src={battleDialogImg} alt="battleDialogImg" />
@@ -35,7 +40,10 @@ export default function BattleDialog() {
       <div onClick={handleClick} className="battleDialog-talk">
         <p>{sentences[index]}</p>
       </div>
-      <button onClick={audioplay} className="battleAudio"></button>
+
+      <button onClick={audioplay} className="battleAudio">
+        결투 소리 재생 임시버튼
+      </button>
     </Box>
   );
 }

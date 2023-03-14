@@ -23,3 +23,10 @@
   font-family: galmuri9;
   font-size: large;
 }
+
+.battleAudio {
+  border: 1px black solid;
+  position: absolute;
+  left: 8%;
+  top: 80%;
+}
