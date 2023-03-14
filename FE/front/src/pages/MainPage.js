@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useState } from "react"
 import "./MainPage.css"
 import character from "../asset/image/moving_man.gif"
 import goMap from "../asset/image/goMap.png"
@@ -8,6 +9,7 @@ import SubwayBoard from "../components/mainpage/SubwayBoard";
 
 
 function MainPage() {
+  
   return (
     <div className="subway-background">
       <SubwayBoard/>
