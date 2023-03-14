@@ -12,15 +12,7 @@
   background-image: url("../asset/image/test_subway.png");
   background-size: 150% 100%;
   animation: movement 9s linear infinite;
-  position: relative;
   z-index: 1001;
-}
-
-.subway > img {
-  transform: scale(0.5);
-  position: relative;
-  left: -30%;
-  top: 53%;
 }
 
 @keyframes movement {
@@ -30,4 +22,26 @@
   to {
     background-position: 300% center;
   }
+}
+
+.subway > img {
+  transform: scale(0.5);
+  position: relative;
+  left: -25%;
+  top: 53%;
+}
+
+.router-map-btn{
+  box-sizing: border-box;
+  position: absolute;
+  height: 12%;
+  width: 22%;
+  bottom: 4%;
+  left: 39%;
+}
+
+.router-map-btn > img {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
 }
