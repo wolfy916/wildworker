@@ -1,5 +1,4 @@
 .subway-board-container {
-  /* background-color: blueviolet; */
   height: 27%;
   width: 100%;
   position: absolute;
@@ -14,6 +13,8 @@
   border: 5px solid #000000;
   position: absolute;
   top: 0 px;
+  z-index: 1002;
+  animation: smoothAppear 0.5s ease-in-out 0s 1 normal forwards;
 }
 .subway-board-bridges {
   box-sizing: border-box;
@@ -24,6 +25,7 @@
   top: 8%;
   height: 14%;
   width: 100%;
+  z-index: 1001;
 }
 .subway-board-bridge {
   box-sizing: border-box;
@@ -31,6 +33,8 @@
   border: 5px solid #000000;
   height: 100%;
   width: 5%;
+  z-index: 1001;
+  animation: smoothAppear 1s ease-in-out 0s 1 normal forwards;
 }
 .subway-board-wrapper {
   box-sizing: border-box;
@@ -42,41 +46,130 @@
   position: absolute;
   top: 20%;
   margin: 0 5%;
+  z-index: 1002;
+  animation: smoothAppear 1s ease-in-out 0s 1 normal forwards;
 }
 .subway-board-screen {
   box-sizing: border-box;
-  width: 96%;
-  height: 90%;
-  margin-top: 2%;
-  margin-left: 2%;
+  width: 94%;
+  height: 88%;
+  margin-top: 3%;
+  margin-left: 3%;
   background: #000000;
   border: 5px solid #000000;
   border-radius: 30px;
   z-index: 1002;
+  overflow: hidden;
 }
 
 .board-part {
   box-sizing: border-box;
   font-family: "galmuri9";
   color: #86f55f;
+  /* text-shadow: 0 0 7px #86f55f, 0 0 10px #86f55f, 0 0 21px #86f55f, 0 0 42px #86f55f; */
   height: 33%;
 }
-/* .first-part {
-  font-size: 120%;
+.first-part {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 125%;
+  
 }
 .second-part {
-  font-size: 120%;
-} */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 125%;
+  text-shadow: 0 0 7px #86f55f, 0 0 10px #86f55f, 0 0 21px #86f55f, 0 0 42px #86f55f;
+}
+.third-part {
+  box-sizing: border-box;
+  animation: slide 10s linear infinite;
+  animation-play-state: running;
+  white-space: nowrap;
+  font-size: 125%;
+}
+
+@keyframes slide {
+  from {
+    margin-left: 100%;
+    width: 100%;
+  }
+  to {
+    margin-left: -250%;
+    width: 100%;
+  }
+  
+}
+
 .current-station {
   font-family: "galmuri9";
   color: #fec189;
+  /* text-shadow: 0 0 7px #fec189, 0 0 10px #fec189, 0 0 21px #fec189, 0 0 42px #fec189; */
 }
 .board-badge {
   font-family: "galmuri9";
   color: #ff0000;
+  animation: flicker-badge 1.5s linear infinite alternate;
+  animation-play-state: running;
 }
 
 .board-nickname {
   font-family: "galmuri9";
   color: #ffe600;
+  animation: flicker-nickname 1.5s linear infinite alternate;
+  animation-play-state: running;
+}
+@keyframes flicker-badge {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #ff0000, 0 0 11px #ff0000, 0 0 19px #ff0000, 0 0 40px #ff0000;
+    /* 0 0 80px #ff0000, 0 0 90px #ff0000, 0 0 100px #ff0000, 0 0 150px #ff0000; */
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+
+@keyframes flicker-nickname {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #ffe600, 0 0 11px #ffe600, 0 0 19px #ffe600, 0 0 40px #ffe600;
+    /* 0 0 80px #ffe600, 0 0 90px #ffe600, 0 0 100px #ffe600, 0 0 150px #ffe600; */
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+
+.appear-effect {
+  animation: smoothAppear 2s ease-in-out 0s 1 normal forwards;
+}
+
+.disappear-effect {
+  animation: smoothAppear 1s ease-in-out 0s 1 reverse forwards;
+}
+
+@keyframes smoothAppear {
+  0%, 50% {
+    transform: translateY(-200%);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }

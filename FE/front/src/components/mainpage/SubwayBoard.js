@@ -5,6 +5,7 @@ function SubwayBoard() {
   const NICKNAME = "우주최강원석";
   const BADGE = "사당역의 지배자";
   const COIN = 1500;
+  const COIN_COMMA = COIN.toLocaleString('ko-KR');
   const CURRENT_STATION = "역삼역";
   const CURRENT_STATION_DOMINATOR = "매의호크민성";
 
@@ -22,26 +23,22 @@ function SubwayBoard() {
             <span className="board-nickname">{NICKNAME}</span>
           </div>
           <div className="board-part second-part">
-            <span className="board-coin">{COIN} 원</span>
+            <span className="board-coin">남은 잔액 : {COIN_COMMA} 원</span>
           </div>
           <div className="board-part third-part">
-            <div>
-              이번 역은
-              <span className="current-station"> {CURRENT_STATION} </span>
-              입니다.
-            </div>
-            <div>
-              <span className="current-station">
-                {" "}
-                {CURRENT_STATION}의 지배자{" "}
-              </span>
-              는
-              <span className="current-station">
-                {" "}
-                {CURRENT_STATION_DOMINATOR}{" "}
-              </span>
-              입니다.
-            </div>
+            이번 역은
+            <span className="current-station"> {CURRENT_STATION} </span>
+            입니다.
+            <span className="current-station">
+              {" "}
+              {CURRENT_STATION}의 지배자{" "}
+            </span>
+            는
+            <span className="current-station">
+              {" "}
+              {CURRENT_STATION_DOMINATOR}{" "}
+            </span>
+            입니다.
           </div>
         </div>
       </div>
