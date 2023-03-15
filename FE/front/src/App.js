@@ -6,7 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
 import SubwayMapPage from "./pages/SubwayMapPage";
 import PvpPage from "./pages/PvpPage";
-import PvpresultPage from "./pages/ResultPage";
+import PvpResultPage from "./pages/ResultPage";
 import MySubwayPage from "./pages/MySubwayPage";
 import HotSubwayPage from "./pages/HotSubwayPage";
 import DetailSubwayPage from "./pages/DetailSubwayPage";
@@ -63,7 +63,7 @@ function App() {
             <Route path="/map/hot" element={<HotSubwayPage />} />
             <Route path="/map/detail" element={<DetailSubwayPage />} />
             <Route path="/pvp" element={<PvpPage />} />
-            <Route path="/pvp/result" element={<PvpresultPage />} />
+            <Route path="/pvp/result" element={<PvpResultPage />} />
           </Routes>
         </Box>
       </Container>
