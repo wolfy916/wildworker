@@ -10,10 +10,9 @@ import SubwayBoard from "../components/mainpage/SubwayBoard";
 
 
 function MainPage() {
-  
   return (
     <div className="subway-background">
-      <SubwayBoard/>
+      <SubwayBoard />
       <div className="subway">
         <img className="character" src={character} alt="character" />
         <img className="main-menu-btn" src={menuBtn} alt="menuBtn" />

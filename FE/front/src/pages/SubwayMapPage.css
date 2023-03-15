@@ -2,10 +2,11 @@
     display: block;
     position: relative;
   } */
+
 area {
   display: block;
+  border-radius: 50%;
   position: absolute;
-  border: 1px solid black;
 }
 
 area:nth-of-type(1) {
@@ -351,4 +352,49 @@ area:nth-of-type(51) {
   left: 18.1%;
   width: 5%;
   height: 5%;
+}
+
+.map-router-main-btn {
+  box-sizing: border-box;
+  position: absolute;
+  height: 12%;
+  width: 22%;
+  bottom: 4%;
+  left: 39%;
+}
+
+.map-router-main-btn > img {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+.map-router-my-btn {
+  box-sizing: border-box;
+  position: absolute;
+  height: 12%;
+  width: 22%;
+  bottom: 4%;
+  left: 14%;
+}
+
+.map-router-my-btn > img {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+.map-router-hot-btn {
+  box-sizing: border-box;
+  position: absolute;
+  height: 12%;
+  width: 22%;
+  bottom: 4%;
+  left: 64%;
+}
+
+.map-router-hot-btn > img {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
 }

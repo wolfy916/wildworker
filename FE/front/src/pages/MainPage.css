@@ -32,7 +32,7 @@
   top: 53%;
 }
 
-.router-map-btn{
+.main-router-map-btn {
   box-sizing: border-box;
   position: absolute;
   height: 12%;
@@ -51,7 +51,7 @@
   }
 }
 
-.router-map-btn > img {
+.main-router-map-btn > img {
   box-sizing: border-box;
   height: 100%;
   width: 100%;
