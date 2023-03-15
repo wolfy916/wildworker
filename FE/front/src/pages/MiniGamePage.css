@@ -1,0 +1,12 @@
+.MiniGame {
+  border: 1px black solid;
+  /* width: 100%; */
+  height: 80%;
+}
+
+.MiniGame-Headline {
+  font-family: galmuri9;
+}
+
+.MiniGame > p {
+}

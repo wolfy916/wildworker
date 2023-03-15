@@ -11,6 +11,7 @@ import PvpReceipPage from "./pages/ReceiptPage";
 import MySubwayPage from "./pages/MySubwayPage";
 import HotSubwayPage from "./pages/HotSubwayPage";
 import DetailSubwayPage from "./pages/DetailSubwayPage";
+import MiniGamePage from "./pages/MiniGamePage";
 
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -66,6 +67,7 @@ function App() {
             <Route path="/pvp" element={<PvpPage />} />
             <Route path="/pvp/result" element={<PvpResultPage />} />
             <Route path="/pvp/receipt" element={<PvpReceipPage />} />
+            <Route path="/pvp/minigame" element={<MiniGamePage />} />
           </Routes>
         </Box>
       </Container>

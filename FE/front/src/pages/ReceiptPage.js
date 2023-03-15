@@ -14,7 +14,7 @@ function MainPage() {
             <p className="receipt-text-main-left">도망비</p>
             <p className="receipt-text-main-right">1111111111원</p>
             <p className="receipt-text-main-left">환급비</p>
-            <p className="receipt-text-main-right">1111111111111111111원</p>
+            <p className="receipt-text-main-right">111,111,111,111,111원</p>
             <p className="receipt-text-main-left">수수료</p>
             <p className="receipt-text-main-right">12342314234원</p>
             <p className="receipt-text-main-total1">TOTAL</p>
