@@ -66,7 +66,6 @@
   box-sizing: border-box;
   font-family: "galmuri9";
   color: #86f55f;
-  /* text-shadow: 0 0 7px #86f55f, 0 0 10px #86f55f, 0 0 21px #86f55f, 0 0 42px #86f55f; */
   height: 33%;
 }
 .first-part {
@@ -74,14 +73,12 @@
   justify-content: space-evenly;
   align-items: center;
   font-size: 125%;
-  
 }
 .second-part {
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 125%;
-  text-shadow: 0 0 7px #86f55f, 0 0 10px #86f55f, 0 0 21px #86f55f, 0 0 42px #86f55f;
 }
 .third-part {
   box-sizing: border-box;
@@ -100,14 +97,13 @@
     margin-left: -250%;
     width: 100%;
   }
-  
 }
 
 .current-station {
   font-family: "galmuri9";
   color: #fec189;
-  /* text-shadow: 0 0 7px #fec189, 0 0 10px #fec189, 0 0 21px #fec189, 0 0 42px #fec189; */
 }
+
 .board-badge {
   font-family: "galmuri9";
   color: #ff0000;
@@ -121,6 +117,7 @@
   animation: flicker-nickname 1.5s linear infinite alternate;
   animation-play-state: running;
 }
+
 @keyframes flicker-badge {
   0%,
   18%,
@@ -155,14 +152,6 @@
   55% {
     text-shadow: none;
   }
-}
-
-.appear-effect {
-  animation: smoothAppear 2s ease-in-out 0s 1 normal forwards;
-}
-
-.disappear-effect {
-  animation: smoothAppear 1s ease-in-out 0s 1 reverse forwards;
 }
 
 @keyframes smoothAppear {
