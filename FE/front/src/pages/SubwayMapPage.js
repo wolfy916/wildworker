@@ -77,7 +77,7 @@
 // 아래는 모바일 터치 용~~~
 
 import * as React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 import subwaymap from "../asset/image/subwaymap.png"
@@ -87,23 +87,43 @@ import hotMap from "../asset/image/hotMap.png"
 import "./SubwayMapPage.css"
 
 function SubwayMapPage() {
+  const [subwayList, setSubwayList] = useState([])
   const [position, setPosition] = useState({ x: 0, y: 0 })
+  const testlist = [3, 4, 16]
+
+  useEffect(() => {
+    const subway = document.querySelectorAll("area")
+    const subwayItems = Array.from(subway)
+    setSubwayList(subwayItems)
+  }, [])
+  if (subwayList.length > 0) {
+    for (let index = 0; index < subwayList.length; index++) {
+      const element = subwayList[index]
+      if (testlist.includes(index + 1)) {
+        element.style.backgroundColor = "tomato"
+        element.style.opacity = "0.4"
+      }
+    }
+  }
 
   const handleTouchStart = (e) => {
-    // Get the initial position of the touch
+
     const touch = e.touches[0]
     const startX = touch.pageX - position.x
     const startY = touch.pageY - position.y
 
     const handleTouchMove = (e) => {
-      // Calculate the new position of the big picture based on the touch position
+    
       const touch = e.touches[0]
       const x = touch.pageX - startX
       const y = touch.pageY - startY
-      setPosition({ x, y })
+
+      if (x < 350 && x > -520 && y < 180 && y > -610) {
+        setPosition({ x, y })
+      }
     }
 
-    // Add the touch move and touch end event listeners
+
     document.addEventListener("touchmove", handleTouchMove)
     document.addEventListener("touchend", () => {
       document.removeEventListener("touchmove", handleTouchMove)
@@ -112,8 +132,8 @@ function SubwayMapPage() {
 
   const navigate = useNavigate()
 
-  function navigateToPage(detail) {
-    navigate(`/page/${detail}`)
+  function navigateToPage(subwayId) {
+    navigate(`/map/detail`, { state: subwayId })
   }
 
   return (
@@ -125,6 +145,7 @@ function SubwayMapPage() {
           height: "500px",
           border: "1px solid black",
           overflow: "hidden",
+          borderRadius: "10%",
         }}
       >
         <div
@@ -198,15 +219,13 @@ function SubwayMapPage() {
         </div>
       </div>
       <nav>
-        <Link to="/map/detail">역 누르면 detail화면으로</Link>
-        <hr />
-        <Link to="/map/mine">
+        <Link className="map-router-my-btn" to="/map/mine">
           <img src={myMap} alt="myMap" />
         </Link>
-        <Link to="/main">
+        <Link className="map-router-main-btn" to="/main">
           <img src={goMain} alt="goMain" />
         </Link>
-        <Link to="/map/hot">
+        <Link className="map-router-hot-btn" to="/map/hot">
           <img src={hotMap} alt="hotMap" />
         </Link>
       </nav>

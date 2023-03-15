@@ -9,13 +9,13 @@ function MySubwayPage() {
   return (
     <nav>
       <div>여긴 My 역</div>
-      <Link to="/map/mine">
+      <Link className="my-router-my-btn" to="/map/mine">
         <img src={myMap} alt="myMap" />
       </Link>
-      <Link to="/map">
+      <Link className="my-router-map-btn" to="/map">
         <img src={goMap} alt="goMap" />
       </Link>
-      <Link to="/map/hot">
+      <Link className="my-router-hot-btn" to="/map/hot">
         <img src={hotMap} alt="hotMap" />
       </Link>
     </nav>

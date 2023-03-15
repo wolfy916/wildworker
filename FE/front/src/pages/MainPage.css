@@ -5,6 +5,7 @@
   animation: movement 4s linear infinite;
   position: relative;
   z-index: 1000;
+  overflow: hidden;
 }
 
 .subway {
@@ -24,24 +25,77 @@
   }
 }
 
-.subway > img {
+.character {
   transform: scale(0.5);
   position: relative;
   left: -25%;
   top: 53%;
 }
 
-.router-map-btn{
+.main-router-map-btn {
   box-sizing: border-box;
   position: absolute;
   height: 12%;
   width: 22%;
   bottom: 4%;
   left: 39%;
+  animation: bottomBtnAppear 1s ease-in-out 0s 1 normal forwards;
 }
 
-.router-map-btn > img {
+@keyframes bottomBtnAppear {
+  from{
+    transform: translateY(200%);
+  }
+  to{
+    transform: translateY(0%);
+  }
+}
+
+.main-router-map-btn > img {
   box-sizing: border-box;
   height: 100%;
   width: 100%;
+}
+
+.main-menu-btn{
+  box-sizing: border-box;
+  position: absolute;
+  height: 8%;
+  width: 15%;
+  top: 30%;
+  right: 4%;
+  animation: sideBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
+  /* animation: floating 3s ease-in infinite; */
+}
+
+.get-coin-btn{
+  box-sizing: border-box;
+  position: absolute;
+  height: 12%;
+  width: 20%;
+  top: 38%;
+  right: 2%;
+  animation: sideBtnAppear 0.7s ease-in-out 0s 1 normal forwards;
+  /* animation: floating 3s ease-in-out infinite; */
+}
+
+@keyframes sideBtnAppear {
+  0%{
+    transform: translateX(200%);
+  }
+  100%{
+    transform: translateX(0%);
+  }
+}
+
+@keyframes floating {
+  0%, 100%{
+    transform:translateY(0%);
+  }
+  50%{
+    transform:translateY(5%);
+  }
+  75%{
+    transform:translateY(-5%);
+  }
 }
