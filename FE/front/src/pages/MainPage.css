@@ -30,6 +30,7 @@
   position: relative;
   left: -25%;
   top: 53%;
+  z-index: 1002;
 }
 
 .router-map-btn{
@@ -39,6 +40,7 @@
   width: 22%;
   bottom: 4%;
   left: 39%;
+  z-index: 1002;
   animation: bottomBtnAppear 1s ease-in-out 0s 1 normal forwards;
 }
 
@@ -64,6 +66,7 @@
   width: 15%;
   top: 30%;
   right: 4%;
+  z-index: 1002;
   animation: sideBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
   /* animation: floating 3s ease-in infinite; */
 }
@@ -75,6 +78,7 @@
   width: 20%;
   top: 38%;
   right: 2%;
+  z-index: 1002;
   animation: sideBtnAppear 0.7s ease-in-out 0s 1 normal forwards;
   /* animation: floating 3s ease-in-out infinite; */
 }

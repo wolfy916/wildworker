@@ -1,5 +1,4 @@
 import * as React from "react"
-import { useState } from "react"
 import "./MainPage.css"
 import character from "../asset/image/moving_man.gif"
 import goMap from "../asset/image/goMap.png"
@@ -7,13 +6,17 @@ import menuBtn from "../asset/image/mainpage_menu_btn.png";
 import getCoinBtn from "../asset/image/get_coin_btn.png"
 import { Link } from "react-router-dom"
 import SubwayBoard from "../components/mainpage/SubwayBoard";
-
+import GetCoinItem from "../components/mainpage/GetCoinItem";
 
 function MainPage() {
-  
+  const [isReady, setIsReady] = React.useState(false);
+  React.useEffect(() => {
+    setTimeout(() => {setIsReady(true);}, 2000)
+  }, []);
+
   return (
     <div className="subway-background">
-      <SubwayBoard/>
+      <SubwayBoard />
       <div className="subway">
         <img className="character" src={character} alt="character" />
         <img className="main-menu-btn" src={menuBtn} alt="menuBtn" />
@@ -22,6 +25,7 @@ function MainPage() {
           <img src={goMap} alt="goMap" />
         </Link>
       </div>
+      {isReady && <GetCoinItem setIsReady={setIsReady}/>}
     </div>
   )
 }
