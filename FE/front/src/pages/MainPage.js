@@ -1,13 +1,12 @@
-import * as React from "react"
-import { useState } from "react"
-import "./MainPage.css"
-import character from "../asset/image/moving_man.gif"
-import goMap from "../asset/image/goMap.png"
+import * as React from "react";
+import { useState } from "react";
+import "./MainPage.css";
+import character from "../asset/image/moving_man.gif";
+import goMap from "../asset/image/goMap.png";
 import menuBtn from "../asset/image/mainpage_menu_btn.png";
-import getCoinBtn from "../asset/image/get_coin_btn.png"
-import { Link } from "react-router-dom"
+import getCoinBtn from "../asset/image/get_coin_btn.png";
+import { Link } from "react-router-dom";
 import SubwayBoard from "../components/mainpage/SubwayBoard";
-
 
 function MainPage() {
   return (
@@ -22,7 +21,7 @@ function MainPage() {
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
-export default MainPage
+export default MainPage;
