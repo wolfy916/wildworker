@@ -33,7 +33,7 @@
   z-index: 1002;
 }
 
-.router-map-btn{
+.router-map-btn {
   box-sizing: border-box;
   position: absolute;
   height: 12%;
@@ -45,10 +45,10 @@
 }
 
 @keyframes bottomBtnAppear {
-  from{
+  from {
     transform: translateY(200%);
   }
-  to{
+  to {
     transform: translateY(0%);
   }
 }
@@ -59,7 +59,7 @@
   width: 100%;
 }
 
-.main-menu-btn{
+.main-menu-btn {
   box-sizing: border-box;
   position: absolute;
   height: 8%;
@@ -68,38 +68,49 @@
   right: 4%;
   z-index: 1002;
   animation: sideBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
-  /* animation: floating 3s ease-in infinite; */
 }
 
-.get-coin-btn{
+.get-coin-btn {
   box-sizing: border-box;
   position: absolute;
-  height: 12%;
-  width: 20%;
+  height: 11%;
+  width: 19%;
   top: 38%;
-  right: 2%;
+  right: 3%;
   z-index: 1002;
   animation: sideBtnAppear 0.7s ease-in-out 0s 1 normal forwards;
-  /* animation: floating 3s ease-in-out infinite; */
+  background-image: url("../asset/image/get_coin_btn.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.get-coin-cnt {
+  position: absolute;
+  font-size: x-large;
+  font-weight: 900;
+  left: 50%;
+  bottom: 0%;
+  font-family: "Galmuri9";
 }
 
 @keyframes sideBtnAppear {
-  0%{
+  0% {
     transform: translateX(200%);
   }
-  100%{
+  100% {
     transform: translateX(0%);
   }
 }
 
-@keyframes floating {
-  0%, 100%{
-    transform:translateY(0%);
+@keyframes click {
+  0%, 100% {
+    transform: scale(1);
   }
-  50%{
-    transform:translateY(5%);
+  10%,
+  90% {
+    transform: scale(0.8);
   }
-  75%{
-    transform:translateY(-5%);
+  20% {
+    transform: scale(1.2);
   }
 }
