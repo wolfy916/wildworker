@@ -3,8 +3,10 @@ import Box from "@mui/material/Box";
 import BattleDialog from "../components/battle/battleDialog";
 import BattleCharater from "../components/battle/battlecharacter";
 import battleDirection from "../asset/image/battleDirection.png";
-import pvpPageLoading from "../asset/image/pvpPageLoading.gif";
+// import pvpPageLoading from "../asset/image/pvpPageLoading.gif";
+import battleAudioBack from "../asset/audio/battleAudioBack.mp3";
 import "./PvpPage.css";
+import Iframe from "react-iframe";
 
 function MainPage() {
   return (
@@ -14,6 +16,8 @@ function MainPage() {
         src={pvpPageLoading}
         alt="pvpPageLoading"
       /> */}
+      <Iframe url={battleAudioBack} allow="autoplay" />
+
       <div className="battleCharacter1">
         <img src={battleDirection} alt="battleDirection" />
         <BattleCharater />

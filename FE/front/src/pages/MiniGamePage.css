@@ -1,12 +1,77 @@
-.MiniGame {
-  border: 1px black solid;
+.miniGame {
+  /* border: 1px black solid; */
   /* width: 100%; */
   height: 80%;
 }
 
-.MiniGame-Headline {
+.miniGame-Headline {
   font-family: galmuri9;
+  margin-top: 20%;
+}
+.miniGame-score {
+  font-size: 130%;
 }
 
-.MiniGame > p {
+.miniGame-select {
+  margin-top: 3%;
+  /* border: 1px black solid; */
+  display: flex;
+  width: 100%;
+  height: 17.5%;
+}
+
+.miniGame-select-number {
+  margin-left: 1%;
+  width: 79%;
+  /* border: 1px black solid; */
+}
+
+.miniGame-btn {
+  background-color: white;
+  margin-left: 1.5%;
+  margin-bottom: 1%;
+  font-family: galmuri9;
+  width: 18%;
+  padding-top: 3%;
+  padding-bottom: 4%;
+  border-radius: 10%;
+  font-size: 130%;
+}
+
+.miniGame-submit {
+  /* border: 1px black solid; */
+  background-color: white;
+  margin-left: 0%;
+  margin-right: 2%;
+  width: 20%;
+  height: 100%;
+  /* padding-top: 2%; */
+}
+.miniGame-submit-btn {
+  /* border: 1px black solid; */
+  background-color: white;
+  margin-left: 0%;
+  font-family: galmuri9;
+  width: 100%;
+  height: 100%;
+  font-size: 120%;
+  /* padding-top: 2%; */
+  border-radius: 10%;
+}
+
+.minigame-pixelart-crab {
+  background-image: url(../asset/image/pixelartCrab.gif);
+  background-size: 100%;
+  height: 40%;
+  background-repeat: no-repeat;
+  /* border: 1px black solid; */
+}
+.minigame-pixelart-metamong {
+  background-image: url(../asset/image/pixelartMetamong.gif);
+  margin-left: 20%;
+  margin-top: 20%;
+  background-size: 70%;
+  height: 60%;
+  background-repeat: no-repeat;
+  /* border: 1px black solid; */
 }
