@@ -9,7 +9,9 @@ function MainPage() {
   return (
     <Box className="Pvp-Result" sx={{ position: "relative" }}>
       <div className="battle-result-1">
-        <p className="battle-result-p1">신도림의 지배자 권태형</p>
+        <p className="battle-result-p1">
+          신도림의 지배자 <br /> 권태형
+        </p>
         <div className="battle-result-char">
           <BattleCharater />
         </div>
@@ -18,7 +20,10 @@ function MainPage() {
       </div>
 
       <div className="battle-result-2">
-        <p className="battle-result2-p1">신도림의 지배자 권태형</p>
+        <p className="battle-result2-p1">
+          신도림의 지배자
+          <br /> 권태형
+        </p>
         <div className="battle-result2-char">
           <BattleCharater />
         </div>
