@@ -7,7 +7,7 @@ function CalculationGame() {
   const [score, setScore] = useState(0);
   const [value, setValue] = useState("");
 
-  const handleSubmit = event => {
+  function handleSubmit(event) {
     event.preventDefault();
     const correctAnswer = num1 + num2;
     if (parseInt(value) === correctAnswer) {
@@ -16,86 +16,38 @@ function CalculationGame() {
     setNum1(Math.floor(Math.random() * 100));
     setNum2(Math.floor(Math.random() * 100));
     setValue("");
-  };
+  }
 
   return (
-    <div className="miniGame">
-      <h1 className="miniGame-Headline">덧셈 게임</h1>
-      <div className="miniGame-score">
+    <div className="minigame">
+      <h1 className="minigame-Headline">덧셈 게임</h1>
+      <div className="minigame-score">
         <p>Score: {score}</p>
         <p>
           {num1} + {num2} = {value}
         </p>
       </div>
       {/* <p>You selected: {value}</p> */}
-      <div className="miniGame-select">
-        <div className="miniGame-select-number">
-          <button
-            className="miniGame-btn"
-            onClick={() => setValue(value + "1")}
-          >
-            1
-          </button>
-          <button
-            className="miniGame-btn"
-            onClick={() => setValue(value + "2")}
-          >
-            2
-          </button>
-          <button
-            className="miniGame-btn"
-            onClick={() => setValue(value + "3")}
-          >
-            3
-          </button>
-          <button
-            className="miniGame-btn"
-            onClick={() => setValue(value + "4")}
-          >
-            4
-          </button>
-          <button
-            className="miniGame-btn"
-            onClick={() => setValue(value + "5")}
-          >
-            5
-          </button>
-          <button
-            className="miniGame-btn"
-            onClick={() => setValue(value + "6")}
-          >
-            6
-          </button>
-          <button
-            className="miniGame-btn"
-            onClick={() => setValue(value + "7")}
-          >
-            7
-          </button>
-          <button
-            className="miniGame-btn"
-            onClick={() => setValue(value + "8")}
-          >
-            8
-          </button>
-          <button
-            className="miniGame-btn"
-            onClick={() => setValue(value + "9")}
-          >
-            9
-          </button>
-          <button
-            className="miniGame-btn"
-            onClick={() => setValue(value + "0")}
-          >
-            0
-          </button>
-          {/* <button className="miniGame-btn" onClick={() => setValue("")}>
+      <div className="minigame-select">
+        <div className="minigame-select-number">
+          {["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"].map((a, i) => {
+            return (
+              <button
+                className="minigame-btn"
+                key={a}
+                onClick={() => setValue(value + a)}
+              >
+                {a}
+              </button>
+            );
+          })}
+
+          {/* <button className="minigame-btn" onClick={() => setValue("")}>
           clear
         </button> */}
         </div>
-        <form onSubmit={handleSubmit} className="miniGame-submit">
-          <button className="miniGame-submit-btn" type="submit">
+        <form onSubmit={handleSubmit} className="minigame-submit">
+          <button className="minigame-submit-btn" type="submit">
             확인
           </button>
         </form>

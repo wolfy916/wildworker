@@ -1,18 +1,18 @@
-.miniGame {
+.minigame {
   /* border: 1px black solid; */
   /* width: 100%; */
   height: 80%;
 }
 
-.miniGame-Headline {
+.minigame-Headline {
   font-family: galmuri9;
   margin-top: 20%;
 }
-.miniGame-score {
+.minigame-score {
   font-size: 130%;
 }
 
-.miniGame-select {
+.minigame-select {
   margin-top: 3%;
   /* border: 1px black solid; */
   display: flex;
@@ -20,13 +20,13 @@
   height: 17.5%;
 }
 
-.miniGame-select-number {
+.minigame-select-number {
   margin-left: 1%;
   width: 79%;
   /* border: 1px black solid; */
 }
 
-.miniGame-btn {
+.minigame-btn {
   background-color: white;
   margin-left: 1.5%;
   margin-bottom: 1%;
@@ -38,7 +38,7 @@
   font-size: 130%;
 }
 
-.miniGame-submit {
+.minigame-submit {
   /* border: 1px black solid; */
   background-color: white;
   margin-left: 0%;
@@ -47,7 +47,7 @@
   height: 100%;
   /* padding-top: 2%; */
 }
-.miniGame-submit-btn {
+.minigame-submit-btn {
   /* border: 1px black solid; */
   background-color: white;
   margin-left: 0%;
