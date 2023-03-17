@@ -9,7 +9,6 @@ import testTitleImg from "../asset/image/testTitleImg.png"
 import { Link } from "react-router-dom"
 import SubwayBoard from "../components/mainpage/SubwayBoard";
 
-
 function MainPage() {
 
   function popMenuOpen() {
@@ -45,7 +44,7 @@ function MainPage() {
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
-export default MainPage
+export default MainPage;
