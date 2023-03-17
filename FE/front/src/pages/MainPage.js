@@ -9,19 +9,19 @@ import character from "../asset/image/moving_man.gif";
 import goMap from "../asset/image/goMap.png";
 import menuBtn from "../asset/image/mainpage_menu_btn.png";
 import getCoinImage from "../asset/image/get_coin_btn.png";
-import getCoinFullImage from "../asset/image/get_coin_item.png";
+import getCoinFullImage from "../asset/image/Full_Charge_Btn.png";
 import testTitleImg from "../asset/image/testTitleImg.png";
 import LoadingEffect from "../asset/image/pvpPageLoading.gif";
 
 function MainPage() {
   // 수동 채굴한 갯수 데이터 받아서 coinCntData에 넣으면 됨
   let coinCntData = 0;
+  const navigate = useNavigate();
   const [isReady, setIsReady] = React.useState(false); // 비동기 오류 방지
   const [isEnough, setIsEnough] = React.useState(false); // 100개 모았는지 확인
   const [coinCnt, setCoinCnt] = React.useState(coinCntData); // 수동채굴 아이템 수집량
   const [getCoinClick, setGetCoinClick] = React.useState(false); // 수집량 만족 후 클릭 여부
   const [pvpRouterClick, setPvpRouterClick] = React.useState(false);
-  const navigate = useNavigate();
 
   function popMenuOpen() {
     document.getElementsByClassName("modal-wrap")[0].style.display = "block";
@@ -45,8 +45,7 @@ function MainPage() {
     }, 700);
     setTimeout(() => {
       navigate("/pvp");
-      targetTag.removeChild(blackBackgroundTag);
-    }, 1750);
+    }, 1200);
   }
 
   // 하위 컴포넌트로 상속할 함수
