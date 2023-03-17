@@ -40,9 +40,9 @@ function App() {
   // useEffect(() => {
   //   if (location) {
   //     axios
-  //       .post("https://httpbin.org/get", {
-  //         latitude: location.latitude,
-  //         longitude: location.longitude,
+  //       .post("~~~", {
+  //         lat: location.latitude,
+  //         lon: location.longitude,
   //       })
   //       .then((response) => {
   //         console.log(response.data)
@@ -54,7 +54,7 @@ function App() {
   // }, [location])
 
   return (
-    <div className="App">
+    <div id="App" className="App">
       <Container className="app-container" maxWidth="xs">
         <Box sx={{ height: "100vh" }}>
           <Routes>
