@@ -17,12 +17,12 @@
 }
 
 .get-coin-effect {
-    display: block;
-    box-sizing: content-box;
-    font-family: 'Galmuri9';
-    font-weight: 800;
-    animation: getCoinEffectAppear 1s linear;
-    z-index: 1001;
+  display: block;
+  box-sizing: content-box;
+  font-family: "Galmuri9";
+  font-weight: 800;
+  animation: getCoinEffectAppear 1s linear;
+  z-index: 1001;
 }
 
 @keyframes getCoinEffectAppear {

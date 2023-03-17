@@ -7,7 +7,7 @@ function GetCoinItem(props) {
   const getCoinCntRef = React.useRef(props.getCoinCnt);
 
   // useEffect 내부의 재귀함수를 중지하기 위한 트리거
-  let stopRecursion = props.isEnough
+  let stopRecursion = props.isEnough;
 
   // useEffect를 사용하여 drop()을 한 번 실행
   React.useEffect(() => {
@@ -63,7 +63,7 @@ function GetCoinItem(props) {
 
     // 수동 채굴 아이템 1개를 만드는 재귀 함수
     function getCoinItemAppear() {
-
+      // 재귀함수 중지 트리거
       if (stopRecursion) return;
 
       // 수동 채굴 아이템 Tag 생성 및 속성 설정
@@ -92,7 +92,7 @@ function GetCoinItem(props) {
       // 보이지 않게된 아이템을 삭제하고, 함수 재실행하여 또 다른 아이템 1개를 생성하여 개수를 유지함
       setTimeout(() => {
         targetValue.removeChild(getCoinObject);
-          getCoinItemAppear();
+        getCoinItemAppear();
       }, (delay + MIN_DURATION) * 1000);
     }
 
@@ -102,15 +102,15 @@ function GetCoinItem(props) {
         setTimeout(getCoinItemAppear(), 500 * index);
       }
     }
-    
+
     // 함수 실행
     drop();
 
     return () => {
-      stopRecursion = true;
+      stopRecursion = true; // 재귀함수 중지 bool 값
     };
   }, [getCoinCntRef, stopRecursion]);
-  
+
   return <div></div>;
 }
 

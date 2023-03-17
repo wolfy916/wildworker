@@ -1,12 +1,23 @@
 import * as React from "react";
 import "./SubwayBoard.css";
 
-function SubwayBoard() {
+function SubwayBoard(props) {
   const BADGE = "사당역의 지배자";
   const NICKNAME = "우주최강원석";
   const COIN = 1500;
+  const [coin, setCoin] = React.useState(COIN);
   const CURRENT_STATION = "역삼역";
   const CURRENT_STATION_DOMINATOR = "매의호크민성";
+
+  let getCoinClick = props.getCoinClick;
+  const setGetCoinClick = props.setGetCoinClick;
+
+  React.useEffect(() => {
+    if (getCoinClick === true) {
+      setCoin((prev) => prev + 100);
+      setGetCoinClick(false);
+    }
+  }, [getCoinClick]);
 
   return (
     <div className="subway-board-container">
@@ -22,7 +33,9 @@ function SubwayBoard() {
             <span className="board-nickname">{NICKNAME}</span>
           </div>
           <div className="board-part second-part">
-            <span className="board-coin">남은 잔액 : {COIN.toLocaleString('ko-KR')} 원</span>
+            <span className="board-coin">
+              남은 잔액 : {coin.toLocaleString("ko-KR")} 원
+            </span>
           </div>
           <div className="board-part third-part">
             이번 역은

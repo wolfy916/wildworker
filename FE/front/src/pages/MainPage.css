@@ -102,8 +102,13 @@
   }
 }
 
+.get-coin-click {
+  animation: click 1s ease-out;
+}
+
 @keyframes click {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   10%,
