@@ -5,6 +5,7 @@ import goMap from "../asset/image/goMap.png";
 import menuBtn from "../asset/image/mainpage_menu_btn.png";
 import getCoinImage from "../asset/image/get_coin_btn.png";
 import getCoinFullImage from "../asset/image/get_coin_item.png";
+import testTitleImg from "../asset/image/testTitleImg.png"
 import { Link } from "react-router-dom";
 import SubwayBoard from "../components/mainpage/SubwayBoard";
 import GetCoinItem from "../components/mainpage/GetCoinItem";
@@ -16,6 +17,16 @@ function MainPage() {
   const [isEnough, setIsEnough] = React.useState(false); // 100개 모았는지 확인
   const [coinCnt, setCoinCnt] = React.useState(coinCntData); // 수동채굴 아이템 수집량
   const [getCoinClick, setGetCoinClick] = React.useState(false); // 수집량 만족 후 클릭 여부
+
+  function popMenuOpen() {
+    document.getElementsByClassName("modal-wrap")[0].style.display ='block';
+    document.getElementsByClassName("modal-bg")[0].style.display ='block';
+  }
+
+  function popMenuClose() {
+    document.getElementsByClassName("modal-wrap")[0].style.display ='none';
+    document.getElementsByClassName("modal-bg")[0].style.display ='none';
+  }
 
   // 하위 컴포넌트로 상속할 함수
   function setCoinCntHandler() {
@@ -74,17 +85,28 @@ function MainPage() {
 
   return (
     <div className="subway-background">
+      <div className="modal-bg" onClick={popMenuClose}></div>
+      <div className="modal-wrap">
+        <div className="title-cover">
+          <img
+            src={testTitleImg}
+            alt="title Cover"
+            className="title-img"
+          />
+          <p className="title-title">쫄보</p>
+        </div>
+      </div>
       <SubwayBoard
         getCoinClick={getCoinClick}
         setGetCoinClick={setGetCoinClick}
       />
       <div className="subway">
         <img className="character" src={character} alt="character" />
-        <img className="main-menu-btn" src={menuBtn} alt="menuBtn" />
+        <img className="main-menu-btn" src={menuBtn} alt="menuBtn" onClick={popMenuOpen}/>
         <div className="get-coin-btn">
           {!isEnough && <div className="get-coin-cnt">{coinCnt}</div>}
         </div>
-        <Link className="router-map-btn" to="/map">
+        <Link className="main-router-map-btn" to="/map">
           <img src={goMap} alt="goMap" />
         </Link>
       </div>

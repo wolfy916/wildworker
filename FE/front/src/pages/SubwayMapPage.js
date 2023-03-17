@@ -77,7 +77,7 @@
 // 아래는 모바일 터치 용~~~
 
 import * as React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 import subwaymap from "../asset/image/subwaymap.png"
@@ -87,23 +87,40 @@ import hotMap from "../asset/image/hotMap.png"
 import "./SubwayMapPage.css"
 
 function SubwayMapPage() {
+  const [subwayList, setSubwayList] = useState([])
   const [position, setPosition] = useState({ x: 0, y: 0 })
+  const mystationtestlist = [3, 4, 16]
+
+  useEffect(() => {
+    const subway = document.querySelectorAll("area")
+    const subwayItems = Array.from(subway)
+    setSubwayList(subwayItems)
+  }, [])
+  if (subwayList.length > 0) {
+    for (let index = 0; index < subwayList.length; index++) {
+      const element = subwayList[index]
+      if (mystationtestlist.includes(index + 1)) {
+        element.style.backgroundColor = "tomato"
+        element.style.opacity = "0.4"
+      }
+    }
+  }
 
   const handleTouchStart = (e) => {
-    // Get the initial position of the touch
     const touch = e.touches[0]
     const startX = touch.pageX - position.x
     const startY = touch.pageY - position.y
 
     const handleTouchMove = (e) => {
-      // Calculate the new position of the big picture based on the touch position
       const touch = e.touches[0]
       const x = touch.pageX - startX
       const y = touch.pageY - startY
-      setPosition({ x, y })
+
+      if (x < 350 && x > -520 && y < 180 && y > -610) {
+        setPosition({ x, y })
+      }
     }
 
-    // Add the touch move and touch end event listeners
     document.addEventListener("touchmove", handleTouchMove)
     document.addEventListener("touchend", () => {
       document.removeEventListener("touchmove", handleTouchMove)
@@ -112,8 +129,8 @@ function SubwayMapPage() {
 
   const navigate = useNavigate()
 
-  function navigateToPage(detail) {
-    navigate(`/page/${detail}`)
+  function navigateToPage(subwayId) {
+    navigate(`/map/detail`, { state: subwayId })
   }
 
   return (
@@ -121,9 +138,8 @@ function SubwayMapPage() {
       <div
         style={{
           position: "relative",
-          width: "400px",
-          height: "500px",
-          border: "1px solid black",
+          width: "100%",
+          height: "100vh",
           overflow: "hidden",
         }}
       >
@@ -143,73 +159,69 @@ function SubwayMapPage() {
           onTouchStart={handleTouchStart}
         >
           <map name="photo-map">
-            <area onClick={() => navigateToPage(1)} />
-            <area onClick={() => navigateToPage(2)} />
-            <area onClick={() => navigateToPage(3)} />
-            <area onClick={() => navigateToPage(4)} />
-            <area onClick={() => navigateToPage(5)} />
-            <area onClick={() => navigateToPage(6)} />
-            <area onClick={() => navigateToPage(7)} />
-            <area onClick={() => navigateToPage(8)} />
-            <area onClick={() => navigateToPage(9)} />
-            <area onClick={() => navigateToPage(10)} />
-            <area onClick={() => navigateToPage(11)} />
-            <area onClick={() => navigateToPage(12)} />
-            <area onClick={() => navigateToPage(13)} />
-            <area onClick={() => navigateToPage(14)} />
-            <area onClick={() => navigateToPage(15)} />
-            <area onClick={() => navigateToPage(16)} />
-            <area onClick={() => navigateToPage(17)} />
-            <area onClick={() => navigateToPage(18)} />
-            <area onClick={() => navigateToPage(19)} />
-            <area onClick={() => navigateToPage(20)} />
-            <area onClick={() => navigateToPage(21)} />
-            <area onClick={() => navigateToPage(22)} />
-            <area onClick={() => navigateToPage(23)} />
-            <area onClick={() => navigateToPage(24)} />
-            <area onClick={() => navigateToPage(25)} />
-            <area onClick={() => navigateToPage(26)} />
-            <area onClick={() => navigateToPage(27)} />
-            <area onClick={() => navigateToPage(28)} />
-            <area onClick={() => navigateToPage(29)} />
-            <area onClick={() => navigateToPage(30)} />
-            <area onClick={() => navigateToPage(31)} />
-            <area onClick={() => navigateToPage(32)} />
-            <area onClick={() => navigateToPage(33)} />
-            <area onClick={() => navigateToPage(34)} />
-            <area onClick={() => navigateToPage(35)} />
-            <area onClick={() => navigateToPage(36)} />
-            <area onClick={() => navigateToPage(37)} />
-            <area onClick={() => navigateToPage(38)} />
-            <area onClick={() => navigateToPage(39)} />
-            <area onClick={() => navigateToPage(40)} />
-            <area onClick={() => navigateToPage(41)} />
-            <area onClick={() => navigateToPage(42)} />
-            <area onClick={() => navigateToPage(43)} />
-            <area onClick={() => navigateToPage(44)} />
-            <area onClick={() => navigateToPage(45)} />
-            <area onClick={() => navigateToPage(46)} />
-            <area onClick={() => navigateToPage(47)} />
-            <area onClick={() => navigateToPage(48)} />
-            <area onClick={() => navigateToPage(49)} />
-            <area onClick={() => navigateToPage(50)} />
-            <area onClick={() => navigateToPage(51)} />
+            <area onClick={() => navigateToPage(1)} alt="area" />
+            <area onClick={() => navigateToPage(2)} alt="area" />
+            <area onClick={() => navigateToPage(3)} alt="area" />
+            <area onClick={() => navigateToPage(4)} alt="area" />
+            <area onClick={() => navigateToPage(5)} alt="area" />
+            <area onClick={() => navigateToPage(6)} alt="area" />
+            <area onClick={() => navigateToPage(7)} alt="area" />
+            <area onClick={() => navigateToPage(8)} alt="area" />
+            <area onClick={() => navigateToPage(9)} alt="area" />
+            <area onClick={() => navigateToPage(10)} alt="area" />
+            <area onClick={() => navigateToPage(11)} alt="area" />
+            <area onClick={() => navigateToPage(12)} alt="area" />
+            <area onClick={() => navigateToPage(13)} alt="area" />
+            <area onClick={() => navigateToPage(14)} alt="area" />
+            <area onClick={() => navigateToPage(15)} alt="area" />
+            <area onClick={() => navigateToPage(16)} alt="area" />
+            <area onClick={() => navigateToPage(17)} alt="area" />
+            <area onClick={() => navigateToPage(18)} alt="area" />
+            <area onClick={() => navigateToPage(19)} alt="area" />
+            <area onClick={() => navigateToPage(20)} alt="area" />
+            <area onClick={() => navigateToPage(21)} alt="area" />
+            <area onClick={() => navigateToPage(22)} alt="area" />
+            <area onClick={() => navigateToPage(23)} alt="area" />
+            <area onClick={() => navigateToPage(24)} alt="area" />
+            <area onClick={() => navigateToPage(25)} alt="area" />
+            <area onClick={() => navigateToPage(26)} alt="area" />
+            <area onClick={() => navigateToPage(27)} alt="area" />
+            <area onClick={() => navigateToPage(28)} alt="area" />
+            <area onClick={() => navigateToPage(29)} alt="area" />
+            <area onClick={() => navigateToPage(30)} alt="area" />
+            <area onClick={() => navigateToPage(31)} alt="area" />
+            <area onClick={() => navigateToPage(32)} alt="area" />
+            <area onClick={() => navigateToPage(33)} alt="area" />
+            <area onClick={() => navigateToPage(34)} alt="area" />
+            <area onClick={() => navigateToPage(35)} alt="area" />
+            <area onClick={() => navigateToPage(36)} alt="area" />
+            <area onClick={() => navigateToPage(37)} alt="area" />
+            <area onClick={() => navigateToPage(38)} alt="area" />
+            <area onClick={() => navigateToPage(39)} alt="area" />
+            <area onClick={() => navigateToPage(40)} alt="area" />
+            <area onClick={() => navigateToPage(41)} alt="area" />
+            <area onClick={() => navigateToPage(42)} alt="area" />
+            <area onClick={() => navigateToPage(43)} alt="area" />
+            <area onClick={() => navigateToPage(44)} alt="area" />
+            <area onClick={() => navigateToPage(45)} alt="area" />
+            <area onClick={() => navigateToPage(46)} alt="area" />
+            <area onClick={() => navigateToPage(47)} alt="area" />
+            <area onClick={() => navigateToPage(48)} alt="area" />
+            <area onClick={() => navigateToPage(49)} alt="area" />
+            <area onClick={() => navigateToPage(50)} alt="area" />
+            <area onClick={() => navigateToPage(51)} alt="area" />
           </map>
         </div>
-      </div>
-      <nav>
-        <Link to="/map/detail">역 누르면 detail화면으로</Link>
-        <hr />
-        <Link to="/map/mine">
+        <Link className="map-router-my-btn" to="/map/mine">
           <img src={myMap} alt="myMap" />
         </Link>
-        <Link to="/main">
+        <Link className="map-router-main-btn" to="/main">
           <img src={goMain} alt="goMain" />
         </Link>
-        <Link to="/map/hot">
+        <Link className="map-router-hot-btn" to="/map/hot">
           <img src={hotMap} alt="hotMap" />
         </Link>
-      </nav>
+      </div>
     </div>
   )
 }

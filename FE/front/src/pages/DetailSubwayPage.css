@@ -1,0 +1,44 @@
+.detail-router-map-btn {
+  box-sizing: border-box;
+  position: absolute;
+  height: 12%;
+  width: 22%;
+  bottom: 4%;
+  left: 39%;
+}
+
+.detail-router-map-btn > img {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+.detail-router-my-btn {
+  box-sizing: border-box;
+  position: absolute;
+  height: 12%;
+  width: 22%;
+  bottom: 4%;
+  left: 14%;
+}
+
+.detail-router-my-btn > img {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+.detail-router-hot-btn {
+  box-sizing: border-box;
+  position: absolute;
+  height: 12%;
+  width: 22%;
+  bottom: 4%;
+  left: 64%;
+}
+
+.detail-router-hot-btn > img {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
