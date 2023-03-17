@@ -5,10 +5,11 @@ import "./SubwayBoard.css"
 
 // const SOCKET_SERVER_URL = 'http://localhost:5000';
 
-function SubwayBoard() {
+function SubwayBoard(props) {
   const BADGE = "사당역의 지배자"
   const NICKNAME = "우주최강원석"
   const COIN = 1500
+  const [coin, setCoin] = React.useState(COIN);
   const CURRENT_STATION = "역삼역"
   const CURRENT_STATION_DOMINATOR = "매의호크민성"
 
@@ -44,6 +45,16 @@ function SubwayBoard() {
   //   };
   // }, [message]);
 
+  let getCoinClick = props.getCoinClick;
+  const setGetCoinClick = props.setGetCoinClick;
+
+  React.useEffect(() => {
+    if (getCoinClick === true) {
+      setCoin((prev) => prev + 100);
+      setGetCoinClick(false);
+    }
+  }, [getCoinClick]);
+
   return (
     <div>
       <div className="board-modal-wrap">코인획득!!</div>
@@ -61,7 +72,7 @@ function SubwayBoard() {
             </div>
             <div className="board-part second-part">
               <span className={`board-coin ${isFlashing ? "flash" : ""}`}>
-                남은 잔액 : {COIN.toLocaleString("ko-KR")} 원
+                남은 잔액 : {coin.toLocaleString("ko-KR")} 원
               </span>
             </div>
             <div className="board-part third-part">

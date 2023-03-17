@@ -1,0 +1,37 @@
+.get-coin-item {
+  width: 100px;
+  height: 100px;
+  background: url(../../asset/image/get_coin_item2.png);
+  position: absolute !important;
+  right: -100px;
+  z-index: 1001;
+}
+
+@keyframes getCoinItemAppear {
+  from {
+    transform: scale(0.5) rotate(0deg);
+  }
+  to {
+    transform: scale(0.5) translateX(-1000%) rotate(0deg);
+  }
+}
+
+.get-coin-effect {
+  display: block;
+  box-sizing: content-box;
+  font-family: "Galmuri9";
+  font-weight: 800;
+  animation: getCoinEffectAppear 1s linear;
+  z-index: 1001;
+}
+
+@keyframes getCoinEffectAppear {
+  from {
+    transform: translateY(0%) scale(1.5);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%) scale(1.5);
+    opacity: 0;
+  }
+}
