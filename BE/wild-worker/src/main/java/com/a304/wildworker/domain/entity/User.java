@@ -1,6 +1,6 @@
 package com.a304.wildworker.domain.entity;
 
-import com.a304.wildworker.domain.Role;
+import com.a304.wildworker.common.Role;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;

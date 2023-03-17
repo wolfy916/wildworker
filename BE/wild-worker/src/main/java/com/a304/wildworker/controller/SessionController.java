@@ -1,12 +1,15 @@
 package com.a304.wildworker.controller;
 
-import com.a304.wildworker.domain.SessionUser;
+import com.a304.wildworker.common.Constants;
+import com.a304.wildworker.domain.dto.response.LoginResponse;
+import com.a304.wildworker.domain.dto.response.UserResponse;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -14,15 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SessionController {
 
-    @RequestMapping("/")
-    public String index(HttpServletRequest request) {
+    @GetMapping("/")
+    public ResponseEntity index(HttpServletRequest request) {
         log.info("session controller");
         HttpSession httpSession = request.getSession();
 
-        String user = Optional.ofNullable(httpSession.getAttribute("user")).orElse("null").toString();
-        String accessToken = Optional.ofNullable(httpSession.getAttribute("access_token")).orElse("null").toString();
-        log.info("user: {}", user);
-        log.info("accessToken: {}", accessToken);
-        return "hello: " + user;
+        String user = Optional.ofNullable(httpSession.getAttribute(Constants.USER))
+                .orElse("")
+                .toString();
+        String accessToken = Optional.ofNullable(httpSession.getAttribute(Constants.ACCESS_TOKEN))
+                .orElse("null").toString();
+        log.info("- user: {}", user);
+        log.info("- accessToken: {}", httpSession.getAttribute(Constants.ACCESS_TOKEN));
+        return ResponseEntity.ok(new LoginResponse(accessToken, new UserResponse((user))));
     }
 }

@@ -1,4 +1,4 @@
-package com.a304.wildworker.domain;
+package com.a304.wildworker.api;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

@@ -1,7 +1,7 @@
 package com.a304.wildworker.domain;
 
+import com.a304.wildworker.common.Role;
 import com.a304.wildworker.domain.entity.User;
-import java.util.HashMap;
 import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,9 +9,9 @@ import lombok.Getter;
 @Getter
 public class OAuth2Attribute {
 
-    private Map<String, Object> attributes;
-    private String nameAttributeKey;
-    private String email;
+    private final Map<String, Object> attributes;
+    private final String nameAttributeKey;
+    private final String email;
     private String name;
 
     @Builder
@@ -25,12 +25,10 @@ public class OAuth2Attribute {
 
     public static OAuth2Attribute of(String provider, String attributeKey,
             Map<String, Object> attributes) {
-        switch (provider) {
-            case "kakao":
-                return ofKakao(attributeKey, attributes);
-            default:
-                throw new RuntimeException();
+        if (provider.equals("kakao")) {
+            return ofKakao(attributeKey, attributes);
         }
+        throw new RuntimeException();
     }
 
     private static OAuth2Attribute ofKakao(String nameAttributeKey,
@@ -50,17 +48,7 @@ public class OAuth2Attribute {
         User user = new User();
         user.setEmail(email);
         user.setName(email);
-        user.setRole(Role.USER);
+        user.setRole(Role.ROLE_USER);
         return user;
     }
-
-
-//    public Map<String, Object> convertToMap() {
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("id", nameAttributeKey);
-//        map.put("key", nameAttributeKey);
-////        map.put("name", name);
-//        map.put("email", email);
-//        return map;
-//    }
 }
