@@ -13,7 +13,7 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
 
-@Service
+//@Service
 public class WalletService {
 
     private final Web3j web3j;
