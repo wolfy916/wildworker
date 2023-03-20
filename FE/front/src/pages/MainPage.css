@@ -30,6 +30,7 @@
   position: relative;
   left: -25%;
   top: 53%;
+  z-index: 1002;
 }
 
 .main-router-map-btn {
@@ -39,14 +40,15 @@
   width: 22%;
   bottom: 4%;
   left: 39%;
+  z-index: 1002;
   animation: bottomBtnAppear 1s ease-in-out 0s 1 normal forwards;
 }
 
 @keyframes bottomBtnAppear {
-  from{
+  from {
     transform: translateY(200%);
   }
-  to{
+  to {
     transform: translateY(0%);
   }
 }
@@ -57,46 +59,64 @@
   width: 100%;
 }
 
-.main-menu-btn{
+.main-menu-btn {
   box-sizing: border-box;
   position: absolute;
   height: 8%;
   width: 15%;
   top: 30%;
   right: 4%;
+  z-index: 1002;
   animation: sideBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
-  /* animation: floating 3s ease-in infinite; */
 }
 
-.get-coin-btn{
+.get-coin-btn {
   box-sizing: border-box;
   position: absolute;
-  height: 12%;
-  width: 20%;
+  height: 11%;
+  width: 19%;
   top: 38%;
-  right: 2%;
+  right: 3%;
+  z-index: 1002;
   animation: sideBtnAppear 0.7s ease-in-out 0s 1 normal forwards;
-  /* animation: floating 3s ease-in-out infinite; */
+  background-image: url("../asset/image/get_coin_btn.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.get-coin-cnt {
+  position: absolute;
+  font-size: x-large;
+  font-weight: 900;
+  left: 50%;
+  bottom: 0%;
+  font-family: "Galmuri9";
 }
 
 @keyframes sideBtnAppear {
-  0%{
+  0% {
     transform: translateX(200%);
   }
-  100%{
+  100% {
     transform: translateX(0%);
   }
 }
 
-@keyframes floating {
-  0%, 100%{
-    transform:translateY(0%);
+.get-coin-click {
+  animation: click 1s ease-out;
+}
+
+@keyframes click {
+  0%,
+  100% {
+    transform: scale(1);
   }
-  50%{
-    transform:translateY(5%);
+  10%,
+  90% {
+    transform: scale(0.8);
   }
-  75%{
-    transform:translateY(-5%);
+  20% {
+    transform: scale(1.2);
   }
 }
 
@@ -153,4 +173,32 @@
 .title-title {
   font-size: 6vw;
   height: 5vh;
+}
+
+.main-router-pvp {
+  position: absolute;
+  bottom: 45%;
+  right: 6%;
+  width: 10%;
+  height: 5%;
+  background-color: white;
+  border-radius: 50%;
+  z-index: 1002;
+}
+
+.test-loading-effect {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  z-index: 1003;
+}
+
+.black-background {
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  z-index: 1004;
 }

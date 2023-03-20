@@ -1,5 +1,4 @@
 import * as React from "react"
-import { useState, useEffect } from "react"
 import io from "socket.io-client"
 import "./SubwayBoard.css"
 
@@ -13,7 +12,8 @@ function SubwayBoard(props) {
   const CURRENT_STATION = "역삼역"
   const CURRENT_STATION_DOMINATOR = "매의호크민성"
 
-  const [isFlashing, setIsFlashing] = useState(false)
+  const [message, setMessage] = React.useState("")
+  const [isFlashing, setIsFlashing] = React.useState(false)
 
   function popOpen() {
     document.getElementsByClassName("modal-wrap")[0].style.display = "block"
@@ -23,7 +23,8 @@ function SubwayBoard(props) {
     document.getElementsByClassName("modal-wrap")[0].style.display = "none"
   }
 
-  // <<<<<<<<<<<<<<<<<<<<    1
+  // React.useEffect(() => {
+  //   const socket = io(SOCKET_SERVER_URL);
 
   let getCoinClick = props.getCoinClick;
   const setGetCoinClick = props.setGetCoinClick;
@@ -34,6 +35,20 @@ function SubwayBoard(props) {
       setGetCoinClick(false);
     }
   }, [getCoinClick]);
+
+  let getCoinClick = props.getCoinClick;
+  const setGetCoinClick = props.setGetCoinClick;
+
+  React.useEffect(() => {
+    if (getCoinClick === true) {
+      setCoin((prev) => prev + 100);
+      setGetCoinClick(false);
+      setIsFlashing(true);
+      setTimeout(()=>{
+        setIsFlashing(false);
+      }, 1000)
+    }
+  }, [getCoinClick, setGetCoinClick]);
 
   return (
     <div>
