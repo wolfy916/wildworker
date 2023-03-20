@@ -1,9 +1,5 @@
 import * as React from "react"
-import { useState, useEffect } from "react"
-import io from "socket.io-client"
 import "./SubwayBoard.css"
-
-const SOCKET_SERVER_URL = 'http://localhost:5000';
 
 function SubwayBoard(props) {
   const BADGE = "사당역의 지배자"
@@ -13,7 +9,8 @@ function SubwayBoard(props) {
   const CURRENT_STATION = "역삼역"
   const CURRENT_STATION_DOMINATOR = "매의호크민성"
 
-  const [isFlashing, setIsFlashing] = useState(false)
+  const [message, setMessage] = React.useState("")
+  const [isFlashing, setIsFlashing] = React.useState(false)
 
   function popOpen() {
     document.getElementsByClassName("modal-wrap")[0].style.display = "block"
@@ -22,8 +19,6 @@ function SubwayBoard(props) {
   function popClose() {
     document.getElementsByClassName("modal-wrap")[0].style.display = "none"
   }
-
-  // <<<<<<<<<<<<<<<<<<<<    1
 
   let getCoinClick = props.getCoinClick;
   const setGetCoinClick = props.setGetCoinClick;
@@ -34,6 +29,18 @@ function SubwayBoard(props) {
       setGetCoinClick(false);
     }
   }, [getCoinClick]);
+
+
+  React.useEffect(() => {
+    if (getCoinClick === true) {
+      setCoin((prev) => prev + 100);
+      setGetCoinClick(false);
+      setIsFlashing(true);
+      setTimeout(()=>{
+        setIsFlashing(false);
+      }, 1000)
+    }
+  }, [getCoinClick, setGetCoinClick]);
 
   return (
     <div>

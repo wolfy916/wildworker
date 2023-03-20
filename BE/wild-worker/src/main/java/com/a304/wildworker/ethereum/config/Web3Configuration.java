@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 
-@Configuration
+//@Configuration
 public class Web3Configuration {
 
     private final String url;

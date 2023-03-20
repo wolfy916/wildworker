@@ -7,11 +7,13 @@ import App from "./App"
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(
-  <React.StrictMode>
+  // React.StrictMode는 개발 전용 모드로 해당 태그 때문에
+  // 모든 하위 컴포넌트의 함수가 2번씩 실행되어서 주석처리
+  // <React.StrictMode>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 )
 
 // If you want to start measuring performance in your app, pass a function

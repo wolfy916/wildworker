@@ -18,6 +18,7 @@ import Container from "@mui/material/Container";
 import "./App.css";
 
 function App() {
+  // 실시간 위치 전송 코드
   // const [location, setLocation] = useState(null)
 
   // useEffect(() => {
