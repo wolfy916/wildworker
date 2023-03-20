@@ -1,8 +1,5 @@
 import * as React from "react"
-import io from "socket.io-client"
 import "./SubwayBoard.css"
-
-const SOCKET_SERVER_URL = 'http://localhost:5000';
 
 function SubwayBoard(props) {
   const BADGE = "사당역의 지배자"
@@ -23,9 +20,6 @@ function SubwayBoard(props) {
     document.getElementsByClassName("modal-wrap")[0].style.display = "none"
   }
 
-  // React.useEffect(() => {
-  //   const socket = io(SOCKET_SERVER_URL);
-
   let getCoinClick = props.getCoinClick;
   const setGetCoinClick = props.setGetCoinClick;
 
@@ -36,8 +30,6 @@ function SubwayBoard(props) {
     }
   }, [getCoinClick]);
 
-  let getCoinClick = props.getCoinClick;
-  const setGetCoinClick = props.setGetCoinClick;
 
   React.useEffect(() => {
     if (getCoinClick === true) {
