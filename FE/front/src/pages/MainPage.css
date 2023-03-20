@@ -174,3 +174,31 @@
   font-size: 6vw;
   height: 5vh;
 }
+
+.main-router-pvp {
+  position: absolute;
+  bottom: 45%;
+  right: 6%;
+  width: 10%;
+  height: 5%;
+  background-color: white;
+  border-radius: 50%;
+  z-index: 1002;
+}
+
+.test-loading-effect {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  z-index: 1003;
+}
+
+.black-background {
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  z-index: 1004;
+}
