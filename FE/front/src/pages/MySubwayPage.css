@@ -1,3 +1,25 @@
+.my-background {
+  position: relative;
+  height: 100%;
+  background-color: rgb(194, 248, 193);
+}
+.my-holder {
+  background: #fef4eb;
+  width: 100%;
+  height: 41vh;
+  position: sticky !important;
+  top: 0;
+  font-size: 10em;
+  z-index: 1;
+}
+.my-title {
+  display: flex;
+  justify-content: space-between;
+  padding: 10vw;
+}
+.my-subject {
+  font-size: large;
+}
 .my-router-map-btn {
   box-sizing: border-box;
   position: absolute;
