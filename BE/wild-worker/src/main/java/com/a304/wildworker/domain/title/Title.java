@@ -9,5 +9,9 @@ public class Title extends BaseEntity {
 
     @Column(unique = true, nullable = false)
     private String name;
-
+    private int condition1;
+    private int condition2;
+    private int condition3;
+    private int condition4;
+    private int condition5;
 }
