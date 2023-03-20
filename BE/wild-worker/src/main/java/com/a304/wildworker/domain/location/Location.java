@@ -6,8 +6,8 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Location {
 
-    @Column(name = "location_x", nullable = false)
-    private double x;
-    @Column(name = "location_y", nullable = false)
-    private double y;
+    @Column(name = "location_lat", nullable = false)
+    private double lat;
+    @Column(name = "location_lon", nullable = false)
+    private double lon;
 }
