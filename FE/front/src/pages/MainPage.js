@@ -13,6 +13,10 @@ import getCoinImage from "../asset/image/get_coin_btn.png";
 import getCoinFullImage from "../asset/image/Full_Charge_Btn.png";
 import LoadingEffect from "../asset/image/pvpPageLoading.gif";
 
+// import menuToggle from "../asset/image/menu_toggle.png";
+// import menuToggle2 from "../asset/image/menu_toggle2.png";
+import menuToggle3 from "../asset/image/menu_toggle3.png";
+
 function MainPage() {
   // 수동 채굴한 갯수 데이터 받아서 coinCntData에 넣으면 됨
   let coinCntData = 0;
@@ -23,10 +27,23 @@ function MainPage() {
   const [getCoinClick, setGetCoinClick] = React.useState(false); // 수집량 만족 후 클릭 여부
   const [pvpRouterClick, setPvpRouterClick] = React.useState(false); // pvp 로딩 테스트 버튼
   const [modalClick, setModalClick] = React.useState(false);
+  const [menuClick, setMenuClick] = React.useState(false);
+  const [selectIdx, setSelectIdx] = React.useState(0);
 
   // Modal창 띄우기
   function modalClickHandler() {
     setModalClick(true);
+  }
+
+  // Menu 버튼
+  function menuClickHandler() {
+    setMenuClick((prev) => !prev);
+    const selectTags = document.getElementsByClassName('menu-select');
+    for (let idx=0; idx<3; idx++) {
+      console.log(selectTags);
+      selectTags[idx].addEventListener('click', () => setSelectIdx(idx))
+      .then(() => setModalClick(true));
+    }
   }
 
   // 매칭 잡혔을 때의 로딩 이펙트 테스트용 함수
@@ -103,13 +120,30 @@ function MainPage() {
         getCoinClick={getCoinClick}
         setGetCoinClick={setGetCoinClick}
       />
-      <div className="menu-toggle"></div>
+      {menuClick && (
+        <div
+          className="menu-toggle-bg"
+          onClick={() => {
+            setMenuClick((prev) => !prev);
+          }}
+        ></div>
+      )}
+      {menuClick && (
+        <div className="menu-toggle-wrap">
+          <img className="menu-toggle-img" src={menuToggle3} alt="menu_toggle" />
+          <div className="menu-select-list">
+            <img className="menu-select" src={menuBtn} alt="menu_toggle" />
+            <img className="menu-select" src={menuBtn} alt="menu_toggle" />
+            <img className="menu-select" src={menuBtn} alt="menu_toggle" />
+          </div>          
+        </div>
+      )}
       <div className="subway">
         {modalClick && (
           <Modal
             modalWidth={85}
             modalHeight={75}
-            selectModalIdx={1}
+            selectModalIdx={selectIdx}
             setModalClick={setModalClick}
             nickname={"우주최강원석"}
           />
@@ -126,7 +160,7 @@ function MainPage() {
           className="main-menu-btn"
           src={menuBtn}
           alt="menuBtn"
-          onClick={modalClickHandler}
+          onClick={menuClickHandler}
         />
         <div className="get-coin-btn">
           {!isEnough && <div className="get-coin-cnt">{coinCnt}</div>}
