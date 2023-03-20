@@ -25,6 +25,8 @@ public class User extends BaseEntity {
     private String name;
     @Column(unique = true, nullable = false)
     private String wallet;      //TODO: chang wallet type
+    @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
+    private Long balance;
     @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private CharacterType characterId;
