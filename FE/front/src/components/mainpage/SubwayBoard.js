@@ -2,7 +2,7 @@ import * as React from "react"
 import io from "socket.io-client"
 import "./SubwayBoard.css"
 
-// const SOCKET_SERVER_URL = 'http://localhost:5000';
+const SOCKET_SERVER_URL = 'http://localhost:5000';
 
 function SubwayBoard(props) {
   const BADGE = "사당역의 지배자"
@@ -26,23 +26,15 @@ function SubwayBoard(props) {
   // React.useEffect(() => {
   //   const socket = io(SOCKET_SERVER_URL);
 
-  //   socket.on('message', (data) => {
-  //     if (data !== message) {
-  //       setMessage(data);
-  //       popOpen()
-  //       setIsFlashing(true);
+  let getCoinClick = props.getCoinClick;
+  const setGetCoinClick = props.setGetCoinClick;
 
-  //       setTimeout(() => {
-  //         popClose()
-  //         setIsFlashing(false);
-  //       }, 1000);
-  //     }
-  //   });
-
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, [message]);
+  React.useEffect(() => {
+    if (getCoinClick === true) {
+      setCoin((prev) => prev + 100);
+      setGetCoinClick(false);
+    }
+  }, [getCoinClick]);
 
   let getCoinClick = props.getCoinClick;
   const setGetCoinClick = props.setGetCoinClick;

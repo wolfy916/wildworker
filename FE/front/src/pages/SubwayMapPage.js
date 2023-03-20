@@ -87,24 +87,9 @@ import hotMap from "../asset/image/hotMap.png"
 import "./SubwayMapPage.css"
 
 function SubwayMapPage() {
-  const [subwayList, setSubwayList] = useState([])
   const [position, setPosition] = useState({ x: 0, y: 0 })
-  const mystationtestlist = [3, 4, 16]
-
-  useEffect(() => {
-    const subway = document.querySelectorAll("area")
-    const subwayItems = Array.from(subway)
-    setSubwayList(subwayItems)
-  }, [])
-  if (subwayList.length > 0) {
-    for (let index = 0; index < subwayList.length; index++) {
-      const element = subwayList[index]
-      if (mystationtestlist.includes(index + 1)) {
-        element.style.backgroundColor = "tomato"
-        element.style.opacity = "0.4"
-      }
-    }
-  }
+  const [isReady, setIsReady] = useState(false)
+  const MY_STATION_LIST = [3, 4, 16]
 
   const handleTouchStart = (e) => {
     const touch = e.touches[0]
@@ -133,6 +118,28 @@ function SubwayMapPage() {
     navigate(`/map/detail`, { state: subwayId })
   }
 
+  const PAGE_COUNT = 51
+  const photoMapTag = document.getElementsByName("photo-map")[0]
+
+  if (isReady) {
+    for (let i = 1; i <= PAGE_COUNT; i++) {
+      const areaTag = document.createElement("area")
+      areaTag.setAttribute("alt", "area")
+      if (MY_STATION_LIST.includes(i)) {
+        areaTag.style.backgroundColor = "tomato"
+        areaTag.style.opacity = "0.4"
+      }
+      areaTag.addEventListener("click", () => {
+        return navigateToPage(i)
+      })
+      photoMapTag.appendChild(areaTag)
+    }
+  }
+
+  React.useEffect(() => {
+    setIsReady(true)
+  }, [])
+
   return (
     <div>
       <div
@@ -158,59 +165,7 @@ function SubwayMapPage() {
           useMap="#photo-map"
           onTouchStart={handleTouchStart}
         >
-          <map name="photo-map">
-            <area onClick={() => navigateToPage(1)} alt="area" />
-            <area onClick={() => navigateToPage(2)} alt="area" />
-            <area onClick={() => navigateToPage(3)} alt="area" />
-            <area onClick={() => navigateToPage(4)} alt="area" />
-            <area onClick={() => navigateToPage(5)} alt="area" />
-            <area onClick={() => navigateToPage(6)} alt="area" />
-            <area onClick={() => navigateToPage(7)} alt="area" />
-            <area onClick={() => navigateToPage(8)} alt="area" />
-            <area onClick={() => navigateToPage(9)} alt="area" />
-            <area onClick={() => navigateToPage(10)} alt="area" />
-            <area onClick={() => navigateToPage(11)} alt="area" />
-            <area onClick={() => navigateToPage(12)} alt="area" />
-            <area onClick={() => navigateToPage(13)} alt="area" />
-            <area onClick={() => navigateToPage(14)} alt="area" />
-            <area onClick={() => navigateToPage(15)} alt="area" />
-            <area onClick={() => navigateToPage(16)} alt="area" />
-            <area onClick={() => navigateToPage(17)} alt="area" />
-            <area onClick={() => navigateToPage(18)} alt="area" />
-            <area onClick={() => navigateToPage(19)} alt="area" />
-            <area onClick={() => navigateToPage(20)} alt="area" />
-            <area onClick={() => navigateToPage(21)} alt="area" />
-            <area onClick={() => navigateToPage(22)} alt="area" />
-            <area onClick={() => navigateToPage(23)} alt="area" />
-            <area onClick={() => navigateToPage(24)} alt="area" />
-            <area onClick={() => navigateToPage(25)} alt="area" />
-            <area onClick={() => navigateToPage(26)} alt="area" />
-            <area onClick={() => navigateToPage(27)} alt="area" />
-            <area onClick={() => navigateToPage(28)} alt="area" />
-            <area onClick={() => navigateToPage(29)} alt="area" />
-            <area onClick={() => navigateToPage(30)} alt="area" />
-            <area onClick={() => navigateToPage(31)} alt="area" />
-            <area onClick={() => navigateToPage(32)} alt="area" />
-            <area onClick={() => navigateToPage(33)} alt="area" />
-            <area onClick={() => navigateToPage(34)} alt="area" />
-            <area onClick={() => navigateToPage(35)} alt="area" />
-            <area onClick={() => navigateToPage(36)} alt="area" />
-            <area onClick={() => navigateToPage(37)} alt="area" />
-            <area onClick={() => navigateToPage(38)} alt="area" />
-            <area onClick={() => navigateToPage(39)} alt="area" />
-            <area onClick={() => navigateToPage(40)} alt="area" />
-            <area onClick={() => navigateToPage(41)} alt="area" />
-            <area onClick={() => navigateToPage(42)} alt="area" />
-            <area onClick={() => navigateToPage(43)} alt="area" />
-            <area onClick={() => navigateToPage(44)} alt="area" />
-            <area onClick={() => navigateToPage(45)} alt="area" />
-            <area onClick={() => navigateToPage(46)} alt="area" />
-            <area onClick={() => navigateToPage(47)} alt="area" />
-            <area onClick={() => navigateToPage(48)} alt="area" />
-            <area onClick={() => navigateToPage(49)} alt="area" />
-            <area onClick={() => navigateToPage(50)} alt="area" />
-            <area onClick={() => navigateToPage(51)} alt="area" />
-          </map>
+          <map name="photo-map"></map>
         </div>
         <Link className="map-router-my-btn" to="/map/mine">
           <img src={myMap} alt="myMap" />
