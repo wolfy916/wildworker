@@ -4,13 +4,13 @@ import "./MainPage.css";
 
 import SubwayBoard from "../components/mainpage/SubwayBoard";
 import GetCoinItem from "../components/mainpage/GetCoinItem";
+import Modal from "../components/mainpage/Modal";
 
 import character from "../asset/image/moving_man.gif";
 import goMap from "../asset/image/goMap.png";
 import menuBtn from "../asset/image/mainpage_menu_btn.png";
 import getCoinImage from "../asset/image/get_coin_btn.png";
 import getCoinFullImage from "../asset/image/Full_Charge_Btn.png";
-import testTitleImg from "../asset/image/testTitleImg.png";
 import LoadingEffect from "../asset/image/pvpPageLoading.gif";
 
 function MainPage() {
@@ -21,16 +21,12 @@ function MainPage() {
   const [isEnough, setIsEnough] = React.useState(false); // 100개 모았는지 확인
   const [coinCnt, setCoinCnt] = React.useState(coinCntData); // 수동채굴 아이템 수집량
   const [getCoinClick, setGetCoinClick] = React.useState(false); // 수집량 만족 후 클릭 여부
-  const [pvpRouterClick, setPvpRouterClick] = React.useState(false);
+  const [pvpRouterClick, setPvpRouterClick] = React.useState(false); // pvp 로딩 테스트 버튼
+  const [modalClick, setModalClick] = React.useState(false);
 
-  function popMenuOpen() {
-    document.getElementsByClassName("modal-wrap")[0].style.display = "block";
-    document.getElementsByClassName("modal-bg")[0].style.display = "block";
-  }
-
-  function popMenuClose() {
-    document.getElementsByClassName("modal-wrap")[0].style.display = "none";
-    document.getElementsByClassName("modal-bg")[0].style.display = "none";
+  // Modal창 띄우기
+  function modalClickHandler() {
+    setModalClick(true);
   }
 
   // 매칭 잡혔을 때의 로딩 이펙트 테스트용 함수
@@ -40,7 +36,7 @@ function MainPage() {
     const blackBackgroundTag = document.createElement("div");
     setTimeout(() => {
       setPvpRouterClick(false);
-      blackBackgroundTag.classList.add('black-background');
+      blackBackgroundTag.classList.add("black-background");
       targetTag.appendChild(blackBackgroundTag);
     }, 700);
     setTimeout(() => {
@@ -103,18 +99,21 @@ function MainPage() {
 
   return (
     <div className="subway-background">
-      <div className="modal-bg" onClick={popMenuClose}></div>
-      <div className="modal-wrap">
-        <div className="title-cover">
-          <img src={testTitleImg} alt="title Cover" className="title-img" />
-          <p className="title-title">쫄보</p>
-        </div>
-      </div>
       <SubwayBoard
         getCoinClick={getCoinClick}
         setGetCoinClick={setGetCoinClick}
       />
+      <div className="menu-toggle"></div>
       <div className="subway">
+        {modalClick && (
+          <Modal
+            modalWidth={85}
+            modalHeight={75}
+            selectModalIdx={1}
+            setModalClick={setModalClick}
+            nickname={"우주최강원석"}
+          />
+        )}
         {pvpRouterClick && (
           <img
             className="test-loading-effect"
@@ -127,7 +126,7 @@ function MainPage() {
           className="main-menu-btn"
           src={menuBtn}
           alt="menuBtn"
-          onClick={popMenuOpen}
+          onClick={modalClickHandler}
         />
         <div className="get-coin-btn">
           {!isEnough && <div className="get-coin-cnt">{coinCnt}</div>}
