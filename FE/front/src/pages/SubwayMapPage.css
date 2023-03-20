@@ -1,3 +1,66 @@
+.map-timer {
+  position: absolute;
+  border-radius: 10%;
+  border: solid black 2px;
+  background-color: rgb(255, 255, 255);
+  z-index: 1;
+  top:3%;
+  left:5%;
+  align-items: center;
+}
+.map-timer-content {
+  text-align: center;
+  margin: 0;
+  padding: 1vw;
+}
+.map-timer-img {
+  width: 12%;
+}
+.map-router-main-btn {
+  box-sizing: border-box;
+  position: absolute;
+  height: 12%;
+  width: 22%;
+  bottom: 4%;
+  left: 39%;
+}
+
+.map-router-main-btn > img {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+.map-router-my-btn {
+  box-sizing: border-box;
+  position: absolute;
+  height: 12%;
+  width: 22%;
+  bottom: 4%;
+  left: 14%;
+}
+
+.map-router-my-btn > img {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+.map-router-hot-btn {
+  box-sizing: border-box;
+  position: absolute;
+  height: 12%;
+  width: 22%;
+  bottom: 4%;
+  left: 64%;
+}
+
+.map-router-hot-btn > img {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
 /* map {
     display: block;
     position: relative;
@@ -352,49 +415,4 @@ area:nth-of-type(51) {
   left: 18.1%;
   width: 5%;
   height: 5%;
-}
-
-.map-router-main-btn {
-  box-sizing: border-box;
-  position: absolute;
-  height: 12%;
-  width: 22%;
-  bottom: 4%;
-  left: 39%;
-}
-
-.map-router-main-btn > img {
-  box-sizing: border-box;
-  height: 100%;
-  width: 100%;
-}
-
-.map-router-my-btn {
-  box-sizing: border-box;
-  position: absolute;
-  height: 12%;
-  width: 22%;
-  bottom: 4%;
-  left: 14%;
-}
-
-.map-router-my-btn > img {
-  box-sizing: border-box;
-  height: 100%;
-  width: 100%;
-}
-
-.map-router-hot-btn {
-  box-sizing: border-box;
-  position: absolute;
-  height: 12%;
-  width: 22%;
-  bottom: 4%;
-  left: 64%;
-}
-
-.map-router-hot-btn > img {
-  box-sizing: border-box;
-  height: 100%;
-  width: 100%;
 }
