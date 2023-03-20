@@ -24,16 +24,45 @@ function MySubwayPage() {
     <div className="my-background">
       <div className="my-holder">
         <div className="my-title">
+          <p className="my-subject">나의 투자 내역</p>
+        </div>
+        <div className="my-subtitle">
           <div>
-            <p className="my-subject">zl존원석</p>
+            <p className="my-subject">역 이름</p>
           </div>
           <div>
-            <p className="my-subject"></p>
-          </div>
-          <div>
-            <p className="my-subject">dwqdw</p>
+            <p className="my-subject">투자 금액</p>
+            <p className="my-subject-2">(지분율)</p>
           </div>
         </div>
+        <div className="my-content">
+          <div>
+            <p className="my-subject">역삼역</p>
+          </div>
+          <div>
+            <p className="my-subject">200,000원</p>
+            <p className="my-subject-2">(24%)</p>
+          </div>
+        </div>
+        <div className="my-content">
+          <div>
+            <p className="my-subject">역곡역</p>
+          </div>
+          <div>
+            <p className="my-subject">3,000,000원</p>
+            <p className="my-subject-2">(45%)</p>
+          </div>
+        </div>
+        <div className="my-content">
+          <div>
+            <p className="my-subject">청계산입구역</p>
+          </div>
+          <div>
+            <p className="my-subject">120,000원</p>
+            <p className="my-subject-2">(5%)</p>
+          </div>
+        </div>
+        
       </div>
       <Link className="my-router-my-btn" to="/map/mine">
         <img src={myMap} alt="myMap" />
