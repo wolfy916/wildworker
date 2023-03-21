@@ -16,7 +16,7 @@ function MainPage() {
         src={pvpPageLoading}
         alt="pvpPageLoading"
       /> */}
-      <Iframe url={battleAudioBack} allow="autoplay" />
+      {/* <Iframe url={battleAudioBack} allow="autoplay" /> */}
 
       <div className="battleCharacter1">
         <img src={battleDirection} alt="battleDirection" />

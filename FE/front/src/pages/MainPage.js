@@ -4,33 +4,42 @@ import "./MainPage.css";
 
 import SubwayBoard from "../components/mainpage/SubwayBoard";
 import GetCoinItem from "../components/mainpage/GetCoinItem";
+import Modal from "../components/mainpage/Modal";
 
 import character from "../asset/image/moving_man.gif";
 import goMap from "../asset/image/goMap.png";
 import menuBtn from "../asset/image/mainpage_menu_btn.png";
 import getCoinImage from "../asset/image/get_coin_btn.png";
-import getCoinFullImage from "../asset/image/get_coin_item.png";
-import testTitleImg from "../asset/image/testTitleImg.png";
+import getCoinFullImage from "../asset/image/Full_Charge_Btn.png";
 import LoadingEffect from "../asset/image/pvpPageLoading.gif";
+
+// import menuToggle from "../asset/image/menu_toggle.png";
+// import menuToggle2 from "../asset/image/menu_toggle2.png";
+import menuToggle3 from "../asset/image/menu_toggle3.png";
 
 function MainPage() {
   // 수동 채굴한 갯수 데이터 받아서 coinCntData에 넣으면 됨
   let coinCntData = 0;
+  const navigate = useNavigate();
   const [isReady, setIsReady] = React.useState(false); // 비동기 오류 방지
   const [isEnough, setIsEnough] = React.useState(false); // 100개 모았는지 확인
   const [coinCnt, setCoinCnt] = React.useState(coinCntData); // 수동채굴 아이템 수집량
   const [getCoinClick, setGetCoinClick] = React.useState(false); // 수집량 만족 후 클릭 여부
-  const [pvpRouterClick, setPvpRouterClick] = React.useState(false);
-  const navigate = useNavigate();
+  const [pvpRouterClick, setPvpRouterClick] = React.useState(false); // pvp 로딩 테스트 버튼
+  const [modalClick, setModalClick] = React.useState(false);
+  const [menuClick, setMenuClick] = React.useState(false);
+  const [selectIdx, setSelectIdx] = React.useState(0);
 
-  function popMenuOpen() {
-    document.getElementsByClassName("modal-wrap")[0].style.display = "block";
-    document.getElementsByClassName("modal-bg")[0].style.display = "block";
-  }
-
-  function popMenuClose() {
-    document.getElementsByClassName("modal-wrap")[0].style.display = "none";
-    document.getElementsByClassName("modal-bg")[0].style.display = "none";
+  // Menu 버튼
+  async function menuClickHandler() {
+    setMenuClick((prev) => !prev);
+    const selectTags = await document.getElementsByClassName("menu-select");
+    for (let idx = 0; idx < 3; idx++) {
+      selectTags[idx].addEventListener("click", () => {
+        setSelectIdx(idx);
+        setModalClick(true);
+      });
+    }
   }
 
   // 매칭 잡혔을 때의 로딩 이펙트 테스트용 함수
@@ -40,13 +49,12 @@ function MainPage() {
     const blackBackgroundTag = document.createElement("div");
     setTimeout(() => {
       setPvpRouterClick(false);
-      blackBackgroundTag.classList.add('black-background');
+      blackBackgroundTag.classList.add("black-background");
       targetTag.appendChild(blackBackgroundTag);
     }, 700);
     setTimeout(() => {
       navigate("/pvp");
-      targetTag.removeChild(blackBackgroundTag);
-    }, 1750);
+    }, 1200);
   }
 
   // 하위 컴포넌트로 상속할 함수
@@ -104,18 +112,42 @@ function MainPage() {
 
   return (
     <div className="subway-background">
-      <div className="modal-bg" onClick={popMenuClose}></div>
-      <div className="modal-wrap">
-        <div className="title-cover">
-          <img src={testTitleImg} alt="title Cover" className="title-img" />
-          <p className="title-title">쫄보</p>
-        </div>
-      </div>
       <SubwayBoard
         getCoinClick={getCoinClick}
         setGetCoinClick={setGetCoinClick}
       />
+      {menuClick && (
+        <div
+          className="menu-toggle-bg"
+          onClick={() => {
+            setMenuClick((prev) => !prev);
+          }}
+        ></div>
+      )}
+      {menuClick && (
+        <div className="menu-toggle-wrap">
+          <img
+            className="menu-toggle-img"
+            src={menuToggle3}
+            alt="menu_toggle"
+          />
+          <div className="menu-select-list">
+            <img className="menu-select" src={menuBtn} alt="menu_toggle" />
+            <img className="menu-select" src={menuBtn} alt="menu_toggle" />
+            <img className="menu-select" src={menuBtn} alt="menu_toggle" />
+          </div>
+        </div>
+      )}
       <div className="subway">
+        {modalClick && (
+          <Modal
+            modalWidth={85}
+            modalHeight={75}
+            selectModalIdx={selectIdx}
+            setModalClick={setModalClick}
+            nickname={"우주최강원석"}
+          />
+        )}
         {pvpRouterClick && (
           <img
             className="test-loading-effect"
@@ -128,7 +160,7 @@ function MainPage() {
           className="main-menu-btn"
           src={menuBtn}
           alt="menuBtn"
-          onClick={popMenuOpen}
+          onClick={menuClickHandler}
         />
         <div className="get-coin-btn">
           {!isEnough && <div className="get-coin-cnt">{coinCnt}</div>}
