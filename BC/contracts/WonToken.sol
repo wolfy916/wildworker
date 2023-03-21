@@ -32,7 +32,7 @@ contract Won {
     //수동채굴 ( owner가 발급하도록)
 
     //게임비 유저로부터 지하철 역에 전달
-    function gameFee(
+    function sendGameCost(
         address _toStation,
         uint256 _value
     ) public payable returns (bool success) {
