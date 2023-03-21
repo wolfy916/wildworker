@@ -11,7 +11,7 @@ function NickName(props) {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default NickName;

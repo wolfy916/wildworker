@@ -30,19 +30,15 @@ function MainPage() {
   const [menuClick, setMenuClick] = React.useState(false);
   const [selectIdx, setSelectIdx] = React.useState(0);
 
-  // Modal창 띄우기
-  function modalClickHandler() {
-    setModalClick(true);
-  }
-
   // Menu 버튼
-  function menuClickHandler() {
+  async function menuClickHandler() {
     setMenuClick((prev) => !prev);
-    const selectTags = document.getElementsByClassName('menu-select');
-    for (let idx=0; idx<3; idx++) {
-      console.log(selectTags);
-      selectTags[idx].addEventListener('click', () => setSelectIdx(idx))
-      .then(() => setModalClick(true));
+    const selectTags = await document.getElementsByClassName("menu-select");
+    for (let idx = 0; idx < 3; idx++) {
+      selectTags[idx].addEventListener("click", () => {
+        setSelectIdx(idx);
+        setModalClick(true);
+      });
     }
   }
 
@@ -130,12 +126,16 @@ function MainPage() {
       )}
       {menuClick && (
         <div className="menu-toggle-wrap">
-          <img className="menu-toggle-img" src={menuToggle3} alt="menu_toggle" />
+          <img
+            className="menu-toggle-img"
+            src={menuToggle3}
+            alt="menu_toggle"
+          />
           <div className="menu-select-list">
             <img className="menu-select" src={menuBtn} alt="menu_toggle" />
             <img className="menu-select" src={menuBtn} alt="menu_toggle" />
             <img className="menu-select" src={menuBtn} alt="menu_toggle" />
-          </div>          
+          </div>
         </div>
       )}
       <div className="subway">

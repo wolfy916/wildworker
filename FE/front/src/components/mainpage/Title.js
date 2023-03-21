@@ -9,7 +9,7 @@ function Title(props) {
                 칭호 페이지에용
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Title;

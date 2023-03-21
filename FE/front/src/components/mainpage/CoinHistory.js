@@ -9,7 +9,7 @@ function CoinHistory(props) {
                 코인내역페이지에용
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default CoinHistory;
