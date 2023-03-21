@@ -1,4 +1,4 @@
-package com.a304.wildworker.websocket.config;
+package com.a304.wildworker.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,14 +30,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     }
 
     @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+//        registration.interceptors(interceptor);
+    }
+
+    @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.setApplicationDestinationPrefixes("/pub");
         config.enableSimpleBroker("/sub", "/queue");
         config.setUserDestinationPrefix("/user");
-    }
-
-    @Override
-    public void configureClientInboundChannel(ChannelRegistration registration) {
-//        registration.interceptors(interceptor);
     }
 }
