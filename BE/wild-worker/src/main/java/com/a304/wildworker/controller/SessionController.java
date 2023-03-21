@@ -1,8 +1,9 @@
 package com.a304.wildworker.controller;
 
 import com.a304.wildworker.common.Constants;
+import com.a304.wildworker.domain.sessionuser.SessionUser;
 import com.a304.wildworker.dto.response.LoginResponse;
-import com.a304.wildworker.dto.response.UserResponse;
+import com.a304.wildworker.service.UserService;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,19 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SessionController {
 
+    private final UserService userService;
+
     @GetMapping("/")
     public ResponseEntity<LoginResponse> index(HttpServletRequest request) {
         log.info("/");
         HttpSession httpSession = request.getSession();
 
-        String user = Optional.ofNullable(httpSession.getAttribute(Constants.SESSION_NAME_USER))
-                .orElse("")
-                .toString();
-        String accessToken = Optional.ofNullable(
+        SessionUser user = (SessionUser) Optional.of(
+                httpSession.getAttribute(Constants.SESSION_NAME_USER)).orElseThrow();
+        String accessToken = Optional.of(
                         httpSession.getAttribute(Constants.SESSION_NAME_ACCESS_TOKEN))
-                .orElse("null").toString();
+                .orElseThrow().toString();
         log.info("- user: {}", user);
         log.info("- accessToken: {}", accessToken);
-        return ResponseEntity.ok(new LoginResponse(accessToken, new UserResponse((user))));
+
+        LoginResponse response = new LoginResponse(accessToken,
+                userService.getUser(user.getEmail()));
+        return ResponseEntity.ok(response);
     }
 }
