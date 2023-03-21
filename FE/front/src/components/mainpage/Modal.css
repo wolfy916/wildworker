@@ -48,9 +48,10 @@
 
 .modal-component {
   font-size: 2rem;
-  width: 80%;
+  width: 90%;
   height: 95%;
-  margin: 5%;
+  padding: 5%;
+  text-align: center;
 }
 
 .menu-select-list {

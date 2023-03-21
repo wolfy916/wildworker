@@ -1,44 +1,20 @@
-import * as React from "react"
-import "./SubwayBoard.css"
+import * as React from "react";
+import "./SubwayBoard.css";
 
 function SubwayBoard(props) {
-  const BADGE = "사당역의 지배자"
-  const NICKNAME = "우주최강원석"
-  const COIN = 1500
-  const [coin, setCoin] = React.useState(COIN);
-  const CURRENT_STATION = "역삼역"
-  const CURRENT_STATION_DOMINATOR = "매의호크민성"
-
-  const [message, setMessage] = React.useState("")
-  const [isFlashing, setIsFlashing] = React.useState(false)
-
-  function popOpen() {
-    document.getElementsByClassName("modal-wrap")[0].style.display = "block"
-  }
-
-  function popClose() {
-    document.getElementsByClassName("modal-wrap")[0].style.display = "none"
-  }
+  const [isFlashing, setIsFlashing] = React.useState(false);
 
   let getCoinClick = props.getCoinClick;
   const setGetCoinClick = props.setGetCoinClick;
 
   React.useEffect(() => {
     if (getCoinClick === true) {
-      setCoin((prev) => prev + 100);
-      setGetCoinClick(false);
-    }
-  }, [getCoinClick]);
-
-
-  React.useEffect(() => {
-    if (getCoinClick === true) {
-      setCoin((prev) => prev + 100);
+      props.setCoin((prev) => prev + 100);
       setGetCoinClick(false);
       setIsFlashing(true);
-      setTimeout(()=>{
+      setTimeout(() => {
         setIsFlashing(false);
-      }, 1000)
+      }, 1000);
     }
   }, [getCoinClick, setGetCoinClick]);
 
@@ -54,34 +30,30 @@ function SubwayBoard(props) {
         <div className="subway-board-wrapper">
           <div className="subway-board-screen">
             <div className="board-part first-part">
-              <span className="board-badge">{BADGE} </span>
-              <span className="board-nickname">{NICKNAME}</span>
+              <span className="board-badge">{props.badge} </span>
+              <span className="board-nickname">{props.nickname}</span>
             </div>
             <div className="board-part second-part">
               <span className={`board-coin ${isFlashing ? "flash" : ""}`}>
-                남은 잔액 : {coin.toLocaleString("ko-KR")} 원
+                남은 잔액 : {props.coin.toLocaleString("ko-KR")} 원
               </span>
             </div>
             <div className="board-part third-part">
               이번 역은
-              <span className="current-station"> {CURRENT_STATION} </span>
+              <span className="current-station"> {props.station} </span>
               입니다.
               <span className="current-station">
                 {" "}
-                {CURRENT_STATION}의 지배자{" "}
+                {props.station}의 지배자{" "}
               </span>
-              는
-              <span className="current-station">
-                {" "}
-                {CURRENT_STATION_DOMINATOR}{" "}
-              </span>
+              는<span className="current-station"> {props.dominator} </span>
               입니다.
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default SubwayBoard
+export default SubwayBoard;
