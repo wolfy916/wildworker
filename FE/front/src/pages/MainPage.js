@@ -30,6 +30,12 @@ function MainPage() {
   const [menuClick, setMenuClick] = React.useState(false);
   const [selectIdx, setSelectIdx] = React.useState(0);
 
+  const [badge, setBadge] = React.useState("사당역의 지배자");
+  const [nickname, setNickname] = React.useState("우주최강원석");
+  const [coin, setCoin] = React.useState(1500);
+  const [station, setStation] = React.useState("역삼역");
+  const [dominator, setDominator] = React.useState("매의호크민성");
+
   // Menu 버튼
   async function menuClickHandler() {
     setMenuClick((prev) => !prev);
@@ -109,12 +115,19 @@ function MainPage() {
   React.useEffect(() => {
     setIsReady(true);
   }, []);
-
   return (
     <div className="subway-background">
       <SubwayBoard
         getCoinClick={getCoinClick}
         setGetCoinClick={setGetCoinClick}
+        badge={badge}
+        nickname={nickname}
+        coin={coin}
+        setCoin={setCoin}
+        station={station}
+        setstation={setStation}
+        dominator={dominator}
+        setDominator={setDominator}
       />
       {menuClick && (
         <div
@@ -145,7 +158,10 @@ function MainPage() {
             modalHeight={75}
             selectModalIdx={selectIdx}
             setModalClick={setModalClick}
-            nickname={"우주최강원석"}
+            nickname={nickname}
+            setNickname={setNickname}
+            badge={badge}
+            setBadge={setBadge}
           />
         )}
         {pvpRouterClick && (
