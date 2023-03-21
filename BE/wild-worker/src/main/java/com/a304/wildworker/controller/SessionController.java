@@ -19,16 +19,17 @@ public class SessionController {
 
     @GetMapping("/")
     public ResponseEntity<LoginResponse> index(HttpServletRequest request) {
-        log.info("session controller");
+        log.info("/");
         HttpSession httpSession = request.getSession();
 
-        String user = Optional.ofNullable(httpSession.getAttribute(Constants.USER))
+        String user = Optional.ofNullable(httpSession.getAttribute(Constants.SESSION_NAME_USER))
                 .orElse("")
                 .toString();
-        String accessToken = Optional.ofNullable(httpSession.getAttribute(Constants.ACCESS_TOKEN))
+        String accessToken = Optional.ofNullable(
+                        httpSession.getAttribute(Constants.SESSION_NAME_ACCESS_TOKEN))
                 .orElse("null").toString();
         log.info("- user: {}", user);
-        log.info("- accessToken: {}", httpSession.getAttribute(Constants.ACCESS_TOKEN));
+        log.info("- accessToken: {}", accessToken);
         return ResponseEntity.ok(new LoginResponse(accessToken, new UserResponse((user))));
     }
 }

@@ -42,12 +42,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 oAuth2User.getAttributes());
 
         User user = findOrSave(attributes);
-        httpSession.setAttribute(Constants.USER, new SessionUser(user));
-        log.info("- {}: {}", Constants.USER, user);
+        httpSession.setAttribute(Constants.SESSION_NAME_USER, new SessionUser(user));
+        log.info("- {}: {}", Constants.SESSION_NAME_USER, user);
 
         String accessToken = userRequest.getAccessToken().getTokenValue();
-        httpSession.setAttribute(Constants.ACCESS_TOKEN, accessToken);
-        log.info("- {}: {}", Constants.ACCESS_TOKEN, accessToken);
+        httpSession.setAttribute(Constants.SESSION_NAME_ACCESS_TOKEN, accessToken);
+        log.info("- {}: {}", Constants.SESSION_NAME_ACCESS_TOKEN, accessToken);
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(user.getRole().toString())),

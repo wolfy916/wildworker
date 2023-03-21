@@ -27,11 +27,11 @@ public class CustomLogoutHandler implements LogoutHandler {
             throw new RuntimeException();   //TODO
         }
 
-        String accessToken = (String) session.getAttribute(Constants.ACCESS_TOKEN);
+        String accessToken = (String) session.getAttribute(Constants.SESSION_NAME_ACCESS_TOKEN);
         if (accessToken != null && !"".equals(accessToken)) {
             kakaoAPI.logout(accessToken);
             log.info("- logout success: {}", accessToken);
         }
-        log.info("- access_token: {}", session.getAttribute(Constants.ACCESS_TOKEN));
+        log.info("- access_token: {}", session.getAttribute(Constants.SESSION_NAME_ACCESS_TOKEN));
     }
 }

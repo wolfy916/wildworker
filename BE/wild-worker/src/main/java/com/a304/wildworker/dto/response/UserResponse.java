@@ -10,5 +10,7 @@ import lombok.ToString;
 public class UserResponse {
 
     private String name;
-
+//    private String title;
+//    private long coin;
+//    private int collectedPapers;
 }

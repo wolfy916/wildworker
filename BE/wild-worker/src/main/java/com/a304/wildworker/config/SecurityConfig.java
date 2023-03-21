@@ -2,7 +2,6 @@ package com.a304.wildworker.config;
 
 import com.a304.wildworker.config.service.CustomLogoutHandler;
 import com.a304.wildworker.config.service.CustomOAuth2UserService;
-import com.a304.wildworker.domain.common.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,11 +22,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .csrf().disable()   //TODO. csrf disable 안 하고 처리
 //                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .authorizeHttpRequests()
-                .antMatchers("/auth/login", "/oauth2/**").hasRole(Role.ROLE_ANONYMOUS.name())
-                .antMatchers("/", "/index").permitAll()
+                .antMatchers("/auth/login", "/oauth2/**").permitAll()
+                .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout()
@@ -38,6 +37,7 @@ public class SecurityConfig {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .and()
+                .formLogin().disable()
                 .oauth2Login()
                 .userInfoEndpoint()
                 .userService(oAuth2UserService);
