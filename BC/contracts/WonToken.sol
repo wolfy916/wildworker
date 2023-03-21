@@ -4,8 +4,8 @@ pragma solidity ^0.8.0;
 contract Won {
     string public name = "Won Token";
     string public symbol = "Won";
-    uint256 public totalSupply = 10000000000000000000000000000; // 1 million tokens 100억개
-    uint8 public decimals = 18;
+    uint256 public totalSupply = 10000000000; // 1 million tokens 100억개
+    uint8 public decimals = 0;
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
 
