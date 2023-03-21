@@ -52,13 +52,20 @@
   height: 95%;
   padding: 5%;
   text-align: center;
+  display: grid;
+  grid-template-rows: 1fr 9fr;
+}
+
+.modal-content{
+  padding-top: 5%;
+  font-size: 1.2rem;
 }
 
 .menu-select-list {
-    display: flex;
-    flex-direction: column;
-    padding-top: 10%;
-    padding-left: 12%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 10%;
+  padding-left: 12%;
   width: 100%;
   height: 100%;
 }
