@@ -1,4 +1,4 @@
-package com.a304.wildworker.controller;
+package com.a304.wildworker.controller.rest;
 
 import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.domain.sessionuser.SessionUser;
