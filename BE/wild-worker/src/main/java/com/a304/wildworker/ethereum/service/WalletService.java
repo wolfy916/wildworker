@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.DefaultBlockParameter;
+import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
 
-//@Service
+@Service
 public class WalletService {
 
     private final Web3j web3j;
@@ -35,7 +35,7 @@ public class WalletService {
         if (!WalletUtils.isValidAddress(address)) {
             throw new InvalidAddressException();
         }
-        return web3j.ethGetBalance(address, DefaultBlockParameter.valueOf("latest"))
+        return web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST)
                 .send();
     }
 }
