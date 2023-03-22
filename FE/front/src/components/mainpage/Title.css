@@ -9,6 +9,19 @@
   border: solid black 4px;
   border-radius: 30px;
   overflow: hidden;
+  animation: appearOpacity2 0.5s ease-in 0s 1;
+}
+
+@keyframes appearOpacity2 {
+  0% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .select-badge {
@@ -46,18 +59,62 @@
 
 .title-container {
   position: absolute;
-  width: 100%;
-  height: 10%;
-  background-color: rebeccapurple;
+  top: 67%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 55%;
+  background-color: white;
+  border: solid black 4px;
   border-radius: 30px;
+  overflow-y: scroll;
+}
+.title-container::-webkit-scrollbar {
+  display: none;
 }
 .title-container-blur {
   position: absolute;
-  width: 100%;
-  height: 10%;
+  top: 67%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 55%;
   background: rgba(240, 238, 238, 0.5);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(2px);
   border-radius: 30px;
-  animation: opactiyAppear 0.5s ease-in;
+  animation: appearOpacity 0.5s ease-in;
+}
+.title-item {
+  display: inline-block;
+  margin: 5%;
+  width: 22%;
+  height: 19%;
+  border: solid black 1px;
+  border-radius: 50%;
+  background-color: white;
+}
+.title-item-name {
+  display: inline;
+  position: absolute;
+  transform: translate(-45%, 80%);
+  font-size: 0.85rem;
+  text-align: center;
+}
+.title-item-input[type="radio"] {
+  appearance: none;
+  border-radius: 50%;
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  margin: 0px;
+}
+
+.title-item-input[type="radio"]:checked {
+  border: 0.4rem solid black;
+  border-style: outset;
+  transition: border 0.2s linear;
 }

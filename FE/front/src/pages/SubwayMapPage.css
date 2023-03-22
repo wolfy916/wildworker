@@ -16,9 +16,10 @@
 .map-timer-img {
   width: 12%;
 }
+
 .map-router-main-btn {
   box-sizing: border-box;
-  position: absolute;
+  position: fixed;
   height: 12%;
   width: 22%;
   bottom: 4%;

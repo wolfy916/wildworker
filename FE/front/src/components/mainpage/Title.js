@@ -2,6 +2,8 @@ import * as React from "react";
 import "./Title.css";
 
 function Title(props) {
+  const [selectTitle, setSelectTitle] = React.useState("없음");
+
   function toggleClickHandler() {
     props.setIsToggled((prev) => !prev);
     const selectBadgeTags = document.getElementsByClassName("select-badge");
@@ -24,7 +26,28 @@ function Title(props) {
     }
   }, []);
 
-  React.useState(() => {}, [props.isToggled]);
+  const titleList = ["없음", "쫄보", "승부사", "거상", "몰락한 자", "신생아"];
+  const titleItemTags = titleList.map((value, idx) => {
+    let isSelected = false;
+    if (selectTitle === value) {
+      isSelected = true;
+    }
+    return (
+      <div className="title-item" key={`${idx}`}>
+        <div className="title-item-name">{value}</div>
+        <input
+          className="title-item-input"
+          type="radio"
+          name="title"
+          value={value}
+          defaultChecked={isSelected}
+          onClick={(event) => {
+            setSelectTitle(event.target.value);
+          }}
+        />
+      </div>
+    );
+  });
 
   return (
     <div className="modal-component">
@@ -35,7 +58,7 @@ function Title(props) {
           <div className="select-badge">지배자</div>
           <div className="select-badge">칭호</div>
         </div>
-        <div className="title-container">여기는 칭호리스트</div>
+        <div className="title-container">{titleItemTags}</div>
         {props.isToggled && <div className="title-container-blur"></div>}
       </div>
     </div>
