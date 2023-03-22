@@ -16,7 +16,24 @@
 .map-timer-img {
   width: 12%;
 }
-
+.map-station-color {
+  position: absolute;
+  border-radius: 10%;
+  border: solid black 2px;
+  background-color: rgb(255, 255, 255);
+  z-index: 1;
+  top:3%;
+  right:5%;
+  align-items: center;
+}
+.map-station-color-content {
+  text-align: center;
+  margin: 0;
+  padding: 1vw;
+}
+.map-station-color-img {
+  width: 12%;
+}
 .map-router-main-btn {
   box-sizing: border-box;
   position: fixed;
