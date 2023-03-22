@@ -29,6 +29,7 @@ function MainPage() {
   const [modalClick, setModalClick] = React.useState(false);
   const [menuClick, setMenuClick] = React.useState(false);
   const [selectIdx, setSelectIdx] = React.useState(0);
+  const [isToggled, setIsToggled] = React.useState(false);
 
   const [badge, setBadge] = React.useState("사당역의 지배자");
   const [nickname, setNickname] = React.useState("우주최강원석");
@@ -121,6 +122,7 @@ function MainPage() {
         getCoinClick={getCoinClick}
         setGetCoinClick={setGetCoinClick}
         badge={badge}
+        setBadge={setBadge}
         nickname={nickname}
         coin={coin}
         setCoin={setCoin}
@@ -162,6 +164,8 @@ function MainPage() {
             setNickname={setNickname}
             badge={badge}
             setBadge={setBadge}
+            isToggled={isToggled}
+            setIsToggled={setIsToggled}
           />
         )}
         {pvpRouterClick && (
