@@ -46,6 +46,8 @@ public class SecurityConfig {
                 .csrf().disable()   //TODO. csrf disable 안 하고 처리
 //                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .authorizeHttpRequests()
+                .antMatchers("/ws/**").permitAll()
+                .antMatchers("/secured/ws/**").authenticated()
                 .antMatchers("/auth/login", "/oauth2/**").permitAll()
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
@@ -63,6 +65,15 @@ public class SecurityConfig {
                 .successHandler(loginSuccessHandler)
                 .userInfoEndpoint()
                 .userService(oAuth2UserService);
+
+        http
+                .csrf()
+                // ignore our stomp endpoints since they are protected using Stomp headers
+                .ignoringAntMatchers("/ws/**")
+                .and()
+                .headers()
+                // allow same origin to frame our site to support iframe SockJS
+                .frameOptions().sameOrigin();
 
         return http.build();
     }
