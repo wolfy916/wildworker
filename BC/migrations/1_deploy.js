@@ -1,3 +1,4 @@
+const wonToken = artifacts.require("WonToken");
 const station = artifacts.require("Station");
 const won = artifacts.require("Won");
 

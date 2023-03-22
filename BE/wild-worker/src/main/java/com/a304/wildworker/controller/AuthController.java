@@ -1,7 +1,9 @@
 package com.a304.wildworker.controller;
 
+import com.a304.wildworker.common.Constants;
 import java.net.URI;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,10 @@ public class AuthController {
                 .replacePath(request.getContextPath()).build().toString();
         String redirectURI = baseUrl + "/oauth2/authorization/kakao";
         log.info("/auth/login: {}", redirectURI);
+        String referer = request.getHeader("Referer");
+        HttpSession session = request.getSession();
+        session.setAttribute(Constants.SESSION_NAME_PREV_PAGE, referer);
+        log.info("-- prevPage: {}", session.getAttribute(Constants.SESSION_NAME_PREV_PAGE));
         URI uri = URI.create(redirectURI);
         return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(uri).build();
     }
