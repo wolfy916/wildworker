@@ -4,7 +4,9 @@ import com.a304.wildworker.domain.common.BaseEntity;
 import com.a304.wildworker.domain.location.Location;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import lombok.Getter;
 
+@Getter
 @Entity
 public class Station extends BaseEntity {
 
