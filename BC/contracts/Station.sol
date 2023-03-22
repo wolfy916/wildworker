@@ -38,24 +38,28 @@ contract Station {
     // 자동채굴(지하철 진입 시 돈 지급)
     //msg.sender가 station
     function autoMine(address _toUser, uint256 _amount) public onlyOwner {
-        won.getSender();
         won.transfer(msg.sender, _toUser, _amount);
     }
 
     // 일주일마다 초기화
     function resetInvestmentAmount() public onlyOwner {
         investmentAmount = 0;
+        uint investorWalletsLength = investorWallets.length;
+        for (uint i = 0; i < investorWalletsLength; i++) {
+            delete investors[investorWallets[i]];
+            investorWallets.pop();
+        }
     }
 
     // 수수료 정산(10분당)
     //msg.sender = owner
-    function countChargeEvery10Min(uint _charge) public onlyOwner {
+    function countChargeEvery10Min(uint _commission) public onlyOwner {
         for (uint i = 0; i < investorWallets.length; i++) {
             //investorWallets[i] = user의 지갑주소
             //user의 투자금
             uint userShare = (investors[investorWallets[i]] /
                 investmentAmount) * 1000;
-            uint chargeByShare = (userShare * _charge) / 1000;
+            uint chargeByShare = (userShare * _commission) / 1000;
             //
             won.transfer(msg.sender, investorWallets[i], chargeByShare);
         }
@@ -64,7 +68,7 @@ contract Station {
     // 투자내역기록
     //mapping은 iterable하지 못해서 investorWallets를 array로 생성해서 user의 목록으로
     //------msg.sender가 user--------
-    function recodeInvestment(uint256 _amount) public {
+    function recordInvestment(uint256 _amount) public {
         bool isIn = false;
         for (uint256 i = 0; i < investorWallets.length; i++) {
             if (investorWallets[i] == msg.sender) {
