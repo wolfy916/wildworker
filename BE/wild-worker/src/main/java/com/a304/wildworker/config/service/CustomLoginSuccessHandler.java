@@ -32,7 +32,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
                 .orElse(Optional.ofNullable(prevPage).orElseThrow());
         redirectUrl += "main";     //TODO. get from config?
         response.setHeader(Constants.SET_COOKIE,
-                generateCookie(Constants.JSESSIONID, session.getId()).toString());
+                generateCookie(Constants.KEY_SESSION_ID, session.getId()).toString());
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
     }
 
