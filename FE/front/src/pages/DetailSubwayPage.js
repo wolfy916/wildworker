@@ -7,11 +7,13 @@ import "./DetailSubwayPage.css"
 import goMap from "../asset/image/goMap.png"
 import myMap from "../asset/image/myMap.png"
 import hotMap from "../asset/image/hotMap.png"
+import Modal from "../components/mainpage/Modal"
 
 function DetailSubwayPage() {
   const location = useLocation()
-  const [data, setData] = useState([]);
-  const holderTag = document.getElementsByClassName("detail-holder")[0]
+  const [data, setData] = useState([])
+  const [ranking, setRanking] = useState([])
+  const [modalClick, setModalClick] = useState(false)
   const testData = {
     stationName: "역삼역",
     dominator: "S2태형S2",
@@ -19,61 +21,57 @@ function DetailSubwayPage() {
     prevCommission: 12345,
     currentCommission: 1234,
     ranking: [
-      { 
+      {
         rank: 1,
+        name: "zl존원석",
+        investment: 12341,
+        percent: 20,
+      },
+      {
+        rank: 2,
         name: "S2태형S2",
         investment: 123,
-        percent: 10 
-      }
+        percent: 10,
+      },
     ],
-    mine: 	
-      { 
-        rank: 1,
-        investment: 123,
-        percent: 10 
-      }
+    mine: {
+      rank: 1,
+      investment: 123,
+      percent: 10,
+    },
   }
-
   useEffect(() => {
-    axios.get(`/api/${location.state}`)
-      .then(response => {
-        setData(response.data);
-        for (let i = 1; i <= data.investments.length; i++) {
-          const divContentTag = document.createElement("div")
-          divContentTag.classList.add("detail-content")
-          const div1Tag = document.createElement("div")
-          const div2Tag = document.createElement("div")
-          const p1_1Tag = document.createElement("p")
-          p1_1Tag.classList.add("detail-subject")
-          const p1_2Tag = document.createElement("p")
-          p1_2Tag.classList.add("detail-subject")
-          const p2Tag = document.createElement("p")
-          p2Tag.classList.add("detail-subject-2")
-
-          p1_1Tag.innerHTML = data.ranking.name
-          div1Tag.appendChild(p1_1Tag)
-          p1_2Tag.innerHTML = data.ranking.investment.toLocaleString("ko-KR") + "원"
-          p2Tag.innerHTML =  "(" + data.ranking.percent +"%)"
-          div2Tag.appendChild(p1_2Tag)
-          div2Tag.appendChild(p2Tag)
-          divContentTag.appendChild(div1Tag)
-          divContentTag.appendChild(div2Tag)
-          holderTag.appendChild(divContentTag)
-        
-        }}
-      )
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
-
-  
+    axios
+      .get(`/api/${location.state}`)
+      .then((response) => {
+        setData(response.data)
+        const rankingData = data.ranking.map((item) => (
+          <div className="detail-content">
+            <div>
+              <p className="detail-subject">{item.name}</p>
+            </div>
+            <div>
+              <p className="detail-subject">
+                {item.investment.toLocaleString("ko-KR")}
+              </p>
+              <p className="detail-subject-2">({item.percent}%)</p>
+            </div>
+          </div>
+        ))
+        setRanking(rankingData)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
 
   return (
     <div className="detail-background">
       <div className="detail-holder">
         <div className="detail-title">
-          <p className="detail-subject">{testData.dominator}의 {testData.stationName}</p>
+          <p className="detail-subject">
+            {testData.dominator}의 {testData.stationName}
+          </p>
         </div>
 
         <div className="detail-content-box">
@@ -82,7 +80,9 @@ function DetailSubwayPage() {
               <p className="detail-subject">총 투자금액</p>
             </div>
             <div>
-              <p className="detail-subject">{testData.totalInvestment.toLocaleString("ko-KR")}</p>
+              <p className="detail-subject">
+                {testData.totalInvestment.toLocaleString("ko-KR")}
+              </p>
             </div>
           </div>
           <div className="detail-content">
@@ -90,7 +90,9 @@ function DetailSubwayPage() {
               <p className="detail-subject">수수료 총액</p>
             </div>
             <div>
-              <p className="detail-subject">{testData.currentCommission.toLocaleString("ko-KR")}</p>
+              <p className="detail-subject">
+                {testData.currentCommission.toLocaleString("ko-KR")}
+              </p>
             </div>
           </div>
           <div className="detail-content">
@@ -98,7 +100,9 @@ function DetailSubwayPage() {
               <p className="detail-subject">10분간 누적 수수료</p>
             </div>
             <div>
-              <p className="detail-subject">{testData.prevCommission.toLocaleString("ko-KR")}</p>
+              <p className="detail-subject">
+                {testData.prevCommission.toLocaleString("ko-KR")}
+              </p>
             </div>
           </div>
         </div>
@@ -148,15 +152,27 @@ function DetailSubwayPage() {
             <p className="detail-subject-2">(24%)</p>
           </div>
         </div>
+        {ranking}
       </div>
 
       <div className="detail-mine">
         <div>
           <p className="detail-subject-1">나의 랭킹 및 정보</p>
-          <p className="detail-subject-1">{testData.mine.rank}등 {testData.mine.investment.toLocaleString("ko-KR")}({testData.mine.percent}%)</p>
+          <p className="detail-subject-1">
+            {testData.mine.rank}등{" "}
+            {testData.mine.investment.toLocaleString("ko-KR")}(
+            {testData.mine.percent}%)
+          </p>
         </div>
         <div>
-          <button className="detail-subject">투자하기</button>
+          <button
+            className="detail-invest"
+            onClick={() => {
+              setModalClick(true)
+            }}
+          >
+            투자하기
+          </button>
         </div>
       </div>
 
@@ -169,6 +185,15 @@ function DetailSubwayPage() {
       <Link className="detail-router-hot-btn" to="/map/hot">
         <img src={hotMap} alt="hotMap" />
       </Link>
+      {modalClick && (
+        <Modal
+          modalWidth={85}
+          modalHeight={75}
+          selectModalIdx={3}
+          investment={testData.mine.investment.toLocaleString("ko-KR")}
+          setModalClick={setModalClick}
+        />
+      )}
     </div>
   )
 }

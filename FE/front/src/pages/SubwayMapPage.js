@@ -80,11 +80,11 @@ import * as React from "react"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
+import SubwayTime from "../components/subwaymap/SubwayTime";
 import subwaymap from "../asset/image/subwaymap.png"
 import goMain from "../asset/image/goMain.png"
 import myMap from "../asset/image/myMap.png"
 import hotMap from "../asset/image/hotMap.png"
-import timer from "../asset/image/timer.png"
 import black from "../asset/image/black.png"
 import tomato from "../asset/image/tomato.png"
 import "./SubwayMapPage.css"
@@ -93,6 +93,18 @@ function SubwayMapPage() {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isReady, setIsReady] = useState(false)
   const MY_STATION_LIST = [3, 4, 16]
+  const [zoomLevel, setZoomLevel] = useState(1);
+
+  function handleDoubleTouchMove(e) {
+    if (e.touches.length == 2) {
+      const [touch1, touch2] = e.touches;
+      const distance = Math.sqrt(
+        (touch1.clientX - touch2.clientX) ** 2 +
+          (touch1.clientY - touch2.clientY) ** 2
+      );
+      setZoomLevel(distance / 300);
+    }
+  }
 
   const handleTouchStart = (e) => {
     const touch = e.touches[0]
@@ -143,20 +155,19 @@ function SubwayMapPage() {
     setIsReady(true)
   }, [])
 
+
+
   return (
     <div>
-      <div className="map-timer">
-        <p className="map-timer-content">수수료 정산 시간</p>
-        <p className="map-timer-content">
-          <img className="map-timer-img" src={timer} alt="timer" /> 10:00
-        </p>
-      </div>
+      <SubwayTime/>
       <div className="map-station-color">
         <p className="map-station-color-content">
-          <img className="map-station-color-img" src={tomato} alt="color" /> 나의 역
+          <img className="map-station-color-img" src={tomato} alt="color" />{" "}
+          나의 역
         </p>
         <p className="map-station-color-content">
-          <img className="map-station-color-img" src={black} alt="color" /> 현재 역
+          <img className="map-station-color-img" src={black} alt="color" /> 현재
+          역
         </p>
       </div>
       <div
@@ -177,10 +188,14 @@ function SubwayMapPage() {
             height: "824px",
             backgroundImage: `url(${subwaymap})`,
             backgroundPosition: "top left",
-            transform: "translate(0%,0%) scale(1.4)",
+            transition: "transform 2s ease-out",
+            // transform: "translate(0%,0%) scale(1.4)",
+            // transformOrigin: "0 0",
+            zoom: zoomLevel,
           }}
           useMap="#photo-map"
           onTouchStart={handleTouchStart}
+          onTouchMove={handleDoubleTouchMove}
         >
           <map name="photo-map"></map>
         </div>

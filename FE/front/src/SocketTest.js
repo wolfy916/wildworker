@@ -1,74 +1,106 @@
-  // SubwayBoard.js 1번
+// import React, { useState, useEffect } from "react";
+// import SockJS from "sockjs-client";
+// import Stomp from "stompjs";
 
-  // const [sock, setSock] = useState(null);
-  
-  // useEffect(() => {
-  //   const socket = new SockJS(SOCKET_SERVER_URL);
-  //   setSock(socket);
+// const TestSocket = () => {
+//   const [messages, setMessages] = useState([]);
 
-  //   return () => {
-  //     socket.close();
-  //   };
-  // }, []);
+//   useEffect(() => {
+//     const socket = new SockJS("http://localhost:8080/ws");
+//     const stompClient = Stomp.over(socket);
 
-  // useEffect(() => {
-  //   if (!sock) return;
+//     stompClient.connect({}, () => {
+//       stompClient.subscribe("/topic/messages", (message) => {
+//         setMessages((messages) => [...messages, message.body]);
+//       });
+//     });
 
-  //   sock.onmessage = (e) => {
-  //     if (e.type == 'COIN' && e.subType == 'AUTO_MINING') {
-  //       setCoin(e.data.balance);
-  //       popOpen()
-  //       setIsFlashing(true);
+//     return () => {
+//       stompClient.disconnect();
+//     };
+//   }, []);
 
-  //       setTimeout(() => {
-  //         popClose()
-  //         setIsFlashing(false);
-  //       }, 1000);
-  //     }
-  //   };
+//   return (
+//     <div>
+//       <h2>WebSocket Example</h2>
+//       <ul>
+//         {messages.map((message, index) => (
+//           <li key={index}>{message}</li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// };
 
-  //   return () => {
-  //     sock.close();
-  //   };
-  // }, [sock]);
+// SubwayBoard.js 1번
 
-  // return (
-  //   <div>
-  //     {data && <p>{data}</p>}
-  //   </div>
-  // );
+// const [sock, setSock] = useState(null);
 
-  // 백에서 위치 받는 코드
+// useEffect(() => {
+//   const socket = new SockJS(SOCKET_SERVER_URL);
+//   setSock(socket);
 
-  // const [sock, setSock] = useState(null);
-  // const [data, setData] = useState(null);
+//   return () => {
+//     socket.close();
+//   };
+// }, []);
 
-  // useEffect(() => {
-  //   const socket = new SockJS('http://localhost:3000/sockjs');
-  //   setSock(socket);
+// useEffect(() => {
+//   if (!sock) return;
 
-  //   return () => {
-  //     socket.close();
-  //   };
-  // }, []);
+//   sock.onmessage = (e) => {
+//     if (e.type == 'COIN' && e.subType == 'AUTO_MINING') {
+//       setCoin(e.data.balance);
+//       popOpen()
+//       setIsFlashing(true);
 
-  // useEffect(() => {
-  //   if (!sock) return;
+//       setTimeout(() => {
+//         popClose()
+//         setIsFlashing(false);
+//       }, 1000);
+//     }
+//   };
 
-  //   sock.onmessage = (e) => {
-  //     if (e.type == 'STATION' && e.subType == 'STATUS'){
-  //     setData(e.data);}
-  //   };
+//   return () => {
+//     sock.close();
+//   };
+// }, [sock]);
 
-  //   return () => {
-  //     sock.close();
-  //   };
-  // }, [sock]);
+// return (
+//   <div>
+//     {data && <p>{data}</p>}
+//   </div>
+// );
 
-  // return (
-  //   <div>
-  //     {data && <p>{data}</p>}
-  //   </div>
-  // );
+// 백에서 위치 받는 코드
 
+// const [sock, setSock] = useState(null);
+// const [data, setData] = useState(null);
 
+// useEffect(() => {
+//   const socket = new SockJS('http://localhost:3000/sockjs');
+//   setSock(socket);
+
+//   return () => {
+//     socket.close();
+//   };
+// }, []);
+
+// useEffect(() => {
+//   if (!sock) return;
+
+//   sock.onmessage = (e) => {
+//     if (e.type == 'STATION' && e.subType == 'STATUS'){
+//     setData(e.data);}
+//   };
+
+//   return () => {
+//     sock.close();
+//   };
+// }, [sock]);
+
+// return (
+//   <div>
+//     {data && <p>{data}</p>}
+//   </div>
+// );

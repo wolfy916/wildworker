@@ -3,12 +3,13 @@ import "./Modal.css";
 import NickName from "./NickName";
 import Title from "./Title";
 import CoinHistory from "./CoinHistory";
+import Invest from "../detailsubway/Invest";
 
 function Modal(props) {
   const modalWidth = props.modalWidth;
   const modalHeight = props.modalHeight;
   const setModalClick = props.setModalClick;
-  const selectContent = [NickName, Title, CoinHistory][props.selectModalIdx];
+  const selectContent = [NickName, Title, CoinHistory, Invest][props.selectModalIdx];
 
   function modalCloseClick() {
     setModalClick(false);
