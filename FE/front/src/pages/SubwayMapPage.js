@@ -85,6 +85,8 @@ import goMain from "../asset/image/goMain.png"
 import myMap from "../asset/image/myMap.png"
 import hotMap from "../asset/image/hotMap.png"
 import timer from "../asset/image/timer.png"
+import black from "../asset/image/black.png"
+import tomato from "../asset/image/tomato.png"
 import "./SubwayMapPage.css"
 
 function SubwayMapPage() {
@@ -147,6 +149,14 @@ function SubwayMapPage() {
         <p className="map-timer-content">수수료 정산 시간</p>
         <p className="map-timer-content">
           <img className="map-timer-img" src={timer} alt="timer" /> 10:00
+        </p>
+      </div>
+      <div className="map-station-color">
+        <p className="map-station-color-content">
+          <img className="map-station-color-img" src={tomato} alt="color" /> 나의 역
+        </p>
+        <p className="map-station-color-content">
+          <img className="map-station-color-img" src={black} alt="color" /> 현재 역
         </p>
       </div>
       <div

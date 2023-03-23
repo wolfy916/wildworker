@@ -62,6 +62,23 @@
   overflow: hidden;
 }
 
+/* .subway-board-grid {
+  box-sizing: border-box;
+  width: 94%;
+  height: 88%;
+  position: absolute;
+  top:6%;
+  left:3%;
+  border:5px solid black;
+  border-radius: 30px;
+  background-size: 5px 5px;
+  background-image:
+    linear-gradient(to right, black 0.5px, transparent 0px),
+    linear-gradient(to bottom, black 0.5px, transparent 0px);
+  opacity: 1;
+  z-index: 1003;
+} */
+
 .board-part {
   box-sizing: border-box;
   font-family: "galmuri9";

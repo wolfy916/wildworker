@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../pages/MiniGamePage.css";
 
 function CalculationGame() {
@@ -18,9 +19,26 @@ function CalculationGame() {
     setValue("");
   }
 
+  const [timeLeft, setTimeLeft] = useState(15);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+  useEffect(() => {
+    if (timeLeft === 0) {
+      navigate("/pvp/result");
+    }
+  }, [timeLeft, navigate]);
+
   return (
     <div className="minigame">
       <h1 className="minigame-Headline">덧셈 게임</h1>
+      <h1>Timer: {timeLeft} seconds</h1>
       <div className="minigame-score">
         <p>Score: {score}</p>
         <p>

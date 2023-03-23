@@ -1,6 +1,6 @@
 import * as React from "react"
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react"
+import axios from "axios"
 import { Link } from "react-router-dom"
 import "./MySubwayPage.css"
 import goMap from "../asset/image/goMap.png"
@@ -9,11 +9,34 @@ import hotMap from "../asset/image/hotMap.png"
 
 function MySubwayPage() {
   // const [data, setData] = useState([]);
+  // const holderTag = document.getElementsByClassName("my-holder")[0]
 
   // useEffect(() => {
   //   axios.get('/api/data')
   //     .then(response => {
   //       setData(response.data);
+  //       for (let i=1; i <= data.investments.length; i++) {
+  //         const divContentTag = document.createElement("div")
+  //         divContentTag.classList.add("my-content")
+  //         const div1Tag = document.createElement("div")
+  //         const div2Tag = document.createElement("div")
+  //         const p1_1Tag = document.createElement("p")
+  //         p1_1Tag.classList.add("my-subject")
+  //         const p1_2Tag = document.createElement("p")
+  //         p1_2Tag.classList.add("my-subject")
+  //         const p2Tag = document.createElement("p")
+  //         p2Tag.classList.add("my-subject-2")
+
+  //         p1_1Tag.innerHTML = data.investments[i-1].station.name
+  //         div1Tag.appendChild(p1_1Tag)
+  //         p1_2Tag.innerHTML = data.investments[i-1].investment.toLocaleString("ko-KR") + "원"
+  //         p2Tag.innerHTML =  "(" +data.investments[i-1].percent +"%)"
+  //         div2Tag.appendChild(p1_2Tag)
+  //         div2Tag.appendChild(p2Tag)
+  //         divContentTag.appendChild(div1Tag)
+  //         divContentTag.appendChild(div2Tag)
+  //         holderTag.appendChild(divContentTag)
+  //       }
   //     })
   //     .catch(error => {
   //       console.log(error);
@@ -62,7 +85,6 @@ function MySubwayPage() {
             <p className="my-subject-2">(5%)</p>
           </div>
         </div>
-        
       </div>
       <Link className="my-router-my-btn" to="/map/mine">
         <img src={myMap} alt="myMap" />
