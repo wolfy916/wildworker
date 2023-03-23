@@ -9,48 +9,26 @@ import hotMap from "../asset/image/hotMap.png"
 
 function HotSubwayPage() {
   const [data, setData] = useState([])
-  const holderTag = document.getElementsByClassName("hot-holder")[0]
+  const [hotSubway, setHotSubway] = useState([])
 
   useEffect(() => {
     axios
       .get("/api/data")
       .then((response) => {
         setData(response.data)
-        for (let i = 1; i <= data.investments.length; i++) {
-          const divContentTag = document.createElement("div")
-          divContentTag.classList.add("hot-content")
-          const div1Tag = document.createElement("div")
-          const div2Tag = document.createElement("div")
-          const p1_1Tag = document.createElement("p")
-          p1_1Tag.classList.add("hot-subject")
-          const p1_2Tag = document.createElement("p")
-          p1_2Tag.classList.add("hot-subject")
-          const p1_3Tag = document.createElement("p")
-          p1_3Tag.classList.add("hot-subject")
-          const p2Tag = document.createElement("p")
-          p2Tag.classList.add("hot-subject-2")
-
-          p1_1Tag.innerHTML = data.ranking[i - 1].station.name
-          div1Tag.appendChild(p1_1Tag)
-          p1_2Tag.innerHTML =
-            data.ranking[i - 1].station.totalInvestment.toLocaleString(
-              "ko-KR"
-            ) + "원"
-          p1_3Tag.innerHTML =
-            data.ranking[i - 1].station.currentCommission.toLocaleString(
-              "ko-KR"
-            ) + "원"
-          p2Tag.innerHTML =
-            "(" +
-            data.ranking[i - 1].station.prevCommission.toLocaleString("ko-KR") +
-            "원)"
-          div2Tag.appendChild(p1_2Tag)
-          div2Tag.appendChild(p1_3Tag)
-          div2Tag.appendChild(p2Tag)
-          divContentTag.appendChild(div1Tag)
-          divContentTag.appendChild(div2Tag)
-          holderTag.appendChild(divContentTag)
-        }
+        const hotSubwayData = data.ranking.map((item) => (
+          <div className="hot-content">
+            <div>
+              <p className="hot-subject">{item.station.name}</p>
+            </div>
+            <div>
+              <p className="hot-subject">{item.station.totalInvestment.toLocaleString("ko-KR")}원</p>
+              <p className="hot-subject">{item.station.currentCommission.toLocaleString("ko-KR")}원</p>
+              <p className="hot-subject-2">({item.station.prevCommission.toLocaleString("ko-KR")}원)</p>
+            </div>
+          </div>
+        ))
+        setHotSubway(hotSubwayData)
       })
       .catch((error) => {
         console.log(error)
@@ -103,6 +81,7 @@ function HotSubwayPage() {
             <p className="hot-subject-2">(102,200원)</p>
           </div>
         </div>
+        {hotSubway}
       </div>
 
       <Link className="hot-router-my-btn" to="/map/mine">
