@@ -12,9 +12,14 @@ public class ActiveUserRepository {
         activeUserMap = new ConcurrentHashMap<>();
     }
 
-    /* 접속 중인 사용자 추가 */
-    public void addActiveUser(String sessionId, ActiveUser activeUser) {
+    /* 접속 중인 사용자 추가 or 수정 */
+    public void saveActiveUser(String sessionId, ActiveUser activeUser) {
         activeUserMap.put(sessionId, activeUser);
+    }
+
+    /* 접속 중인 사용자 삭제 */
+    public ActiveUser removeActiveUser(String sessionId) {
+        return activeUserMap.remove(sessionId);
     }
 
     /* sessionId로 접속 중인 사용자 정보 반환 */

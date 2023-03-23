@@ -1,6 +1,8 @@
 package com.a304.wildworker.controller;
 
 import com.a304.wildworker.common.Constants;
+import com.a304.wildworker.domain.activeuser.ActiveUser;
+import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
 import com.a304.wildworker.domain.sessionuser.SessionUser;
 import com.a304.wildworker.dto.response.LoginResponse;
 import com.a304.wildworker.service.UserService;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SessionController {
 
     private final UserService userService;
+    private final ActiveUserRepository activeUserRepository;
 
     @GetMapping("/")
     public ResponseEntity<LoginResponse> index(HttpServletRequest request) {
@@ -32,6 +35,10 @@ public class SessionController {
                 .orElseThrow().toString();
         log.info("- user: {}", user);
         log.info("- accessToken: {}", accessToken);
+
+        //접속중인 사용자에 추가
+        long userId = userService.getUserId(user.getEmail());
+        activeUserRepository.saveActiveUser(httpSession.getId(), new ActiveUser(userId));
 
         LoginResponse response = new LoginResponse(accessToken,
                 userService.getUser(user.getEmail()));

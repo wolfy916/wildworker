@@ -17,4 +17,9 @@ public class UserService {
         User user = Optional.of(userRepository.findByEmail(email)).get().orElseThrow();
         return UserResponse.of(user);
     }
+
+    public long getUserId(String email) {
+        User user = Optional.of(userRepository.findByEmail(email)).get().orElseThrow();
+        return user.getId();
+    }
 }
