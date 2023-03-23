@@ -59,7 +59,7 @@ public class User extends BaseEntity {
         this.role = role;
         this.email = email;
         this.name = email;
-        this.walletPassword = UUID.randomUUID().toString();
+        this.walletPassword = UUID.randomUUID().toString(); // TODO: 2023-03-23 초기화 시 암호화 필요함
         this.balance = 0L;
         this.characterId = CharacterType.MAN;
         this.titleType = TitleType.TITLE;
