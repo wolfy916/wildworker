@@ -1,8 +1,15 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
 import "./ReceiptPage.css";
 
 function MainPage() {
+  const navigate = useNavigate();
+  function handleTouchStart(event) {
+    // 다음 페이지로 이동하는 로직을 작성합니다.
+    navigate("/main");
+    console.log("go to mainPage");
+  }
   return (
     <Box className="receiptPage" sx={{ position: "relative" }}>
       <div className="receipt">
@@ -14,13 +21,16 @@ function MainPage() {
             <p className="receipt-text-main-left">도망비</p>
             <p className="receipt-text-main-right">1111111111원</p>
             <p className="receipt-text-main-left">환급비</p>
-            <p className="receipt-text-main-right">111,111,111,111,111원</p>
+            <p className="receipt-text-main-right">111,111,111,111원</p>
             <p className="receipt-text-main-left">수수료</p>
-            <p className="receipt-text-main-right">12342314234원</p>
+            <p className="receipt-text-main-right">2,342,314,234원</p>
             <p className="receipt-text-main-total1">TOTAL</p>
             <p className="receipt-text-main-total2">10,000원</p>
           </div>
           <p className="receipt-text-footer">야생의 직장인</p>
+          <div className="receipt-button-home">
+            <p onTouchStart={handleTouchStart}>확인</p>
+          </div>
         </div>
       </div>
     </Box>

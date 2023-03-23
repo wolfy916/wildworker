@@ -5,17 +5,13 @@ import "./MainPage.css";
 import SubwayBoard from "../components/mainpage/SubwayBoard";
 import GetCoinItem from "../components/mainpage/GetCoinItem";
 import Modal from "../components/mainpage/Modal";
+import MenuBar from "../components/mainpage/MenuBar";
 
 import character from "../asset/image/moving_man.gif";
 import goMap from "../asset/image/goMap.png";
-import menuBtn from "../asset/image/mainpage_menu_btn.png";
 import getCoinImage from "../asset/image/get_coin_btn.png";
 import getCoinFullImage from "../asset/image/Full_Charge_Btn.png";
 import LoadingEffect from "../asset/image/pvpPageLoading.gif";
-
-// import menuToggle from "../asset/image/menu_toggle.png";
-// import menuToggle2 from "../asset/image/menu_toggle2.png";
-import menuToggle3 from "../asset/image/menu_toggle3.png";
 
 function MainPage() {
   // 수동 채굴한 갯수 데이터 받아서 coinCntData에 넣으면 됨
@@ -27,26 +23,14 @@ function MainPage() {
   const [getCoinClick, setGetCoinClick] = React.useState(false); // 수집량 만족 후 클릭 여부
   const [pvpRouterClick, setPvpRouterClick] = React.useState(false); // pvp 로딩 테스트 버튼
   const [modalClick, setModalClick] = React.useState(false);
-  const [menuClick, setMenuClick] = React.useState(false);
   const [selectIdx, setSelectIdx] = React.useState(0);
+  const [isToggled, setIsToggled] = React.useState(false);
 
   const [badge, setBadge] = React.useState("사당역의 지배자");
   const [nickname, setNickname] = React.useState("우주최강원석");
   const [coin, setCoin] = React.useState(1500);
   const [station, setStation] = React.useState("역삼역");
   const [dominator, setDominator] = React.useState("매의호크민성");
-
-  // Menu 버튼
-  async function menuClickHandler() {
-    setMenuClick((prev) => !prev);
-    const selectTags = await document.getElementsByClassName("menu-select");
-    for (let idx = 0; idx < 3; idx++) {
-      selectTags[idx].addEventListener("click", () => {
-        setSelectIdx(idx);
-        setModalClick(true);
-      });
-    }
-  }
 
   // 매칭 잡혔을 때의 로딩 이펙트 테스트용 함수
   function pvpRouterClickHandler() {
@@ -121,6 +105,7 @@ function MainPage() {
         getCoinClick={getCoinClick}
         setGetCoinClick={setGetCoinClick}
         badge={badge}
+        setBadge={setBadge}
         nickname={nickname}
         coin={coin}
         setCoin={setCoin}
@@ -129,28 +114,6 @@ function MainPage() {
         dominator={dominator}
         setDominator={setDominator}
       />
-      {menuClick && (
-        <div
-          className="menu-toggle-bg"
-          onClick={() => {
-            setMenuClick((prev) => !prev);
-          }}
-        ></div>
-      )}
-      {menuClick && (
-        <div className="menu-toggle-wrap">
-          <img
-            className="menu-toggle-img"
-            src={menuToggle3}
-            alt="menu_toggle"
-          />
-          <div className="menu-select-list">
-            <img className="menu-select" src={menuBtn} alt="menu_toggle" />
-            <img className="menu-select" src={menuBtn} alt="menu_toggle" />
-            <img className="menu-select" src={menuBtn} alt="menu_toggle" />
-          </div>
-        </div>
-      )}
       <div className="subway">
         {modalClick && (
           <Modal
@@ -162,6 +125,8 @@ function MainPage() {
             setNickname={setNickname}
             badge={badge}
             setBadge={setBadge}
+            isToggled={isToggled}
+            setIsToggled={setIsToggled}
           />
         )}
         {pvpRouterClick && (
@@ -172,12 +137,7 @@ function MainPage() {
           />
         )}
         <img className="character" src={character} alt="character" />
-        <img
-          className="main-menu-btn"
-          src={menuBtn}
-          alt="menuBtn"
-          onClick={menuClickHandler}
-        />
+        <MenuBar setModalClick={setModalClick} setSelectIdx={setSelectIdx} />
         <div className="get-coin-btn">
           {!isEnough && <div className="get-coin-cnt">{coinCnt}</div>}
         </div>

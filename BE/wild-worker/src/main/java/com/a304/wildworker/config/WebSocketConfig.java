@@ -1,9 +1,8 @@
-package com.a304.wildworker.websocket.config;
+package com.a304.wildworker.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
@@ -18,8 +17,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Value("${allowed-origins}")
     private final String[] allowedOrigins;
 
-//    private final ChannelInterceptor interceptor;
-
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
@@ -27,6 +24,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .withSockJS();
         registry.addEndpoint("/ws")
                 .setAllowedOrigins(allowedOrigins);
+        registry.addEndpoint("/secured/ws")
+                .setAllowedOrigins(allowedOrigins);
+        registry.addEndpoint("/secured/ws")
+                .setAllowedOrigins(allowedOrigins)
+                .withSockJS();
+
     }
 
     @Override
@@ -34,10 +37,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         config.setApplicationDestinationPrefixes("/pub");
         config.enableSimpleBroker("/sub", "/queue");
         config.setUserDestinationPrefix("/user");
-    }
-
-    @Override
-    public void configureClientInboundChannel(ChannelRegistration registration) {
-//        registration.interceptors(interceptor);
     }
 }
