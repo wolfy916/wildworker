@@ -4,10 +4,12 @@ import com.a304.wildworker.domain.common.BaseEntity;
 import com.a304.wildworker.domain.location.Location;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import lombok.Getter;
 
 @Getter
 @Entity
+@Table(name = "station")
 public class Station extends BaseEntity {
 
     @Column(unique = true, nullable = false)

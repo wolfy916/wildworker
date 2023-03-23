@@ -11,8 +11,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "transaction_log")
 public class TransactionLog extends BaseEntity {
 
     @ManyToOne(targetEntity = User.class)
