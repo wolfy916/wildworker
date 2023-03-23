@@ -12,5 +12,7 @@ public final class Constants {
     public static final String SET_COOKIE = "Set-Cookie";
     public static final String JSESSIONID = "JSESSIONID";   //TODO: chage spring session
 
-    public static final int STATION_RANGE = 250; //역 범위(반지름) meter
+    public static final int INTERVAL = 10;  //스케줄러 동작 주기 (minute)
+
+    public static final int STATION_RANGE = 250; //역 범위(반지름) (meter)
 }
