@@ -1,9 +1,11 @@
 package com.a304.wildworker.config.service;
 
 import com.a304.wildworker.common.Constants;
+import com.a304.wildworker.domain.common.Role;
 import com.a304.wildworker.domain.sessionuser.SessionUser;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
+import com.a304.wildworker.ethereum.service.WalletProvider;
 import java.util.Collections;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -57,9 +59,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private User findOrSave(OAuth2Attribute attributes) {
         User user = userRepository.findByEmail(attributes.getEmail())
-                .orElse(attributes.toEntity());
+                .orElse(createNewUser(attributes.getEmail()));
 
         return userRepository.save(user);
     }
 
+    private User createNewUser(String email) {
+        User user = new User(email, Role.ROLE_USER);
+        try {
+            user.setWallet(WalletProvider.createUserWallet(user.getWalletPassword()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 }

@@ -6,6 +6,7 @@ import com.a304.wildworker.domain.common.CharacterType;
 import com.a304.wildworker.domain.common.Role;
 import com.a304.wildworker.domain.common.TitleType;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -31,7 +32,9 @@ public class User extends BaseEntity {
     @Column(unique = true, nullable = false)
     private String name;
     @Column(unique = true, nullable = false)
-    private String wallet;      //TODO: chang wallet type
+    private String wallet;      // blockchain wallet file path
+    @Column(unique = true, nullable = false)
+    private String walletPassword; // key for blockchain wallet
     @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
     private Long balance;
     @Enumerated(EnumType.ORDINAL)
@@ -52,15 +55,20 @@ public class User extends BaseEntity {
 //    @OneToMany(mappedBy = "user")
 //    private List<TitleAwarded> titleAwardeds = new ArrayList<>();
 
-    public User(String email, Role role, String wallet) {
+    public User(String email, Role role) {
         this.role = role;
         this.email = email;
         this.name = email;
-        this.wallet = wallet;
+        this.walletPassword = UUID.randomUUID().toString();
         this.balance = 0L;
         this.characterId = CharacterType.MAN;
         this.titleType = TitleType.TITLE;
         this.title_id = Constants.noneTitle;
         this.numberOfCollectedPaper = 0;
     }
+
+    public void setWallet(String wallet) {
+        this.wallet = wallet;
+    }
+
 }
