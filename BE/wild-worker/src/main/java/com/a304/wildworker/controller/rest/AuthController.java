@@ -1,4 +1,4 @@
-package com.a304.wildworker.controller;
+package com.a304.wildworker.controller.rest;
 
 import java.net.URI;
 import javax.servlet.http.HttpServletRequest;

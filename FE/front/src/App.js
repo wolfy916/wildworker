@@ -152,6 +152,7 @@ function App() {
             <Route path="/map/detail" element={<DetailSubwayPage />} />
             <Route path="/pvp" element={<PvpPage />} />
             <Route path="/pvp/result" element={<PvpResultPage />} />
+            <Route path="/pvp/ready" element={<MiniGameReadyPage />} />
             <Route path="/pvp/receipt" element={<PvpReceipPage />} />
             <Route path="/pvp/minigame" element={<MiniGamePage />} />
           </Routes>
