@@ -1,11 +1,10 @@
 package com.a304.wildworker.config.service;
 
 import com.a304.wildworker.common.Constants;
-import com.a304.wildworker.domain.common.Role;
 import com.a304.wildworker.domain.sessionuser.SessionUser;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
-import com.a304.wildworker.ethereum.service.WalletProvider;
+import com.a304.wildworker.ethereum.exception.WalletCreationException;
 import java.util.Collections;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -57,20 +56,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 attributes.getNameAttributeKey());
     }
 
-    private User findOrSave(OAuth2Attribute attributes) {
-        User user = userRepository.findByEmail(attributes.getEmail())
-                .orElse(createNewUser(attributes.getEmail()));
+    private User findOrSave(OAuth2Attribute attributes) throws WalletCreationException {
+        String email = attributes.getEmail();
+        User user = userRepository.findByEmail(email)
+                .orElse(new User(email));
 
         return userRepository.save(user);
     }
 
-    private User createNewUser(String email) {
-        User user = new User(email, Role.ROLE_USER);
-        try {
-            user.setWallet(WalletProvider.createUserWallet(user.getWalletPassword()));
-        } catch (Exception e) {
-            e.printStackTrace(); // TODO: 2023-03-23 지갑이 생성되지 않았을 경우 핸들링 필요
-        }
-        return user;
-    }
 }

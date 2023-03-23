@@ -5,6 +5,8 @@ import com.a304.wildworker.domain.common.BaseEntity;
 import com.a304.wildworker.domain.common.CharacterType;
 import com.a304.wildworker.domain.common.Role;
 import com.a304.wildworker.domain.common.TitleType;
+import com.a304.wildworker.ethereum.exception.WalletCreationException;
+import com.a304.wildworker.ethereum.service.WalletProvider;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -55,20 +57,17 @@ public class User extends BaseEntity {
 //    @OneToMany(mappedBy = "user")
 //    private List<TitleAwarded> titleAwardeds = new ArrayList<>();
 
-    public User(String email, Role role) {
-        this.role = role;
+    public User(String email) throws WalletCreationException {
+        this.role = Role.ROLE_USER;
         this.email = email;
         this.name = email;
         this.walletPassword = UUID.randomUUID().toString(); // TODO: 2023-03-23 초기화 시 암호화 필요함
+        this.wallet = WalletProvider.createUserWallet(this.walletPassword);
         this.balance = 0L;
         this.characterId = CharacterType.MAN;
         this.titleType = TitleType.TITLE;
         this.title_id = Constants.noneTitle;
         this.numberOfCollectedPaper = 0;
-    }
-
-    public void setWallet(String wallet) {
-        this.wallet = wallet;
     }
 
 }

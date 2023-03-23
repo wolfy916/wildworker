@@ -1,7 +1,5 @@
 package com.a304.wildworker.config.service;
 
-import com.a304.wildworker.domain.common.Role;
-import com.a304.wildworker.domain.user.User;
 import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,10 +39,4 @@ public class OAuth2Attribute {
                 .build();
     }
 
-    public User toEntity() {
-        //TODO: create wallet
-        //
-        User user = new User(email, Role.ROLE_USER);
-        return user;
-    }
 }
