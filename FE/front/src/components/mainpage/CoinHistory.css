@@ -1,0 +1,30 @@
+.coin-history-head {
+  padding: 5% 5%;
+}
+.coin-history-balance {
+  display: flex;
+  justify-content: space-between;
+}
+.coin-history-untreated {
+  display: flex;
+  justify-content: space-between;
+}
+.coin-history-body {
+  box-sizing: border-box;
+  height: 83%;
+  border-radius: 30px;
+  overflow-y: scroll;
+  overflow-wrap: none;
+}
+.coin-history-body::-webkit-scrollbar {
+  display: none;
+}
+.coin-history-add{
+    padding: 5%;
+    margin: 5% 0%;
+    width: 86%;
+    height: 6%;
+    border-radius: 30px;
+    background-color: rgb(163, 220, 255);
+    border: solid black 4px;
+}

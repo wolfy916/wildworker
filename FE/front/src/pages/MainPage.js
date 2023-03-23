@@ -137,7 +137,7 @@ function MainPage() {
           />
         )}
         <img className="character" src={character} alt="character" />
-        <MenuBar setModalClick={setModalClick} setSelectIdx={setSelectIdx} />
+        {!pvpRouterClick && <MenuBar setModalClick={setModalClick} setSelectIdx={setSelectIdx} />}
         <div className="get-coin-btn">
           {!isEnough && <div className="get-coin-cnt">{coinCnt}</div>}
         </div>
