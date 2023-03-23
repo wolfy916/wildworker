@@ -1,4 +1,4 @@
-package com.a304.wildworker.controller;
+package com.a304.wildworker.controller.ws;
 
 import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.location.Location;

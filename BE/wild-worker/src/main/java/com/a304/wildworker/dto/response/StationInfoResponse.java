@@ -16,11 +16,11 @@ public class StationInfoResponse {
     private String name;
     private String dominator;
 
-    public static StationInfoResponse of(Station station) {
+    public static StationInfoResponse of(Station station, String dominator) {
         return StationInfoResponse.builder()
-            .id(station.getId())
-            .name(station.getName())
-//            .dominator()  //TODO. 투자 지분 테이블 생성 후 가져와야 함
-            .build();
+                .id(station.getId())
+                .name(station.getName())
+                .dominator(dominator)
+                .build();
     }
 }
