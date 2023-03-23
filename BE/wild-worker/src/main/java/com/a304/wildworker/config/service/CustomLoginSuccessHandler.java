@@ -2,11 +2,16 @@ package com.a304.wildworker.config.service;
 
 
 import com.a304.wildworker.common.Constants;
+import com.a304.wildworker.domain.activeuser.ActiveUser;
+import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
+import com.a304.wildworker.domain.sessionuser.SessionUser;
+import com.a304.wildworker.service.UserService;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
@@ -16,7 +21,11 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+
+    private final UserService userService;
+    private final ActiveUserRepository activeUserRepository;
 
     private final String clientUrl;
 
@@ -29,6 +38,14 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
             Authentication authentication) throws ServletException, IOException {
         log.info("login handler");
         HttpSession session = request.getSession();
+
+        // 접속중인 사용자에 추가
+        SessionUser user = (SessionUser) Optional.of(
+                session.getAttribute(Constants.SESSION_NAME_USER)).orElseThrow();
+        long userId = userService.getUserId(user.getEmail());
+        activeUserRepository.saveActiveUser(session.getId(), new ActiveUser(userId));
+
+        // 메인으로 리다이렉트
         response.setHeader(Constants.SET_COOKIE,
                 generateCookie(Constants.JSESSIONID, session.getId()).toString());
         String redirectUrl = clientUrl + "/main";
