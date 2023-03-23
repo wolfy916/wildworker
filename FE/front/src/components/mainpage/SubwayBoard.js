@@ -7,7 +7,7 @@ function SubwayBoard(props) {
   let getCoinClick = props.getCoinClick;
   const setGetCoinClick = props.setGetCoinClick;
   const setCoin = props.setCoin;
-
+  
   React.useEffect(() => {
     if (getCoinClick === true) {
       setCoin((prev) => prev + 100);
