@@ -23,8 +23,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    private UserService userService;
-    private ActiveUserRepository activeUserRepository;
+    private final UserService userService;
+    private final ActiveUserRepository activeUserRepository;
 
     private final String clientUrl;
 
