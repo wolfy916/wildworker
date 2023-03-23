@@ -45,11 +45,26 @@
   float: right;
   clear: both;
 }
+.detail-subject-1 {
+  font-size: large;
+  margin: 0%;
+  float: left;
+  clear: both;
+}
 .detail-subject-2 {
   font-size: small;
   margin: 0%;
   float: right;
   clear: both;
+}
+.detail-mine {
+  display: flex;
+  position: absolute;
+  justify-content: space-between;
+  align-items: center;
+  bottom:20%;
+  left: 5%;
+  width: 90%;
 }
 .detail-invest {
   position: absolute;

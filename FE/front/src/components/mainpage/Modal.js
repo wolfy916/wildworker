@@ -8,7 +8,7 @@ function Modal(props) {
   const modalWidth = props.modalWidth;
   const modalHeight = props.modalHeight;
   const setModalClick = props.setModalClick;
-  const selectContent = [NickName, Title, CoinHistory, ][props.selectModalIdx];
+  const selectContent = [NickName, Title, CoinHistory][props.selectModalIdx];
 
   function modalCloseClick() {
     setModalClick(false);
@@ -21,15 +21,12 @@ function Modal(props) {
       wrapTag.style.height = `${height}%`;
     }
     modalSet(modalWidth, modalHeight);
-
   }, [modalWidth, modalHeight]);
 
   return (
     <div className="modal-container">
       <div className="modal-bg" onClick={modalCloseClick}></div>
-      <div className="modal-wrap">
-        {selectContent(props)}
-      </div>
+      <div className="modal-wrap">{selectContent(props)}</div>
     </div>
   );
 }

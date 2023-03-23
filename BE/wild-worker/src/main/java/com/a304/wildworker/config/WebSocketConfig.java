@@ -1,4 +1,4 @@
-package com.a304.wildworker.websocket.config;
+package com.a304.wildworker.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +28,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .withSockJS();
         registry.addEndpoint("/ws")
                 .setAllowedOrigins(allowedOrigins);
+        registry.addEndpoint("/secured/ws")
+                .setAllowedOrigins(allowedOrigins);
+        registry.addEndpoint("/secured/ws")
+                .setAllowedOrigins(allowedOrigins)
+                .withSockJS();
+
     }
 
     @Override
