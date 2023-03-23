@@ -1,10 +1,9 @@
-package com.a304.wildworker.config.service;
+package com.a304.wildworker.auth;
 
 
 import com.a304.wildworker.common.Constants;
 import java.io.IOException;
 import java.util.Optional;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,7 +19,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-            Authentication authentication) throws ServletException, IOException {
+            Authentication authentication) throws IOException {
         log.info("login handler");
         String referer = request.getHeader("Referer");
         log.info("-- referer: {}", referer);

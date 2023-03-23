@@ -1,6 +1,5 @@
-package com.a304.wildworker.config.service;
+package com.a304.wildworker.auth;
 
-import com.a304.wildworker.api.KakaoAPI;
 import com.a304.wildworker.common.Constants;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

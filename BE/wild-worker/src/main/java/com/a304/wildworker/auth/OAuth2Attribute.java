@@ -1,4 +1,4 @@
-package com.a304.wildworker.config.service;
+package com.a304.wildworker.auth;
 
 import com.a304.wildworker.domain.common.Role;
 import com.a304.wildworker.domain.user.User;
@@ -13,14 +13,12 @@ public class OAuth2Attribute {
     private final Map<String, Object> attributes;
     private final String nameAttributeKey;
     private final String email;
-    private String name;
 
     @Builder
-    public OAuth2Attribute(Map<String, Object> attributes, String nameAttributeKey, String name,
+    public OAuth2Attribute(Map<String, Object> attributes, String nameAttributeKey,
             String email) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
-//        this.name = name;
         this.email = email;
     }
 
@@ -34,11 +32,10 @@ public class OAuth2Attribute {
 
     private static OAuth2Attribute ofKakao(String nameAttributeKey,
             Map<String, Object> attributes) {
+        @SuppressWarnings("unchecked")
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-//        Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
 
         return OAuth2Attribute.builder()
-//                .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAccount.get("email"))
                 .nameAttributeKey(nameAttributeKey)
                 .attributes(attributes)
@@ -47,7 +44,6 @@ public class OAuth2Attribute {
 
     public User toEntity() {
         //TODO: create wallet
-        User user = new User(email, Role.ROLE_USER, UUID.randomUUID().toString());
-        return user;
+        return new User(email, Role.ROLE_USER, UUID.randomUUID().toString());
     }
 }

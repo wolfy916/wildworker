@@ -1,4 +1,4 @@
-package com.a304.wildworker.config.service;
+package com.a304.wildworker.auth;
 
 import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.domain.sessionuser.SessionUser;

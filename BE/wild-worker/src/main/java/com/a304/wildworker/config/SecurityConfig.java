@@ -1,8 +1,8 @@
 package com.a304.wildworker.config;
 
-import com.a304.wildworker.config.service.CustomLoginSuccessHandler;
-import com.a304.wildworker.config.service.CustomLogoutHandler;
-import com.a304.wildworker.config.service.CustomOAuth2UserService;
+import com.a304.wildworker.auth.CustomLoginSuccessHandler;
+import com.a304.wildworker.auth.CustomLogoutHandler;
+import com.a304.wildworker.auth.CustomOAuth2UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

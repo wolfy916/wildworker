@@ -1,4 +1,4 @@
-package com.a304.wildworker.api;
+package com.a304.wildworker.auth;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
