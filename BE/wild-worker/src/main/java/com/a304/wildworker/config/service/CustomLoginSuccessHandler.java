@@ -7,11 +7,11 @@ import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
 import com.a304.wildworker.domain.sessionuser.SessionUser;
 import com.a304.wildworker.service.UserService;
 import java.io.IOException;
+import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
@@ -21,16 +21,18 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    private final UserService userService;
-    private final ActiveUserRepository activeUserRepository;
+    private UserService userService;
+    private ActiveUserRepository activeUserRepository;
 
     private final String clientUrl;
 
-    public CustomLoginSuccessHandler(@Value("${url.client}") String clientUrl) {
+    public CustomLoginSuccessHandler(@Value("${url.client}") String clientUrl,
+            UserService userService, ActiveUserRepository activeUserRepository) {
         this.clientUrl = clientUrl;
+        this.userService = userService;
+        this.activeUserRepository = activeUserRepository;
     }
 
     @Override
