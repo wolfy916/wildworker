@@ -6,17 +6,18 @@ function SubwayBoard(props) {
 
   let getCoinClick = props.getCoinClick;
   const setGetCoinClick = props.setGetCoinClick;
-
+  const setCoin = props.setCoin;
+  
   React.useEffect(() => {
     if (getCoinClick === true) {
-      props.setCoin((prev) => prev + 100);
+      setCoin((prev) => prev + 100);
       setGetCoinClick(false);
       setIsFlashing(true);
       setTimeout(() => {
         setIsFlashing(false);
       }, 1000);
     }
-  }, [getCoinClick, setGetCoinClick]);
+  }, [getCoinClick, setGetCoinClick, setCoin]);
 
   return (
     <div>
@@ -29,6 +30,7 @@ function SubwayBoard(props) {
         </div>
         <div className="subway-board-wrapper">
           <div className="subway-board-screen">
+            {/* <div className="subway-board-grid"></div> */}
             <div className="board-part first-part">
               <span className="board-badge">{props.badge} </span>
               <span className="board-nickname">{props.nickname}</span>
