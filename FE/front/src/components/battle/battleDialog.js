@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import "./battleDialog.css";
 // import BattleDialogTalk from "./battleDialogTalk";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import battleDialogImg from "../../asset/image/battleTalk.png";
 import battleAudio from "../../asset/audio/battleAudioBack.mp3";
 
@@ -14,12 +15,18 @@ export default function BattleDialog() {
     "...",
     "결투가 곧 시작될 것 같다!!!",
   ];
+  const navigate = useNavigate();
   const [index, setIndex] = useState(0);
   const [audioChange, setAudioChange] = useState("");
 
   function handleClick() {
     setIndex(index + 1);
   }
+  useEffect(() => {
+    if (index === 5) {
+      navigate("/pvp/ready");
+    }
+  }, [index]);
   let audio = new Audio(battleAudio);
   function audioplay() {
     audio.play().catch(e => {
@@ -28,16 +35,12 @@ export default function BattleDialog() {
     console.log("dd");
   }
 
-  useEffect(() => {
-    console.log("dd");
-  }, []);
-
   return (
     <Box className="battleDialog">
-      <img src={battleDialogImg} alt="battleDialogImg" />
+      <img onClick={handleClick} src={battleDialogImg} alt="battleDialogImg" />
       {/* <BattleDialogTalk /> */}
       {/* <p>뭐 임마</p> */}
-      <div onClick={handleClick} className="battleDialog-talk">
+      <div className="battleDialog-talk">
         <p>{sentences[index]}</p>
       </div>
 
