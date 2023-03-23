@@ -69,7 +69,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         try {
             user.setWallet(WalletProvider.createUserWallet(user.getWalletPassword()));
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO: 2023-03-23 지갑이 생성되지 않았을 경우 핸들링 필요
         }
         return user;
     }
