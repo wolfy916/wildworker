@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import "./MiniGameReadyPage.css";
 
 function MainPage() {
-  const [timeLeft, setTimeLeft] = useState(2);
+  const [timeLeft, setTimeLeft] = useState(10);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,26 +21,24 @@ function MainPage() {
     }
   }, [timeLeft, navigate]);
   return (
-    <Box className="Pvp-Result" sx={{ position: "relative" }}>
-      <div className="minigame-ready">
-        <div className="minigame-ready-header">
-          <p>회식비 정산하기!!!</p>
-        </div>
-        <div className="minigame-ready-main-text">
-          <p>어제 과음한 탓에...</p>
-          <p>내 카드로 회식비를 긁었다...</p>
-          <p>정신차리고 회식비를 정산해보자!</p>
-        </div>
-
-        <div>
-          <p className="minigame-ready-timer">{timeLeft}</p>
-        </div>
-        <div className="minigame-ready-timer-text">
-          <p>초 후 시작...</p>
-        </div>
-        <div className="minigame-ready-gif"></div>
+    <div className="minigame-ready">
+      <div className="minigame-ready-header">
+        <p>회식비 정산하기!!!</p>
       </div>
-    </Box>
+      <div className="minigame-ready-main-text">
+        <p>어제 과음한 탓에...</p>
+        <p>내 카드로 회식비를 긁었다...</p>
+        <p>정신차리고 회식비를 정산해보자!</p>
+      </div>
+
+      <div>
+        <p className="minigame-ready-timer">{timeLeft}</p>
+      </div>
+      <div className="minigame-ready-timer-text">
+        <p>초 후 시작...</p>
+      </div>
+      <div className="minigame-ready-gif"></div>
+    </div>
   );
 }
 
