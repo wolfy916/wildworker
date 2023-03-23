@@ -13,18 +13,18 @@ public class ActiveUserRepository {
     }
 
     /* 접속 중인 사용자 추가 or 수정 */
-    public void saveActiveUser(String sessionId, ActiveUser activeUser) {
-        activeUserMap.put(sessionId, activeUser);
+    public void saveActiveUser(String httpSessionId, ActiveUser activeUser) {
+        activeUserMap.put(httpSessionId, activeUser);
     }
 
     /* 접속 중인 사용자 삭제 */
-    public ActiveUser removeActiveUser(String sessionId) {
-        return activeUserMap.remove(sessionId);
+    public ActiveUser removeActiveUser(String httpSessionId) {
+        return activeUserMap.remove(httpSessionId);
     }
 
-    /* sessionId로 접속 중인 사용자 정보 반환 */
-    public ActiveUser getActiveUser(String sessionId) {
-        return activeUserMap.get(sessionId);
+    /* httpSessionId로 접속 중인 사용자 정보 반환 */
+    public ActiveUser getActiveUser(String httpSessionId) {
+        return activeUserMap.get(httpSessionId);
     }
 
 }
