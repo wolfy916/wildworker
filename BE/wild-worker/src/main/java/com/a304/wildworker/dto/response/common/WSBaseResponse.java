@@ -27,7 +27,7 @@ public class WSBaseResponse<T> {
         return WSBaseResponse.exception(e.getStatus(), e.getMessage());
     }
 
-    public static BodyBuilder staton(StationType subType) {
+    public static BodyBuilder station(StationType subType) {
         return new Builder(Type.STATION, subType);
     }
 
