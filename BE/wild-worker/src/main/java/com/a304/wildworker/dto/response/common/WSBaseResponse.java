@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 public class WSBaseResponse<T> {
 
     protected final Type type;
-    protected final SubType operation;
+    protected final SubType subType;
     protected final T data;
 
     public static WSBaseResponse<?> exception(HttpStatus status, String message) {
