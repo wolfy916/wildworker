@@ -17,7 +17,7 @@ import org.web3j.crypto.WalletUtils;
 @Component
 public class Bank {
 
-    private final Won won;
+    private final WonContract wonContract;
     private static final long AMOUNT_MANUAL_MINE = 100L;
 
     /**
@@ -29,7 +29,7 @@ public class Bank {
      */
     public void manualMine(User user) throws CipherException, IOException {
         String to = getUserWalletAddress(user);
-        won.manualMine(to, AMOUNT_MANUAL_MINE);
+        wonContract.manualMine(to, AMOUNT_MANUAL_MINE);
     }
 
     /**
@@ -42,7 +42,7 @@ public class Bank {
      */
     public Long balanceOf(User user) throws CipherException, IOException {
         String userWalletAddress = getUserWalletAddress(user);
-        return won.balanceOf(userWalletAddress).longValue();
+        return wonContract.balanceOf(userWalletAddress).longValue();
     }
 
     private String getUserWalletAddress(User user)
