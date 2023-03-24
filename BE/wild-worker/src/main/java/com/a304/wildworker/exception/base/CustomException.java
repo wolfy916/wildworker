@@ -1,4 +1,4 @@
-package com.a304.wildworker.exception.custom_exception;
+package com.a304.wildworker.exception.base;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

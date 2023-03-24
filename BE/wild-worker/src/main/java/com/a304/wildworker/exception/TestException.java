@@ -1,6 +1,6 @@
 package com.a304.wildworker.exception;
 
-import com.a304.wildworker.exception.custom_exception.BadRequestException;
+import com.a304.wildworker.exception.base.BadRequestException;
 
 public class TestException extends BadRequestException {
 
