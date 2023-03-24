@@ -1,21 +1,3 @@
-.map-timer {
-  position: absolute;
-  border-radius: 10%;
-  border: solid black 2px;
-  background-color: rgb(255, 255, 255);
-  z-index: 1;
-  top:3%;
-  left:5%;
-  align-items: center;
-}
-.map-timer-content {
-  text-align: center;
-  margin: 0;
-  padding: 1vw;
-}
-.map-timer-img {
-  width: 12%;
-}
 .map-station-color {
   position: absolute;
   border-radius: 10%;
@@ -28,11 +10,15 @@
 }
 .map-station-color-content {
   text-align: center;
+  width:33vw;
   margin: 0;
   padding: 1vw;
 }
 .map-station-color-img {
-  width: 12%;
+  width: 16%;
+}
+.map-station-color-img2 {
+  width: 16%;
 }
 .map-router-main-btn {
   box-sizing: border-box;

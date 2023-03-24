@@ -16,6 +16,7 @@
   display: flex;
   justify-content:center;
   padding: 3vw;
+  box-shadow: 3px 3px 3px 3px gray;
 }
 .my-subtitle {
   display: flex;
@@ -25,7 +26,6 @@
   padding-bottom: 2vw;
   padding-left: 6vw;
   padding-right: 6vw;
-  border-top: solid black 1px;
   border-bottom: solid black 1px;
 }
 .my-content {

@@ -10,9 +10,11 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = {
-        @UniqueConstraint(name = "UK_title_awarded_user_id_title_id", columnNames = {"user_id",
-                "title_id"})})
+@Table(name = "title_awarded",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "UK_title_awarded_user_id_title_id", columnNames = {
+                        "user_id",
+                        "title_id"})})
 public class TitleAwarded extends BaseEntity {
 
     @JoinColumn(nullable = false)
