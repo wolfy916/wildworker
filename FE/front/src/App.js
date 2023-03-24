@@ -1,25 +1,23 @@
-import React from "react"
+import React from "react";
 // import { useEffect, useState } from "react"
 // import axios from "axios"
-// import { useState, useEffect } from "react";
-// import Stomp from "stompjs";
-// import SockJS from "sockjs-client";
-import { Routes, Route } from "react-router-dom"
-import LoginPage from "./pages/LoginPage"
-import MainPage from "./pages/MainPage"
-import SubwayMapPage from "./pages/SubwayMapPage"
-import PvpPage from "./pages/PvpPage"
-import PvpResultPage from "./pages/ResultPage"
-import PvpReceipPage from "./pages/ReceiptPage"
-import MySubwayPage from "./pages/MySubwayPage"
-import HotSubwayPage from "./pages/HotSubwayPage"
-import DetailSubwayPage from "./pages/DetailSubwayPage"
-import MiniGamePage from "./pages/MiniGamePage"
-import MiniGameReadyPage from "./pages/MiniGameReadyPage"
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import RedirectLogin from "./pages/RedirectLoginPage";
+import MainPage from "./pages/MainPage";
+import SubwayMapPage from "./pages/SubwayMapPage";
+import PvpPage from "./pages/PvpPage";
+import PvpResultPage from "./pages/ResultPage";
+import PvpReceipPage from "./pages/ReceiptPage";
+import MySubwayPage from "./pages/MySubwayPage";
+import HotSubwayPage from "./pages/HotSubwayPage";
+import DetailSubwayPage from "./pages/DetailSubwayPage";
+import MiniGamePage from "./pages/MiniGamePage";
+import MiniGameReadyPage from "./pages/MiniGameReadyPage";
 
-import Box from "@mui/material/Box"
-import Container from "@mui/material/Container"
-import "./App.css"
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import "./App.css";
 
 function App() {
   // 실시간 위치 전송 코드
@@ -64,7 +62,7 @@ function App() {
   // 웹에서 개발할 때, 얘 꼭 주석처리 해라
 
   const elem = document.documentElement;
-  document.addEventListener('click', function() {
+  document.addEventListener("click", function () {
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
     }
@@ -148,6 +146,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="/main" element={<MainPage />} />
+            <Route path="/redirect/login" element={<RedirectLogin />} />
             <Route path="/map" element={<SubwayMapPage />} />
             <Route path="/map/mine" element={<MySubwayPage />} />
             <Route path="/map/hot" element={<HotSubwayPage />} />
@@ -161,6 +160,6 @@ function App() {
         </Box>
       </Container>
     </div>
-  )
+  );
 }
-export default App
+export default App;

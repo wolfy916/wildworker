@@ -1,0 +1,7 @@
+.battle-char-winner {
+  position: relative;
+  top: -68%;
+  left: 15%;
+  transform: scale(0.3) scaleX(-1);
+  /* border: 1px black solid; */
+}

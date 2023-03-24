@@ -1,0 +1,15 @@
+.redirect-login-background {
+  height: 100%;
+  background-image: url("../asset/image/screenDoor.gif");
+  background-size: 100% 100%;
+}
+
+.redirect-black-background {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  z-index: 1004;
+}
