@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,9 +21,9 @@ import org.web3j.utils.Numeric;
  */
 @Slf4j
 @Component
-public class Won {
+public class WonContract {
 
-    public Won(@Value("${web3.contract.won.address}") String address,
+    public WonContract(@Value("${web3.contract.won.address}") String address,
             TransactionSendHelper transactionSendHelper) {
         this.address = address;
         this.transactionSendHelper = transactionSendHelper;
@@ -49,8 +50,8 @@ public class Won {
      */
     public BigInteger balanceOf(String userAddress) throws IOException {
         Function function = new Function("balanceOf",
-                Arrays.asList(new Address(userAddress)),
-                Arrays.asList(new TypeReference<Uint256>() {
+                List.of(new Address(userAddress)),
+                List.of(new TypeReference<Uint256>() {
                 }));
 
         String callResult = transactionSendHelper.sendCall(this.address, function);
