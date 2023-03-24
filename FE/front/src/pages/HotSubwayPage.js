@@ -6,10 +6,12 @@ import "./HotSubwayPage.css"
 import goMap from "../asset/image/goMap.png"
 import myMap from "../asset/image/myMap.png"
 import hotMap from "../asset/image/hotMap.png"
+import Modal from "../components/mainpage/Modal"
 
 function HotSubwayPage() {
   const [data, setData] = useState([])
   const [hotSubway, setHotSubway] = useState([])
+  const [modalClick, setModalClick] = useState(false)
 
   useEffect(() => {
     axios
@@ -17,14 +19,25 @@ function HotSubwayPage() {
       .then((response) => {
         setData(response.data)
         const hotSubwayData = data.ranking.map((item) => (
-          <div className="hot-content">
+          <div
+            className="hot-content"
+            onClick={() => {
+              setModalClick(true)
+            }}
+          >
             <div>
               <p className="hot-subject">{item.station.name}</p>
             </div>
             <div>
-              <p className="hot-subject">{item.station.totalInvestment.toLocaleString("ko-KR")}원</p>
-              <p className="hot-subject">{item.station.currentCommission.toLocaleString("ko-KR")}원</p>
-              <p className="hot-subject-2">({item.station.prevCommission.toLocaleString("ko-KR")}원)</p>
+              <p className="hot-subject">
+                {item.station.totalInvestment.toLocaleString("ko-KR")}원
+              </p>
+              <p className="hot-subject">
+                {item.station.currentCommission.toLocaleString("ko-KR")}원
+              </p>
+              <p className="hot-subject-2">
+                ({item.station.prevCommission.toLocaleString("ko-KR")}원)
+              </p>
             </div>
           </div>
         ))
@@ -51,7 +64,12 @@ function HotSubwayPage() {
             <p className="hot-subject-2">(10분간 누적 수수료 총액)</p>
           </div>
         </div>
-        <div className="hot-content">
+        <div
+          className="hot-content"
+          onClick={() => {
+            setModalClick(true)
+          }}
+        >
           <div>
             <p className="hot-subject">강남역</p>
           </div>
@@ -61,7 +79,12 @@ function HotSubwayPage() {
             <p className="hot-subject-2">(214,200원)</p>
           </div>
         </div>
-        <div className="hot-content">
+        <div
+          className="hot-content"
+          onClick={() => {
+            setModalClick(true)
+          }}
+        >
           <div>
             <p className="hot-subject">왕십리역</p>
           </div>
@@ -71,7 +94,12 @@ function HotSubwayPage() {
             <p className="hot-subject-2">(142,200원)</p>
           </div>
         </div>
-        <div className="hot-content">
+        <div
+          className="hot-content"
+          onClick={() => {
+            setModalClick(true)
+          }}
+        >
           <div>
             <p className="hot-subject">신림역</p>
           </div>
@@ -93,6 +121,14 @@ function HotSubwayPage() {
       <Link className="hot-router-hot-btn" to="/map/hot">
         <img src={hotMap} alt="hotMap" />
       </Link>
+      {modalClick && (
+        <Modal
+          modalWidth={85}
+          modalHeight={75}
+          selectModalIdx={3}
+          setModalClick={setModalClick}
+        />
+      )}
     </div>
   )
 }
