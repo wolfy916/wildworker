@@ -2,7 +2,7 @@ package com.a304.wildworker.dto.response.common;
 
 
 import com.a304.wildworker.dto.response.MessageDto;
-import com.a304.wildworker.exception.custom_exception.CustomException;
+import com.a304.wildworker.exception.base.CustomException;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -2,7 +2,7 @@ package com.a304.wildworker.exception.handler;
 
 import com.a304.wildworker.common.WebSocketUtils;
 import com.a304.wildworker.dto.response.common.WSBaseResponse;
-import com.a304.wildworker.exception.custom_exception.CustomException;
+import com.a304.wildworker.exception.base.CustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
