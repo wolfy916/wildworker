@@ -1,0 +1,50 @@
+.coin-history-item {
+  padding: 5%;
+  margin: 5% 0%;
+  width: 87%;
+  height: 6%;
+  border-radius: 30px;
+  background-color: white;
+  border: solid black 4px;
+  overflow-y: hidden;
+}
+.coin-history-item-close {
+  width: 15%;
+  font-family: "galmuri9";
+  z-index: 1004;
+}
+.coin-history-item-wrapper {
+  display: flex;
+  justify-content: space-between;
+  top: 0%;
+  width: 100%;
+}
+
+.coin-history-item-title {
+  display: flex;
+  width: 86%;
+  justify-content: space-between;
+}
+
+.coin-history-item-body {
+  position: relative;
+  top: 0%;
+  padding-top: 5%;
+  width: 100%;
+}
+@keyframes coinHistoryItemAppear {
+  from {
+    height: 6%;
+  }
+  to {
+    height: 27%;
+  }
+}
+@keyframes coinHistoryItemDisappear {
+  from {
+    height: 27%;
+  }
+  to {
+    height: 6%;
+  }
+}
