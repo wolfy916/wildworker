@@ -8,40 +8,31 @@ import myMap from "../asset/image/myMap.png"
 import hotMap from "../asset/image/hotMap.png"
 
 function MySubwayPage() {
-  // const [data, setData] = useState([]);
-  // const holderTag = document.getElementsByClassName("my-holder")[0]
+  const [data, setData] = useState([])
+  const [mySubway, setMySubway] = useState([])
 
-  // useEffect(() => {
-  //   axios.get('/api/data')
-  //     .then(response => {
-  //       setData(response.data);
-  //       for (let i=1; i <= data.investments.length; i++) {
-  //         const divContentTag = document.createElement("div")
-  //         divContentTag.classList.add("my-content")
-  //         const div1Tag = document.createElement("div")
-  //         const div2Tag = document.createElement("div")
-  //         const p1_1Tag = document.createElement("p")
-  //         p1_1Tag.classList.add("my-subject")
-  //         const p1_2Tag = document.createElement("p")
-  //         p1_2Tag.classList.add("my-subject")
-  //         const p2Tag = document.createElement("p")
-  //         p2Tag.classList.add("my-subject-2")
-
-  //         p1_1Tag.innerHTML = data.investments[i-1].station.name
-  //         div1Tag.appendChild(p1_1Tag)
-  //         p1_2Tag.innerHTML = data.investments[i-1].investment.toLocaleString("ko-KR") + "원"
-  //         p2Tag.innerHTML =  "(" +data.investments[i-1].percent +"%)"
-  //         div2Tag.appendChild(p1_2Tag)
-  //         div2Tag.appendChild(p2Tag)
-  //         divContentTag.appendChild(div1Tag)
-  //         divContentTag.appendChild(div2Tag)
-  //         holderTag.appendChild(divContentTag)
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get("/api/data")
+      .then((response) => {
+        setData(response.data)
+        const mySubwayData = data.investments.map((item) => (
+          <div className="my-content">
+            <div>
+              <p className="my-subject">{item.station.name}</p>
+            </div>
+            <div>
+              <p className="my-subject">{item.investment}</p>
+              <p className="my-subject-2">({item.percent}%)</p>
+            </div>
+          </div>
+        ))
+        setMySubway(mySubwayData)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
 
   return (
     <div className="my-background">
@@ -85,6 +76,7 @@ function MySubwayPage() {
             <p className="my-subject-2">(5%)</p>
           </div>
         </div>
+        {mySubway}
       </div>
       <Link className="my-router-my-btn" to="/map/mine">
         <img src={myMap} alt="myMap" />
