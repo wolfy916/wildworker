@@ -16,13 +16,17 @@ public class MiningService {
 
     private final Bank bank;
     private final UserRepository userRepository;
+    private static final int SELL_UNIT = 100; // 종이 판매 단위
 
     public void sellPaper(Long userId) throws CipherException, IOException {
         User user = userRepository.findById(userId)
-                .orElseThrow(RuntimeException::new);// TODO: 2023-03-24 exception 정의 필요
-        if (user.getNumberOfCollectedPaper() < 100) {
-            throw new RuntimeException(); // TODO: 2023-03-24 exception 정의 필요
+                .orElseThrow(() -> new RuntimeException(
+                        "존재하지 않는 사용자입니다."));// TODO: 2023-03-24 exception 정의 필요
+
+        if (user.getNumberOfCollectedPaper() < SELL_UNIT) {
+            throw new RuntimeException("서류가 너무 적습니다."); // TODO: 2023-03-24 exception 정의 필요
         }
+        
         user.sellPaper();
         bank.manualMine(user);
     }
