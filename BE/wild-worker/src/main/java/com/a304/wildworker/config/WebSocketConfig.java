@@ -27,15 +27,15 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
     public void configureStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
                 .addInterceptors(interceptor)
-                .setAllowedOrigins(allowedOrigins)
-                .withSockJS();
+                .setAllowedOriginPatterns(allowedOrigins);
         registry.addEndpoint("/ws")
                 .addInterceptors(interceptor)
-                .setAllowedOrigins(allowedOrigins);
+                .setAllowedOriginPatterns(allowedOrigins)
+                .withSockJS();
         registry.addEndpoint("/secured/ws")
-                .setAllowedOrigins(allowedOrigins);
+                .setAllowedOriginPatterns(allowedOrigins);
         registry.addEndpoint("/secured/ws")
-                .setAllowedOrigins(allowedOrigins)
+                .setAllowedOriginPatterns(allowedOrigins)
                 .withSockJS();
 
     }
