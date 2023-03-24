@@ -85,7 +85,7 @@
   color: #86f55f;
   height: 33%;
 }
-.first-part {
+/* .first-part {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -96,6 +96,26 @@
   justify-content: center;
   align-items: center;
   font-size: 125%;
+} */
+.board-first-part {
+  color: #86f55f;
+  box-sizing: border-box;
+  height: 50%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 150%;
+  font-family: "galmuri9";
+}
+.board-second-part {
+  color: #86f55f;
+  box-sizing: border-box;
+  height: 50%;
+  font-size:150%;
+  font-family: "galmuri9";
+  animation: slide 10s linear infinite;
+  animation-play-state: running;
+  white-space: nowrap;
 }
 .third-part {
   box-sizing: border-box;
@@ -123,14 +143,14 @@
 
 .board-badge {
   font-family: "galmuri9";
-  color: #ff0000;
+  color: #ffe600;
   animation: flicker-badge 1.5s linear infinite alternate;
   animation-play-state: running;
 }
 
 .board-nickname {
   font-family: "galmuri9";
-  color: #ffe600;
+  /* color: #ffe600; */
   animation: flicker-nickname 1.5s linear infinite alternate;
   animation-play-state: running;
 }
@@ -143,7 +163,8 @@
   53%,
   57%,
   100% {
-    text-shadow: 0 0 4px #ff0000, 0 0 11px #ff0000, 0 0 19px #ff0000, 0 0 40px #ff0000;
+    text-shadow: 0 0 4px #ffe600, 0 0 11px #ffe600, 0 0 19px #ffe600,
+      0 0 40px #ffe600;
     /* 0 0 80px #ff0000, 0 0 90px #ff0000, 0 0 100px #ff0000, 0 0 150px #ff0000; */
   }
   20%,
@@ -161,7 +182,8 @@
   53%,
   57%,
   100% {
-    text-shadow: 0 0 4px #ffe600, 0 0 11px #ffe600, 0 0 19px #ffe600, 0 0 40px #ffe600;
+    text-shadow: 0 0 4px #86f55f, 0 0 11px #86f55f, 0 0 19px #86f55f,
+      0 0 40px #86f55f;
     /* 0 0 80px #ffe600, 0 0 90px #ffe600, 0 0 100px #ffe600, 0 0 150px #ffe600; */
   }
   20%,
@@ -172,14 +194,14 @@
 }
 
 @keyframes smoothAppear {
-  0%, 50% {
+  0%,
+  50% {
     transform: translateY(-200%);
   }
   100% {
     transform: translateY(0);
   }
 }
-
 
 .flash {
   animation: flash 1s infinite;
@@ -200,22 +222,19 @@
   }
 }
 
-
-
 .board-modal-wrap {
-  display:none;
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:500px;
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
   padding: 50px;
-  height:400px;
-  z-index:1500;
+  height: 400px;
+  z-index: 1500;
   color: #eeeb31;
   font-size: 4rem;
   font-weight: 1000;
   font-family: "galmuri9";
   -webkit-text-stroke: 0.5px rgb(0, 0, 0);
 }
-

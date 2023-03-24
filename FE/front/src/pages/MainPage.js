@@ -136,7 +136,12 @@ function MainPage() {
             alt="Loading Effect"
           />
         )}
-        <img className="character" src={character} alt="character" />
+        <div className="character-nickname-title">
+          <img className="character" src={character} alt="character" />
+          {/* width={`${18*5}`} height={`${27*5}`} */}
+          <div className="character-nickname">{nickname}</div>
+          <div className="character-title">{badge}</div>
+        </div>
         {!pvpRouterClick && <MenuBar setModalClick={setModalClick} setSelectIdx={setSelectIdx} />}
         <div className="get-coin-btn">
           {!isEnough && <div className="get-coin-cnt">{coinCnt}</div>}

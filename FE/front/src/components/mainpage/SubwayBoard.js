@@ -7,7 +7,7 @@ function SubwayBoard(props) {
   let getCoinClick = props.getCoinClick;
   const setGetCoinClick = props.setGetCoinClick;
   const setCoin = props.setCoin;
-  
+
   React.useEffect(() => {
     if (getCoinClick === true) {
       setCoin((prev) => prev + 100);
@@ -31,7 +31,7 @@ function SubwayBoard(props) {
         <div className="subway-board-wrapper">
           <div className="subway-board-screen">
             {/* <div className="subway-board-grid"></div> */}
-            <div className="board-part first-part">
+            {/* <div className="board-part first-part">
               <span className="board-badge">{props.badge} </span>
               <span className="board-nickname">{props.nickname}</span>
             </div>
@@ -41,6 +41,22 @@ function SubwayBoard(props) {
               </span>
             </div>
             <div className="board-part third-part">
+              이번 역은
+              <span className="current-station"> {props.station} </span>
+              입니다.
+              <span className="current-station">
+                {" "}
+                {props.station}의 지배자{" "}
+              </span>
+              는<span className="current-station"> {props.dominator} </span>
+              입니다.
+            </div> */}
+            <div className="board-first-part">
+              <span className={`board-coin ${isFlashing ? "flash" : ""}`}>
+                남은 잔액 : {props.coin.toLocaleString("ko-KR")} 원
+              </span>
+            </div>
+            <div className="board-second-part">
               이번 역은
               <span className="current-station"> {props.station} </span>
               입니다.

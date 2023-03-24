@@ -25,14 +25,26 @@
   }
 }
 
+.character-nickname-title{
+  width:32%;
+  height:22%;
+  position: absolute;
+  left: 5%;
+  top: 63%;
+  z-index: 1002;
+  object-fit: cover;
+}
 .character {
-  transform: scale(0.5);
-  position: relative;
-  left: -25%;
-  top: 53%;
+  width: 70%;
+  height: 72%;
   z-index: 1002;
 }
+.character-nickname{
+  
+}
+.character-title{
 
+}
 .main-router-map-btn {
   box-sizing: border-box;
   position: absolute;
