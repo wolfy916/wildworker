@@ -3,6 +3,7 @@ import React from "react";
 // import axios from "axios"
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
+import RedirectLogin from "./pages/RedirectLoginPage";
 import MainPage from "./pages/MainPage";
 import SubwayMapPage from "./pages/SubwayMapPage";
 import PvpPage from "./pages/PvpPage";
@@ -62,6 +63,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="/main" element={<MainPage />} />
+            <Route path="/redirect/login" element={<RedirectLogin />} />
             <Route path="/map" element={<SubwayMapPage />} />
             <Route path="/map/mine" element={<MySubwayPage />} />
             <Route path="/map/hot" element={<HotSubwayPage />} />

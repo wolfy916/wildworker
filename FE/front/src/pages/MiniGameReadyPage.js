@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import "./MiniGameReadyPage.css";
 
 function MainPage() {
-  const [timeLeft, setTimeLeft] = useState(10);
+  const [timeLeft, setTimeLeft] = useState(100);
   const navigate = useNavigate();
 
   useEffect(() => {

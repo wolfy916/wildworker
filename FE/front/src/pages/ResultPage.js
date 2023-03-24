@@ -1,8 +1,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import BattleCharater from "../components/battle/battlecharacter";
+import BattleCharLoser from "../components/battle/battleCharLoser";
 import battleDialogImg from "../asset/image/battleTalk.png";
 import { useNavigate } from "react-router-dom";
+import BattleCharWinner from "../components/battle/battleCharWinner";
 import "./ResultPage.css";
 
 function MainPage() {
@@ -19,7 +21,7 @@ function MainPage() {
           신도림의 지배자 <br /> 권태형
         </p>
         <div className="battle-result-char">
-          <BattleCharater />
+          <BattleCharWinner />
         </div>
         <p className="battle-result-p2">승리</p>
         <p className="battle-result-p3">맞춘 개수: 12개</p>
@@ -31,7 +33,7 @@ function MainPage() {
           <br /> 권태형
         </p>
         <div className="battle-result2-char">
-          <BattleCharater />
+          <BattleCharLoser />
         </div>
         <p className="battle-result2-p2">패배</p>
         <p className="battle-result2-p3">맞춘 개수: 10개</p>
