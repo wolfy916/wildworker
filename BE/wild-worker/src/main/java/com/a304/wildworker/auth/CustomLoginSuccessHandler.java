@@ -1,4 +1,4 @@
-package com.a304.wildworker.config.service;
+package com.a304.wildworker.auth;
 
 
 import com.a304.wildworker.common.Constants;
@@ -8,7 +8,6 @@ import com.a304.wildworker.domain.sessionuser.SessionUser;
 import com.a304.wildworker.service.UserService;
 import java.io.IOException;
 import java.util.Optional;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -37,7 +36,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-            Authentication authentication) throws ServletException, IOException {
+            Authentication authentication) throws IOException {
         log.info("login handler");
         HttpSession session = request.getSession();
 
@@ -49,7 +48,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
         // 메인으로 리다이렉트
         response.setHeader(Constants.SET_COOKIE,
-                generateCookie(Constants.JSESSIONID, session.getId()).toString());
+                generateCookie(Constants.KEY_SESSION_ID, session.getId()).toString());
         String redirectUrl = clientUrl + "/main";
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
     }

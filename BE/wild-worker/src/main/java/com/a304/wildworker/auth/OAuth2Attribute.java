@@ -1,4 +1,4 @@
-package com.a304.wildworker.config.service;
+package com.a304.wildworker.auth;
 
 import java.util.Map;
 import lombok.Builder;
@@ -12,7 +12,8 @@ public class OAuth2Attribute {
     private final String email;
 
     @Builder
-    public OAuth2Attribute(Map<String, Object> attributes, String nameAttributeKey, String email) {
+    public OAuth2Attribute(Map<String, Object> attributes, String nameAttributeKey,
+            String email) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.email = email;
@@ -28,11 +29,10 @@ public class OAuth2Attribute {
 
     private static OAuth2Attribute ofKakao(String nameAttributeKey,
             Map<String, Object> attributes) {
+        @SuppressWarnings("unchecked")
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-//        Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
 
         return OAuth2Attribute.builder()
-//                .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAccount.get("email"))
                 .nameAttributeKey(nameAttributeKey)
                 .attributes(attributes)
