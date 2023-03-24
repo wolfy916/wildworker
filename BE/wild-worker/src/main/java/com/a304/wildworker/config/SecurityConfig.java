@@ -84,7 +84,8 @@ public class SecurityConfig<S extends Session> {
 
         http
                 .sessionManagement((sessionManagement) -> sessionManagement
-                        .maximumSessions(2)
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(false)    //true: 동시 로그인 차단, false: 기존 세션 만료
                         .sessionRegistry(sessionRegistry()));
 
         return http.build();
