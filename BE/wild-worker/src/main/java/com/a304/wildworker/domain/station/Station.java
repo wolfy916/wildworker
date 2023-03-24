@@ -22,4 +22,8 @@ public class Station extends BaseEntity {
     private Long balance;
     @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
     private Long commission;
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }
