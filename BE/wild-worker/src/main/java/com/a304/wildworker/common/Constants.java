@@ -11,4 +11,8 @@ public final class Constants {
     // See Also: Section 4.2.2 of RFC 2109
     public static final String SET_COOKIE = "Set-Cookie";
     public static final String KEY_SESSION_ID = "SESSION";
+
+    public static final int INTERVAL = 10;  //스케줄러 동작 주기 (minute)
+
+    public static final int STATION_RANGE = 250; //역 범위(반지름) (meter)
 }
