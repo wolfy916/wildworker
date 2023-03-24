@@ -2,7 +2,9 @@ package com.a304.wildworker.domain.location;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import lombok.Getter;
 
+@Getter
 @Embeddable
 public class Location {
 
