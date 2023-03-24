@@ -69,33 +69,34 @@ function CoinHistory(props) {
       },
     ],
     size: 10,
-    totalPage: 10,
+    totalPage: 3,
     currentPage: 1,
   };
 
   const [data, setData] = React.useState(DATA);
+  const [currentPage, setCurrentPage] = React.useState(1);
 
   const coinLogTags = data.list.map((item, idx) => {
-    return (
-      <CoinHistoryItem item={item} key={idx} idx={idx} />
-    );
+    return <CoinHistoryItem item={item} key={idx} idx={idx} />;
   });
 
-  function addBtnClickHandler() {
-    // DATA를 axios로 갱신하고 ~
-    console.log({...DATA});
-    console.log(Object.assign({list: [{
-      station: {
-        id: 1,
-        name: "지옥",
-      },
-      type: "investment",
-      value: -150,
-      applied: true,
-      time: "2023-03-14 14:20",  
-    }]}, {list: DATA.list}));
-    // setData(prev => );
-  };
+  function requestPageAxios(curPage) {
+    // 이 함수는 useEffect로 렌더링시에 한 번 호출되어야하고,
+    // 이전, 다음 페이지 버튼 클릭시 호출되어야함
+
+    // currentPage 값을 인자로 Axios를 호출하고
+    // setData로 데이터 상태관리를 진행
+  }
+
+  async function leftClickHandler() {
+    await setCurrentPage((prev) => prev - 1);
+    requestPageAxios(currentPage);
+  }
+
+  async function rightClickHandler() {
+    await setCurrentPage((prev) => prev + 1);
+    requestPageAxios(currentPage);
+  }
 
   return (
     <div className="modal-component">
@@ -117,7 +118,24 @@ function CoinHistory(props) {
         </div>
         <div className="coin-history-body">
           {coinLogTags}
-          <div className="coin-history-add" onClick={addBtnClickHandler}>더 보기</div>
+          <div className="coin-history-page-move">
+            {currentPage !== 1 && (
+              <div
+                className="coin-history-page-left"
+                onClick={leftClickHandler}
+              >
+                {"<- 이전"}
+              </div>
+            )}
+            {currentPage !== data.totalPage && (
+              <div
+                className="coin-history-page-right"
+                onClick={rightClickHandler}
+              >
+                {"다음 ->"}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 .coin-history-item {
   padding: 5%;
   margin: 5% 0%;
-  width: 86%;
+  width: 87%;
   height: 6%;
   border-radius: 30px;
   background-color: white;
@@ -20,10 +20,10 @@
   width: 100%;
 }
 
-.coin-history-item-title{
-    display: flex;
-    width: 86%;
-    justify-content: space-between;
+.coin-history-item-title {
+  display: flex;
+  width: 86%;
+  justify-content: space-between;
 }
 
 .coin-history-item-body {
