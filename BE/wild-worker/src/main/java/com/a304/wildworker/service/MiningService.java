@@ -12,6 +12,7 @@ import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.web3j.crypto.CipherException;
 
 @Slf4j
@@ -25,6 +26,7 @@ public class MiningService {
 
     private static final int SELL_LIMIT = 100; // 종이 판매 단위
 
+    @Transactional
     public void sellPaper(Long userId) throws CipherException, IOException {
         User user = getOrElseThrow(userId);
 

@@ -4,6 +4,7 @@ import com.a304.wildworker.common.WebSocketUtils;
 import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.location.Location;
 import com.a304.wildworker.dto.response.StationWithUserResponse;
+import com.a304.wildworker.dto.response.common.MiningType;
 import com.a304.wildworker.dto.response.common.StationType;
 import com.a304.wildworker.dto.response.common.WSBaseResponse;
 import com.a304.wildworker.service.SystemService;
@@ -39,5 +40,19 @@ public class SystemController {
             messagingTemplate.convertAndSendToUser(sessionId, "/queue", response,
                     WebSocketUtils.createHeaders(sessionId));
         }
+    }
+
+    /* 수동 채굴 - 종이 줍기 */
+    @MessageMapping("/mining/collect")
+    public void collectPaper(@Header("simpSessionId") String sessionId,
+            @Header("simpUser") ActiveUser user) {
+        int paperCount = systemService.collectPaper(user);
+
+        // 현재까지 모은 종이개수 SEND
+        WSBaseResponse<Integer> response = WSBaseResponse.mining(MiningType.PAPER_COUNT)
+                .data(paperCount);
+
+        messagingTemplate.convertAndSendToUser(sessionId, "/queue", response,
+                WebSocketUtils.createHeaders(sessionId));
     }
 }
