@@ -16,6 +16,7 @@
   display: flex;
   justify-content: center;
   padding: 3vw;
+  box-shadow: 3px 3px 3px 3px gray;
 }
 .detail-subtitle {
   display: flex;
@@ -67,9 +68,13 @@
   width: 90%;
 }
 .detail-invest {
-  position: absolute;
-  bottom: 20%;
-  left: 40%;
+  font-size: 1.6rem;
+  margin: 0%;
+  float: right;
+  clear: both;
+  background-color: #f3d9d9;
+  border: solid 3px black;
+  border-radius: 30px;
 }
 .detail-router-map-btn {
   box-sizing: border-box;

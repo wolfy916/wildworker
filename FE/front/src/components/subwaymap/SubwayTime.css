@@ -1,0 +1,18 @@
+.map-timer {
+    position: absolute;
+    border-radius: 10%;
+    border: solid black 2px;
+    background-color: rgb(255, 255, 255);
+    z-index: 1;
+    top:3%;
+    left:5%;
+    align-items: center;
+  }
+  .map-timer-content {
+    text-align: center;
+    margin: 0;
+    padding: 1vw;
+  }
+  .map-timer-img {
+    width: 12%;
+  }

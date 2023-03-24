@@ -1,22 +1,25 @@
-import React from "react";
+import React from "react"
 // import { useEffect, useState } from "react"
 // import axios from "axios"
-import { Routes, Route } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import MainPage from "./pages/MainPage";
-import SubwayMapPage from "./pages/SubwayMapPage";
-import PvpPage from "./pages/PvpPage";
-import PvpResultPage from "./pages/ResultPage";
-import PvpReceipPage from "./pages/ReceiptPage";
-import MySubwayPage from "./pages/MySubwayPage";
-import HotSubwayPage from "./pages/HotSubwayPage";
-import DetailSubwayPage from "./pages/DetailSubwayPage";
-import MiniGamePage from "./pages/MiniGamePage";
-import MiniGameReadyPage from "./pages/MiniGameReadyPage";
+// import { useState, useEffect } from "react";
+// import Stomp from "stompjs";
+// import SockJS from "sockjs-client";
+import { Routes, Route } from "react-router-dom"
+import LoginPage from "./pages/LoginPage"
+import MainPage from "./pages/MainPage"
+import SubwayMapPage from "./pages/SubwayMapPage"
+import PvpPage from "./pages/PvpPage"
+import PvpResultPage from "./pages/ResultPage"
+import PvpReceipPage from "./pages/ReceiptPage"
+import MySubwayPage from "./pages/MySubwayPage"
+import HotSubwayPage from "./pages/HotSubwayPage"
+import DetailSubwayPage from "./pages/DetailSubwayPage"
+import MiniGamePage from "./pages/MiniGamePage"
+import MiniGameReadyPage from "./pages/MiniGameReadyPage"
 
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import "./App.css";
+import Box from "@mui/material/Box"
+import Container from "@mui/material/Container"
+import "./App.css"
 
 function App() {
   // 실시간 위치 전송 코드
@@ -54,9 +57,92 @@ function App() {
   //       })
   //   }
   // }, [location])
+  // document.addEventListener('touchmove', function(event) {
+  //   event.preventDefault();
+  // }, { passive: false });
+
+  // 웹에서 개발할 때, 얘 꼭 주석처리 해라
+
+  const elem = document.documentElement;
+  document.addEventListener('click', function() {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    }
+  });
+
+  // const [broadcastMessage, setBroadcastMessage] = useState("")
+  // const [personalMessage, setPersonalMessage] = useState("")
+  // const [data, setData] = useState(null)
+
+  // useEffect(() => {
+  //   const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws")
+  //   const stompClient = Stomp.over(socket)
+  //   console.log(socket)
+
+  //   stompClient.connect({}, () => {
+  //     console.log("연결성공")
+  //     stompClient.subscribe("/sub/system", (message) => {
+  //       const payload = JSON.parse(message.body)
+  //       setBroadcastMessage(payload.message)
+  //     })
+  //     stompClient.subscribe("/user/queue", (message) => {
+  //       const payload = JSON.parse(message.body)
+  //       setPersonalMessage(payload.message)
+  //     })
+  //   })
+  //   // return () => {
+  //   //   stompClient.disconnect()
+  //   // }
+  // }, [])
+
+  // const handleBroadcastSend = () => {
+  //   const message = { message: broadcastMessage }
+  //   const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws")
+  //   const stompClient = Stomp.over(socket)
+  //   console.log(socket)
+  //   stompClient.connect({}, () => {
+  //     stompClient.send("/pub/test/broadcast", {}, JSON.stringify(message))
+  //     stompClient.disconnect()
+  //   })
+  // }
+
+  // const handlePersonalSend = () => {
+  //   const message = { message: personalMessage }
+  //   const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws")
+  //   const stompClient = Stomp.over(socket)
+  //   var aa = {lon:127.03643, lat:37.500658}
+  //   stompClient.connect({}, () => {
+  //     stompClient.send("/pub/system/location", {}, JSON.stringify(aa))
+  //     socket.onmessage = (e) => {
+  //       const receivedData = JSON.parse(e.data);
+  //       setData(receivedData);
+  //     }
+  //   })
+  // }
 
   return (
     <div id="App" className="App">
+      {/* <div>
+        <div>
+          <h2>Broadcast Message</h2>
+          <input
+            type="text"
+            value={broadcastMessage}
+            onChange={(e) => setBroadcastMessage(e.target.value)}
+          />
+          <button onClick={handleBroadcastSend}>Send</button>
+        </div>
+        <div>
+          <h2>Personal Message</h2>
+          <input
+            type="text"
+            value={personalMessage}
+            onChange={(e) => setPersonalMessage(e.target.value)}
+          />
+          <button onClick={handlePersonalSend}>Send</button>
+        </div>
+        <div>{data && <p>{data}</p>}</div>
+      </div> */}
       <Container className="app-container" maxWidth="xs">
         <Box sx={{ height: "100vh" }}>
           <Routes>
@@ -75,6 +161,6 @@ function App() {
         </Box>
       </Container>
     </div>
-  );
+  )
 }
-export default App;
+export default App

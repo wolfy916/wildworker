@@ -10,7 +10,7 @@ public final class Constants {
     // The HTTP Set-Cookie header field name.
     // See Also: Section 4.2.2 of RFC 2109
     public static final String SET_COOKIE = "Set-Cookie";
-    public static final String JSESSIONID = "JSESSIONID";   //TODO: chage spring session
+    public static final String KEY_SESSION_ID = "SESSION";
 
     public static final int INTERVAL = 10;  //스케줄러 동작 주기 (minute)
 

@@ -59,6 +59,8 @@
 .modal-content {
   padding-top: 5%;
   font-size: 1.2rem;
+  height: 100%;
+  overflow-y: hidden;
 }
 
 .menu-select-list {
