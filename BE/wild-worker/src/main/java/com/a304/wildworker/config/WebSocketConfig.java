@@ -1,5 +1,6 @@
 package com.a304.wildworker.config;
 
+import com.a304.wildworker.interceptor.HttpHandshakeInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,18 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
     private final ChannelInterceptor interceptor2;
 
     @Override
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        config.setApplicationDestinationPrefixes("/pub");
+        config.enableSimpleBroker("/sub", "/queue");
+        config.setUserDestinationPrefix("/user");
+    }
+
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(interceptor2);
+    }
+
+    @Override
     public void configureStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
                 .addInterceptors(interceptor)
@@ -40,15 +53,4 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
 
     }
 
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.setApplicationDestinationPrefixes("/pub");
-        config.enableSimpleBroker("/sub", "/queue");
-        config.setUserDestinationPrefix("/user");
-    }
-
-    @Override
-    public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(interceptor2);
-    }
 }

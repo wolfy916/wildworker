@@ -1,4 +1,4 @@
-package com.a304.wildworker.config;
+package com.a304.wildworker.interceptor;
 
 import com.a304.wildworker.common.Constants;
 import java.util.Map;
