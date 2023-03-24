@@ -3,6 +3,8 @@ package com.a304.wildworker.service;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
 import com.a304.wildworker.ethereum.contract.Bank;
+import com.a304.wildworker.exception.PaperTooLowException;
+import com.a304.wildworker.exception.UserNotFoundException;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,17 +18,16 @@ public class MiningService {
 
     private final Bank bank;
     private final UserRepository userRepository;
-    private static final int SELL_UNIT = 100; // 종이 판매 단위
+    private static final int SELL_LIMIT = 100; // 종이 판매 단위
 
     public void sellPaper(Long userId) throws CipherException, IOException {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException(
-                        "존재하지 않는 사용자입니다."));// TODO: 2023-03-24 exception 정의 필요
+                .orElseThrow(UserNotFoundException::new);
 
-        if (user.getNumberOfCollectedPaper() < SELL_UNIT) {
-            throw new RuntimeException("서류가 너무 적습니다."); // TODO: 2023-03-24 exception 정의 필요
+        if (user.getNumberOfCollectedPaper() < SELL_LIMIT) {
+            throw new PaperTooLowException();
         }
-        
+
         user.sellPaper();
         bank.manualMine(user);
     }
