@@ -16,13 +16,3 @@
   .map-timer-img {
     width: 12%;
   }
-  .map-station-color {
-    position: absolute;
-    border-radius: 10%;
-    border: solid black 2px;
-    background-color: rgb(255, 255, 255);
-    z-index: 1;
-    top:3%;
-    right:5%;
-    align-items: center;
-  }
