@@ -25,8 +25,9 @@ function MainPage() {
   const [modalClick, setModalClick] = React.useState(false);
   const [selectIdx, setSelectIdx] = React.useState(0);
   const [isToggled, setIsToggled] = React.useState(false);
+  // const [isCharClicked, setIsCharClicked] = React.useState(false); 
 
-  const [badge, setBadge] = React.useState("사당역의 지배자");
+  const [badge, setBadge] = React.useState("쫄보");
   const [nickname, setNickname] = React.useState("우주최강원석");
   const [coin, setCoin] = React.useState(1500);
   const [station, setStation] = React.useState("역삼역");
@@ -137,9 +138,15 @@ function MainPage() {
           />
         )}
         <div className="character-nickname-title">
-          <img className="character" src={character} alt="character" />
-          {/* width={`${18*5}`} height={`${27*5}`} */}
           <div className="character-nickname">{nickname}</div>
+          <img className="character" src={character} alt="character" onClick={()=>{
+            const titleTag = document.querySelector(".character-title");
+            if (titleTag.style.visibility === "visible") {
+              titleTag.style.visibility = "hidden";
+            } else {
+              titleTag.style.visibility = "visible";
+            }
+          }}/>
           <div className="character-title">{badge}</div>
         </div>
         {!pvpRouterClick && <MenuBar setModalClick={setModalClick} setSelectIdx={setSelectIdx} />}

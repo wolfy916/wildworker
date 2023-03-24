@@ -99,20 +99,12 @@ function CoinHistory(props) {
 
   return (
     <div className="modal-component">
-      <div className="modal-title">코인 내역</div>
+      <div className="modal-title">정산 내역</div>
       <div className="modal-content">
         <div className="coin-history-head">
           <div className="coin-history-balance">
-            <div>실제 잔액 :</div>
+            <div>현재 잔액 :</div>
             <div>{DATA.balance.toLocaleString("ko-KR")} 원</div>
-          </div>
-          <div className="coin-history-untreated">
-            <div>미정산 금액 : </div>
-            <div>
-              {(DATA.untreated > 0 ? "+ " : "") +
-                DATA.untreated.toLocaleString("ko-KR")}{" "}
-              원
-            </div>
           </div>
         </div>
         <div className="coin-history-body">
