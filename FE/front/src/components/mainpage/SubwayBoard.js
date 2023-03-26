@@ -1,5 +1,6 @@
 import * as React from "react";
 import "./SubwayBoard.css";
+import SubwayBoardFirstPart from "./SubwayBoardFirstPart";
 
 function SubwayBoard(props) {
   const [isFlashing, setIsFlashing] = React.useState(false);
@@ -30,14 +31,7 @@ function SubwayBoard(props) {
         </div>
         <div className="subway-board-wrapper">
           <div className="subway-board-screen">
-            {/* <div className="subway-board-grid"></div> */}
-            <div className="board-first-part">
-              {/* <span className={`board-coin ${isFlashing ? "flash" : ""}`}>
-                남은 잔액 : {props.coin.toLocaleString("ko-KR")} 원
-              </span> */}
-              <span className="current-station-info">이번 역</span>
-              <span className="current-station-info2">{props.station}</span>
-            </div>
+            <SubwayBoardFirstPart station={props.station} coin={props.coin} isFlashing={isFlashing} dominator={props.dominator}/>
             <div className="board-second-part">
               <span className="current-station">
                 {" "}

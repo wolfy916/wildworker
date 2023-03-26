@@ -76,22 +76,7 @@
   opacity: 1;
   z-index: 1003;
 }
-.board-part {
-  box-sizing: border-box;
-  font-family: "galmuri9";
-  color: #86f55f;
-  height: 33%;
-}
-.board-first-part {
-  color: #86f55f;
-  box-sizing: border-box;
-  height: 65%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  font-size: 200%;
-  font-family: "galmuri9";
-}
+
 .board-second-part {
   color: #86f55f;
   box-sizing: border-box;
@@ -105,30 +90,16 @@
 
 @keyframes slide {
   from {
-    margin-left: 100%;
-    width: 100%;
+    transform: translateX(100%);
   }
   to {
-    margin-left: -250%;
-    width: 100%;
+    transform: translateX(-150%);
   }
 }
 
 .current-station {
   font-family: "galmuri9";
   color: #fec189;
-}
-
-.current-station-info {
-  font-size: 70%;
-  animation: flicker-nickname 1.5s linear infinite alternate;
-  animation-play-state: running;
-}
-.current-station-info2 {
-  font-family: "galmuri9";
-  color: #fec189;
-  animation: flicker-station 1.5s linear infinite alternate;
-  animation-play-state: running;
 }
 
 @keyframes flicker-title {
@@ -177,6 +148,24 @@
   100% {
     text-shadow: 0 0 4px #fec189, 0 0 11px #fec189, 0 0 19px #fec189,
       0 0 40px #fec189;
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+
+@keyframes flicker-coin {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #eeeb31, 0 0 11px #eeeb31, 0 0 19px #eeeb31,
+      0 0 40px #eeeb31;
   }
   20%,
   24%,

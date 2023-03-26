@@ -7,11 +7,13 @@ import GetCoinItem from "../components/mainpage/GetCoinItem";
 import Modal from "../components/mainpage/Modal";
 import MenuBar from "../components/mainpage/MenuBar";
 
-import character from "../asset/image/moving_man.gif";
+import character_man from "../asset/image/moving_man.gif";
+import character_woman from "../asset/image/moving_woman1.gif";
 import goMap from "../asset/image/goMap.png";
 import getCoinImage from "../asset/image/get_coin_btn.png";
 import getCoinFullImage from "../asset/image/Full_Charge_Btn.png";
 import LoadingEffect from "../asset/image/pvpPageLoading.gif";
+import morningBackgroundImg from "../asset/image/test_morning.png";
 
 function MainPage() {
   // 수동 채굴한 갯수 데이터 받아서 coinCntData에 넣으면 됨
@@ -25,11 +27,15 @@ function MainPage() {
   const [modalClick, setModalClick] = React.useState(false);
   const [selectIdx, setSelectIdx] = React.useState(0);
   const [isToggled, setIsToggled] = React.useState(false);
-  // const [isCharClicked, setIsCharClicked] = React.useState(false); 
 
+  // 유저 관련 정보
   const [badge, setBadge] = React.useState("쫄보");
   const [nickname, setNickname] = React.useState("우주최강원석");
   const [coin, setCoin] = React.useState(1500);
+  const [gender, setGender] = React.useState(1);
+  const genderList = [character_man, character_woman];
+
+  // 현재역 관련 정보
   const [station, setStation] = React.useState("역삼역");
   const [dominator, setDominator] = React.useState("매의호크민성");
 
@@ -99,6 +105,15 @@ function MainPage() {
 
   React.useEffect(() => {
     setIsReady(true);
+
+    // 06 ~ 16시는 아침 이미지
+    // 17 ~ 05시는 밤 이미지
+    let today = new Date();   
+    let hours = today.getHours();
+    if (5 < hours < 17) {
+      const backgroundTag = document.querySelector(".subway-background");
+      backgroundTag.style.backgroundImage=`url(${morningBackgroundImg})`;
+    }
   }, []);
   return (
     <div className="subway-background">
@@ -128,6 +143,8 @@ function MainPage() {
             setBadge={setBadge}
             isToggled={isToggled}
             setIsToggled={setIsToggled}
+            gender={gender}
+            setGender={setGender}
           />
         )}
         {pvpRouterClick && (
@@ -139,7 +156,7 @@ function MainPage() {
         )}
         <div className="character-nickname-title">
           <div className="character-nickname">{nickname}</div>
-          <img className="character" src={character} alt="character" onClick={()=>{
+          <img className="character" src={genderList[gender-1]} alt="character" onClick={()=>{
             const titleTag = document.querySelector(".character-title");
             if (titleTag.style.visibility === "visible") {
               titleTag.style.visibility = "hidden";

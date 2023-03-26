@@ -1,6 +1,6 @@
 .subway-background {
   height: 100%;
-  background-image: url("../asset/image/test_morning.png");
+  background-image: url("../asset/image/test_night2.png");
   background-size: 150% 100%;
   animation: movement 4s linear infinite;
   position: relative;
@@ -24,7 +24,6 @@
     background-position: 300% center;
   }
 }
-
 .character-nickname-title {
   width: 32%;
   height: 22%;
@@ -42,7 +41,7 @@
 }
 .character-nickname {
   box-sizing: border-box;
-  width:max-content;
+  width: max-content;
   font-size: 120%;
   font-weight: 900;
   margin-bottom: 5%;
@@ -51,7 +50,7 @@
 }
 .character-title {
   box-sizing: border-box;
-  width:max-content;
+  width: max-content;
   margin-top: 3%;
   padding: 3% 10%;
   font-size: 110%;
@@ -92,9 +91,9 @@
   box-sizing: border-box;
   position: absolute;
   height: 11%;
-  width: 19%;
+  width: 20%;
   top: 33%;
-  right: 3%;
+  right: 2%;
   z-index: 1002;
   animation: sideBtnAppear 0.7s ease-in-out 0s 1 normal forwards;
   background-image: url("../asset/image/get_coin_btn.png");

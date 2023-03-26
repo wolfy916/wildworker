@@ -15,6 +15,7 @@ import MySubwayPage from "./pages/MySubwayPage"
 import HotSubwayPage from "./pages/HotSubwayPage"
 import DetailSubwayPage from "./pages/DetailSubwayPage"
 import MiniGamePage from "./pages/MiniGamePage"
+import MiniGameReadyPage from "./pages/MiniGameReadyPage"
 
 import Box from "@mui/material/Box"
 import Container from "@mui/material/Container"
@@ -65,12 +66,12 @@ function App() {
 
 
 
-  const elem = document.documentElement;
-  document.addEventListener('click', function() {
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    }
-  });
+  // const elem = document.documentElement;
+  // document.addEventListener('click', function() {
+  //   if (elem.requestFullscreen) {
+  //     elem.requestFullscreen();
+  //   }
+  // });
   
   // const [broadcastMessage, setBroadcastMessage] = useState("");
   // const [personalMessage, setPersonalMessage] = useState("");
