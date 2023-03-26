@@ -1,39 +1,50 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "../pages/MiniGamePage.css";
+import React, { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import "../pages/MiniGamePage.css"
+import Stomp from "stompjs"
+import SockJS from "sockjs-client"
 
 function CalculationGame() {
-  const [num1, setNum1] = useState(Math.floor(Math.random() * 100));
-  const [num2, setNum2] = useState(Math.floor(Math.random() * 100));
-  const [score, setScore] = useState(0);
-  const [value, setValue] = useState("");
+  const [num1, setNum1] = useState(Math.floor(Math.random() * 100))
+  const [num2, setNum2] = useState(Math.floor(Math.random() * 100))
+  const [score, setScore] = useState(0)
+  const [value, setValue] = useState("")
+  const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws")
+  const stompClient = Stomp.over(socket)
 
   function handleSubmit(event) {
-    event.preventDefault();
-    const correctAnswer = num1 + num2;
+    event.preventDefault()
+    const correctAnswer = num1 + num2
     if (parseInt(value) === correctAnswer) {
-      setScore(score + 1);
+      setScore(score + 1)
     }
-    setNum1(Math.floor(Math.random() * 100));
-    setNum2(Math.floor(Math.random() * 100));
-    setValue("");
+    setNum1(Math.floor(Math.random() * 100))
+    setNum2(Math.floor(Math.random() * 100))
+    setValue("")
   }
 
-  const [timeLeft, setTimeLeft] = useState(15);
-  const navigate = useNavigate();
+  const [timeLeft, setTimeLeft] = useState(15)
+  const navigate = useNavigate()
+
+  // 미니 게임끝났을 때, 결과 값 백한테 주기
+  const handleFinishGame = (e) => {
+    const message = JSON.stringify(e)
+    stompClient.send("/stations/{station-id}/minigame/{game-id}/progress", {}, message)
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
-    }, 1000);
+      setTimeLeft((prevTimeLeft) => prevTimeLeft - 1)
+    }, 1000)
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => clearInterval(interval)
+  }, [])
   useEffect(() => {
     if (timeLeft === 0) {
-      navigate("/pvp/result");
+      // handleFinishGame({result:'맞춘갯수'})
+      navigate("/pvp/result")
     }
-  }, [timeLeft, navigate]);
+  }, [timeLeft, navigate])
 
   return (
     <div className="minigame">
@@ -57,7 +68,7 @@ function CalculationGame() {
               >
                 {a}
               </button>
-            );
+            )
           })}
 
           {/* <button className="minigame-btn" onClick={() => setValue("")}>
@@ -73,7 +84,7 @@ function CalculationGame() {
       {/* <div className="minigame-pixelart-crab"></div> */}
       <div className="minigame-pixelart-metamong"></div>
     </div>
-  );
+  )
 }
 
-export default CalculationGame;
+export default CalculationGame
