@@ -1,5 +1,7 @@
 import * as React from "react";
 import "./NickName.css";
+import character_man from "../../asset/image/stop_man.png";
+import character_woman from "../../asset/image/stop_woman.png";
 
 function NickName(props) {
   function changeClickHandler() {
@@ -8,12 +10,37 @@ function NickName(props) {
       "change-nickname-input"
     )[0];
     props.setNickname(inputTag.value);
+    props.setGender(mySelectGender);
   }
+
+  let mySelectGender = props.gender;
+  
+  const genderList = [character_man, character_woman];
+  const genderItemTags = genderList.map((value, idx) => {
+    let isSelected = false;
+    if (mySelectGender === idx + 1) {
+      isSelected = true;
+    }
+    return (
+      <input
+        className="current-gender-input"
+        type="radio"
+        name="gender"
+        value={value}
+        defaultChecked={isSelected}
+        key={`${idx}`}
+        onClick={(event) => {
+          mySelectGender = idx + 1;
+        }}
+        style={{ backgroundImage: `url(${value})` }}
+      />
+    );
+  });
   return (
     <div className="modal-component">
       <div className="modal-title">닉네임</div>
       <div className="modal-content">
-        <div className="current-nickname-info">현재 닉네임</div>
+        <div className="current-nickname-info">닉네임 ?</div>
         <div className="current-nickname">{props.nickname}</div>
         <div className="change-nickname">
           <input
@@ -21,8 +48,11 @@ function NickName(props) {
             type="text"
             placeholder="닉네임 변경"
             maxLength="8"
+            defaultValue={props.nickname}
           />
         </div>
+        <div className="current-gender-info">성별 ?</div>
+        <div className="current-gender-wrapper">{genderItemTags}</div>
         <div className="change-nickname-btn" onClick={changeClickHandler}>
           변경하기
         </div>
