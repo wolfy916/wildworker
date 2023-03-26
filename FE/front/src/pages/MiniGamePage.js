@@ -9,32 +9,36 @@ function CalculationGame() {
   const stompClient = Stomp.over(socket)
   const [num1, setNum1] = useState(
     String(Math.floor(Math.random() * 100)) + "00"
-  );
+  )
   const [num2, setNum2] = useState(
     String(Math.floor(Math.random() * 100)) + "00"
-  );
-  const [score, setScore] = useState(0);
-  const [value, setValue] = useState("");
+  )
+  const [score, setScore] = useState(0)
+  const [value, setValue] = useState("")
 
   function handleSubmit(event) {
-    event.preventDefault();
-    const correctAnswer = parseInt(num1) + parseInt(num2);
+    event.preventDefault()
+    const correctAnswer = parseInt(num1) + parseInt(num2)
     if (parseInt(value) === correctAnswer) {
-      setScore(score + 1);
-      setNum1(value);
+      setScore(score + 1)
+      setNum1(value)
     }
     // setNum1(value);
-    setNum2(String(Math.floor(Math.random() * 100) + "00"));
-    setValue("");
+    setNum2(String(Math.floor(Math.random() * 100) + "00"))
+    setValue("")
   }
 
-  const [timeLeft, setTimeLeft] = useState(5000);
-  const navigate = useNavigate();
+  const [timeLeft, setTimeLeft] = useState(5000)
+  const navigate = useNavigate()
 
   // 미니 게임끝났을 때, 결과 값 백한테 주기
   const handleFinishGame = (e) => {
     const message = JSON.stringify(e)
-    stompClient.send("/stations/{station-id}/minigame/{game-id}/progress", {}, message)
+    stompClient.send(
+      "/stations/{station-id}/minigame/{game-id}/progress",
+      {},
+      message
+    )
   }
 
   useEffect(() => {

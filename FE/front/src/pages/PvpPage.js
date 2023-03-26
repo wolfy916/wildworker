@@ -1,12 +1,16 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import BattleDialog from "../components/battle/battleDialog";
-import BattleCharater from "../components/battle/battlecharacter";
-import battleDirection from "../asset/image/battleDirection.png";
-import battleAudioBack from "../asset/audio/battleAudioBack.mp3";
-import "./PvpPage.css";
+import * as React from "react"
+import Box from "@mui/material/Box"
+import BattleDialog from "../components/battle/battleDialog"
+import BattleCharater from "../components/battle/battlecharacter"
+import battleDirection from "../asset/image/battleDirection.png"
+import battleAudioBack from "../asset/audio/battleAudioBack.mp3"
+import "./PvpPage.css"
 
-function MainPage() {
+function MainPage(props) {
+  const matchingData = props.matchingData
+  const gameRunData = props.gameRunData
+  const gameStartData = props.gameStartData
+
   return (
     <Box className="PvpPageBg" sx={{ position: "relative" }}>
       <div className="battleCharacter1">
@@ -22,7 +26,7 @@ function MainPage() {
 
       <BattleDialog />
     </Box>
-  );
+  )
 }
 
-export default MainPage;
+export default MainPage

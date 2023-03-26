@@ -1,14 +1,16 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
-import "./ReceiptPage.css";
+import * as React from "react"
+import Box from "@mui/material/Box"
+import { useNavigate } from "react-router-dom"
+import "./ReceiptPage.css"
 
-function MainPage() {
-  const navigate = useNavigate();
+function MainPage(props) {
+  const gameResultData = props.gameResultData
+
+  const navigate = useNavigate()
   function handleTouchStart(event) {
     // 다음 페이지로 이동하는 로직을 작성합니다.
-    navigate("/main");
-    console.log("go to mainPage");
+    navigate("/main")
+    console.log("go to mainPage")
   }
   return (
     <Box className="receiptPage" sx={{ position: "relative" }}>
@@ -34,7 +36,7 @@ function MainPage() {
         </div>
       </div>
     </Box>
-  );
+  )
 }
 
-export default MainPage;
+export default MainPage
