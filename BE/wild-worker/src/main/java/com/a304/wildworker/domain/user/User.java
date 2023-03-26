@@ -72,6 +72,10 @@ public class User extends BaseEntity {
         this.numberOfCollectedPaper = 0;
     }
 
+    public int collectPaper() {
+        return ++this.numberOfCollectedPaper;
+    }
+
     public void sellPaper() {
         this.numberOfCollectedPaper = 0;
     }
