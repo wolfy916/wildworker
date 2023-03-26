@@ -83,7 +83,6 @@ function CoinHistory(props) {
   function requestPageAxios(curPage) {
     // 이 함수는 useEffect로 렌더링시에 한 번 호출되어야하고,
     // 이전, 다음 페이지 버튼 클릭시 호출되어야함
-
     // currentPage 값을 인자로 Axios를 호출하고
     // setData로 데이터 상태관리를 진행
   }
@@ -100,42 +99,36 @@ function CoinHistory(props) {
 
   return (
     <div className="modal-component">
-      <div className="modal-title">코인 내역</div>
+      <div className="modal-title">정산 내역</div>
       <div className="modal-content">
         <div className="coin-history-head">
           <div className="coin-history-balance">
-            <div>실제 잔액 :</div>
+            <div>현재 잔액 :</div>
             <div>{DATA.balance.toLocaleString("ko-KR")} 원</div>
-          </div>
-          <div className="coin-history-untreated">
-            <div>미정산 금액 : </div>
-            <div>
-              {(DATA.untreated > 0 ? "+ " : "") +
-                DATA.untreated.toLocaleString("ko-KR")}{" "}
-              원
-            </div>
           </div>
         </div>
         <div className="coin-history-body">
           {coinLogTags}
-          <div className="coin-history-page-move">
-            {currentPage !== 1 && (
-              <div
-                className="coin-history-page-left"
-                onClick={leftClickHandler}
-              >
-                {"<- 이전"}
-              </div>
-            )}
-            {currentPage !== data.totalPage && (
-              <div
-                className="coin-history-page-right"
-                onClick={rightClickHandler}
-              >
-                {"다음 ->"}
-              </div>
-            )}
-          </div>
+          {!((currentPage === 1) === data.totalPage) && (
+            <div className="coin-history-page-move">
+              {currentPage !== 1 && (
+                <div
+                  className="coin-history-page-left"
+                  onClick={leftClickHandler}
+                >
+                  {"<- 이전"}
+                </div>
+              )}
+              {currentPage !== data.totalPage && (
+                <div
+                  className="coin-history-page-right"
+                  onClick={rightClickHandler}
+                >
+                  {"다음 ->"}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

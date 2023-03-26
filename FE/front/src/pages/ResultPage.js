@@ -1,18 +1,21 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import BattleCharater from "../components/battle/battlecharacter";
-import BattleCharLoser from "../components/battle/battleCharLoser";
-import battleDialogImg from "../asset/image/battleTalk.png";
-import { useNavigate } from "react-router-dom";
-import BattleCharWinner from "../components/battle/battleCharWinner";
-import "./ResultPage.css";
+import * as React from "react"
+import Box from "@mui/material/Box"
+import BattleCharater from "../components/battle/battlecharacter"
+import BattleCharLoser from "../components/battle/battleCharLoser"
+import battleDialogImg from "../asset/image/battleTalk.png"
+import { useNavigate } from "react-router-dom"
+import BattleCharWinner from "../components/battle/battleCharWinner"
+import "./ResultPage.css"
 
-function MainPage() {
-  const navigate = useNavigate();
+function MainPage(props) {
+  const gameResultData = props.gameResultData
+
+  const navigate = useNavigate()
+
   function handleTouchStart(event) {
     // 다음 페이지로 이동하는 로직을 작성합니다.
-    navigate("/pvp/receipt");
-    console.log("go to receiptPage");
+    navigate("/pvp/receipt")
+    console.log("go to receiptPage")
   }
   return (
     <Box className="Pvp-Result" sx={{ position: "relative" }}>
@@ -48,7 +51,7 @@ function MainPage() {
         <p className="battleResult-talk-p">결투에서 승리했다!!!!</p>
       </div>
     </Box>
-  );
+  )
 }
 
-export default MainPage;
+export default MainPage

@@ -1,5 +1,6 @@
 import * as React from "react";
 import "./SubwayBoard.css";
+import SubwayBoardFirstPart from "./SubwayBoardFirstPart";
 
 function SubwayBoard(props) {
   const [isFlashing, setIsFlashing] = React.useState(false);
@@ -7,7 +8,7 @@ function SubwayBoard(props) {
   let getCoinClick = props.getCoinClick;
   const setGetCoinClick = props.setGetCoinClick;
   const setCoin = props.setCoin;
-  
+
   React.useEffect(() => {
     if (getCoinClick === true) {
       setCoin((prev) => prev + 100);
@@ -30,20 +31,8 @@ function SubwayBoard(props) {
         </div>
         <div className="subway-board-wrapper">
           <div className="subway-board-screen">
-            {/* <div className="subway-board-grid"></div> */}
-            <div className="board-part first-part">
-              <span className="board-badge">{props.badge} </span>
-              <span className="board-nickname">{props.nickname}</span>
-            </div>
-            <div className="board-part second-part">
-              <span className={`board-coin ${isFlashing ? "flash" : ""}`}>
-                남은 잔액 : {props.coin.toLocaleString("ko-KR")} 원
-              </span>
-            </div>
-            <div className="board-part third-part">
-              이번 역은
-              <span className="current-station"> {props.station} </span>
-              입니다.
+            <SubwayBoardFirstPart station={props.station} coin={props.coin} isFlashing={isFlashing} dominator={props.dominator}/>
+            <div className="board-second-part">
               <span className="current-station">
                 {" "}
                 {props.station}의 지배자{" "}

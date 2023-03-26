@@ -31,6 +31,10 @@ public class WSBaseResponse<T> {
         return new Builder(Type.STATION, subType);
     }
 
+    public static BodyBuilder mining(MiningType subType) {
+        return new Builder(Type.MINING, subType);
+    }
+
     public interface BodyBuilder {
 
         <T> WSBaseResponse<T> data(T data);

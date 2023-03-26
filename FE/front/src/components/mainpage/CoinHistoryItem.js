@@ -15,23 +15,21 @@ function CoinHistoryItem(props) {
         targetTag.style.animationState = "running";
         setIsClicked(true);
       }, 10);
+    } else {
+      const targetTag =
+        document.querySelectorAll(".coin-history-item")[props.idx];
+      targetTag.style.animationState = "paused";
+      setTimeout(() => {
+        targetTag.style.animation = "coinHistoryItemDisappear 0.2s linear 0s 1";
+        targetTag.style.animationState = "running";
+        setIsClicked(false);
+      }, 10);
     }
   }
 
-  function closeClickHandler() {
-    const targetTag =
-      document.querySelectorAll(".coin-history-item")[props.idx];
-    targetTag.style.animationState = "paused";
-    setTimeout(() => {
-      targetTag.style.animation = "coinHistoryItemDisappear 0.2s linear 0s 1";
-      targetTag.style.animationState = "running";
-      setIsClicked(false);
-    }, 10);
-  }
-
   return (
-    <div className="coin-history-item">
-      <div className="coin-history-item-wrapper" onClick={openClickHandler}>
+    <div className="coin-history-item" onClick={openClickHandler}>
+      <div className="coin-history-item-wrapper">
         <div className="coin-history-item-title">
           <div>{props.item.station.name}</div>
           <div>
@@ -40,11 +38,6 @@ function CoinHistoryItem(props) {
             원
           </div>
         </div>
-        {isClicked && (
-          <div className="coin-history-item-close" onClick={closeClickHandler}>
-            X
-          </div>
-        )}
       </div>
       <div className="coin-history-item-body">
         <div className="coin-history-item-wrapper">
@@ -54,10 +47,6 @@ function CoinHistoryItem(props) {
         <div className="coin-history-item-wrapper">
           <div>날짜 :</div>
           <div>{props.item.time}</div>
-        </div>
-        <div className="coin-history-item-wrapper">
-          <div>반영 여부 :</div>
-          <div>{props.item.applied ? "Yes!!" : "No.."}</div>
         </div>
       </div>
     </div>

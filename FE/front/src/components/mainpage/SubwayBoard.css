@@ -61,58 +61,39 @@
   z-index: 1002;
   overflow: hidden;
 }
-
-/* .subway-board-grid {
+.subway-board-grid {
   box-sizing: border-box;
   width: 94%;
   height: 88%;
   position: absolute;
-  top:6%;
-  left:3%;
-  border:5px solid black;
+  top: 6%;
+  left: 3%;
+  border: 5px solid black;
   border-radius: 30px;
   background-size: 5px 5px;
-  background-image:
-    linear-gradient(to right, black 0.5px, transparent 0px),
-    linear-gradient(to bottom, black 0.5px, transparent 0px);
+  background-image: linear-gradient(to right, black 1px, transparent 0px),
+    linear-gradient(to bottom, black 1px, transparent 0px);
   opacity: 1;
   z-index: 1003;
-} */
+}
 
-.board-part {
-  box-sizing: border-box;
-  font-family: "galmuri9";
+.board-second-part {
   color: #86f55f;
-  height: 33%;
-}
-.first-part {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  font-size: 125%;
-}
-.second-part {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 125%;
-}
-.third-part {
   box-sizing: border-box;
+  height: 35%;
+  font-size: 140%;
+  font-family: "galmuri9";
   animation: slide 10s linear infinite;
   animation-play-state: running;
   white-space: nowrap;
-  font-size: 125%;
 }
 
 @keyframes slide {
   from {
-    margin-left: 100%;
-    width: 100%;
+    transform: translateX(100%);
   }
   to {
-    margin-left: -250%;
-    width: 100%;
+    transform: translateX(-150%);
   }
 }
 
@@ -121,21 +102,7 @@
   color: #fec189;
 }
 
-.board-badge {
-  font-family: "galmuri9";
-  color: #ff0000;
-  animation: flicker-badge 1.5s linear infinite alternate;
-  animation-play-state: running;
-}
-
-.board-nickname {
-  font-family: "galmuri9";
-  color: #ffe600;
-  animation: flicker-nickname 1.5s linear infinite alternate;
-  animation-play-state: running;
-}
-
-@keyframes flicker-badge {
+@keyframes flicker-title {
   0%,
   18%,
   22%,
@@ -143,8 +110,8 @@
   53%,
   57%,
   100% {
-    text-shadow: 0 0 4px #ff0000, 0 0 11px #ff0000, 0 0 19px #ff0000, 0 0 40px #ff0000;
-    /* 0 0 80px #ff0000, 0 0 90px #ff0000, 0 0 100px #ff0000, 0 0 150px #ff0000; */
+    text-shadow: 0 0 4px #ff0000, 0 0 11px #ff0000, 0 0 19px #ff0000,
+      0 0 40px #ff0000;
   }
   20%,
   24%,
@@ -161,8 +128,44 @@
   53%,
   57%,
   100% {
-    text-shadow: 0 0 4px #ffe600, 0 0 11px #ffe600, 0 0 19px #ffe600, 0 0 40px #ffe600;
-    /* 0 0 80px #ffe600, 0 0 90px #ffe600, 0 0 100px #ffe600, 0 0 150px #ffe600; */
+    text-shadow: 0 0 4px #86f55f, 0 0 11px #86f55f, 0 0 19px #86f55f,
+      0 0 40px #86f55f;
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+
+@keyframes flicker-station {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #fec189, 0 0 11px #fec189, 0 0 19px #fec189,
+      0 0 40px #fec189;
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+
+@keyframes flicker-coin {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #eeeb31, 0 0 11px #eeeb31, 0 0 19px #eeeb31,
+      0 0 40px #eeeb31;
   }
   20%,
   24%,
@@ -172,14 +175,14 @@
 }
 
 @keyframes smoothAppear {
-  0%, 50% {
+  0%,
+  50% {
     transform: translateY(-200%);
   }
   100% {
     transform: translateY(0);
   }
 }
-
 
 .flash {
   animation: flash 1s infinite;
@@ -200,22 +203,19 @@
   }
 }
 
-
-
 .board-modal-wrap {
-  display:none;
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:500px;
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
   padding: 50px;
-  height:400px;
-  z-index:1500;
+  height: 400px;
+  z-index: 1500;
   color: #eeeb31;
   font-size: 4rem;
   font-weight: 1000;
   font-family: "galmuri9";
   -webkit-text-stroke: 0.5px rgb(0, 0, 0);
 }
-

@@ -87,23 +87,23 @@
 }
 .title-item {
   display: inline-block;
-  margin: 5%;
-  width: 22%;
+  margin: 3% 0%;
+  width: 85%;
   height: 19%;
-  border: solid black 1px;
-  border-radius: 50%;
+  border-radius: 30px;
   background-color: white;
 }
 .title-item-name {
-  display: inline;
+  width: 85%;
+  height: 19%;
   position: absolute;
-  transform: translate(-45%, 80%);
-  font-size: 0.85rem;
+  transform: translateY(19%);
+  font-size: 1.5rem;
   text-align: center;
 }
 .title-item-input[type="radio"] {
   appearance: none;
-  border-radius: 50%;
+  border-radius: 30px;
   display: block;
   width: 100%;
   height: 100%;
@@ -111,10 +111,10 @@
   top: 0px;
   left: 0px;
   margin: 0px;
+  border: 0.2rem solid rgb(157, 157, 157);
 }
 
 .title-item-input[type="radio"]:checked {
   border: 0.4rem solid black;
-  border-style: outset;
   transition: border 0.2s linear;
 }

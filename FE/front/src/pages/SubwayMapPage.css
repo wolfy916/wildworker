@@ -420,3 +420,8 @@ area:nth-of-type(51) {
   width: 5%;
   height: 5%;
 }
+area:nth-of-type(52) {
+  top: 40%;
+  left: 5%;
+  width: 40%;
+}

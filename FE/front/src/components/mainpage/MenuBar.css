@@ -16,14 +16,14 @@
 
 .menu-bar {
   height: 3.5%;
-  width: 100%;
+  width: 140%;
   color: black;
   border: solid black 3px;
   border-radius: 30px;
-  background-color: rgb(205, 205, 205);
+  background-color: #d9d9d9;
   position: absolute;
   top: 28%;
-  right: -85%;
+  right: -125%;
   z-index: 1003;
   animation: menuBarAppear 0.5s ease-in-out 0s 1 normal;
   text-align: start;
@@ -59,7 +59,7 @@
 }
 
 .handle-rope {
-  width: 4%;
+  width: 3%;
   height: 300%;
   background-image: url(../../asset/image/handle_rope.png);
   background-repeat: no-repeat;
@@ -71,14 +71,33 @@
   transform-origin: top;
   z-index: 1002;
 }
+
+.handle-rope-label {
+  position: relative;
+  right: 25%;
+  top: 8%;
+  width: 125%;
+  height: 80%;
+  background-color: rgb(62, 62, 62);
+  color: white;
+  border: solid black 2px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.label-char {
+  height: 30%;
+  text-align: center;
+}
 .handle-grip {
-  width: 300%;
+  width: 290%;
   height: 50%;
   background-image: url(../../asset/image/handle_grip.png);
   background-repeat: no-repeat;
   background-size: contain;
   position: absolute;
-  top: 95%;
+  top: 96%;
   left: -100%;
   transform: rotate(-30deg);
   transform-origin: top;
