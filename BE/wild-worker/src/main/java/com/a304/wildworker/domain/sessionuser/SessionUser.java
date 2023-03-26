@@ -1,12 +1,13 @@
 package com.a304.wildworker.domain.sessionuser;
 
 import com.a304.wildworker.domain.user.User;
+import java.io.Serializable;
 import lombok.Getter;
 import lombok.ToString;
 
 @ToString
 @Getter
-public class SessionUser {
+public class SessionUser implements Serializable {
 
     private final String email;
 //    private final String name;

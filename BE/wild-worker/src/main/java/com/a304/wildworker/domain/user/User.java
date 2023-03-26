@@ -5,11 +5,15 @@ import com.a304.wildworker.domain.common.BaseEntity;
 import com.a304.wildworker.domain.common.CharacterType;
 import com.a304.wildworker.domain.common.Role;
 import com.a304.wildworker.domain.common.TitleType;
+import com.a304.wildworker.ethereum.exception.WalletCreationException;
+import com.a304.wildworker.ethereum.service.WalletProvider;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +25,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @ToString(onlyExplicitlyIncluded = true)
+@Table(name = "user")
 public class User extends BaseEntity {
 
     @Column(nullable = false)
@@ -31,7 +36,9 @@ public class User extends BaseEntity {
     @Column(unique = true, nullable = false)
     private String name;
     @Column(unique = true, nullable = false)
-    private String wallet;      //TODO: chang wallet type
+    private String wallet;      // blockchain wallet file path
+    @Column(unique = true, nullable = false)
+    private String walletPassword; // key for blockchain wallet
     @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
     private Long balance;
     @Enumerated(EnumType.ORDINAL)
@@ -52,15 +59,20 @@ public class User extends BaseEntity {
 //    @OneToMany(mappedBy = "user")
 //    private List<TitleAwarded> titleAwardeds = new ArrayList<>();
 
-    public User(String email, Role role, String wallet) {
-        this.role = role;
+    public User(String email) throws WalletCreationException {
+        this.role = Role.ROLE_USER;
         this.email = email;
         this.name = email;
-        this.wallet = wallet;
+        this.walletPassword = UUID.randomUUID().toString(); // TODO: 2023-03-23 초기화 시 암호화 필요함
+        this.wallet = WalletProvider.createUserWallet(this.walletPassword);
         this.balance = 0L;
         this.characterId = CharacterType.MAN;
         this.titleType = TitleType.TITLE;
         this.title_id = Constants.noneTitle;
+        this.numberOfCollectedPaper = 0;
+    }
+
+    public void sellPaper() {
         this.numberOfCollectedPaper = 0;
     }
 }

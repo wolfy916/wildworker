@@ -9,8 +9,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "mini_game_log")
 public class MiniGameLog extends BaseEntity {
 
     @ManyToOne(targetEntity = MiniGame.class, fetch = FetchType.LAZY)

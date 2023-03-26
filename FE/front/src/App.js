@@ -1,24 +1,25 @@
-import React from "react"
-import axios from "axios"
-import { useMemo, useState, useEffect } from "react"
+import React from "react";
+import { useEffect, useState } from "react"
+// import axios from "axios"
 import Stomp from "stompjs"
 import SockJS from "sockjs-client"
-import { Routes, Route } from "react-router-dom"
-import LoginPage from "./pages/LoginPage"
-import MainPage from "./pages/MainPage"
-import SubwayMapPage from "./pages/SubwayMapPage"
-import PvpPage from "./pages/PvpPage"
-import PvpResultPage from "./pages/ResultPage"
-import PvpReceipPage from "./pages/ReceiptPage"
-import MySubwayPage from "./pages/MySubwayPage"
-import HotSubwayPage from "./pages/HotSubwayPage"
-import DetailSubwayPage from "./pages/DetailSubwayPage"
-import MiniGamePage from "./pages/MiniGamePage"
-import MiniGameReadyPage from "./pages/MiniGameReadyPage"
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import RedirectLogin from "./pages/RedirectLoginPage";
+import MainPage from "./pages/MainPage";
+import SubwayMapPage from "./pages/SubwayMapPage";
+import PvpPage from "./pages/PvpPage";
+import PvpResultPage from "./pages/ResultPage";
+import PvpReceipPage from "./pages/ReceiptPage";
+import MySubwayPage from "./pages/MySubwayPage";
+import HotSubwayPage from "./pages/HotSubwayPage";
+import DetailSubwayPage from "./pages/DetailSubwayPage";
+import MiniGamePage from "./pages/MiniGamePage";
+import MiniGameReadyPage from "./pages/MiniGameReadyPage";
 
-import Box from "@mui/material/Box"
-import Container from "@mui/material/Container"
-import "./App.css"
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import "./App.css";
 
 function App() {
   // 웹에서 개발할 때, 얘 꼭 주석처리 해라
@@ -29,6 +30,7 @@ function App() {
   //     elem.requestFullscreen();
   //   }
   // });
+
 
   const [location, setLocation] = useState(null)
   const [broadcastMessage, setBroadcastMessage] = useState("")
@@ -45,7 +47,7 @@ function App() {
         (position) => {
           if (position.coords) {
             setLocation(position.coords)
-            handlePersonalSend({
+            handleSendLocation({
               lat: position.coords.latitude,
               lon: position.coords.longitude,
             })
@@ -165,19 +167,20 @@ function App() {
     })
   }, [])
 
-  const handleBroadcastSend = () => {
-    const message = broadcastMessage
-    stompClient.send("/pub/test/broadcast", {}, message)
-  }
+  // const handleBroadcastSend = () => {
+  //   const message = broadcastMessage
+  //   stompClient.send("/pub/test/broadcast", {}, message)
+  // }
   
-  const handlePersonalSend = (e) => {
+  // 위치 전송
+  const handleSendLocation = (e) => {
     const message = JSON.stringify(e)
     stompClient.send("/pub/system/location", {}, message)
   }
 
   return (
     <div id="App" className="App">
-      <div>
+      {/* <div>
         <div>
           <h2>Broadcast Message</h2>
           <input
@@ -187,25 +190,17 @@ function App() {
           />
           <button onClick={handleBroadcastSend}>Send</button>
         </div>
-        <div>
-          <h2>Personal Message</h2>
-          <input
-            type="text"
-            value={personalMessage}
-            onChange={(e) => setPersonalMessage(e.target.value)}
-          />
-          <button onClick={handlePersonalSend}>Send</button>
-        </div>
 
         <div>{broadcastData}</div>
-        <div>{personalData}</div>
-      </div>
+      </div> */}
+        {/* <div>{personalData}</div> */}
 
       <Container className="app-container" maxWidth="xs">
         <Box sx={{ height: "100vh" }}>
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="/main" element={<MainPage />} />
+            <Route path="/redirect/login" element={<RedirectLogin />} />
             <Route path="/map" element={<SubwayMapPage />} />
             <Route path="/map/mine" element={<MySubwayPage />} />
             <Route path="/map/hot" element={<HotSubwayPage />} />
@@ -219,6 +214,6 @@ function App() {
         </Box>
       </Container>
     </div>
-  )
+  );
 }
-export default App
+export default App;

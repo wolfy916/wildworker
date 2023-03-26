@@ -1,0 +1,44 @@
+.board-first-part {
+  color: #86f55f;
+  box-sizing: border-box;
+  height: 65%;
+  font-family: "galmuri9";
+}
+
+.board-content {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.current-station-info {
+  font-size: 120%;
+  animation: flicker-nickname 1.5s linear infinite alternate;
+  animation-play-state: running;
+}
+.current-station-info2 {
+  font-size: 150%;
+  color: #fec189;
+  animation: flicker-station 1.5s linear infinite alternate;
+  animation-play-state: running;
+}
+
+.coin-text {
+  color: yellow;
+  font-size: 150%;
+  animation: flicker-coin 1.5s linear infinite alternate;
+}
+
+.board-coin {
+  font-size: 120%;
+}
+
+.board-dominator-chat {
+  font-size: 150%;
+  animation: slide 12s linear infinite;
+  animation-play-state: running;
+  white-space: nowrap;
+}

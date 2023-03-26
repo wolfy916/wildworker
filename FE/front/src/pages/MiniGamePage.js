@@ -5,26 +5,31 @@ import Stomp from "stompjs"
 import SockJS from "sockjs-client"
 
 function CalculationGame() {
-  const [num1, setNum1] = useState(Math.floor(Math.random() * 100))
-  const [num2, setNum2] = useState(Math.floor(Math.random() * 100))
-  const [score, setScore] = useState(0)
-  const [value, setValue] = useState("")
   const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws")
   const stompClient = Stomp.over(socket)
+  const [num1, setNum1] = useState(
+    String(Math.floor(Math.random() * 100)) + "00"
+  );
+  const [num2, setNum2] = useState(
+    String(Math.floor(Math.random() * 100)) + "00"
+  );
+  const [score, setScore] = useState(0);
+  const [value, setValue] = useState("");
 
   function handleSubmit(event) {
-    event.preventDefault()
-    const correctAnswer = num1 + num2
+    event.preventDefault();
+    const correctAnswer = parseInt(num1) + parseInt(num2);
     if (parseInt(value) === correctAnswer) {
-      setScore(score + 1)
+      setScore(score + 1);
+      setNum1(value);
     }
-    setNum1(Math.floor(Math.random() * 100))
-    setNum2(Math.floor(Math.random() * 100))
-    setValue("")
+    // setNum1(value);
+    setNum2(String(Math.floor(Math.random() * 100) + "00"));
+    setValue("");
   }
 
-  const [timeLeft, setTimeLeft] = useState(15)
-  const navigate = useNavigate()
+  const [timeLeft, setTimeLeft] = useState(5000);
+  const navigate = useNavigate();
 
   // 미니 게임끝났을 때, 결과 값 백한테 주기
   const handleFinishGame = (e) => {
@@ -48,13 +53,16 @@ function CalculationGame() {
 
   return (
     <div className="minigame">
-      <h1 className="minigame-Headline">덧셈 게임</h1>
-      <h1>Timer: {timeLeft} seconds</h1>
-      <div className="minigame-score">
-        <p>Score: {score}</p>
-        <p>
-          {num1} + {num2} = {value}
-        </p>
+      <h1 className="minigame-Headline">회식비 정산하기!</h1>
+      <div className="minigame-cal-timer">{timeLeft}</div>
+      <div className="minigame-score-board">
+        <p>맞힌 갯수: {score}</p>
+        <div className="minigame-cal-currentmoney">
+          <div>현재 정산금:{num1}원</div>
+
+          <div>+ 짜장면: {num2}원</div>
+        </div>
+        <div className="minigame-cal-money-value">= {value}원</div>
       </div>
       {/* <p>You selected: {value}</p> */}
       <div className="minigame-select">

@@ -1,7 +1,6 @@
 .current-nickname-info {
   text-align: start;
-  font-size: 1.2rem;
-  margin-top: 10%;
+  font-size: 1.5rem;
 }
 .current-nickname {
   font-size: 1.7rem;
@@ -14,7 +13,7 @@
 .change-nickname-input {
   text-align: center;
   height: 2rem;
-  width: 60%;
+  width: 80%;
   font-size: 1.5rem;
   font-family: "galmuri9";
   outline: none;
@@ -28,11 +27,47 @@
   left: 50%;
   transform: translateX(-50%);
   font-size: 1.2rem;
-  margin-top: 10%;
   padding: 5%;
   height: 5%;
   width: 30%;
   background-color: white;
-  border: solid 3px black;
+  border: solid 5px black;
   border-radius: 30px;
+}
+
+.current-gender-info {
+  text-align: start;
+  font-size: 1.5rem;
+  margin-top: 10%;
+}
+
+.current-gender-wrapper {
+  padding: 10% 0%;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 20%;
+}
+.current-gender-input[type="radio"] {
+  appearance: none;
+  border: 0.4rem solid silver;
+  border-radius: 30px;
+  display: block;
+  width: 90%;
+  height: 90%;
+  margin: 0% 5%;
+  background-position-x:center ;
+  background-position-y: 10%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.current-gender-input[type="radio"]:checked {
+  border: 0.4rem solid black;
+  transition: border 0.2s linear;
+  display: block;
+  width: 90%;
+  height: 90%;
+  margin: 0% 5%;
+  background-color: white;
 }

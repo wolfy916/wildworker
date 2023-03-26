@@ -5,6 +5,7 @@ function MenuBar(props) {
   const [menuClick, setMenuClick] = React.useState(false);
 
   const handleLocations = [{ left: "20%" }, { left: "40%" }, { left: "60%" }];
+  const handleLabel = ["닉네임", "수식어", "정산서"];
   const subwayHandle = handleLocations.map((value, idx) => {
     return (
       <div
@@ -16,6 +17,11 @@ function MenuBar(props) {
           props.setModalClick(true);
         }}
       >
+        <div className="handle-rope-label">
+          <div className="label-char">{handleLabel[idx][0]}</div>
+          <div className="label-char">{handleLabel[idx][1]}</div>
+          <div className="label-char">{handleLabel[idx][2]}</div>
+        </div>
         <div className="handle-grip"></div>
       </div>
     );
@@ -87,7 +93,7 @@ function MenuBar(props) {
             }, 10);
           }
         }}
-      >MENU
+      >
         {subwayHandle}
       </div>
     </div>
