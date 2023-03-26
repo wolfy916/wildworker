@@ -8,11 +8,12 @@ import BattleCharWinner from "../components/battle/battleCharWinner";
 import "./ResultPage.css";
 
 function MainPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
   function handleTouchStart(event) {
     // 다음 페이지로 이동하는 로직을 작성합니다.
-    navigate("/pvp/receipt");
-    console.log("go to receiptPage");
+    navigate("/pvp/receipt")
+    console.log("go to receiptPage")
   }
   return (
     <Box className="Pvp-Result" sx={{ position: "relative" }}>
@@ -48,7 +49,7 @@ function MainPage() {
         <p className="battleResult-talk-p">결투에서 승리했다!!!!</p>
       </div>
     </Box>
-  );
+  )
 }
 
-export default MainPage;
+export default MainPage

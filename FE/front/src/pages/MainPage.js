@@ -2,6 +2,9 @@ import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./MainPage.css";
 
+import Stomp from "stompjs"
+import SockJS from "sockjs-client"
+
 import SubwayBoard from "../components/mainpage/SubwayBoard";
 import GetCoinItem from "../components/mainpage/GetCoinItem";
 import Modal from "../components/mainpage/Modal";
@@ -39,6 +42,8 @@ function MainPage() {
   // 현재역 관련 정보
   const [station, setStation] = React.useState("역삼역");
   const [dominator, setDominator] = React.useState("매의호크민성");
+  const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws")
+  const stompClient = Stomp.over(socket)
 
   // 매칭 잡혔을 때의 로딩 이펙트 테스트용 함수
   function pvpRouterClickHandler() {
@@ -54,7 +59,12 @@ function MainPage() {
       navigate("/pvp");
     }, 1200);
   }
-
+  
+  // 서류 눌렀을 때마다 보내는거
+  const handleGetCnt = () => {
+    const message = "서류 - back요청대로 보내야함"
+    stompClient.send("/pub/system/mining/collect", {}, message)
+  }
   // 하위 컴포넌트로 상속할 함수
   function setCoinCntHandler() {
     setCoinCnt((prevCnt) => {
@@ -71,8 +81,14 @@ function MainPage() {
         }
       }
     });
+    handleGetCnt();
   }
 
+  // 수동채굴 다 채우고 가방눌러서 코인 받을 때
+  const handleGetCoin = () => {
+    const message = "가방 - back요청대로 보내야함"
+    stompClient.send("/pub/system/mining/sell", {}, message)
+  }
   // 수동 채굴 아이템 수집량에 따른 버튼 이미지 변환
   React.useEffect(() => {
     // 수동채굴 아이템 수집량 조건을 만족하고, 바뀐 버튼을 클릭했을 때
@@ -92,8 +108,10 @@ function MainPage() {
         setIsEnough(false);
         setCoinCnt(0);
         setGetCoinClick(true);
+        handleGetCoin();
       }, 1000);
     }
+
 
     const getCoinBtnTag = document.getElementsByClassName("get-coin-btn")[0];
     if (isEnough) {
