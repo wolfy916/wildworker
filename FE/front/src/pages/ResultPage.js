@@ -1,13 +1,15 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import BattleCharater from "../components/battle/battlecharacter";
-import BattleCharLoser from "../components/battle/battleCharLoser";
-import battleDialogImg from "../asset/image/battleTalk.png";
-import { useNavigate } from "react-router-dom";
-import BattleCharWinner from "../components/battle/battleCharWinner";
-import "./ResultPage.css";
+import * as React from "react"
+import Box from "@mui/material/Box"
+import BattleCharater from "../components/battle/battlecharacter"
+import BattleCharLoser from "../components/battle/battleCharLoser"
+import battleDialogImg from "../asset/image/battleTalk.png"
+import { useNavigate } from "react-router-dom"
+import BattleCharWinner from "../components/battle/battleCharWinner"
+import "./ResultPage.css"
 
-function MainPage() {
+function MainPage(props) {
+  const gameResultData = props.gameResultData
+
   const navigate = useNavigate()
 
   function handleTouchStart(event) {
