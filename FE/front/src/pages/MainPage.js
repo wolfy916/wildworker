@@ -35,16 +35,17 @@ function MainPage(props) {
   const changeTitleData = props.changeTitleData
 
   // 수동 채굴한 갯수 데이터 받아서 coinCntData에 넣으면 됨
-  let coinCntData = 0
-  const navigate = useNavigate()
-  const [isReady, setIsReady] = React.useState(false) // 비동기 오류 방지
-  const [isEnough, setIsEnough] = React.useState(false) // 100개 모았는지 확인
-  const [coinCnt, setCoinCnt] = React.useState(coinCntData) // 수동채굴 아이템 수집량
-  const [getCoinClick, setGetCoinClick] = React.useState(false) // 수집량 만족 후 클릭 여부
-  const [pvpRouterClick, setPvpRouterClick] = React.useState(false) // pvp 로딩 테스트 버튼
-  const [modalClick, setModalClick] = React.useState(false)
-  const [selectIdx, setSelectIdx] = React.useState(0)
-  const [isToggled, setIsToggled] = React.useState(false)
+  let coinCntData = 0;
+  const navigate = useNavigate();
+
+  const [isReady, setIsReady] = React.useState(false); // 비동기 오류 방지
+  const [isEnough, setIsEnough] = React.useState(false); // 수동채굴 100개 모았는지 확인
+  const [coinCnt, setCoinCnt] = React.useState(coinCntData); // 수동채굴 아이템 수집량
+  const [getCoinClick, setGetCoinClick] = React.useState(false); // 수집량 만족 후 클릭 여부
+  const [pvpRouterClick, setPvpRouterClick] = React.useState(false); // pvp 로딩 테스트 버튼
+  const [modalClick, setModalClick] = React.useState(false);
+  const [selectIdx, setSelectIdx] = React.useState(0);
+  const [isToggled, setIsToggled] = React.useState(false);
 
   // 유저 관련 정보
   const [badge, setBadge] = React.useState("쫄보")
@@ -140,11 +141,12 @@ function MainPage(props) {
 
     // 06 ~ 16시는 아침 이미지
     // 17 ~ 05시는 밤 이미지
-    let today = new Date()
-    let hours = today.getHours()
-    if (5 < hours < 17) {
-      const backgroundTag = document.querySelector(".subway-background")
-      backgroundTag.style.backgroundImage = `url(${morningBackgroundImg})`
+    let today = new Date();   
+    let hours = today.getHours();
+    console.log(hours);
+    if (5 < hours && hours < 17) {
+      const backgroundTag = document.querySelector(".subway-background");
+      backgroundTag.style.backgroundImage=`url(${morningBackgroundImg})`;
     }
   }, [])
   return (
