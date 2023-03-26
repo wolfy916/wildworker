@@ -1,0 +1,7 @@
+.battle-char-loser {
+  position: relative;
+  top: 20%;
+  /* left: 15%; */
+  transform: scale(0.9) scaleX(-1);
+  /* border: 1px black solid; */
+}
