@@ -4,4 +4,5 @@ public enum Type {
     EXCEPTION,
     STATION,
     MINING,
+    COIN,
 }
