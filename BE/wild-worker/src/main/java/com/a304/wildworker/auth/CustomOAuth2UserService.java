@@ -1,6 +1,7 @@
 package com.a304.wildworker.auth;
 
 import com.a304.wildworker.common.Constants;
+import com.a304.wildworker.domain.sessionuser.PrincipalDetails;
 import com.a304.wildworker.domain.sessionuser.SessionUser;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
@@ -15,7 +16,6 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
@@ -43,17 +43,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 oAuth2User.getAttributes());
 
         User user = findOrSave(attributes);
-        httpSession.setAttribute(Constants.SESSION_NAME_USER, new SessionUser(user));
-        log.info("- {}: {}", Constants.SESSION_NAME_USER, user);
+        SessionUser sessionUser = new SessionUser(user);
+        httpSession.setAttribute(Constants.SESSION_NAME_USER, sessionUser);
+        log.info("- {}: {}", Constants.SESSION_NAME_USER, sessionUser);
 
         String accessToken = userRequest.getAccessToken().getTokenValue();
         httpSession.setAttribute(Constants.SESSION_NAME_ACCESS_TOKEN, accessToken);
         log.info("- {}: {}", Constants.SESSION_NAME_ACCESS_TOKEN, accessToken);
 
-        return new DefaultOAuth2User(
+        return new PrincipalDetails(
                 Collections.singleton(new SimpleGrantedAuthority(user.getRole().toString())),
                 attributes.getAttributes(),
-                attributes.getNameAttributeKey());
+                attributes.getNameAttributeKey(),
+                sessionUser);
     }
 
     private User findOrSave(OAuth2Attribute attributes) throws WalletCreationException {
