@@ -2,12 +2,9 @@ package com.a304.wildworker.auth;
 
 
 import com.a304.wildworker.common.Constants;
-import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
-import com.a304.wildworker.domain.sessionuser.SessionUser;
 import com.a304.wildworker.service.UserService;
 import java.io.IOException;
-import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -39,12 +36,6 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
             Authentication authentication) throws IOException {
         log.info("login handler");
         HttpSession session = request.getSession();
-
-        // 접속중인 사용자에 추가
-        SessionUser user = (SessionUser) Optional.of(
-                session.getAttribute(Constants.SESSION_NAME_USER)).orElseThrow();
-        long userId = userService.getUserId(user.getEmail());
-        activeUserRepository.saveActiveUser(session.getId(), new ActiveUser(userId));
 
         // 메인으로 리다이렉트
         response.setHeader(Constants.SET_COOKIE,

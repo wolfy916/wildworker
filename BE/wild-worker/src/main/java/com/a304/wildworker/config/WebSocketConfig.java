@@ -1,7 +1,7 @@
 package com.a304.wildworker.config;
 
-import com.a304.wildworker.interceptor.HttpHandshakeInterceptor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -13,16 +13,17 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 
+@Slf4j
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfigurer<Session> {
+public class WebSocketConfig extends
+        AbstractSessionWebSocketMessageBrokerConfigurer<Session> {
 
     @Value("${allowed-origins}")
     private final String[] allowedOrigins;
-    private final HttpHandshakeInterceptor interceptor;
 
-    private final ChannelInterceptor interceptor2;
+    private final ChannelInterceptor interceptor;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -33,16 +34,14 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(interceptor2);
+        registration.interceptors(interceptor);
     }
 
     @Override
     public void configureStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .addInterceptors(interceptor)
                 .setAllowedOriginPatterns(allowedOrigins);
         registry.addEndpoint("/ws")
-                .addInterceptors(interceptor)
                 .setAllowedOriginPatterns(allowedOrigins)
                 .withSockJS();
         registry.addEndpoint("/secured/ws")
@@ -52,5 +51,4 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
                 .withSockJS();
 
     }
-
 }
