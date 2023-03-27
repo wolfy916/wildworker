@@ -150,7 +150,7 @@ public class TransactionSendHelper {
                                     }
                                     return transactionReceipt;
                                 }
-                        ).get();
+                        ).get(); // TODO: 2023-03-27 내부 로직 수정 필요
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
