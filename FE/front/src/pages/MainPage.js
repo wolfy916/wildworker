@@ -33,19 +33,20 @@ function MainPage(props) {
   const investRewardData = props.investRewardData
   const getTitleData = props.getTitleData
   const changeTitleData = props.changeTitleData
+  const stompClient = props.stompClient
 
-  // 수동 채굴한 갯수 데이터 받아서 coinCntData에 넣으면 됨
-  let coinCntData = 0;
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const [isReady, setIsReady] = React.useState(false); // 비동기 오류 방지
-  const [isEnough, setIsEnough] = React.useState(false); // 수동채굴 100개 모았는지 확인
-  const [coinCnt, setCoinCnt] = React.useState(coinCntData); // 수동채굴 아이템 수집량
-  const [getCoinClick, setGetCoinClick] = React.useState(false); // 수집량 만족 후 클릭 여부
-  const [pvpRouterClick, setPvpRouterClick] = React.useState(false); // pvp 로딩 테스트 버튼
-  const [modalClick, setModalClick] = React.useState(false);
-  const [selectIdx, setSelectIdx] = React.useState(0);
-  const [isToggled, setIsToggled] = React.useState(false);
+  const [isReady, setIsReady] = React.useState(false) // 비동기 오류 방지
+  const [isEnough, setIsEnough] = React.useState(false) // 수동채굴 100개 모았는지 확인
+  const [coinCnt, setCoinCnt] = React.useState(
+    manualMiningData ? manualMiningData : 0
+  ) // 수동채굴 아이템 수집량
+  const [getCoinClick, setGetCoinClick] = React.useState(false) // 수집량 만족 후 클릭 여부
+  const [pvpRouterClick, setPvpRouterClick] = React.useState(false) // pvp 로딩 테스트 버튼
+  const [modalClick, setModalClick] = React.useState(false)
+  const [selectIdx, setSelectIdx] = React.useState(0)
+  const [isToggled, setIsToggled] = React.useState(false)
 
   // 유저 관련 정보
   const [badge, setBadge] = React.useState("쫄보")
@@ -57,8 +58,7 @@ function MainPage(props) {
   // 현재역 관련 정보
   const [station, setStation] = React.useState("")
   const [dominator, setDominator] = React.useState("매의호크민성")
-  const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws")
-  const stompClient = Stomp.over(socket)
+
 
   // 매칭 잡혔을 때의 로딩 이펙트 테스트용 함수
   function pvpRouterClickHandler() {
@@ -75,35 +75,31 @@ function MainPage(props) {
     }, 1200)
   }
 
+
+
   // 서류 눌렀을 때마다 보내는거
   const handleGetCnt = () => {
     const message = "서류 - back요청대로 보내야함"
     stompClient.send("/pub/system/mining/collect", {}, message)
   }
+
   // 하위 컴포넌트로 상속할 함수
   function setCoinCntHandler() {
     setCoinCnt((prevCnt) => {
       if (prevCnt < 4) {
         // 수집량 조건 -> 5개
         setIsEnough(false)
-        return prevCnt + 1
-      } else {
+        handleGetCnt()
+      } else if (prevCnt === 4) {
         setIsEnough(true)
-        if (prevCnt === 4) {
-          return prevCnt + 1
-        } else {
-          return prevCnt
-        }
+        handleGetCnt()
       }
+      return manualMiningData
     })
-    handleGetCnt()
   }
 
-  // 수동채굴 다 채우고 가방눌러서 코인 받을 때
-  const handleGetCoin = () => {
-    const message = "가방 - back요청대로 보내야함"
-    stompClient.send("/pub/system/mining/sell", {}, message)
-  }
+  // 
+
   // 수동 채굴 아이템 수집량에 따른 버튼 이미지 변환
   React.useEffect(() => {
     // 수동채굴 아이템 수집량 조건을 만족하고, 바뀐 버튼을 클릭했을 때
@@ -123,7 +119,7 @@ function MainPage(props) {
         setIsEnough(false)
         setCoinCnt(0)
         setGetCoinClick(true)
-        handleGetCoin()
+        // handleGetCoin()
       }, 1000)
     }
 
@@ -141,12 +137,11 @@ function MainPage(props) {
 
     // 06 ~ 16시는 아침 이미지
     // 17 ~ 05시는 밤 이미지
-    let today = new Date();   
-    let hours = today.getHours();
-    console.log(hours);
+    let today = new Date()
+    let hours = today.getHours()
     if (5 < hours && hours < 17) {
-      const backgroundTag = document.querySelector(".subway-background");
-      backgroundTag.style.backgroundImage=`url(${morningBackgroundImg})`;
+      const backgroundTag = document.querySelector(".subway-background")
+      backgroundTag.style.backgroundImage = `url(${morningBackgroundImg})`
     }
   }, [])
   return (
@@ -211,7 +206,7 @@ function MainPage(props) {
           <MenuBar setModalClick={setModalClick} setSelectIdx={setSelectIdx} />
         )}
         <div className="get-coin-btn">
-          {!isEnough && <div className="get-coin-cnt">{coinCnt}</div>}
+          {!isEnough && <div className="get-coin-cnt">{manualMiningData.paperCount}</div>}
         </div>
         <Link className="main-router-map-btn" to="/map">
           <img src={goMap} alt="goMap" />

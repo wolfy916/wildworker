@@ -81,7 +81,8 @@ function App() {
     const message = JSON.stringify(e)
     stompClient.send("/pub/system/location", {}, message)
   }
-
+  
+  
   //연결, 구독하기, 구독끊기, 데이터 받는 곳
   useEffect(() => {
     // 연결
@@ -104,6 +105,7 @@ function App() {
       })
       stompClient.subscribe("/user/queue", (message) => {
         const payload = JSON.parse(message.body)
+        console.log(payload)
 
         //현재 역 변동 & 역 정보
         if (payload.type === "STATION" && payload.subType === "STATUS") {
@@ -114,6 +116,8 @@ function App() {
         else if (payload.type === "MINING") {
           // 서류 종이 카운트
           if (payload.subType === "PAPER_COUNT") {
+            console.log(payload.data)
+            console.log('22')
             setManualMiningData(payload.data)
           }
           // 가방 누르면 코인 획득
@@ -213,6 +217,7 @@ function App() {
                   investRewardData={investRewardData}
                   getTitleData={getTitleData}
                   changeTitleData={changeTitleData}
+                  stompClient={stompClient}
                 />
               }
             />
