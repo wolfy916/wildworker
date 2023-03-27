@@ -1,5 +1,6 @@
 package com.a304.wildworker.ethereum.contract;
 
+import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.domain.station.Station;
 import com.a304.wildworker.domain.user.User;
 import java.io.File;
@@ -21,9 +22,6 @@ public class Bank {
     private final WonContract wonContract;
     private final StationContract stationContract;
 
-    private static final long AMOUNT_MANUAL_MINE = 100L;
-    private static final long AMOUNT_AUTO_MINE = 100L;
-
     /**
      * 수동 채굴 메소드 요청 시 AMOUNT_MANUAL_MINE 만큼의 WON 을 얻음
      *
@@ -33,7 +31,7 @@ public class Bank {
      */
     public void manualMine(User user) throws CipherException, IOException {
         String to = getUserWalletAddress(user);
-        wonContract.manualMine(to, AMOUNT_MANUAL_MINE);
+        wonContract.manualMine(to, Constants.AMOUNT_MANUAL_MINE);
     }
 
     /**
@@ -48,7 +46,7 @@ public class Bank {
         String from = station.getAddress();
         String to = getUserWalletAddress(user);
 
-        stationContract.autoMine(from, to, AMOUNT_AUTO_MINE);
+        stationContract.autoMine(from, to, Constants.AMOUNT_AUTO_MINE);
     }
 
     /**
