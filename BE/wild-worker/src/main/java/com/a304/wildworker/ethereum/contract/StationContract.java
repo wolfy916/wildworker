@@ -14,6 +14,7 @@ import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Numeric;
 
 @RequiredArgsConstructor
@@ -23,33 +24,30 @@ public class StationContract {
 
     private final TransactionSendHelper transactionSendHelper;
 
-    public CompletableFuture<Void> autoMine(String stationAddress, String userAddress, long amount)
+    public CompletableFuture<TransactionReceipt> autoMine(String stationAddress, String userAddress,
+            long amount)
             throws IOException {
         Function function = new Function("autoMine",
                 List.of(new Address(userAddress), new Uint256(amount)), Collections.emptyList());
 
-        return transactionSendHelper.sendContractAsync(stationAddress, function)
-                .thenAccept(receipt -> log.info("autoMine : {}", receipt));
+        return transactionSendHelper.sendContractAsync(stationAddress, function);
     }
 
-    public CompletableFuture<Void> invest(String stationAddress, String userAddress, long amount)
+    public CompletableFuture<TransactionReceipt> invest(String stationAddress, String userAddress,
+            long amount)
             throws IOException {
         Function function = new Function("recordInvestment", List.of(new Uint256(amount)),
                 Collections.emptyList());
 
-        return transactionSendHelper.sendContractAsync(stationAddress, userAddress, function)
-                .thenAccept(
-                        transactionReceipt -> log.info("invest receipt : {}", transactionReceipt));
+        return transactionSendHelper.sendContractAsync(stationAddress, userAddress, function);
     }
 
-    public CompletableFuture<Void> investReward(String stationAddress,
+    public CompletableFuture<TransactionReceipt> investReward(String stationAddress,
             Long currentCommissionOfStation) throws IOException {
         Function function = new Function("countChargeEvery10Min",
                 List.of(new Uint256(currentCommissionOfStation)), Collections.emptyList());
 
-        return transactionSendHelper.sendContractAsync(stationAddress, function)
-                .thenAccept(transactionReceipt -> log.info("invest reward receipt : {}",
-                        transactionReceipt));
+        return transactionSendHelper.sendContractAsync(stationAddress, function);
     }
 
     public BigInteger getInvestmentOfUser(String stationAddress, String userAddress)
