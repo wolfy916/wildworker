@@ -53,6 +53,14 @@ public class Bank {
         return stationContract.autoMine(from, to, AMOUNT_AUTO_MINE);
     }
 
+    public CompletableFuture<Void> invest(Station station, User user, Long amount)
+            throws CipherException, IOException {
+        String stationAddress = station.getAddress();
+        String userAddress = getUserWalletAddress(user);
+
+        return stationContract.invest(stationAddress, userAddress, amount);
+    }
+
     /**
      * 현재 잔액(WON)을 확인하는 메소드
      *

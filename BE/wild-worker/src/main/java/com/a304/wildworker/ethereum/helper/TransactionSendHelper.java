@@ -3,6 +3,7 @@ package com.a304.wildworker.ethereum.helper;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.web3j.abi.FunctionEncoder;
@@ -10,8 +11,10 @@ import org.web3j.abi.datatypes.Function;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.EthBlock.Block;
+import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.RawTransactionManager;
@@ -108,6 +111,65 @@ public class TransactionSendHelper {
                 });
     }
 
+    /**
+     * 블록체인 네트워크에 비동기 요청 보내는 메서드 예외 발생 시 RuntimeException 발생
+     *
+     * @param contractAddress
+     * @param fromAddress     msg.sender에 매핑될 주소
+     * @param function
+     * @return
+     * @throws IOException
+     */
+    public CompletableFuture<TransactionReceipt> sendContractAsync(String contractAddress,
+            String fromAddress,
+            Function function)
+            throws IOException {
+        return getBlock().thenCombine(getNonce(fromAddress), (block, nonce) -> {
+            BigInteger gasLimit = block.getGasLimit();
+            BigInteger baseFeePerGas = Numeric.decodeQuantity(block.getBaseFeePerGas());
+            BigInteger amountUsed = baseFeePerGas; // TODO: 2023-03-23 값 조정 필요
+
+            try {
+                return web3j.ethSendTransaction(
+                                Transaction.createFunctionCallTransaction(
+                                        fromAddress,
+                                        nonce,
+                                        amountUsed,
+                                        gasLimit,
+                                        contractAddress,
+                                        FunctionEncoder.encode(function)
+                                ))
+                        .sendAsync()
+                        .thenApply(ethSendTransaction -> {
+                                    TransactionReceipt transactionReceipt;
+                                    try {
+                                        transactionReceipt = getTransactionReceipt(ethSendTransaction);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        throw new RuntimeException(e);
+                                    }
+                                    return transactionReceipt;
+                                }
+                        ).get(); // TODO: 2023-03-27 내부 로직 수정 필요
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private CompletableFuture<Block> getBlock() {
+        return web3j.ethGetBlockByNumber(
+                DefaultBlockParameterName.LATEST, false).sendAsync().thenApply(EthBlock::getBlock);
+    }
+
+    private CompletableFuture<BigInteger> getNonce(String address) {
+        return web3j.ethGetTransactionCount(address, DefaultBlockParameterName.LATEST).sendAsync()
+                .thenApply(EthGetTransactionCount::getTransactionCount);
+    }
 
     /**
      * @param contractAddress 조회할 자료의 컨트랙트 주소
