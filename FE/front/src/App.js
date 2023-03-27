@@ -1,25 +1,25 @@
-import React from "react"
-import { useEffect, useState } from "react"
+import React from "react";
+import { useEffect, useState } from "react";
 // import axios from "axios"
-import Stomp from "stompjs"
-import SockJS from "sockjs-client"
-import { Routes, Route } from "react-router-dom"
-import LoginPage from "./pages/LoginPage"
-import RedirectLogin from "./pages/RedirectLoginPage"
-import MainPage from "./pages/MainPage"
-import SubwayMapPage from "./pages/SubwayMapPage"
-import PvpPage from "./pages/PvpPage"
-import PvpResultPage from "./pages/ResultPage"
-import PvpReceipPage from "./pages/ReceiptPage"
-import MySubwayPage from "./pages/MySubwayPage"
-import HotSubwayPage from "./pages/HotSubwayPage"
-import DetailSubwayPage from "./pages/DetailSubwayPage"
-import MiniGamePage from "./pages/MiniGamePage"
-import MiniGameReadyPage from "./pages/MiniGameReadyPage"
+import Stomp from "stompjs";
+import SockJS from "sockjs-client";
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import RedirectLogin from "./pages/RedirectLoginPage";
+import MainPage from "./pages/MainPage";
+import SubwayMapPage from "./pages/SubwayMapPage";
+import PvpPage from "./pages/PvpPage";
+import PvpResultPage from "./pages/ResultPage";
+import PvpReceipPage from "./pages/ReceiptPage";
+import MySubwayPage from "./pages/MySubwayPage";
+import HotSubwayPage from "./pages/HotSubwayPage";
+import DetailSubwayPage from "./pages/DetailSubwayPage";
+import MiniGamePage from "./pages/MiniGamePage";
+import MiniGameReadyPage from "./pages/MiniGameReadyPage";
 
-import Box from "@mui/material/Box"
-import Container from "@mui/material/Container"
-import "./App.css"
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import "./App.css";
 
 function App() {
   // 웹에서 개발할 때, 얘 꼭 주석처리 해라
@@ -31,56 +31,56 @@ function App() {
   //   }
   // });
 
-  const [dominatorComeData, setDominatorComeData] = useState("")
-  const [dominatorMessageData, setDominatorMessageData] = useState("")
-  const [locationData, setLocationData] = useState("")
-  const [manualMiningData, setManualMiningData] = useState("")
-  const [manualMiningBagData, setManualMiningBagData] = useState("")
-  const [autoCoinData, setAutoCoinData] = useState("")
-  const [manualCoinData, setManualCoinData] = useState("")
-  const [investCostData, setInvestCostData] = useState("")
-  const [investRewardData, setInvestRewardData] = useState("")
-  const [gameCostData, setGameCostData] = useState("")
-  const [runCostData, setRunCostData] = useState("")
-  const [gameRewardData, setGameRewardData] = useState("")
-  const [getTitleData, setGetTitleData] = useState("")
-  const [changeTitleData, setChangeTitleData] = useState("")
-  const [matchingData, setMatchingData] = useState("")
-  const [gameRunData, setGameRunData] = useState("")
-  const [gameStartData, setGameStartData] = useState("")
-  const [gameResultData, setGameResultData] = useState("")
+  const [dominatorComeData, setDominatorComeData] = useState("");
+  const [dominatorMessageData, setDominatorMessageData] = useState("");
+  const [locationData, setLocationData] = useState("");
+  const [manualMiningData, setManualMiningData] = useState(1);
 
-  const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws")
-  const stompClient = Stomp.over(socket)
+  const [autoCoinData, setAutoCoinData] = useState("");
+  const [manualCoinData, setManualCoinData] = useState("");
+  const [investCostData, setInvestCostData] = useState("");
+  const [investRewardData, setInvestRewardData] = useState("");
+  const [gameCostData, setGameCostData] = useState("");
+  const [runCostData, setRunCostData] = useState("");
+  const [gameRewardData, setGameRewardData] = useState("");
+  const [getTitleData, setGetTitleData] = useState("");
+  const [changeTitleData, setChangeTitleData] = useState("");
+  const [matchingData, setMatchingData] = useState("");
+  const [gameRunData, setGameRunData] = useState("");
+  const [gameStartData, setGameStartData] = useState("");
+  const [gameResultData, setGameResultData] = useState("");
 
-  // 실시간 위치 전송 코드
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          if (position.coords) {
-            handleSendLocation({
-              lat: position.coords.latitude,
-              lon: position.coords.longitude,
-            })
-          }
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
-    }, 5000)
+  const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
+  const stompClient = Stomp.over(socket);
 
-    return () => {
-      clearInterval(intervalId)
-    }
-  }, [])
+  // // 실시간 위치 전송 코드
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         if (position.coords) {
+  //           handleSendLocation({
+  //             lat: position.coords.latitude,
+  //             lon: position.coords.longitude,
+  //           })
+  //         }
+  //       },
+  //       (error) => {
+  //         console.log(error)
+  //       }
+  //     )
+  //   }, 5000)
+
+  //   return () => {
+  //     clearInterval(intervalId)
+  //   }
+  // }, [])
 
   // 위치 전송 백에게 전달하는 함수
-  const handleSendLocation = (e) => {
-    const message = JSON.stringify(e)
-    stompClient.send("/pub/system/location", {}, message)
-  }
+  // const handleSendLocation = (e) => {
+  //   const message = JSON.stringify(e);
+  //   stompClient.send("/pub/system/location", {}, message);
+  // };
 
   //연결, 구독하기, 구독끊기, 데이터 받는 곳
   useEffect(() => {
@@ -88,37 +88,33 @@ function App() {
     stompClient.connect({}, () => {
       // 같은 역 사람들 구독
       stompClient.subscribe("/sub/systems/{station-id}", (message) => {
-        const payload = JSON.parse(message.body)
+        const payload = JSON.parse(message.body);
 
         // 지배자 기능 모음
         if (payload.type === "STATION") {
           // 지배자 강림
           if (payload.subType === "DOMINATOR") {
-            setDominatorComeData(payload.data)
+            setDominatorComeData(payload.data);
           }
           // 지배자 확성기
           else if (payload.subType === "MESSAGE") {
-            setDominatorMessageData(payload.data)
+            setDominatorMessageData(payload.data);
           }
         }
-      })
+      });
       stompClient.subscribe("/user/queue", (message) => {
-        const payload = JSON.parse(message.body)
+        const payload = JSON.parse(message.body);
 
         //현재 역 변동 & 역 정보
         if (payload.type === "STATION" && payload.subType === "STATUS") {
-          setLocationData(payload.data)
+          setLocationData(payload.data);
         }
 
         // 수동 채굴 모음
         else if (payload.type === "MINING") {
           // 서류 종이 카운트
           if (payload.subType === "PAPER_COUNT") {
-            setManualMiningData(payload.data)
-          }
-          // 가방 누르면 코인 획득
-          else if (payload.subType === "??") {
-            setManualMiningBagData(payload.data)
+            setManualMiningData(payload.data);
           }
         }
 
@@ -126,31 +122,31 @@ function App() {
         else if (payload.type === "COIN") {
           // 자동 코인 변동
           if (payload.subType === "AUTO_MINING") {
-            setAutoCoinData(payload.data)
+            setAutoCoinData(payload.data);
           }
           //수동 코인변동
           else if (payload.subType === "MANUAL_MINING") {
-            setManualCoinData(payload.data)
+            setManualCoinData(payload.data);
           }
           //게임비
           else if (payload.subType === "MINI_GAME_COST") {
-            setGameCostData(payload.data)
+            setGameCostData(payload.data);
           }
           //도망비
           else if (payload.subType === "MINI_GAME_RUN_COST") {
-            setRunCostData(payload.data)
+            setRunCostData(payload.data);
           }
           //게임보상금
           else if (payload.subType === "MINI_GAME_REWARD") {
-            setGameRewardData(payload.data)
+            setGameRewardData(payload.data);
           }
           //투자액
           else if (payload.subType === "INVESTMENT") {
-            setInvestCostData(payload.data)
+            setInvestCostData(payload.data);
           }
           //투자보상금
           else if (payload.subType === "INVESTMENT_REWARD") {
-            setInvestRewardData(payload.data)
+            setInvestRewardData(payload.data);
           }
         }
 
@@ -158,11 +154,11 @@ function App() {
         else if (payload.type === "TITLE") {
           // 칭호 획득
           if (payload.subType === "GET") {
-            setGetTitleData(payload.data)
+            setGetTitleData(payload.data);
           }
           // 내 대표 칭호 변동
           else if (payload.subType === "MAIN_TITLE_UPDATE") {
-            setChangeTitleData(payload.data)
+            setChangeTitleData(payload.data);
           }
         }
 
@@ -170,24 +166,24 @@ function App() {
         else if (payload.type === "MINIGAME") {
           // 게임 매칭
           if (payload.subType === "MATCHING") {
-            setMatchingData(payload.data)
+            setMatchingData(payload.data);
           }
           // 게임 취소 (도망 성공)
           else if (payload.subType === "CANCEL") {
-            setGameRunData(payload.data)
+            setGameRunData(payload.data);
           }
           // 게임 시작
           else if (payload.subType === "START") {
-            setGameStartData(payload.data)
+            setGameStartData(payload.data);
           }
           // 게임 결과
           else if (payload.subType === "RESULT") {
-            setGameResultData(payload.data)
+            setGameResultData(payload.data);
           }
         }
-      })
-    })
-  }, [])
+      });
+    });
+  }, []);
 
   return (
     <div id="App" className="App">
@@ -203,7 +199,6 @@ function App() {
                   dominatorMessageData={dominatorMessageData}
                   locationData={locationData}
                   manualMiningData={manualMiningData}
-                  manualMiningBagData={manualMiningBagData}
                   autoCoinData={autoCoinData}
                   manualCoinData={manualCoinData}
                   gameCostData={gameCostData}
@@ -211,8 +206,8 @@ function App() {
                   gameRewardData={gameRewardData}
                   investCostData={investCostData}
                   investRewardData={investRewardData}
-                  getTitleData={getTitleData}
                   changeTitleData={changeTitleData}
+                  stompClient={stompClient}
                 />
               }
             />
@@ -245,6 +240,6 @@ function App() {
         </Box>
       </Container>
     </div>
-  )
+  );
 }
-export default App
+export default App;
