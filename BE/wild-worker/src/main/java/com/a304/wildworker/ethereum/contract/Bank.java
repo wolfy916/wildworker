@@ -53,6 +53,14 @@ public class Bank {
         return stationContract.autoMine(from, to, AMOUNT_AUTO_MINE);
     }
 
+    /**
+     * user가 station에 돈 추자
+     *
+     * @param station 돈(WON)을 받을 역
+     * @param user    돈(WON)을 지불할 사용자
+     * @throws CipherException
+     * @throws IOException
+     */
     public CompletableFuture<Void> invest(Station station, User user, Long amount)
             throws CipherException, IOException {
         String stationAddress = station.getAddress();
