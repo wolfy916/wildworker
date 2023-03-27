@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.WalletUtils;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 /**
  * 서버 내에서 사용될 System wallet. 스마트 컨트랙트를 호출함
@@ -32,7 +33,8 @@ public class Bank {
      * @throws CipherException
      * @throws IOException
      */
-    public CompletableFuture<Void> manualMine(User user) throws CipherException, IOException {
+    public CompletableFuture<TransactionReceipt> manualMine(User user)
+            throws CipherException, IOException {
         String to = getUserWalletAddress(user);
         return wonContract.manualMine(to, AMOUNT_MANUAL_MINE);
     }
@@ -45,7 +47,7 @@ public class Bank {
      * @throws CipherException
      * @throws IOException
      */
-    public CompletableFuture<Void> autoMine(Station station, User user)
+    public CompletableFuture<TransactionReceipt> autoMine(Station station, User user)
             throws CipherException, IOException {
         String from = station.getAddress();
         String to = getUserWalletAddress(user);
@@ -53,7 +55,15 @@ public class Bank {
         return stationContract.autoMine(from, to, AMOUNT_AUTO_MINE);
     }
 
-    public CompletableFuture<Void> invest(Station station, User user, Long amount)
+    /**
+     * user가 station에 돈 추자
+     *
+     * @param station 돈(WON)을 받을 역
+     * @param user    돈(WON)을 지불할 사용자
+     * @throws CipherException
+     * @throws IOException
+     */
+    public CompletableFuture<TransactionReceipt> invest(Station station, User user, Long amount)
             throws CipherException, IOException {
         String stationAddress = station.getAddress();
         String userAddress = getUserWalletAddress(user);
@@ -74,8 +84,7 @@ public class Bank {
         return wonContract.balanceOf(userWalletAddress).longValue();
     }
 
-    private String getUserWalletAddress(User user)
-            throws IOException, CipherException {
+    private String getUserWalletAddress(User user) throws IOException, CipherException {
         return WalletUtils.loadCredentials(user.getWalletPassword(),
                         WalletUtils.getDefaultKeyDirectory() + File.separator + user.getWallet())
                 .getAddress();
