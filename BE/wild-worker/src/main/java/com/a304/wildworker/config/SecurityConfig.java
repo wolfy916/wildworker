@@ -56,7 +56,6 @@ public class SecurityConfig<S extends Session> {
                 .antMatchers("/ws/**").permitAll()
                 .antMatchers("/secured/ws/**").authenticated()
                 .antMatchers("/auth/login", "/oauth2/**").permitAll()
-                .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout()
