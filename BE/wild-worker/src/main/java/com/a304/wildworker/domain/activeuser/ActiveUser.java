@@ -10,21 +10,22 @@ import lombok.ToString;
 @Setter
 public class ActiveUser implements Principal {
 
-    private long userId;    // 사용자 id
+    private String httpSessionId;   // http 세션 id
+    private String websocketSessionId;  // 웹소켓 세션 id
     private long stationId; // 현재 역 id
     private int direction;  // 지하철 이동 방향
     private boolean matchable;  // 미니게임 가능 여부
-    private String websocketSessionId;  // 웹소켓 세션 id
 
-    public ActiveUser(long userId) {
-        this.userId = userId;
-        this.stationId = -1;
-        this.matchable = true;
+    public ActiveUser(String httpSessionId) {
+        this.httpSessionId = httpSessionId;
         this.websocketSessionId = null;
+        this.stationId = -1;
+        this.direction = 1;
+        this.matchable = true;
     }
 
     @Override
     public String getName() {
-        return String.valueOf(userId);
+        return this.httpSessionId;
     }
 }

@@ -44,7 +44,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         SessionUser user = (SessionUser) Optional.of(
                 session.getAttribute(Constants.SESSION_NAME_USER)).orElseThrow();
         long userId = userService.getUserId(user.getEmail());
-        activeUserRepository.saveActiveUser(session.getId(), new ActiveUser(userId));
+        activeUserRepository.saveActiveUser(userId, new ActiveUser(session.getId()));
 
         // 메인으로 리다이렉트
         response.setHeader(Constants.SET_COOKIE,
