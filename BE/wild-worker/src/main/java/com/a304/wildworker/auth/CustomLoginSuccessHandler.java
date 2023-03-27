@@ -27,6 +27,8 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
     private final String clientUrl;
 
+    private final String redirectPath = "/redirect/login";
+
     public CustomLoginSuccessHandler(@Value("${url.client}") String clientUrl,
             UserService userService, ActiveUserRepository activeUserRepository) {
         this.clientUrl = clientUrl;
@@ -49,7 +51,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         // 메인으로 리다이렉트
         response.setHeader(Constants.SET_COOKIE,
                 generateCookie(Constants.KEY_SESSION_ID, session.getId()).toString());
-        String redirectUrl = clientUrl + "/main";
+        String redirectUrl = clientUrl + redirectPath;
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
     }
 
