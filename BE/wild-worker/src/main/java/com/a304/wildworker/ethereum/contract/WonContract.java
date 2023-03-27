@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -32,15 +33,14 @@ public class WonContract {
     private final String address;
     private final TransactionSendHelper transactionSendHelper;
 
-    public void manualMine(String userAddress, long amount) throws IOException {
+    public CompletableFuture<TransactionReceipt> manualMine(String userAddress, long amount)
+            throws IOException {
 
         Function function = new Function("manualMine",
                 Arrays.asList(new Address(userAddress), new Uint256(amount)),
                 Collections.emptyList());
 
-        TransactionReceipt transactionReceipt = transactionSendHelper.sendContract(this.address,
-                function);
-        log.info("manualMine result : {}", transactionReceipt);
+        return transactionSendHelper.sendContractAsync(this.address, function);
     }
 
     /**
@@ -54,7 +54,8 @@ public class WonContract {
                 List.of(new TypeReference<Uint256>() {
                 }));
 
-        String callResult = transactionSendHelper.sendCall(this.address, function);
-        return Numeric.decodeQuantity(callResult);
+        String result = transactionSendHelper.sendCall(this.address, function);
+
+        return Numeric.decodeQuantity(result);
     }
 }
