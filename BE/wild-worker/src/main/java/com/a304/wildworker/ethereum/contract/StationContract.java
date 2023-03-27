@@ -22,10 +22,18 @@ public class StationContract {
     public CompletableFuture<Void> autoMine(String stationAddress, String userAddress, long amount)
             throws IOException {
         Function function = new Function("autoMine",
-                List.of(new Address(userAddress), new Uint256(amount)),
-                Collections.emptyList());
+                List.of(new Address(userAddress), new Uint256(amount)), Collections.emptyList());
 
         return transactionSendHelper.sendContractAsync(stationAddress, function)
                 .thenAccept(receipt -> log.info("autoMine : {}", receipt));
+    }
+
+    public CompletableFuture<Void> invest(String stationAddress, String userAddress, long amount)
+            throws IOException {
+        Function function = new Function("recordInvestment", List.of(new Uint256(amount)),
+                Collections.emptyList());
+        return transactionSendHelper.sendContractAsync(stationAddress, userAddress, function)
+                .thenAccept(
+                        transactionReceipt -> log.info("invest receipt : {}", transactionReceipt));
     }
 }
