@@ -17,9 +17,9 @@ public class ActiveUserRepository {
         return Optional.ofNullable(activeUserMap.get(id));
     }
 
-    public ActiveUser save(Long id, ActiveUser activeUser) {
-        activeUserMap.put(id, activeUser);
-        return activeUserMap.get(id);
+    public ActiveUser save(ActiveUser activeUser) {
+        activeUserMap.put(activeUser.getUserId(), activeUser);
+        return activeUserMap.get(activeUser.getUserId());
     }
 
     public void deleteById(Long id) {
