@@ -98,10 +98,25 @@ public class Bank {
     public CompletableFuture<TransactionReceipt> sendRunCost(Station station, User user,
             Long amount)
             throws CipherException, IOException {
-        String stationAddress = station.getAddress();
-        String userAddress = getUserWalletAddress(user);
-        return wonContract.transferWon(userAddress, stationAddress, amount);
+        return sendTransfer(station, user, amount);
     }
+
+    /**
+     * 역에게 게임비 입금
+     *
+     * @param station 게임비를 받을 역
+     * @param user    게임비를 입금할 사용자
+     * @param amount  게임비
+     * @return CompletableFuture<TransactionReceipt> 트랜잭션 처리 결과 반환
+     * @throws CipherException
+     * @throws IOException
+     */
+    public CompletableFuture<TransactionReceipt> sendGameCost(Station station, User user,
+            Long amount)
+            throws CipherException, IOException {
+        return sendTransfer(station, user, amount);
+    }
+
 
     /**
      * 현재 잔액(WON)을 확인하는 메소드
@@ -120,5 +135,12 @@ public class Bank {
         return WalletUtils.loadCredentials(user.getWalletPassword(),
                         WalletUtils.getDefaultKeyDirectory() + File.separator + user.getWallet())
                 .getAddress();
+    }
+
+    private CompletableFuture<TransactionReceipt> sendTransfer(
+            Station station, User user, Long amount) throws IOException, CipherException {
+        String stationAddress = station.getAddress();
+        String userAddress = getUserWalletAddress(user);
+        return wonContract.transferWon(userAddress, stationAddress, amount);
     }
 }
