@@ -85,6 +85,16 @@ public class Bank {
         return stationContract.distributeInvestReward(stationAddress, currentCommission);
     }
 
+    /**
+     * 역에게 도망비 입금
+     *
+     * @param station 도망비를 받을 역
+     * @param user    도망비를 입금할 사용자
+     * @param amount  도망비
+     * @return CompletableFuture<TransactionReceipt> 트랜잭션 처리 결과 반환
+     * @throws CipherException
+     * @throws IOException
+     */
     public CompletableFuture<TransactionReceipt> sendRunCost(Station station, User user,
             Long amount)
             throws CipherException, IOException {
