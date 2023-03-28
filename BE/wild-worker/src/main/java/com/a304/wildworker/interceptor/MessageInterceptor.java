@@ -4,10 +4,12 @@ import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
 import com.a304.wildworker.domain.sessionuser.PrincipalDetails;
 import com.a304.wildworker.domain.sessionuser.SessionUser;
+import com.a304.wildworker.exception.NotLoginException;
 import java.security.Principal;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -26,18 +28,18 @@ public class MessageInterceptor implements ChannelInterceptor {
 
     private ActiveUser findOrSaveActiveUser(SessionUser sessionUser) {
         return activeUserRepository.findById(sessionUser.getId())
-                .orElse(activeUserRepository.save(sessionUser.getId(), new ActiveUser()));
+                .orElseGet(() -> activeUserRepository.save(new ActiveUser(sessionUser.getId())));
     }
 
 
     @Override
-    public Message<?> preSend(Message<?> message, MessageChannel channel) {
+    public Message<?> preSend(@NotNull Message<?> message, @NotNull MessageChannel channel) {
         SimpMessageHeaderAccessor accessor = SimpMessageHeaderAccessor.wrap(message);
         log.debug("ws MessageInterceptor(preSend): {}", accessor.getMessageType());
 
         Principal beforeUser = accessor.getUser();
         if (!(beforeUser instanceof OAuth2AuthenticationToken)) {
-            throw new RuntimeException("Principal 오류");     //TODO: change NotLoginException
+            throw new NotLoginException();
         }
 
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) beforeUser;
