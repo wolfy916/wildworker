@@ -1,5 +1,6 @@
 package com.a304.wildworker.domain.activeuser;
 
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Repository;
 
@@ -12,19 +13,17 @@ public class ActiveUserRepository {
         activeUserMap = new ConcurrentHashMap<>();
     }
 
-    /* 접속 중인 사용자 추가 or 수정 */
-    public void saveActiveUser(Long userId, ActiveUser activeUser) {
-        activeUserMap.put(userId, activeUser);
+    public Optional<ActiveUser> findById(Long id) {
+        return Optional.ofNullable(activeUserMap.get(id));
     }
 
-    /* 접속 중인 사용자 삭제 */
-    public ActiveUser removeActiveUser(Long userId) {
-        return activeUserMap.remove(userId);
+    public ActiveUser save(Long id, ActiveUser activeUser) {
+        activeUserMap.put(id, activeUser);
+        return activeUserMap.get(id);
     }
 
-    /* httpSessionId로 접속 중인 사용자 정보 반환 */
-    public ActiveUser getActiveUser(long userId) {
-        return activeUserMap.get(userId);
+    public void deleteById(Long id) {
+        activeUserMap.remove(id);
     }
 
 }

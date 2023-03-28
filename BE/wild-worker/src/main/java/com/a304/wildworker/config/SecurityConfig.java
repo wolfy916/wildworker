@@ -37,12 +37,13 @@ public class SecurityConfig<S extends Session> {
                 .cors()
                 .configurationSource(request -> {
                     var cors = new CorsConfiguration();
-                    cors.setAllowedOrigins(List.of("*"));
+                    cors.setAllowedOrigins(
+                            List.of("http://localhost:3000", "http://localhost:[*]"));
                     cors.setAllowedMethods(
                             List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
                     cors.setAllowedHeaders(
-                            List.of("Content-Type", "x-requested-with", "Authorization",
-                                    "Access-Control-Allow-Origin"));
+                            List.of("*"));
+                    cors.setAllowCredentials(true);
                     return cors;
                 })
                 .and()
