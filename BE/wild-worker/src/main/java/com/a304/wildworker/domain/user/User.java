@@ -87,4 +87,8 @@ public class User extends BaseEntity {
         }
         this.balance -= amount;
     }
+
+    public void addBalance(Long money) {
+        this.balance += money;
+    }
 }

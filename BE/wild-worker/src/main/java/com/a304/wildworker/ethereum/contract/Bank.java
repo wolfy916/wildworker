@@ -72,6 +72,20 @@ public class Bank {
     }
 
     /**
+     * 이전 기준점(10분) 부터 현재까지 모인 수수료 분배
+     *
+     * @param station 수수료를 분배할 역
+     * @return CompletableFuture 를 반환하므로 콜백 실행 가능
+     * @throws IOException
+     */
+    public CompletableFuture<TransactionReceipt> distributeInvestReward(Station station)
+            throws IOException {
+        String stationAddress = station.getAddress();
+        Long currentCommission = station.getCommission();
+        return stationContract.distributeInvestReward(stationAddress, currentCommission);
+    }
+
+    /**
      * 현재 잔액(WON)을 확인하는 메소드
      *
      * @param user 현재 잔액을 확인할 사용자
