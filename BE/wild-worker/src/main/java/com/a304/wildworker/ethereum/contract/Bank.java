@@ -4,6 +4,7 @@ import com.a304.wildworker.domain.station.Station;
 import com.a304.wildworker.domain.user.User;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -31,9 +32,9 @@ public class Bank {
      * @throws CipherException
      * @throws IOException
      */
-    public void manualMine(User user) throws CipherException, IOException {
+    public CompletableFuture<Void> manualMine(User user) throws CipherException, IOException {
         String to = getUserWalletAddress(user);
-        wonContract.manualMine(to, AMOUNT_MANUAL_MINE);
+        return wonContract.manualMine(to, AMOUNT_MANUAL_MINE);
     }
 
     /**
@@ -44,11 +45,12 @@ public class Bank {
      * @throws CipherException
      * @throws IOException
      */
-    public void autoMine(Station station, User user) throws CipherException, IOException {
+    public CompletableFuture<Void> autoMine(Station station, User user)
+            throws CipherException, IOException {
         String from = station.getAddress();
         String to = getUserWalletAddress(user);
 
-        stationContract.autoMine(from, to, AMOUNT_AUTO_MINE);
+        return stationContract.autoMine(from, to, AMOUNT_AUTO_MINE);
     }
 
     /**
