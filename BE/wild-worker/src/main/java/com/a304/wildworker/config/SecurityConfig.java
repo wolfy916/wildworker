@@ -55,7 +55,7 @@ public class SecurityConfig<S extends Session> {
                 .authorizeHttpRequests()
                 .antMatchers("/ws/**").permitAll()
                 .antMatchers("/secured/ws/**").authenticated()
-                .antMatchers("/auth/login", "/oauth2/**", "/test/**").permitAll()
+                .antMatchers("/auth/login", "/oauth2/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout()
