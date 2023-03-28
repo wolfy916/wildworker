@@ -26,7 +26,7 @@ public class MessageInterceptor implements ChannelInterceptor {
 
     private ActiveUser findOrSaveActiveUser(SessionUser sessionUser) {
         return activeUserRepository.findById(sessionUser.getId())
-                .orElse(activeUserRepository.save(new ActiveUser(sessionUser.getId())));
+                .orElseGet(() -> activeUserRepository.save(new ActiveUser(sessionUser.getId())));
     }
 
 
