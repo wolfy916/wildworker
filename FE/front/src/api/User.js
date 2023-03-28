@@ -8,7 +8,7 @@ async function getUserInfo(payload) {
       url: "/user",
     })
       .then(({ status, data }) => {
-        if (status == 200) {
+        if (status === 200) {
           console.log("getUserInfo 성공", data);
           return data;
           // data 예시
@@ -52,7 +52,7 @@ async function patchUserInfo(payload) {
       },
     })
       .then(({ status, data }) => {
-        if (status == 200) {
+        if (status === 200) {
           console.log("patchUserInfo 성공");
         }
       })
@@ -81,7 +81,7 @@ async function deleteUserInfo(payload) {
       url: "/user",
     })
       .then(({ status, data }) => {
-        if (status == 200) {
+        if (status === 200) {
           console.log("deleteUserInfo 성공");
         }
       })
@@ -100,7 +100,7 @@ async function getTitleList(payload) {
       url: "/user/titles",
     })
       .then(({ status, data }) => {
-        if (status == 200) {
+        if (status === 200) {
           console.log("getTitleList 성공", data);
           return data;
           // data 예시
@@ -134,7 +134,7 @@ async function getCoinLog(payload) {
       params: { size: payload.size, page: payload.page },
     })
       .then(({ status, data }) => {
-        if (status == 200) {
+        if (status === 200) {
           console.log("getCoinLog 성공", data);
           return data;
           // data 예시
@@ -166,4 +166,4 @@ async function getCoinLog(payload) {
   }
 }
 
-export default { getUserInfo, patchUserInfo, deleteUserInfo, getTitleList, getCoinLog };
+export { getUserInfo, patchUserInfo, deleteUserInfo, getTitleList, getCoinLog };
