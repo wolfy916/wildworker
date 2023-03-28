@@ -20,21 +20,21 @@ function MainPage(props) {
   const stompClient = props.stompClient;
   const navigate = useNavigate();
 
-  const dominatorComeData = props.dominatorComeData;
-  const dominatorMessageData = props.dominatorMessageData;
-  const locationData = props.locationData;
-  const manualMiningData = props.manualMiningData;
-  const autoCoinData = props.autoCoinData;
-  const manualCoinData = props.manualCoinData;
-  const gameCostData = props.gameCostData;
-  const runCostData = props.runCostData;
-  const gameRewardData = props.gameRewardData;
-  const investCostData = props.investCoFstData;
-  const investRewardData = props.investRewardData;
-  const changeTitleData = props.changeTitleData;
+  // const dominatorComeData = props.dominatorComeData;
+  // const dominatorMessageData = props.dominatorMessageData;
+  // const locationData = props.locationData;
+  // const manualMiningData = props.manualMiningData;
+  // const autoCoinData = props.autoCoinData;
+  // const manualCoinData = props.manualCoinData;
+  // const gameCostData = props.gameCostData;
+  // const runCostData = props.runCostData;
+  // const gameRewardData = props.gameRewardData;
+  // const investCostData = props.investCoFstData;
+  // const investRewardData = props.investRewardData;
+  // const changeTitleData = props.changeTitleData;
 
   // 수동 채굴한 갯수 데이터 받아서 coinCntData에 넣으면 됨
-  let coinCntData = props.manualMiningData;
+  let coinCntData = props.store.manualMiningData;
 
   const [isReady, setIsReady] = React.useState(false); // 비동기 오류 방지
   const [isEnough, setIsEnough] = React.useState(false); // 수동채굴 수집량 달성 여부 확인
@@ -99,8 +99,8 @@ function MainPage(props) {
   // app.js에서 수동채굴 최신 데이터의 변화가 감지되었을 때
   // coinCnt(화면에 렌더링되는 수집량)을 최신값으로 갱신
   React.useEffect(() => {
-    setCoinCnt(manualMiningData);
-  }, [manualMiningData]);
+    setCoinCnt(props.store.manualMiningData);
+  }, [props.store.manualMiningData]);
 
   // 수동 채굴 아이템 수집량에 따른 버튼 이미지 변환
   React.useEffect(() => {
@@ -156,10 +156,10 @@ function MainPage(props) {
         nickname={nickname}
         coin={coin}
         setCoin={setCoin}
-        station={locationData.current ? locationData.current.name : "역이 아님"}
-        dominator={
-          locationData.current ? locationData.current.dominator : "없음"
-        }
+        // station={locationData.current ? locationData.current.name : "역이 아님"}
+        // dominator={
+        //   locationData.current ? locationData.current.dominator : "없음"
+        // }
       />
       <div className="subway">
         {modalClick && (

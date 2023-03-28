@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import Stomp from "stompjs";
 import SockJS from "sockjs-client";
@@ -19,7 +19,11 @@ import MiniGameReadyPage from "./pages/MiniGameReadyPage";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import "./App.css";
-// import { runSocket } from "../src/api/Socket";
+import {
+  connectSocket,
+  subscribeStation,
+  unsubscribeStation,
+} from "../src/api/socketFunc";
 
 function App() {
   // 웹에서 개발할 때, 얘 꼭 주석처리 해라
@@ -30,34 +34,28 @@ function App() {
   //     elem.requestFullscreen();
   //   }
   // });
-  // const [store, setStore] = useState({
-  //   location : "",
-  //   userMining : "",
-  //   dominatorAppear : "",
-  //   dominatorMsg : "",
-  //   coinChange: {
-  //     autoMining : "",
-  //     userMining : "",
-  //   },
-  // });
-  const [dominatorComeData, setDominatorComeData] = useState("");
-  const [dominatorMessageData, setDominatorMessageData] = useState("");
-  const [manualMiningData, setManualMiningData] = useState(1);
-  const [locationData, setLocationData] = useState("");
 
-  const [autoCoinData, setAutoCoinData] = useState("");
-  const [manualCoinData, setManualCoinData] = useState("");
-  const [investCostData, setInvestCostData] = useState("");
-  const [investRewardData, setInvestRewardData] = useState("");
-  const [gameCostData, setGameCostData] = useState("");
-  const [runCostData, setRunCostData] = useState("");
-  const [gameRewardData, setGameRewardData] = useState("");
-  const [getTitleData, setGetTitleData] = useState("");
-  const [changeTitleData, setChangeTitleData] = useState("");
-  const [matchingData, setMatchingData] = useState("");
-  const [gameRunData, setGameRunData] = useState("");
-  const [gameResultData, setGameResultData] = useState("");
-  const [gameStartData, setGameStartData] = useState("");
+  const [store, setStore] = useState({
+    locationData: {},
+    manualMining: 1,
+    dominatorAppear: "",
+    dominatorMsg: "",
+    coinChange: {
+      AUTO_MINING: {},
+      MANUAL_MINING: {},
+      MINI_GAME_COST: {},
+      MINI_GAME_RUN_COST: {},
+      MINI_GAME_REWARD: {},
+      INVESTMENT: {},
+      INVESTMENT_REWARD: {},
+    },
+    getTitle: {},
+    changeTitle: {},
+    matching: {},
+    gameStart: {},
+    gameCancel: {},
+    gameResult: {},
+  });
 
   // 소켓 인스턴스 생성하고, 상태관리에 넣음
   const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
@@ -65,33 +63,25 @@ function App() {
 
   // 연결하고, 필요한거 다 구독하고 상태관리에 넣어 유지함
   useEffect(() => {
-    stompClient.connect({}, () => {
-      stompClient.subscribe("/sub/systems/", (message) => {
-        // 지하철역 구독에 필요한 모든 코드
-      });
-      stompClient.subscribe("/user/queue", (message) => {
-        // 유저 구독에 필요한 모든 코드
-      });
-    })
-    setStompClient(stompClient);
+    setStompClient(connectSocket(stompClient, setStore));
   }, []);
 
-  // 5초 뒤에 isChangeId = true로 지하철 Id가 변경되는 타이밍이라고 가정
+  // // 5초 뒤에 isChangeId = true로 지하철 Id가 변경되는 타이밍이라고 가정
   const [isChangeId, setIsChangeId] = useState(false);
   setTimeout(() => {
     setIsChangeId(true);
   }, 5000);
 
   // isChangeId값의 변화로 지하철역 구독해제하고 새로운 지하철로 재연결
-  useEffect(()=>{
+  useEffect(() => {
     if (isChangeId) {
-      stompClient.unsubscribe("/sub/systems/");  // 지하철역 구독 해제
-      stompClient.subscribe("/sub/재연결", (message) => {
-        // 지하철역 구독에 필요한 모든 코드
-      });
+      setStompClient(unsubscribeStation(stompClient));
+      setStompClient(
+        subscribeStation(stompClient, setStore, store.locationData.current)
+      );
     }
   }, [isChangeId]);
-  
+
   // // 실시간 위치 전송 코드
   // useEffect(() => {
   //   const intervalId = setInterval(() => {
@@ -123,8 +113,6 @@ function App() {
 
   //연결, 구독하기, 구독끊기, 데이터 받는 곳
   // useEffect(() => {
-  //   socket()
-  // // 연결
   // stompClient.connect({}, () => {
   //   // 같은 역 사람들 구독
   //   stompClient.subscribe("/sub/systems/{station-id}", (message) => {
@@ -223,7 +211,6 @@ function App() {
   //     }
   //   });
   // });
-  //   runSocket(stompClient);
   // }, []);
 
   return (
@@ -236,18 +223,8 @@ function App() {
               path="/main"
               element={
                 <MainPage
-                  dominatorComeData={dominatorComeData}
-                  dominatorMessageData={dominatorMessageData}
-                  locationData={locationData}
-                  manualMiningData={manualMiningData}
-                  autoCoinData={autoCoinData}
-                  manualCoinData={manualCoinData}
-                  gameCostData={gameCostData}
-                  runCostData={runCostData}
-                  gameRewardData={gameRewardData}
-                  investCostData={investCostData}
-                  investRewardData={investRewardData}
-                  changeTitleData={changeTitleData}
+                  store={store}
+                  setStore={setStore}
                   stompClient={stompClient}
                 />
               }
@@ -261,9 +238,9 @@ function App() {
               path="/pvp"
               element={
                 <PvpPage
-                  matchingData={matchingData}
-                  gameRunData={gameRunData}
-                  gameStartData={gameStartData}
+                  matchingData={store.matching}
+                  gameRunData={store.gameCancel}
+                  gameStartData={store.gameStart}
                 />
               }
             />
@@ -271,11 +248,11 @@ function App() {
             <Route path="/pvp/minigame" element={<MiniGamePage />} />
             <Route
               path="/pvp/result"
-              element={<PvpResultPage gameResultData={gameResultData} />}
+              element={<PvpResultPage gameResultData={store.gameResult} />}
             />
             <Route
               path="/pvp/receipt"
-              element={<PvpReceipPage gameResultData={gameResultData} />}
+              element={<PvpReceipPage gameResultData={store.gameResult} />}
             />
           </Routes>
         </Box>
