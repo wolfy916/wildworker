@@ -19,7 +19,7 @@ public class ActiveUserRepository {
 
     public ActiveUser save(ActiveUser activeUser) {
         activeUserMap.put(activeUser.getUserId(), activeUser);
-        return activeUserMap.get(activeUser.getUserId());
+        return activeUser;
     }
 
     public void deleteById(Long id) {
