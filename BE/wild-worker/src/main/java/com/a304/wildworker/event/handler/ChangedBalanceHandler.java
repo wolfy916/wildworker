@@ -1,7 +1,6 @@
 package com.a304.wildworker.event.handler;
 
 import com.a304.wildworker.common.WebSocketUtils;
-import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
 import com.a304.wildworker.domain.transaction.TransactionLog;
 import com.a304.wildworker.domain.transaction.TransactionLogRepository;
@@ -11,7 +10,6 @@ import com.a304.wildworker.ethereum.contract.Bank;
 import com.a304.wildworker.event.ChangedBalanceEvent;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -37,10 +35,7 @@ public class ChangedBalanceHandler {
     @Order(1)
     @EventListener
     public void sendCoinNotification(ChangedBalanceEvent event) {
-        ActiveUser activeUser = Optional.of(activeUserRepository.findById(event.getUser().getId()))
-                .get().orElse(null);
-
-        if (activeUser != null) {
+        activeUserRepository.findById(event.getUser().getId()).ifPresent(activeUser -> {
             WSBaseResponse<CoinChangeResponse> response = WSBaseResponse.coin(event.getReason())
                     .data(new CoinChangeResponse(event.getUser().getBalance(),
                             event.getChangeValue()));
@@ -49,7 +44,7 @@ public class ChangedBalanceHandler {
                     "/queue",
                     response,
                     WebSocketUtils.createHeaders(activeUser.getWebsocketSessionId()));
-        }
+        });
     }
 
     /* 코인내역 추가 & 이더리움에 내역 동기화 */
