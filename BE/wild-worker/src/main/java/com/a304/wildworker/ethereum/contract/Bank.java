@@ -56,7 +56,7 @@ public class Bank {
     }
 
     /**
-     * user가 station에 돈 추자
+     * user가 station에 돈 투자
      *
      * @param station 돈(WON)을 받을 역
      * @param user    돈(WON)을 지불할 사용자
