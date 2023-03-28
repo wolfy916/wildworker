@@ -54,9 +54,7 @@ public class MiningService {
 
     public void giveWonFromStationToUser(Long stationId, Long userId)
             throws CipherException, IOException {
-        Station station = stationRepository.findById(stationId)
-                .orElseThrow(StationNotFoundException::new);
-
+        Station station = getStationOrElseThrow(stationId);
         User user = getUserOrElseThrow(userId);
 
         bank.autoMine(station, user);
