@@ -7,6 +7,7 @@ import com.a304.wildworker.common.Constants;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,8 @@ public class SecurityConfig<S extends Session> {
     private final CustomLogoutHandler logoutHandler;
     private final CustomLoginSuccessHandler loginSuccessHandler;
     private final CustomOAuth2UserService oAuth2UserService;
+    @Value("${allowed-origins}")
+    private final String[] allowedOrigins;
     @Autowired
     private FindByIndexNameSessionRepository<S> sessionRepository;
 
@@ -38,7 +41,7 @@ public class SecurityConfig<S extends Session> {
                 .configurationSource(request -> {
                     var cors = new CorsConfiguration();
                     cors.setAllowedOrigins(
-                            List.of("http://localhost:3000", "http://localhost:[*]"));
+                            List.of(allowedOrigins));
                     cors.setAllowedMethods(
                             List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
                     cors.setAllowedHeaders(
@@ -54,7 +57,7 @@ public class SecurityConfig<S extends Session> {
                 .csrf().disable()   //TODO. csrf disable 안 하고 처리
 //                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .authorizeHttpRequests()
-                .antMatchers("/ws/**").permitAll()
+                .antMatchers("/ws/**").authenticated()
                 .antMatchers("/secured/ws/**").authenticated()
                 .antMatchers("/auth/login", "/oauth2/**").permitAll()
                 .antMatchers("/").permitAll()
