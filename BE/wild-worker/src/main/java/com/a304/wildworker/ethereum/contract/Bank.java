@@ -86,6 +86,56 @@ public class Bank {
     }
 
     /**
+     * 역에게 도망비 입금
+     *
+     * @param station 도망비를 받을 역
+     * @param user    도망비를 입금할 사용자
+     * @param amount  도망비
+     * @return CompletableFuture<TransactionReceipt> 트랜잭션 처리 결과 반환
+     * @throws CipherException
+     * @throws IOException
+     */
+    public CompletableFuture<TransactionReceipt> sendRunCost(Station station, User user,
+            Long amount)
+            throws CipherException, IOException {
+        return sendWonToStation(station, user, amount);
+    }
+
+    /**
+     * 역에게 게임비 입금
+     *
+     * @param station 게임비를 받을 역
+     * @param user    게임비를 입금할 사용자
+     * @param amount  게임비
+     * @return CompletableFuture<TransactionReceipt> 트랜잭션 처리 결과 반환
+     * @throws CipherException
+     * @throws IOException
+     */
+    public CompletableFuture<TransactionReceipt> sendGameCost(Station station, User user,
+            Long amount)
+            throws CipherException, IOException {
+        return sendWonToStation(station, user, amount);
+    }
+
+    /**
+     * 역에게 게임 승리 수당 받음
+     *
+     * @param station 게임 승리 수당을 보낼 역
+     * @param user    게임 승리 수당을 받을 사용자
+     * @param amount  게임 승리 수당
+     * @return CompletableFuture<TransactionReceipt> 트랜잭션 처리 결과 반환
+     * @throws CipherException
+     * @throws IOException
+     */
+    public CompletableFuture<TransactionReceipt> sendGameReward(Station station, User user,
+            Long amount)
+            throws CipherException, IOException {
+        String stationAddress = station.getAddress();
+        String userAddress = getUserWalletAddress(user);
+        return wonContract.transferWon(stationAddress, userAddress, amount);
+    }
+
+    /**
      * 현재 잔액(WON)을 확인하는 메소드
      *
      * @param user 현재 잔액을 확인할 사용자
@@ -102,5 +152,12 @@ public class Bank {
         return WalletUtils.loadCredentials(user.getWalletPassword(),
                         WalletUtils.getDefaultKeyDirectory() + File.separator + user.getWallet())
                 .getAddress();
+    }
+
+    private CompletableFuture<TransactionReceipt> sendWonToStation(
+            Station station, User user, Long amount) throws IOException, CipherException {
+        String stationAddress = station.getAddress();
+        String userAddress = getUserWalletAddress(user);
+        return wonContract.transferWon(userAddress, stationAddress, amount);
     }
 }
