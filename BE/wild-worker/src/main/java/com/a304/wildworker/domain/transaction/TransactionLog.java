@@ -42,4 +42,8 @@ public class TransactionLog extends BaseEntity {
         this.value = value;
         this.type = type;
     }
+
+    public void setAppliedAt(LocalDateTime appliedAt) {
+        this.appliedAt = appliedAt;
+    }
 }
