@@ -25,19 +25,17 @@ public class MessageInterceptor implements ChannelInterceptor {
 
 
     private ActiveUser findOrSaveActiveUser(SessionUser sessionUser) {
-        ActiveUser user = activeUserRepository.findById(sessionUser.getId())
+        return activeUserRepository.findById(sessionUser.getId())
                 .orElse(activeUserRepository.save(new ActiveUser(sessionUser.getId())));
-        return user;
     }
 
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         SimpMessageHeaderAccessor accessor = SimpMessageHeaderAccessor.wrap(message);
-        log.info("ws MessageInterceptor(preSend): {}", accessor.getMessageType());
+        log.debug("ws MessageInterceptor(preSend): {}", accessor.getMessageType());
 
         Principal beforeUser = accessor.getUser();
-        log.info("-- user before: {}", beforeUser);
         if (!(beforeUser instanceof OAuth2AuthenticationToken)) {
             throw new RuntimeException("Principal 오류");     //TODO: change NotLoginException
         }
@@ -49,7 +47,7 @@ public class MessageInterceptor implements ChannelInterceptor {
         activeUser.setWebsocketSessionId(accessor.getSessionId());
         accessor.setUser(activeUser);
         accessor.setLeaveMutable(true);
-        log.info("-- activeUser: {}", activeUser);
+        log.debug("-- activeUser: {}", activeUser);
 
         switch (Objects.requireNonNull(accessor.getMessageType())) {
             case CONNECT:
