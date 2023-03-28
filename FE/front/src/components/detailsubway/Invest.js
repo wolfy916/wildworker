@@ -1,9 +1,9 @@
-import * as React from "react";
-import "./Invest.css";
+import * as React from "react"
+import "./Invest.css"
 
 function Invest(props) {
   function changeClickHandler() {
-    props.setModalClick((prev) => !prev);
+    props.setModalClick((prev) => !prev)
     // axios 보낼 함수 짜야함
   }
   return (
@@ -25,7 +25,7 @@ function Invest(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Invest;
+export default Invest

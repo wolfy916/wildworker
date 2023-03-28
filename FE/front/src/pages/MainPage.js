@@ -2,8 +2,6 @@ import * as React from "react"
 import { Link, useNavigate } from "react-router-dom"
 import "./MainPage.css"
 
-import Stomp from "stompjs"
-import SockJS from "sockjs-client"
 
 import SubwayBoard from "../components/mainpage/SubwayBoard"
 import GetCoinItem from "../components/mainpage/GetCoinItem"
@@ -19,6 +17,7 @@ import LoadingEffect from "../asset/image/pvpPageLoading.gif"
 import morningBackgroundImg from "../asset/image/test_morning.png"
 
 function MainPage(props) {
+  const stompClient = props.stompClient
   const dominatorComeData = props.dominatorComeData
   const dominatorMessageData = props.dominatorMessageData
   const locationData = props.locationData
@@ -33,15 +32,12 @@ function MainPage(props) {
   const investRewardData = props.investRewardData
   const getTitleData = props.getTitleData
   const changeTitleData = props.changeTitleData
-  const stompClient = props.stompClient
 
   const navigate = useNavigate()
 
   const [isReady, setIsReady] = React.useState(false) // 비동기 오류 방지
   const [isEnough, setIsEnough] = React.useState(false) // 수동채굴 100개 모았는지 확인
-  const [coinCnt, setCoinCnt] = React.useState(
-    manualMiningData ? manualMiningData : 0
-  ) // 수동채굴 아이템 수집량
+  const [coinCnt, setCoinCnt] = React.useState(0) // 수동채굴 아이템 수집량
   const [getCoinClick, setGetCoinClick] = React.useState(false) // 수집량 만족 후 클릭 여부
   const [pvpRouterClick, setPvpRouterClick] = React.useState(false) // pvp 로딩 테스트 버튼
   const [modalClick, setModalClick] = React.useState(false)
@@ -59,7 +55,6 @@ function MainPage(props) {
   const [station, setStation] = React.useState("")
   const [dominator, setDominator] = React.useState("매의호크민성")
 
-
   // 매칭 잡혔을 때의 로딩 이펙트 테스트용 함수
   function pvpRouterClickHandler() {
     setPvpRouterClick(true)
@@ -75,8 +70,6 @@ function MainPage(props) {
     }, 1200)
   }
 
-
-
   // 서류 눌렀을 때마다 보내는거
   const handleGetCnt = () => {
     const message = "서류 - back요청대로 보내야함"
@@ -86,19 +79,26 @@ function MainPage(props) {
   // 하위 컴포넌트로 상속할 함수
   function setCoinCntHandler() {
     setCoinCnt((prevCnt) => {
-      if (prevCnt < 4) {
+      if (prevCnt < 105) {
         // 수집량 조건 -> 5개
         setIsEnough(false)
         handleGetCnt()
-      } else if (prevCnt === 4) {
+      } else if (prevCnt >= 105) {
+        console.log(1)
         setIsEnough(true)
         handleGetCnt()
       }
+
       return manualMiningData
     })
   }
 
-  // 
+  // 가방 눌렀을 때 보내는거
+
+  const handleGetCoin = () => {
+    const message = "가방 - back요청대로 보내야함"
+    stompClient.send("/pub/system/mining/sell", {}, message)
+  }
 
   // 수동 채굴 아이템 수집량에 따른 버튼 이미지 변환
   React.useEffect(() => {
@@ -119,7 +119,7 @@ function MainPage(props) {
         setIsEnough(false)
         setCoinCnt(0)
         setGetCoinClick(true)
-        // handleGetCoin()
+        handleGetCoin()
       }, 1000)
     }
 
@@ -206,7 +206,7 @@ function MainPage(props) {
           <MenuBar setModalClick={setModalClick} setSelectIdx={setSelectIdx} />
         )}
         <div className="get-coin-btn">
-          {!isEnough && <div className="get-coin-cnt">{manualMiningData.paperCount}</div>}
+          {!isEnough && <div className="get-coin-cnt">{manualMiningData}</div>}
         </div>
         <Link className="main-router-map-btn" to="/map">
           <img src={goMap} alt="goMap" />
