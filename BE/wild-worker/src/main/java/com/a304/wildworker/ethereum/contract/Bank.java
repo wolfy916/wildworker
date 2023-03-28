@@ -85,6 +85,14 @@ public class Bank {
         return stationContract.distributeInvestReward(stationAddress, currentCommission);
     }
 
+    public CompletableFuture<TransactionReceipt> sendRunCost(Station station, User user,
+            Long amount)
+            throws CipherException, IOException {
+        String stationAddress = station.getAddress();
+        String userAddress = getUserWalletAddress(user);
+        return wonContract.transferWon(userAddress, stationAddress, amount);
+    }
+
     /**
      * 현재 잔액(WON)을 확인하는 메소드
      *
