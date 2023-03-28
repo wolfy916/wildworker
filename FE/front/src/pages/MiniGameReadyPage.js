@@ -1,25 +1,25 @@
-import * as React from "react"
-import Box from "@mui/material/Box"
-import { useNavigate } from "react-router-dom"
-import { useState, useEffect } from "react"
-import "./MiniGameReadyPage.css"
+import * as React from "react";
+import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import "./MiniGameReadyPage.css";
 
-function MainPage() {
-  const [timeLeft, setTimeLeft] = useState(100)
-  const navigate = useNavigate()
+function MiniGameReadyPage() {
+  const [timeLeft, setTimeLeft] = useState(100);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft((prevTimeLeft) => prevTimeLeft - 1)
-    }, 1000)
+      setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+    }, 1000);
 
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearInterval(interval);
+  }, []);
   useEffect(() => {
     if (timeLeft === 0) {
-      navigate("/pvp/minigame")
+      navigate("/pvp/minigame");
     }
-  }, [timeLeft, navigate])
+  }, [timeLeft, navigate]);
   return (
     <div className="minigame-ready">
       <div className="minigame-ready-header">
@@ -39,7 +39,7 @@ function MainPage() {
       </div>
       <div className="minigame-ready-gif"></div>
     </div>
-  )
+  );
 }
 
-export default MainPage
+export default MiniGameReadyPage;

@@ -42,7 +42,7 @@ public class StationContract {
         return transactionSendHelper.sendContractAsync(stationAddress, userAddress, function);
     }
 
-    public CompletableFuture<TransactionReceipt> investReward(String stationAddress,
+    public CompletableFuture<TransactionReceipt> distributeInvestReward(String stationAddress,
             Long currentCommissionOfStation) throws IOException {
         Function function = new Function("countChargeEvery10Min",
                 List.of(new Uint256(currentCommissionOfStation)), Collections.emptyList());

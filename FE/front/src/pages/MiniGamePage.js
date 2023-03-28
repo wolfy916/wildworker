@@ -1,59 +1,56 @@
-import React, { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import "../pages/MiniGamePage.css"
-import Stomp from "stompjs"
-import SockJS from "sockjs-client"
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "../pages/MiniGamePage.css";
+import ClickerGame from "../components/battle/ClickerGame";
 
 function CalculationGame() {
-  const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws")
-  const stompClient = Stomp.over(socket)
   const [num1, setNum1] = useState(
     String(Math.floor(Math.random() * 100)) + "00"
-  )
+  );
   const [num2, setNum2] = useState(
     String(Math.floor(Math.random() * 100)) + "00"
-  )
-  const [score, setScore] = useState(0)
-  const [value, setValue] = useState("")
+  );
+  const [score, setScore] = useState(0);
+  const [value, setValue] = useState("");
 
   function handleSubmit(event) {
-    event.preventDefault()
-    const correctAnswer = parseInt(num1) + parseInt(num2)
+    event.preventDefault();
+    const correctAnswer = parseInt(num1) + parseInt(num2);
     if (parseInt(value) === correctAnswer) {
-      setScore(score + 1)
-      setNum1(value)
+      setScore(score + 1);
+      setNum1(value);
     }
     // setNum1(value);
-    setNum2(String(Math.floor(Math.random() * 100) + "00"))
-    setValue("")
+    setNum2(String(Math.floor(Math.random() * 100) + "00"));
+    setValue("");
   }
 
-  const [timeLeft, setTimeLeft] = useState(5000)
-  const navigate = useNavigate()
+  const [timeLeft, setTimeLeft] = useState(5000);
+  const navigate = useNavigate();
 
   // 미니 게임끝났을 때, 결과 값 백한테 주기
-  const handleFinishGame = (e) => {
-    const message = JSON.stringify(e)
-    stompClient.send(
-      "/stations/{station-id}/minigame/{game-id}/progress",
-      {},
-      message
-    )
-  }
+  // const handleFinishGame = e => {
+  //   const message = JSON.stringify(e);
+  //   stompClient.send(
+  //     "/stations/{station-id}/minigame/{game-id}/progress",
+  //     {},
+  //     message
+  //   );
+  // };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft((prevTimeLeft) => prevTimeLeft - 1)
-    }, 1000)
+      setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+    }, 1000);
 
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearInterval(interval);
+  }, []);
   useEffect(() => {
     if (timeLeft === 0) {
       // handleFinishGame({result:'맞춘갯수'})
-      navigate("/pvp/result")
+      navigate("/pvp/result");
     }
-  }, [timeLeft, navigate])
+  }, [timeLeft, navigate]);
 
   return (
     <div className="minigame">
@@ -64,7 +61,7 @@ function CalculationGame() {
         <div className="minigame-cal-currentmoney">
           <div>현재 정산금:{num1}원</div>
 
-          <div>+ 짜장면: {num2}원</div>
+          <div className="minigame-cal-currentfood">+ 짜장면: {num2}원</div>
         </div>
         <div className="minigame-cal-money-value">= {value}원</div>
       </div>
@@ -80,13 +77,14 @@ function CalculationGame() {
               >
                 {a}
               </button>
-            )
+            );
           })}
-
-          {/* <button className="minigame-btn" onClick={() => setValue("")}>
-          clear
-        </button> */}
         </div>
+      </div>
+      <div className="minigame-select-submit">
+        <button className="minigame-clear-btn" onClick={() => setValue("")}>
+          모두 지우기
+        </button>
         <form onSubmit={handleSubmit} className="minigame-submit">
           <button className="minigame-submit-btn" type="submit">
             확인
@@ -95,8 +93,9 @@ function CalculationGame() {
       </div>
       {/* <div className="minigame-pixelart-crab"></div> */}
       <div className="minigame-pixelart-metamong"></div>
+      <ClickerGame />
     </div>
-  )
+  );
 }
 
-export default CalculationGame
+export default CalculationGame;
