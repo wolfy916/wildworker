@@ -10,12 +10,10 @@ import com.a304.wildworker.exception.UserNotFoundException;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.web3j.crypto.CipherException;
 
-@EnableScheduling
 @RequiredArgsConstructor
 @Slf4j
 @Service
@@ -44,12 +42,11 @@ public class InvestService {
      * @throws IOException
      */
     @Scheduled(cron = "0 0/10 * * * *")
-    public void distributeInvestReward() throws CipherException, IOException {
+    public void distributeInvestReward() throws IOException {
         for (Station station : stationRepository.findAll()) {
 
-            bank.distributeInvestReward(station)
-                    .thenAccept((receipt -> log.info("distribute invest reward receipt : {}",
-                            receipt)));
+            bank.distributeInvestReward(station).thenAccept(
+                    (receipt -> log.info("distribute invest reward receipt : {}", receipt)));
             station.distributeCommission();
             station.resetCommission();
 
@@ -58,7 +55,6 @@ public class InvestService {
     }
 
     private Station getStationOrThrow(Long stationId) {
-        return stationRepository.findById(stationId)
-                .orElseThrow(StationNotFoundException::new);
+        return stationRepository.findById(stationId).orElseThrow(StationNotFoundException::new);
     }
 }
