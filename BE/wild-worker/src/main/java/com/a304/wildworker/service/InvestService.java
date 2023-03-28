@@ -30,5 +30,9 @@ public class InvestService {
 
         bank.invest(station, user, amount)
                 .thenAccept(receipt -> log.info("invest receipt : {}", receipt));
+
+        user.invest(amount);
+        station.invest(user, amount);
     }
+
 }
