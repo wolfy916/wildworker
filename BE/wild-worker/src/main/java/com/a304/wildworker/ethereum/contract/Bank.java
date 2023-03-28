@@ -56,7 +56,7 @@ public class Bank {
     }
 
     /**
-     * user가 station에 돈 추자
+     * user가 station에 돈 투자
      *
      * @param station 돈(WON)을 받을 역
      * @param user    돈(WON)을 지불할 사용자
@@ -69,6 +69,20 @@ public class Bank {
         String userAddress = getUserWalletAddress(user);
 
         return stationContract.invest(stationAddress, userAddress, amount);
+    }
+
+    /**
+     * 이전 기준점(10분) 부터 현재까지 모인 수수료 분배
+     *
+     * @param station 수수료를 분배할 역
+     * @return CompletableFuture 를 반환하므로 콜백 실행 가능
+     * @throws IOException
+     */
+    public CompletableFuture<TransactionReceipt> distributeInvestReward(Station station)
+            throws IOException {
+        String stationAddress = station.getAddress();
+        Long currentCommission = station.getCommission();
+        return stationContract.distributeInvestReward(stationAddress, currentCommission);
     }
 
     /**

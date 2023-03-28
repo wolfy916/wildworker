@@ -7,6 +7,7 @@ import com.a304.wildworker.domain.common.Role;
 import com.a304.wildworker.domain.common.TitleType;
 import com.a304.wildworker.ethereum.exception.WalletCreationException;
 import com.a304.wildworker.ethereum.service.WalletProvider;
+import com.a304.wildworker.exception.NotEnoughBalanceException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -78,5 +79,16 @@ public class User extends BaseEntity {
 
     public void sellPaper() {
         this.numberOfCollectedPaper = 0;
+    }
+
+    public void invest(long amount) {
+        if (this.balance < amount) {
+            throw new NotEnoughBalanceException();
+        }
+        this.balance -= amount;
+    }
+
+    public void addBalance(Long money) {
+        this.balance += money;
     }
 }
