@@ -5,6 +5,7 @@ import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
 import com.a304.wildworker.service.UserService;
 import java.io.IOException;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -42,7 +43,10 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         // 메인으로 리다이렉트
         response.setHeader(Constants.SET_COOKIE,
                 generateCookie(Constants.KEY_SESSION_ID, session.getId()).toString());
-        String redirectUrl = clientUrl + redirectPath;
+        String prevPage = Optional.of(session.getAttribute(Constants.SESSION_NAME_PREV_PAGE))
+                .orElse(clientUrl).toString();
+        session.removeAttribute(Constants.SESSION_NAME_PREV_PAGE);
+        String redirectUrl = prevPage + redirectPath;
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
     }
 
