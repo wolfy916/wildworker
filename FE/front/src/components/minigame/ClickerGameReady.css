@@ -1,0 +1,33 @@
+.minigame-clicker-ready {
+  width: 100%;
+  height: 100%;
+  /* border: 1px solid black; */
+}
+
+.minigame-clicker-ready-header {
+  margin-top: 10%;
+  font-size: 200%;
+}
+
+.minigame-clicker-ready-main-text {
+  /* border: 1px solid black; */
+  padding-bottom: 0%;
+}
+
+.minigame-clicker-ready-timer {
+  /* border: solid black 1px; */
+  font-size: 300%;
+  margin-bottom: 0%;
+}
+.minigame-clicker-ready-timer-text {
+  font-size: 100%;
+  margin-bottom: -10%;
+}
+
+.minigame-clicker-ready-gif {
+  background-image: url(../../asset/image/clicker_game_ready.png);
+  background-size: 100%;
+  /* border: 1px black solid; */
+  height: 50%;
+  width: 100%;
+}
