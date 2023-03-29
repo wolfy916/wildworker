@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.datatypes.Function;
@@ -28,12 +29,14 @@ public class TransactionSendHelper {
     private final Web3j web3j;
     private final String senderAddress;
     private final TransactionManager transactionManager;
-    private final Long chainId = 1337L;
+    private final Long chainId;
 
-    public TransactionSendHelper(Web3j web3j, Credentials root) {
+    public TransactionSendHelper(Web3j web3j, Credentials root,
+            @Value("${web3.chain-id}") Long chainId) {
         this.web3j = web3j;
         this.senderAddress = root.getAddress();
-        this.transactionManager = new RawTransactionManager(web3j, root, chainId);
+        this.chainId = chainId;
+        this.transactionManager = new RawTransactionManager(web3j, root, this.chainId);
     }
 
     /**
