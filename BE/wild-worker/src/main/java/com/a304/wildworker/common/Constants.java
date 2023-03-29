@@ -25,4 +25,6 @@ public final class Constants {
 
     // 루트 Station
     public static final Long ROOT_STATION_ID = -1L;
+
+    public static final String SEND_TO_USER_DEST = "/queue";
 }
