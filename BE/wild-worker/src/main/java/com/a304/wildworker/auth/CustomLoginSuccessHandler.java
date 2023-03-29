@@ -55,7 +55,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
     private ResponseCookie generateCookie(String name, String value) {
         return ResponseCookie.from(name, value)
-                .httpOnly(true)
+//                .httpOnly(true)
                 .secure(true)
                 .sameSite("None")
                 .path("/")    //TODO: get context-path
