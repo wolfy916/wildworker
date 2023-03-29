@@ -22,7 +22,8 @@ function SubwayBoardFirstPart(props) {
   const dominatorContent = (
     <div className="board-content" style={{ flexDirection: "column" }}>
       <div className="board-dominator-chat">
-        <span style={{ color: "#fec189" }}>{`${props.dominator}`}</span> : 하하하, 이거라도 주워오실래요?
+          <span style={{ color: "#fec189" }}>{`${props.dominator}`}</span>{" "}
+          {props.store.dominatorMsg.message}
       </div>
     </div>
   );

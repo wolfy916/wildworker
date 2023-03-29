@@ -1,19 +1,21 @@
-import * as React from "react"
-import { useLocation } from "react-router-dom"
-import { useState, useEffect } from "react"
-import axios from "axios"
-import { Link } from "react-router-dom"
-import "./DetailSubwayPage.css"
-import goMap from "../asset/image/goMap.png"
-import myMap from "../asset/image/myMap.png"
-import hotMap from "../asset/image/hotMap.png"
-import Modal from "../components/mainpage/Modal"
+import * as React from "react";
+import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import "./DetailSubwayPage.css";
+import goMap from "../asset/image/goMap.png";
+import myMap from "../asset/image/myMap.png";
+import hotMap from "../asset/image/hotMap.png";
+import Modal from "../components/mainpage/Modal";
+import { getStationStake } from "../api/Investment.js";
 
 function DetailSubwayPage() {
-  const location = useLocation()
+  const location = useLocation();
   const [data, setData] = useState([])
-  const [ranking, setRanking] = useState([])
-  const [modalClick, setModalClick] = useState(false)
+  // const detailSubwayTotalData = getStationStake(location.state);
+  const [ranking, setRanking] = useState([]);
+  const [modalClick, setModalClick] = useState(false);
   const testData = {
     stationName: "역삼역",
     dominator: "S2태형S2",
@@ -39,7 +41,8 @@ function DetailSubwayPage() {
       investment: 123,
       percent: 10,
     },
-  }
+  };
+  
   useEffect(() => {
     axios
       .get(`/api/${location.state}`)
@@ -64,6 +67,24 @@ function DetailSubwayPage() {
         console.log(error)
       })
   }, [])
+
+
+  // useEffect(() => {
+  //   const rankingData = detailSubwayTotalData.ranking.map((item) => (
+  //     <div className="detail-content">
+  //       <div>
+  //         <p className="detail-subject">{item.name}</p>
+  //       </div>
+  //       <div>
+  //         <p className="detail-subject">
+  //           {item.investment.toLocaleString("ko-KR")}
+  //         </p>
+  //         <p className="detail-subject-2">({item.percent}%)</p>
+  //       </div>
+  //     </div>
+  //   ));
+  //   setRanking(rankingData);
+  // }, []);
 
   return (
     <div className="detail-background">
@@ -168,7 +189,7 @@ function DetailSubwayPage() {
           <button
             className="detail-invest"
             onClick={() => {
-              setModalClick(true)
+              setModalClick(true);
             }}
           >
             투자하기
@@ -190,12 +211,13 @@ function DetailSubwayPage() {
           modalWidth={85}
           modalHeight={75}
           selectModalIdx={3}
+          stationId={location.state}
           investment={testData.mine.investment.toLocaleString("ko-KR")}
           setModalClick={setModalClick}
         />
       )}
     </div>
-  )
+  );
 }
 
-export default DetailSubwayPage
+export default DetailSubwayPage;

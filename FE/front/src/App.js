@@ -50,14 +50,13 @@ function App() {
       INVESTMENT: {},
       INVESTMENT_REWARD: {},
     },
-    getTitle: {},
+    getTitle: "",
     changeTitle: {},
     matching: {},
     gameStart: {},
     gameCancel: {},
     gameResult: {},
   });
-  const [modalClick, setModalClick] = useState(false);
   // 소켓 인스턴스 생성하고, 상태관리에 넣음
   const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
   const [stompClient, setStompClient] = useState(Stomp.over(socket));
@@ -68,20 +67,21 @@ function App() {
   }, []);
 
   // // 5초 뒤에 isChangeId = true로 지하철 Id가 변경되는 타이밍이라고 가정
-  const [isChangeId, setIsChangeId] = useState(false);
-  setTimeout(() => {
-    setIsChangeId(true);
-  }, 5000);
+  // const [isChangeId, setIsChangeId] = useState(false);
+  // setTimeout(() => {
+  //   setIsChangeId(true);
+  // }, 5000);
 
   // isChangeId값의 변화로 지하철역 구독해제하고 새로운 지하철로 재연결
+
   useEffect(() => {
-    if (isChangeId) {
-      setStompClient(unsubscribeStation(stompClient));
+    if (store.locationData.prev) {
+      setStompClient(unsubscribeStation(stompClient, store.locationData.prev));
       setStompClient(
         subscribeStation(stompClient, setStore, store.locationData.current)
       );
     }
-  }, [isChangeId]);
+  }, [store.locationData.prev]);
 
   // // 실시간 위치 전송 코드
   // useEffect(() => {
@@ -107,7 +107,7 @@ function App() {
   // }, []);
 
   // // 위치 전송 백에게 전달하는 함수
-  // const handleSendLocation = (e) => {
+  // const handleSendLocation =+ (e) => {
   //   const message = JSON.stringify(e);
   //   stompClient.send("/pub/system/location", {}, message);
   // };
@@ -231,7 +231,7 @@ function App() {
               }
             />
             <Route path="/redirect/login" element={<RedirectLogin />} />
-            <Route path="/map" element={<SubwayMapPage />} />
+            <Route path="/map" element={<SubwayMapPage store={store} />} />
             <Route path="/map/mine" element={<MySubwayPage />} />
             <Route path="/map/hot" element={<HotSubwayPage />} />
             <Route path="/map/detail" element={<DetailSubwayPage />} />
@@ -258,15 +258,6 @@ function App() {
           </Routes>
         </Box>
       </Container>
-      {modalClick && (
-        <Modal
-          modalWidth={85}
-          modalHeight={75}
-          selectModalIdx={4}
-          getTitleData={getTitleData}
-          setModalClick={setModalClick}
-        />
-      )}
     </div>
   );
 }

@@ -34,13 +34,16 @@ function MainPage(props) {
   // const changeTitleData = props.changeTitleData;
 
   // 수동 채굴한 갯수 데이터 받아서 coinCntData에 넣으면 됨
-  let coinCntData = props.store.manualMiningData;
+  let coinCntData = props.store.manualMining;
 
   const [isReady, setIsReady] = React.useState(false); // 비동기 오류 방지
   const [isEnough, setIsEnough] = React.useState(false); // 수동채굴 수집량 달성 여부 확인
   const [coinCnt, setCoinCnt] = React.useState(coinCntData); // 수동채굴 아이템 수집량
   const [getCoinClick, setGetCoinClick] = React.useState(false); // 수집량 만족 후 클릭 여부
   const [modalClick, setModalClick] = React.useState(false); // 메인페이지의 메뉴 클릭 여부
+  const [titleModalClick, setTitleModalClick] = React.useState(false); // 메인페이지의 칭호 메뉴 획득하면 띄움
+  const [dominatorMsgModalClick, setDominatorMsgModalClick] =
+    React.useState(false); // 지배자 한마디 모달
   const [selectIdx, setSelectIdx] = React.useState(0); // 모달창에 띄울 컨텐츠 인덱스
   const [isToggled, setIsToggled] = React.useState(false);
   const [pvpRouterClick, setPvpRouterClick] = React.useState(false); // pvp 로딩 테스트 버튼
@@ -99,8 +102,8 @@ function MainPage(props) {
   // app.js에서 수동채굴 최신 데이터의 변화가 감지되었을 때
   // coinCnt(화면에 렌더링되는 수집량)을 최신값으로 갱신
   React.useEffect(() => {
-    setCoinCnt(props.store.manualMiningData);
-  }, [props.store.manualMiningData]);
+    setCoinCnt(props.store.manualMining);
+  }, [props.store.manualMining]);
 
   // 수동 채굴 아이템 수집량에 따른 버튼 이미지 변환
   React.useEffect(() => {
@@ -146,9 +149,50 @@ function MainPage(props) {
       backgroundTag.style.backgroundImage = `url(${morningBackgroundImg})`;
     }
   }, []);
+
+  // 칭호 획득 시 ( 처음에는 getTitle은 빈문자열 )
+  const getTitle = props.store.getTitle;
+  React.useEffect(() => {
+    if (getTitle) {
+      setTitleModalClick(true);
+    }
+  }, [getTitle]);
+
+  function dominatorMsgModalClickHandler() {
+    setDominatorMsgModalClick(true);
+  }
+
+  const [isFlashing, setIsFlashing] = React.useState(false);
+  const dominatorAppear = props.store.dominatorAppear;
+
+  React.useEffect(() => {
+    if (dominatorAppear) {
+      setIsFlashing(true);
+      setTimeout(() => {
+        setIsFlashing(false);
+      }, 1000);
+    }
+  }, [dominatorAppear]);
+
+  React.useEffect(() => {
+    if (isFlashing) {
+      document.getElementsByClassName(
+        "main-board-modal-wrap"
+      )[0].style.display = "block";
+    } else {
+      document.getElementsByClassName(
+        "main-board-modal-wrap"
+      )[0].style.display = "none";
+    }
+  }, [isFlashing]);
+
+  const dominatorTitles = "rest api로 가져와야함 지배자 여부"
+
   return (
     <div className="subway-background">
+      <div className="main-board-modal-wrap">지배자 강림</div>
       <SubwayBoard
+        store={props.store}
         getCoinClick={getCoinClick}
         setGetCoinClick={setGetCoinClick}
         badge={badge}
@@ -206,7 +250,7 @@ function MainPage(props) {
           <MenuBar setModalClick={setModalClick} setSelectIdx={setSelectIdx} />
         )}
         <div className="get-coin-btn">
-          {!isEnough && <div className="get-coin-cnt">{manualMiningData}</div>}
+          {!isEnough && <div className="get-coin-cnt">{coinCnt}</div>}
         </div>
         <Link className="main-router-map-btn" to="/map">
           <img src={goMap} alt="goMap" />
@@ -218,6 +262,34 @@ function MainPage(props) {
       <div className="main-router-pvp" onClick={pvpRouterClickHandler}>
         pvp
       </div>
+
+      {dominatorTitles && (
+        <div
+          className="main-dominator-msg-btn"
+          onClick={dominatorMsgModalClickHandler}
+        >
+          지배자 한마디
+        </div>
+      )}
+      {titleModalClick && (
+        <Modal
+          modalWidth={85}
+          modalHeight={75}
+          selectModalIdx={4}
+          getTitleData={props.store.getTitle}
+          setTitleModalClick={setTitleModalClick}
+        />
+      )}
+      {dominatorMsgModalClick && (
+        <Modal
+          modalWidth={85}
+          modalHeight={75}
+          selectModalIdx={5}
+          dominatorMsg={props.store.dominatorMsg}
+          stompClient={props.stompClient}
+          setDominatorMsgModalClick={setDominatorMsgModalClick}
+        />
+      )}
     </div>
   );
 }

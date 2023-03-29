@@ -4,7 +4,7 @@ import "./TitleGet.css";
 
 function TitleGet(props) {
   function changeClickHandler() {
-    props.setModalClick("");
+    props.setTitleModalClick(false);
   }
   const getTitleData = props.getTitleData
   return (

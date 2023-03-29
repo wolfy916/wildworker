@@ -143,9 +143,9 @@ function subscribeUser(client, setStore) {
   return client;
 }
 
-function unsubscribeStation(client, curStation) {
-  if (curStation != null) {
-    client.unsubscribe(`/sub/systems/${curStation.id}`);
+function unsubscribeStation(client, prevStation) {
+  if (prevStation != null) {
+    client.unsubscribe(`/sub/systems/${prevStation.id}`);
   }
   return client;
 }

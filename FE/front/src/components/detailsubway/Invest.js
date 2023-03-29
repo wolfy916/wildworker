@@ -1,11 +1,24 @@
-import * as React from "react"
-import "./Invest.css"
+import * as React from "react";
+import "./Invest.css";
+import { invest } from "../../api/Investment.js";
 
 function Invest(props) {
+  const [newInvestment, setNewInvestment] = React.useState("");
+
+  const handleInputChange = (e) => {
+    setNewInvestment(e.target.value);
+  };
+
   function changeClickHandler() {
-    props.setModalClick((prev) => !prev)
+    const payload = {
+      investment: newInvestment,
+      stationId: props.stationId,
+    };
+    invest(payload);
+    props.setModalClick((prev) => !prev);
     // axios 보낼 함수 짜야함
   }
+  
   return (
     <div className="modal-component">
       <div className="modal-title">투자</div>
@@ -18,6 +31,8 @@ function Invest(props) {
             type="text"
             placeholder="투자금액 입력"
             maxLength="20"
+            value={newInvestment}
+            onChange={handleInputChange}
           />
         </div>
         <div className="change-investment-btn" onClick={changeClickHandler}>
@@ -25,7 +40,7 @@ function Invest(props) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Invest
+export default Invest;

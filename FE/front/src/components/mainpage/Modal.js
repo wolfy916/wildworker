@@ -4,16 +4,32 @@ import NickName from "./NickName";
 import Title from "./Title";
 import CoinHistory from "./CoinHistory";
 import Invest from "../detailsubway/Invest";
-import TitleGet from "./TitleGet"
+import TitleGet from "./TitleGet";
+import DominatorMsg from "./DominatorMsg";
 
 function Modal(props) {
   const modalWidth = props.modalWidth;
   const modalHeight = props.modalHeight;
   const setModalClick = props.setModalClick;
-  const selectContent = [NickName, Title, CoinHistory, Invest, TitleGet][props.selectModalIdx];
+  const setTitleModalClick = props.setTitleModalClick;
+  const setDominatorMsgModalClick = props.setDominatorMsgModalClick;
+  const selectContent = [
+    NickName,
+    Title,
+    CoinHistory,
+    Invest,
+    TitleGet,
+    DominatorMsg,
+  ][props.selectModalIdx];
 
   function modalCloseClick() {
-    setModalClick(false);
+    if (props.selectModalIdx === 4) {
+      setTitleModalClick(false);
+    } else if (props.selectModalIdx === 5) {
+      setDominatorMsgModalClick(false);
+    } else {
+      setModalClick(false);
+    }
   }
 
   React.useEffect(() => {

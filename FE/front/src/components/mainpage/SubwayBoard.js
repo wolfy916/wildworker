@@ -20,6 +20,15 @@ function SubwayBoard(props) {
     }
   }, [getCoinClick, setGetCoinClick, setCoin]);
 
+  React.useEffect(() => {
+    if (isFlashing) {
+      document.getElementsByClassName("board-modal-wrap")[0].style.display = "block";
+    }
+    else {
+      document.getElementsByClassName("board-modal-wrap")[0].style.display = "none";
+    }
+  },[isFlashing]);
+
   return (
     <div>
       <div className="board-modal-wrap">코인획득!!</div>
@@ -31,7 +40,13 @@ function SubwayBoard(props) {
         </div>
         <div className="subway-board-wrapper">
           <div className="subway-board-screen">
-            <SubwayBoardFirstPart station={props.station} coin={props.coin} isFlashing={isFlashing} dominator={props.dominator}/>
+            <SubwayBoardFirstPart
+              store={props.store}
+              station={props.station}
+              coin={props.coin}
+              isFlashing={isFlashing}
+              dominator={props.dominator}
+            />
             <div className="board-second-part">
               <span className="current-station">
                 {" "}
