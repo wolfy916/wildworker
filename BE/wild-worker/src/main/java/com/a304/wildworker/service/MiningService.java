@@ -2,10 +2,12 @@ package com.a304.wildworker.service;
 
 import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.domain.activeuser.ActiveUser;
+import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
 import com.a304.wildworker.domain.common.TransactionType;
 import com.a304.wildworker.domain.station.Station;
 import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.domain.system.SystemData;
+import com.a304.wildworker.domain.transaction.TransactionLogRepository;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
 import com.a304.wildworker.ethereum.contract.Bank;
@@ -31,6 +33,8 @@ public class MiningService {
     private final SystemData systemData;
     private final UserRepository userRepository;
     private final StationRepository stationRepository;
+    private final TransactionLogRepository transactionLogRepository;
+    private final ActiveUserRepository activeUserRepository;
 
     private final ApplicationEventPublisher publisher;
 
@@ -61,14 +65,14 @@ public class MiningService {
     /* 자동 채굴 */
     @Transactional
     public void autoMining(ActiveUser activeUser) {
-        boolean availMining = systemData.addAutoMiningUser(activeUser.getUserId(),
-                activeUser.getStationId());
+        User user = getUserOrElseThrow(activeUser.getUserId());
+        Station station = getStationOrElseThrow(activeUser.getStationId());
+
+        long countAutoMining = transactionLogRepository.countByUserAndStationAndTypeAndCreatedAtGreaterThanEqual(
+                user, station, TransactionType.AUTO_MINING, systemData.getAutoMiningBaseTime());
 
         // 해당 역에서 자동 채굴을 하지 않았던 경우
-        if (availMining) {
-            User user = getUserOrElseThrow(activeUser.getUserId());
-            Station station = getStationOrElseThrow(activeUser.getStationId());
-
+        if (countAutoMining == 0) {
             // 코인 지급
             user.changeBalance(Constants.AMOUNT_AUTO_MINE);
 
@@ -82,7 +86,17 @@ public class MiningService {
     /* 3시, 15시마다 자동 채굴 상태 초기화 */
     @Scheduled(cron = "0 0 3,15 * * *")
     public void initAutoMiningStatus() {
-        systemData.initAutoMiningUserSetArr();
+        // 시스템의 자동 채굴 상태 초기화 시간 갱신
+        systemData.initAutoMiningTime();
+
+        // 접속 유저 중에서 역 범위에 있는 유저는 자동 채굴 처리
+        for (Long userId : activeUserRepository.getKeySet()) {
+            activeUserRepository.findById(userId).ifPresent(activeUser -> {
+                if (activeUser.getStationId() > 0) {
+                    autoMining(activeUser);
+                }
+            });
+        }
     }
 
     private User getUserOrElseThrow(Long userId) {
