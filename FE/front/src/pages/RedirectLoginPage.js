@@ -1,37 +1,43 @@
-import * as React from "react"
-import "./RedirectLoginPage.css"
-import { useState, useEffect } from "react"
-import http from "../api/Http.js"
-import { useNavigate } from "react-router"
-import LoadingEffect from "../asset/image/pvpPageLoading.gif"
+import * as React from "react";
+import "./RedirectLoginPage.css";
+import { useState, useEffect } from "react";
+import { getUserInfo } from "../api/User";
+import { useNavigate } from "react-router";
+import LoadingEffect from "../asset/image/pvpPageLoading.gif";
 
-function LoginPage() {
-  const [timeLeft, setTimeLeft] = useState(3.5)
-  const [imageSrc, setImageSrc] = useState("")
-  const navigate = useNavigate()
+function LoginPage(props) {
+  const [timeLeft, setTimeLeft] = useState(3.5);
+  const [imageSrc, setImageSrc] = useState("");
+  const [userData, setUserData] = useState({});
+  const navigate = useNavigate();
   const targetTag = document.getElementsByClassName(
     "redirect-login-background"
-  )[0]
-  const blackBackgroundTag = document.createElement("div")
+  )[0];
+  const blackBackgroundTag = document.createElement("div");
+  console.log(userData);
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft((prevTimeLeft) => prevTimeLeft - 0.25)
-    }, 250)
+    setUserData(prev => getUserInfo(true));
+    props.setIsLogin(true);
 
-    return () => clearInterval(interval)
-  }, [])
+    const interval = setInterval(() => {
+      setTimeLeft((prevTimeLeft) => prevTimeLeft - 0.25);
+    }, 250);
+
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     if (timeLeft === 0.75) {
-      setImageSrc(LoadingEffect)
+      setImageSrc(LoadingEffect);
     }
     if (timeLeft === 0.25) {
-      blackBackgroundTag.classList.add("redirect-black-background")
-      targetTag.appendChild(blackBackgroundTag)
+      blackBackgroundTag.classList.add("redirect-black-background");
+      targetTag.appendChild(blackBackgroundTag);
     }
     if (timeLeft === 0) {
-      navigate("/main")
+      // navigate("/main", { state: userData });
     }
-  }, [timeLeft, navigate])
+  }, [timeLeft, navigate]);
   return (
     <div className="redirect-login-background">
       <div className="redirect-login-effect">
@@ -40,6 +46,6 @@ function LoginPage() {
         )}
       </div>
     </div>
-  )
+  );
 }
-export default LoginPage
+export default LoginPage;

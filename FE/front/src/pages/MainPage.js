@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./MainPage.css";
 
 import SubwayBoard from "../components/mainpage/SubwayBoard";
@@ -19,6 +19,11 @@ function MainPage(props) {
   // socket 인스턴스 상속
   const stompClient = props.stompClient;
   const navigate = useNavigate();
+  const naviProps = useLocation();
+  
+  React.useEffect(() => {
+      console.log(naviProps.state);
+  }, [naviProps.state]);
 
   // const dominatorComeData = props.dominatorComeData;
   // const dominatorMessageData = props.dominatorMessageData;
