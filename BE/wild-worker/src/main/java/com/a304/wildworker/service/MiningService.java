@@ -31,7 +31,7 @@ public class MiningService {
 
     /* 수동 채굴 - 종이 줍기 */
     @Transactional
-    public int collectPaper(Long userId) {
+    public int manualMiningCollect(Long userId) {
         User user = getUserOrElseThrow(userId);
 
         // 종이 줍기 (누적 종이 개수 갱신)
@@ -40,7 +40,7 @@ public class MiningService {
 
     /* 수동 채굴 - 종이 팔기 */
     @Transactional
-    public void sellPaper(Long userId) throws CipherException, IOException {
+    public void manualMiningSell(Long userId) throws CipherException, IOException {
         User user = getUserOrElseThrow(userId);
         Station station = getStationOrElseThrow(Constants.ROOT_STATION_ID);
 
