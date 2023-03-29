@@ -41,8 +41,9 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         HttpSession session = request.getSession();
 
         // 메인으로 리다이렉트
-        response.setHeader(Constants.SET_COOKIE,
-                generateCookie(Constants.KEY_SESSION_ID, session.getId()).toString());
+//        response.setHeader(Constants.SET_COOKIE,
+//                generateCookie(Constants.KEY_SESSION_ID, session.getId()).toString());
+        var header = response.getHeader(Constants.SET_COOKIE);
         String prevPage = Optional.ofNullable(
                         session.getAttribute(Constants.SESSION_NAME_PREV_PAGE))
                 .orElse(clientUrl).toString();

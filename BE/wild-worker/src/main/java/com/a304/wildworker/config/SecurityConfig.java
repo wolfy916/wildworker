@@ -6,7 +6,6 @@ import com.a304.wildworker.auth.CustomOAuth2UserService;
 import com.a304.wildworker.common.Constants;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,11 +30,16 @@ public class SecurityConfig<S extends Session> {
     private final CustomOAuth2UserService oAuth2UserService;
     @Value("${allowed-origins}")
     private final String[] allowedOrigins;
-    @Autowired
-    private FindByIndexNameSessionRepository<S> sessionRepository;
+    private final FindByIndexNameSessionRepository<S> sessionRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .sessionManagement()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false) //true: 동시 로그인 차단, false: 기존 세션 만료
+                .sessionRegistry(sessionRegistry());
+
         http
                 .cors()
                 .configurationSource(request -> {
@@ -84,12 +88,6 @@ public class SecurityConfig<S extends Session> {
                 .headers()
                 // allow same origin to frame our site to support iframe SockJS
                 .frameOptions().sameOrigin();
-
-        http
-                .sessionManagement((sessionManagement) -> sessionManagement
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(false)    //true: 동시 로그인 차단, false: 기존 세션 만료
-                        .sessionRegistry(sessionRegistry()));
 
         return http.build();
     }
