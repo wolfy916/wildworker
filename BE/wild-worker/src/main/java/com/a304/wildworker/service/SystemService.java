@@ -8,7 +8,6 @@ import com.a304.wildworker.domain.location.Location;
 import com.a304.wildworker.domain.station.Station;
 import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.domain.system.SystemData;
-import com.a304.wildworker.domain.user.UserRepository;
 import com.a304.wildworker.dto.response.StationInfoResponse;
 import com.a304.wildworker.dto.response.StationWithUserResponse;
 import java.util.List;
@@ -24,8 +23,9 @@ public class SystemService {
 
     private final StationRepository stationRepository;
     private final DominatorLogRepository dominatorLogRepository;
-    private final UserRepository userRepository;
     private final SystemData systemData;
+
+    private final MiningService miningService;
 
     /* 유저의 현재 좌표를 기준으로 역 조회 후 진입이나 이탈 여부 판단 */
     public StationWithUserResponse checkUserLocation(ActiveUser user, Location userLocation) {
@@ -44,6 +44,12 @@ public class SystemService {
             // TODO: 일단 current만 새로 채워 보냄.. 방향 판단하여 prev, next 채우는 것은 추후 예정
             stationWithUserResponse
                     = new StationWithUserResponse(null, stationInfoResponse, null);
+        }
+
+        // 특정 역 범위에 들어갈 경우
+        if (currentStationId != 0) {
+            // 자동 채굴 체크
+            miningService.autoMining(user);
         }
 
         return stationWithUserResponse;

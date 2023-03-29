@@ -1,9 +1,11 @@
 package com.a304.wildworker.service;
 
 import com.a304.wildworker.common.Constants;
+import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.common.TransactionType;
 import com.a304.wildworker.domain.station.Station;
 import com.a304.wildworker.domain.station.StationRepository;
+import com.a304.wildworker.domain.system.SystemData;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
 import com.a304.wildworker.ethereum.contract.Bank;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.web3j.crypto.CipherException;
@@ -24,8 +27,11 @@ import org.web3j.crypto.CipherException;
 public class MiningService {
 
     private final Bank bank;
+
+    private final SystemData systemData;
     private final UserRepository userRepository;
     private final StationRepository stationRepository;
+
     private final ApplicationEventPublisher publisher;
 
 
@@ -52,12 +58,31 @@ public class MiningService {
                 Constants.AMOUNT_MANUAL_MINE));
     }
 
-    public void giveWonFromStationToUser(Long stationId, Long userId)
-            throws CipherException, IOException {
-        Station station = getStationOrElseThrow(stationId);
-        User user = getUserOrElseThrow(userId);
+    /* 자동 채굴 */
+    @Transactional
+    public void autoMining(ActiveUser activeUser) {
+        boolean availMining = systemData.addAutoMiningUser(activeUser.getUserId(),
+                activeUser.getStationId());
 
-        bank.autoMine(station, user);
+        // 해당 역에서 자동 채굴을 하지 않았던 경우
+        if (availMining) {
+            User user = getUserOrElseThrow(activeUser.getUserId());
+            Station station = getStationOrElseThrow(activeUser.getStationId());
+
+            // 코인 지급
+            user.changeBalance(Constants.AMOUNT_AUTO_MINE);
+
+            // 코인 변동 이벤트 발생
+            publisher.publishEvent(
+                    new ChangedBalanceEvent(user, station, TransactionType.AUTO_MINING,
+                            Constants.AMOUNT_AUTO_MINE));
+        }
+    }
+
+    /* 3시, 15시마다 자동 채굴 상태 초기화 */
+    @Scheduled(cron = "0 0 3,15 * * *")
+    public void initAutoMiningStatus() {
+        systemData.initAutoMiningUserSetArr();
     }
 
     private User getUserOrElseThrow(Long userId) {
