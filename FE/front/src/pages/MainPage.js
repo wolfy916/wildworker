@@ -20,11 +20,9 @@ function MainPage(props) {
   const stompClient = props.stompClient;
   const navigate = useNavigate();
   const naviProps = useLocation();
+  
   React.useEffect(() => {
-    if (!props.isLogin) {
-      props.setIsLogin(true);
       console.log(naviProps.state);
-    }
   }, [naviProps.state]);
 
   // const dominatorComeData = props.dominatorComeData;

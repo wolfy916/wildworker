@@ -1,9 +1,9 @@
 import http from "./Http.js";
 
 // 회원정보 조회
-async function getUserInfo(payload) {
+function getUserInfo(payload) {
   if (payload) {
-    return await http({
+    return http({
       method: "get",
       url: "/user",
     })

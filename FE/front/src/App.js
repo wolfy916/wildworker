@@ -60,18 +60,15 @@ function App() {
   });
 
   // 소켓 인스턴스 생성하고, 상태관리에 넣음
-  // const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
-  // const [stompClient, setStompClient] = useState(Stomp.over(socket));
-
-  // const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
-  // const stompClient = Stomp.over(socket);
+  const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
+  const [stompClient, setStompClient] = useState(Stomp.over(socket));
 
   // 연결하고, 필요한거 다 구독하고 상태관리에 넣어 유지함
-  // useEffect(() => {
-  //   if (isLogin) {
-  //     setStompClient(connectSocket(stompClient, setStore));
-  //   }
-  // }, [isLogin]);
+  useEffect(() => {
+    if (isLogin) {
+      setStompClient(connectSocket(stompClient, setStore));
+    }
+  }, [isLogin]);
 
   // // 5초 뒤에 isChangeId = true로 지하철 Id가 변경되는 타이밍이라고 가정
   // setTimeout(() => {
@@ -79,43 +76,44 @@ function App() {
   // }, 5000);
 
   // isChangeId값의 변화로 지하철역 구독해제하고 새로운 지하철로 재연결
-  // useEffect(() => {
-  //   if (isChangeId) {
-  //     setStompClient(unsubscribeStation(stompClient));
-  //     setStompClient(
-  //       subscribeStation(stompClient, setStore, store.locationData.current)
-  //     );
-  //   }
-  // }, [isChangeId]);
+  useEffect(() => {
+    if (isChangeId) {
+      setStompClient(unsubscribeStation(stompClient));
+      setStompClient(
+        subscribeStation(stompClient, setStore, store.locationData.current)
+      );
+    }
+  }, [isChangeId]);
 
-  // // 실시간 위치 전송 코드
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         if (position.coords) {
-  //           handleSendLocation({
-  //             lat: position.coords.latitude,
-  //             lon: position.coords.longitude,
-  //           });
-  //         }
-  //       },
-  //       (error) => {
-  //         console.log(error);
-  //       }
-  //     );
-  //   }, 5000);
+  // 실시간 위치 전송 코드
+  useEffect(() => {
+    if (isLogin) {
+      const intervalId = setInterval(() => {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            if (position.coords) {
+              handleSendLocation({
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
+              });
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }, 5000);
+      return () => {
+        clearInterval(intervalId);
+      };
+    }
+  }, []);
 
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, []);
-
-  // // 위치 전송 백에게 전달하는 함수
-  // const handleSendLocation = (e) => {
-  //   const message = JSON.stringify(e);
-  //   stompClient.send("/pub/system/location", {}, message);
-  // };
+  // 위치 전송 백에게 전달하는 함수
+  const handleSendLocation = (e) => {
+    const message = JSON.stringify(e);
+    stompClient.send("/pub/system/location", {}, message);
+  };
 
   // 연결, 구독하기, 구독끊기, 데이터 받는 곳
   // useEffect(() => {
@@ -231,13 +229,16 @@ function App() {
                 <MainPage
                   store={store}
                   setStore={setStore}
-                  isLogin={isLogin}
-                  setIsLogin={setIsLogin}
-                  // stompClient={stompClient}
+                  stompClient={stompClient}
                 />
               }
             />
-            <Route path="/redirect/login" element={<RedirectLogin />} />
+            <Route
+              path="/redirect/login"
+              element={
+                <RedirectLogin isLogin={isLogin} setIsLogin={setIsLogin} />
+              }
+            />
             <Route path="/map" element={<SubwayMapPage />} />
             <Route path="/map/mine" element={<MySubwayPage />} />
             <Route path="/map/hot" element={<HotSubwayPage />} />
