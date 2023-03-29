@@ -37,6 +37,7 @@ function App() {
 
   const [isLogin, setIsLogin] = useState(false);
   const [isChangeId, setIsChangeId] = useState(false);
+  const [userData, setUserData] = useState({});
   const [store, setStore] = useState({
     locationData: {},
     manualMining: 1,
@@ -60,13 +61,14 @@ function App() {
   });
 
   // 소켓 인스턴스 생성하고, 상태관리에 넣음
-  const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
-  const [stompClient, setStompClient] = useState(Stomp.over(socket));
+  // const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
+  const [stompClient, setStompClient] = useState({});
 
   // 연결하고, 필요한거 다 구독하고 상태관리에 넣어 유지함
   useEffect(() => {
     if (isLogin) {
-      setStompClient(connectSocket(stompClient, setStore));
+      const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
+      setStompClient(connectSocket(Stomp.over(socket), setStore));
     }
   }, [isLogin]);
 
@@ -107,10 +109,10 @@ function App() {
         clearInterval(intervalId);
       };
     }
-  }, []);
+  }, [isLogin]);
 
   // 위치 전송 백에게 전달하는 함수
-  const handleSendLocation = (e) => {
+  function handleSendLocation(e) {
     const message = JSON.stringify(e);
     stompClient.send("/pub/system/location", {}, message);
   };
@@ -229,6 +231,10 @@ function App() {
                 <MainPage
                   store={store}
                   setStore={setStore}
+                  userData={userData}
+                  setUserData={setUserData}
+                  isLogin={isLogin}
+                  setIsLogin={setIsLogin}
                   stompClient={stompClient}
                 />
               }

@@ -14,16 +14,17 @@ import getCoinImage from "../asset/image/get_coin_btn.png";
 import getCoinFullImage from "../asset/image/Full_Charge_Btn.png";
 import LoadingEffect from "../asset/image/pvpPageLoading.gif";
 import morningBackgroundImg from "../asset/image/test_morning.png";
+import {getUserInfo} from "../api/User";
 
 function MainPage(props) {
   // socket 인스턴스 상속
   const stompClient = props.stompClient;
   const navigate = useNavigate();
-  const naviProps = useLocation();
-  
+
   React.useEffect(() => {
-      console.log(naviProps.state);
-  }, [naviProps.state]);
+    props.setUserData(getUserInfo(true));
+    props.setIsLogin(true);
+  }, []);
 
   // const dominatorComeData = props.dominatorComeData;
   // const dominatorMessageData = props.dominatorMessageData;
