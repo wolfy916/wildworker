@@ -54,7 +54,7 @@ public class Station extends BaseEntity {
             long userShare = (investment / this.balance) * 1000;
             long money = (userShare * this.commission) / 1000;
 
-            user.addBalance(money);
+            user.changeBalance(money);
         }
     }
 }

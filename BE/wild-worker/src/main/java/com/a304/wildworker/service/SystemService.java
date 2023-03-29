@@ -8,17 +8,14 @@ import com.a304.wildworker.domain.location.Location;
 import com.a304.wildworker.domain.station.Station;
 import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.domain.system.SystemData;
-import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
 import com.a304.wildworker.dto.response.StationInfoResponse;
 import com.a304.wildworker.dto.response.StationWithUserResponse;
-import com.a304.wildworker.exception.UserNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -116,13 +113,4 @@ public class SystemService {
         return (rad * 180 / Math.PI);
     }
 
-    /* 수동 채굴 - 종이 줍기 */
-    @Transactional
-    public int collectPaper(ActiveUser activeUser) {
-        User user = userRepository.findById(activeUser.getUserId())
-                .orElseThrow(UserNotFoundException::new);
-
-        // 유저의 누적 종이 개수 갱신
-        return user.collectPaper();
-    }
 }

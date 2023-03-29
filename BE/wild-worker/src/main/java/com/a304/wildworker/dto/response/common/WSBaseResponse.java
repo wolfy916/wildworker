@@ -1,6 +1,7 @@
 package com.a304.wildworker.dto.response.common;
 
 
+import com.a304.wildworker.domain.common.TransactionType;
 import com.a304.wildworker.dto.response.MessageDto;
 import com.a304.wildworker.exception.base.CustomException;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -33,6 +34,10 @@ public class WSBaseResponse<T> {
 
     public static BodyBuilder mining(MiningType subType) {
         return new Builder(Type.MINING, subType);
+    }
+
+    public static BodyBuilder coin(TransactionType subType) {
+        return new Builder(Type.COIN, subType);
     }
 
     public interface BodyBuilder {
