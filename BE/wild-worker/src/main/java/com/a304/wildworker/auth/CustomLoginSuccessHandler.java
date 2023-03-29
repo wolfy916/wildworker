@@ -2,8 +2,6 @@ package com.a304.wildworker.auth;
 
 
 import com.a304.wildworker.common.Constants;
-import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
-import com.a304.wildworker.service.UserService;
 import java.io.IOException;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
@@ -21,17 +18,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    private final UserService userService;
-    private final ActiveUserRepository activeUserRepository;
-
     private final String clientUrl;
     private final String redirectPath = "/redirect/login";
 
-    public CustomLoginSuccessHandler(@Value("${url.client}") String clientUrl,
-            UserService userService, ActiveUserRepository activeUserRepository) {
+    public CustomLoginSuccessHandler(@Value("${url.client}") String clientUrl) {
         this.clientUrl = clientUrl;
-        this.userService = userService;
-        this.activeUserRepository = activeUserRepository;
     }
 
     @Override
@@ -41,25 +32,13 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         HttpSession session = request.getSession();
 
         // 메인으로 리다이렉트
-        response.setHeader(Constants.SET_COOKIE,
-                generateCookie(Constants.KEY_SESSION_ID, session.getId()).toString());
         String prevPage = Optional.ofNullable(
                         session.getAttribute(Constants.SESSION_NAME_PREV_PAGE))
                 .orElse(clientUrl).toString();
         session.removeAttribute(Constants.SESSION_NAME_PREV_PAGE);
         String redirectUrl = UriComponentsBuilder.fromHttpUrl(prevPage).replacePath(redirectPath)
-                .replaceQueryParam(Constants.KEY_SESSION_ID, session.getId()).build()
-                .toString();   //TODO: sessionId 암호화해서 보내기 or test랑 분리
+                .build()
+                .toString();
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
-    }
-
-    private ResponseCookie generateCookie(String name, String value) {
-        return ResponseCookie.from(name, value)
-//                .httpOnly(true)
-                .secure(true)
-                .sameSite("None")
-                .path("/")    //TODO: get context-path
-                .build();
-
     }
 }
