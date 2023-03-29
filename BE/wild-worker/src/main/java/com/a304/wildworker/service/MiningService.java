@@ -68,11 +68,11 @@ public class MiningService {
         User user = getUserOrElseThrow(activeUser.getUserId());
         Station station = getStationOrElseThrow(activeUser.getStationId());
 
-        long countAutoMining = transactionLogRepository.countByUserAndStationAndTypeAndCreatedAtGreaterThanEqual(
+        boolean alreadyMining = transactionLogRepository.existsByUserAndStationAndTypeAndCreatedAtGreaterThanEqual(
                 user, station, TransactionType.AUTO_MINING, systemData.getAutoMiningBaseTime());
 
         // 해당 역에서 자동 채굴을 하지 않았던 경우
-        if (countAutoMining == 0) {
+        if (!alreadyMining) {
             // 코인 지급
             user.changeBalance(Constants.AMOUNT_AUTO_MINE);
 

@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransactionLogRepository extends JpaRepository<TransactionLog, Long> {
 
-    public long countByUserAndStationAndTypeAndCreatedAtGreaterThanEqual(User user, Station station,
-            TransactionType type, LocalDateTime baseTime);
+    public boolean existsByUserAndStationAndTypeAndCreatedAtGreaterThanEqual(User user,
+            Station station, TransactionType type, LocalDateTime baseTime);
 }
