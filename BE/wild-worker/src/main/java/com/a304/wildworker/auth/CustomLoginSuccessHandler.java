@@ -15,6 +15,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Slf4j
 @Service
@@ -24,7 +25,6 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
     private final ActiveUserRepository activeUserRepository;
 
     private final String clientUrl;
-
     private final String redirectPath = "/redirect/login";
 
     public CustomLoginSuccessHandler(@Value("${url.client}") String clientUrl,
@@ -43,18 +43,21 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         // 메인으로 리다이렉트
         response.setHeader(Constants.SET_COOKIE,
                 generateCookie(Constants.KEY_SESSION_ID, session.getId()).toString());
-        String prevPage = Optional.of(session.getAttribute(Constants.SESSION_NAME_PREV_PAGE))
+        String prevPage = Optional.ofNullable(
+                        session.getAttribute(Constants.SESSION_NAME_PREV_PAGE))
                 .orElse(clientUrl).toString();
         session.removeAttribute(Constants.SESSION_NAME_PREV_PAGE);
-        String redirectUrl = prevPage + redirectPath;
+        String redirectUrl = UriComponentsBuilder.fromHttpUrl(prevPage).replacePath(redirectPath)
+                .replaceQueryParam(Constants.KEY_SESSION_ID, session.getId()).build()
+                .toString();   //TODO: sessionId 암호화해서 보내기 or test랑 분리
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
     }
 
     private ResponseCookie generateCookie(String name, String value) {
         return ResponseCookie.from(name, value)
-                .httpOnly(true)
+//                .httpOnly(true)
                 .secure(true)
-//                .sameSite("None")
+                .sameSite("None")
                 .path("/")    //TODO: get context-path
                 .build();
 

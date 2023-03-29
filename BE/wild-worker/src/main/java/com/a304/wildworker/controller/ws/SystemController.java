@@ -7,13 +7,16 @@ import com.a304.wildworker.dto.response.StationWithUserResponse;
 import com.a304.wildworker.dto.response.common.MiningType;
 import com.a304.wildworker.dto.response.common.StationType;
 import com.a304.wildworker.dto.response.common.WSBaseResponse;
+import com.a304.wildworker.service.MiningService;
 import com.a304.wildworker.service.SystemService;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.web3j.crypto.CipherException;
 
 @Slf4j
 @Controller
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Controller;
 public class SystemController {
 
     private final SystemService systemService;
+    private final MiningService miningService;
 
     private final SimpMessagingTemplate messagingTemplate;
 
@@ -46,11 +50,25 @@ public class SystemController {
     @MessageMapping("/mining/collect")
     public void collectPaper(@Header("simpSessionId") String sessionId,
             @Header("simpUser") ActiveUser user) {
-        int paperCount = systemService.collectPaper(user);
+        int paperCount = miningService.collectPaper(user.getUserId());
 
         // 현재까지 모은 종이개수 SEND
         WSBaseResponse<Integer> response = WSBaseResponse.mining(MiningType.PAPER_COUNT)
                 .data(paperCount);
+
+        messagingTemplate.convertAndSendToUser(sessionId, "/queue", response,
+                WebSocketUtils.createHeaders(sessionId));
+    }
+
+    /* 수동 채굴 - 종이 팔기 */
+    @MessageMapping("/mining/sell")
+    public void sellPaper(@Header("simpSessionId") String sessionId,
+            @Header("simpUser") ActiveUser user) throws CipherException, IOException {
+        miningService.sellPaper(user.getUserId());
+
+        // 초기화 된 종이개수 SEND
+        WSBaseResponse<Integer> response = WSBaseResponse.mining(MiningType.PAPER_COUNT)
+                .data(0);
 
         messagingTemplate.convertAndSendToUser(sessionId, "/queue", response,
                 WebSocketUtils.createHeaders(sessionId));

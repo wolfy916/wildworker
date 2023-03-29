@@ -12,7 +12,17 @@ public final class Constants {
     public static final String SET_COOKIE = "Set-Cookie";
     public static final String KEY_SESSION_ID = "SESSION";
 
-    public static final int INTERVAL = 10;  //스케줄러 동작 주기 (minute)
+    // 스케줄러 동작 주기 (minute)
+    public static final int INTERVAL = 10;
 
-    public static final int STATION_RANGE = 250; //역 범위(반지름) (meter)
+    // 역 범위(반지름) (meter)
+    public static final int STATION_RANGE = 250;
+
+    // 채굴
+    public static final int SELL_LIMIT = 100;   //수동 채굴 가능한 종이 개수
+    public static final long AMOUNT_MANUAL_MINE = 100L; //수동 채굴 금액
+    public static final long AMOUNT_AUTO_MINE = 100L;   //자동 채굴 금액
+
+    // 루트 Station
+    public static final Long ROOT_STATION_ID = -1L;
 }
