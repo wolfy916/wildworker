@@ -1,0 +1,32 @@
+.minigame-cal-ready {
+  width: 100%;
+  height: 100%;
+  /* border: 1px solid black; */
+}
+
+.minigame-cal-ready-header {
+  margin-top: 10%;
+  font-size: 200%;
+}
+
+.minigame-cal-ready-main-text {
+  /* border: 1px solid black; */
+  padding-bottom: 0%;
+}
+
+.minigame-cal-ready-timer {
+  /* border: solid black 1px; */
+  font-size: 300%;
+  margin-bottom: 0%;
+}
+.minigame-cal-ready-timer-text {
+  font-size: 100%;
+}
+
+.minigame-cal-ready-gif {
+  background-image: url(../../asset/image/cal_game_ready.gif);
+  background-size: 100%;
+  /* border: 1px black solid; */
+  height: 50%;
+  width: 100%;
+}
