@@ -10,14 +10,13 @@ import lombok.RequiredArgsConstructor;
 public class ActiveStation {
 
     private final Long id;
-
-    private Map<Long, Long> subscribers = new ConcurrentHashMap<>();
-
+    private final Map<Long, Long> subscribers = new ConcurrentHashMap<>();
+    
     public void subscribe(Long userId) {
         subscribers.put(userId, userId);
     }
 
-    public void dissubscribe(Long userId) {
+    public void unsubscribe(Long userId) {
         subscribers.remove(userId);
     }
 
