@@ -77,6 +77,15 @@ public class ChangedBalanceHandler {
                 });
                 break;
             }
+            // 역 투자
+            case INVESTMENT: {
+                bank.invest(event.getStation(), event.getUser(), event.getChangeValue() * -1)
+                        .thenAccept(receipt -> {
+                            log.info("invest receipt : {}", receipt);
+                            transactionLog.setAppliedAt(LocalDateTime.now());
+                        });
+                break;
+            }
             default:
                 break;
         }
