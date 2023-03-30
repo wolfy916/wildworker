@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.web3j.crypto.CipherException;
 
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class InvestService {
     private final ApplicationEventPublisher publisher;
 
     /* 역 투자 */
+    @Transactional
     public void investToStation(Long stationId, Long userId, Long amount)
             throws CipherException, IOException {
         User user = getUserOrElseThrow(userId);
