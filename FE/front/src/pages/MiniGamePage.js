@@ -5,8 +5,8 @@ import CalGame from "../components/minigame/CalGame";
 function CalculationGame() {
   return (
     <div className="minigame">
-      <ClickerGame />
-      {/* <CalGame /> */}
+      {/* <ClickerGame /> */}
+      <CalGame />
     </div>
   );
 }

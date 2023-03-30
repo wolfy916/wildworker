@@ -70,6 +70,13 @@ public class ChangedBalanceHandler {
                 });
                 break;
             }
+            // 자동 채굴
+            case AUTO_MINING: {
+                bank.autoMine(event.getStation(), event.getUser()).thenAccept(t -> {
+                    transactionLog.setAppliedAt(LocalDateTime.now());
+                });
+                break;
+            }
             default:
                 break;
         }

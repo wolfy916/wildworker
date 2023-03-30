@@ -3,24 +3,42 @@ import { useNavigate } from "react-router-dom";
 import "../minigame/CalGame.css";
 
 function CalculationGame() {
-  const [currentMoney, setcurrentMoney] = useState(
-    String(Math.floor(Math.random() * 100)) + "00"
-  );
-  const [currentFood, setcurrentFood] = useState(
+  const [currentMoney, setcurrentMoney] = useState("0");
+  const [currentFoodValue, setcurrentFoodValue] = useState(
     String(Math.floor(Math.random() * 100)) + "00"
   );
   const [score, setScore] = useState(0);
   const [value, setValue] = useState("");
+  //음식종류
+  const food = [
+    "비타민노래방",
+    "매화램양꼬치",
+    "메가커피",
+    "메머드커피",
+    "순남시래기",
+    "깐부치킨",
+    "훌랄라치킨",
+    "GoOn",
+    "명동칼국수",
+    "아리네술상",
+    "숙취해소제",
+    "시골집",
+    "오봉집",
+  ];
+  const [currentFood, setCurrentFood] = useState(
+    food[Math.floor(Math.random() * 12)]
+  );
 
   function handleSubmit(event) {
     event.preventDefault();
-    const correctAnswer = parseInt(currentMoney) + parseInt(currentFood);
+    const correctAnswer = parseInt(currentMoney) + parseInt(currentFoodValue);
     if (parseInt(value) === correctAnswer) {
       setScore(score + 1);
       setcurrentMoney(value);
     }
     // setNum1(value);
-    setcurrentFood(String(Math.floor(Math.random() * 100) + "00"));
+    setcurrentFoodValue(String(Math.floor(Math.random() * 100) + "00"));
+    setCurrentFood(food[Math.floor(Math.random() * 12)]);
     setValue("");
   }
 
@@ -61,7 +79,7 @@ function CalculationGame() {
           <div>현재 정산금:{currentMoney}원</div>
 
           <div className="minigame-cal-currentfood">
-            + 짜장면: {currentFood}원
+            + {currentFood}: {currentFoodValue}원
           </div>
         </div>
         <div className="minigame-cal-money-value">= {value}원</div>
