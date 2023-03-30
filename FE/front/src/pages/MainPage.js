@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./MainPage.css";
 
 import SubwayBoard from "../components/mainpage/SubwayBoard";
@@ -16,34 +16,15 @@ import LoadingEffect from "../asset/image/pvpPageLoading.gif";
 import morningBackgroundImg from "../asset/image/test_morning.png";
 
 function MainPage(props) {
-  // socket 인스턴스 상속
-  const stompClient = props.stompClient;
   const navigate = useNavigate();
-  const naviProps = useLocation();
-  
-  React.useEffect(() => {
-      console.log(naviProps.state);
-  }, [naviProps.state]);
 
-  // const dominatorComeData = props.dominatorComeData;
-  // const dominatorMessageData = props.dominatorMessageData;
-  // const locationData = props.locationData;
-  // const manualMiningData = props.manualMiningData;
-  // const autoCoinData = props.autoCoinData;
-  // const manualCoinData = props.manualCoinData;
-  // const gameCostData = props.gameCostData;
-  // const runCostData = props.runCostData;
-  // const gameRewardData = props.gameRewardData;
-  // const investCostData = props.investCoFstData;
-  // const investRewardData = props.investRewardData;
-  // const changeTitleData = props.changeTitleData;
-
-  // 수동 채굴한 갯수 데이터 받아서 coinCntData에 넣으면 됨
-  let coinCntData = props.store.manualMining;
+  const stompClient = props.stompClient;
+  const store = props.store;
+  const coinCnt = props.userData.collectedPapers;
+  const userData = props.userData;
 
   const [isReady, setIsReady] = React.useState(false); // 비동기 오류 방지
   const [isEnough, setIsEnough] = React.useState(false); // 수동채굴 수집량 달성 여부 확인
-  const [coinCnt, setCoinCnt] = React.useState(coinCntData); // 수동채굴 아이템 수집량
   const [getCoinClick, setGetCoinClick] = React.useState(false); // 수집량 만족 후 클릭 여부
   const [modalClick, setModalClick] = React.useState(false); // 메인페이지의 메뉴 클릭 여부
   const [titleModalClick, setTitleModalClick] = React.useState(false); // 메인페이지의 칭호 메뉴 획득하면 띄움
@@ -53,62 +34,55 @@ function MainPage(props) {
   const [isToggled, setIsToggled] = React.useState(false);
   const [pvpRouterClick, setPvpRouterClick] = React.useState(false); // pvp 로딩 테스트 버튼
 
-  // 유저 관련 정보
-  const [badge, setBadge] = React.useState("쫄보");
-  const [nickname, setNickname] = React.useState("우주최강원석");
-  const [coin, setCoin] = React.useState(1500);
-  const [gender, setGender] = React.useState(1);
-  const genderList = [character_man, character_woman];
+  const characterList = [character_man, character_woman];
 
-  // 매칭 잡혔을 때의 로딩 이펙트 테스트용 함수
-  function pvpRouterClickHandler() {
-    setPvpRouterClick(true);
-    const targetTag = document.getElementsByClassName("subway-background")[0];
-    const blackBackgroundTag = document.createElement("div");
-    setTimeout(() => {
-      setPvpRouterClick(false);
-      blackBackgroundTag.classList.add("black-background");
-      targetTag.appendChild(blackBackgroundTag);
-    }, 700);
-    setTimeout(() => {
-      navigate("/pvp");
-    }, 1200);
-  }
+  React.useEffect(() => {
+    setIsReady(true);
+
+    // 06 ~ 16시는 아침 이미지
+    // 17 ~ 05시는 밤 이미지
+    let today = new Date();
+    let hours = today.getHours();
+    if (5 < hours && hours < 17) {
+      const backgroundTag = document.querySelector(".subway-background");
+      backgroundTag.style.backgroundImage = `url(${morningBackgroundImg})`;
+    }
+  }, []);
 
   // socket : 서류 수집량 조건 만족 -> 제출
   const handleGetCoin = () => {
-    const message = "가방 - back요청대로 보내야함";
+    const message = "서류를 다 모아서 가방을 클릭했어요";
     stompClient.send("/pub/system/mining/sell", {}, message);
   };
 
   // socket : 서류클릭 신호 송신
   const handleGetCnt = () => {
-    const message = "서류 - back요청대로 보내야함";
+    const message = "서류를 클릭했어요";
     stompClient.send("/pub/system/mining/collect", {}, message);
   };
 
-  // GetCoinItem.js에 props로 내리는 함수
-  // 서류를 클릭할때마다 이 함수를 실행함
   function setCoinCntHandler() {
-    setCoinCnt((prevCnt) => {
-      if (prevCnt < 384) {
-        setIsEnough(false);
-        handleGetCnt();
-      } else if (prevCnt === 384) {
-        setIsEnough(true);
-        handleGetCnt();
-      } else if (prevCnt > 384) {
-        setIsEnough(true);
-      }
-      return prevCnt;
-    });
+    console.log(coinCnt);
+    if (coinCnt < 99) {
+      setIsEnough(false);
+      handleGetCnt();
+    } else if (coinCnt === 99) {
+      setIsEnough(true);
+      handleGetCnt();
+    } else if (coinCnt > 99) {
+      setIsEnough(true);
+    }
   }
+
+  React.useEffect(() => {
+    setCoinCntHandler();
+  }, []);
 
   // app.js에서 수동채굴 최신 데이터의 변화가 감지되었을 때
   // coinCnt(화면에 렌더링되는 수집량)을 최신값으로 갱신
-  React.useEffect(() => {
-    setCoinCnt(props.store.manualMining);
-  }, [props.store.manualMining]);
+  // React.useEffect(() => {
+  //   setCoinCnt(store.manualMining);
+  // }, [store.manualMining]);
 
   // 수동 채굴 아이템 수집량에 따른 버튼 이미지 변환
   React.useEffect(() => {
@@ -127,7 +101,7 @@ function MainPage(props) {
       event.target.removeEventListener("click", clickEventHandler);
       setTimeout(() => {
         setIsEnough(false); // 수집 버튼 되돌리기
-        setCoinCnt(0); // dummy data 나중에 소켓으로 0 돌려줌
+        // setCoinCnt(0); // dummy data 나중에 소켓으로 0 돌려줌
         setGetCoinClick(true); // 전광판에 돈 갱신 이펙트 발생시키는 트리거
         handleGetCoin(); // 소켓으로 수집량 달성 신호 송신
       }, 1000);
@@ -142,18 +116,20 @@ function MainPage(props) {
     }
   }, [isEnough]);
 
-  React.useEffect(() => {
-    setIsReady(true);
-
-    // 06 ~ 16시는 아침 이미지
-    // 17 ~ 05시는 밤 이미지
-    let today = new Date();
-    let hours = today.getHours();
-    if (5 < hours && hours < 17) {
-      const backgroundTag = document.querySelector(".subway-background");
-      backgroundTag.style.backgroundImage = `url(${morningBackgroundImg})`;
-    }
-  }, []);
+  // 매칭 잡혔을 때의 로딩 이펙트 테스트용 함수
+  function pvpRouterClickHandler() {
+    setPvpRouterClick(true);
+    const targetTag = document.getElementsByClassName("subway-background")[0];
+    const blackBackgroundTag = document.createElement("div");
+    setTimeout(() => {
+      setPvpRouterClick(false);
+      blackBackgroundTag.classList.add("black-background");
+      targetTag.appendChild(blackBackgroundTag);
+    }, 700);
+    setTimeout(() => {
+      navigate("/pvp");
+    }, 1200);
+  }
 
   // 칭호 획득 시 ( 처음에는 getTitle은 빈문자열 )
   const getTitle = props.store.getTitle;
@@ -191,24 +167,18 @@ function MainPage(props) {
     }
   }, [isFlashing]);
 
-  const dominatorTitles = "rest api로 가져와야함 지배자 여부"
+  const dominatorTitles = "rest api로 가져와야함 지배자 여부";
 
   return (
     <div className="subway-background">
       <div className="main-board-modal-wrap">지배자 강림</div>
       <SubwayBoard
-        store={props.store}
         getCoinClick={getCoinClick}
         setGetCoinClick={setGetCoinClick}
-        badge={badge}
-        setBadge={setBadge}
-        nickname={nickname}
-        coin={coin}
-        setCoin={setCoin}
-        // station={locationData.current ? locationData.current.name : "역이 아님"}
-        // dominator={
-        //   locationData.current ? locationData.current.dominator : "없음"
-        // }
+        userData={userData}
+        setUserData={props.setUserData}
+        store={store}
+        setStore={props.setStore}
       />
       <div className="subway">
         {modalClick && (
@@ -217,14 +187,12 @@ function MainPage(props) {
             modalHeight={75}
             selectModalIdx={selectIdx}
             setModalClick={setModalClick}
-            nickname={nickname}
-            setNickname={setNickname}
-            badge={badge}
-            setBadge={setBadge}
+            store={store}
+            setStore={props.setStore}
+            userData={userData}
+            setUserData={props.setUserData}
             isToggled={isToggled}
             setIsToggled={setIsToggled}
-            gender={gender}
-            setGender={setGender}
           />
         )}
         {pvpRouterClick && (
@@ -235,21 +203,23 @@ function MainPage(props) {
           />
         )}
         <div className="character-nickname-title">
-          <div className="character-nickname">{nickname}</div>
-          <img
-            className="character"
-            src={genderList[gender - 1]}
-            alt="character"
-            onClick={() => {
-              const titleTag = document.querySelector(".character-title");
-              if (titleTag.style.visibility === "visible") {
-                titleTag.style.visibility = "hidden";
-              } else {
-                titleTag.style.visibility = "visible";
-              }
-            }}
-          />
-          <div className="character-title">{badge}</div>
+          <div className="character-nickname">{userData.name}</div>
+          {userData.characterType + 1 && (
+            <img
+              className="character"
+              src={characterList[userData.characterType]}
+              alt="character"
+              onClick={() => {
+                const titleTag = document.querySelector(".character-title");
+                if (titleTag.style.visibility === "visible") {
+                  titleTag.style.visibility = "hidden";
+                } else {
+                  titleTag.style.visibility = "visible";
+                }
+              }}
+            />
+          )}
+          <div className="character-title">{userData.titleId}</div>
         </div>
         {!pvpRouterClick && (
           <MenuBar setModalClick={setModalClick} setSelectIdx={setSelectIdx} />

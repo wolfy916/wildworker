@@ -1,23 +1,22 @@
 import * as React from "react";
 import "./RedirectLoginPage.css";
 import { useState, useEffect } from "react";
-import { getUserInfo } from "../api/User";
 import { useNavigate } from "react-router";
 import LoadingEffect from "../asset/image/pvpPageLoading.gif";
+import { getUserInfo } from "../api/User";
 
 function LoginPage(props) {
   const [timeLeft, setTimeLeft] = useState(3.5);
   const [imageSrc, setImageSrc] = useState("");
-  const [userData, setUserData] = useState({});
   const navigate = useNavigate();
   const targetTag = document.getElementsByClassName(
     "redirect-login-background"
   )[0];
   const blackBackgroundTag = document.createElement("div");
-  console.log(userData);
   useEffect(() => {
-    setUserData(prev => getUserInfo(true));
     props.setIsLogin(true);
+    // props.setUserData(getUserInfo(true));
+    getUserInfo({setFunc: props.setUserData});
 
     const interval = setInterval(() => {
       setTimeLeft((prevTimeLeft) => prevTimeLeft - 0.25);
@@ -35,7 +34,7 @@ function LoginPage(props) {
       targetTag.appendChild(blackBackgroundTag);
     }
     if (timeLeft === 0) {
-      navigate("/main", { state: userData });
+      navigate("/main");
     }
   }, [timeLeft, navigate]);
   return (

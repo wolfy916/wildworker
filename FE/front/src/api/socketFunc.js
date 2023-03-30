@@ -1,8 +1,8 @@
 // 연결
-function connectSocket(client, setstore) {
+function connectSocket(client, setstore, setUserData) {
   client.connect({}, () => {
     subscribeStation(client, setstore);
-    subscribeUser(client, setstore);
+    subscribeUser(client, setstore, setUserData);
   });
   return client;
 }
@@ -35,7 +35,7 @@ function subscribeStation(client, setStore, curStation) {
   return client;
 }
 
-function subscribeUser(client, setStore) {
+function subscribeUser(client, setStore, setUserData) {
   client.subscribe("/user/queue", (message) => {
     const payload = JSON.parse(message.body);
 
@@ -53,10 +53,10 @@ function subscribeUser(client, setStore) {
     else if (payload.type === "MINING") {
       // 서류 종이 카운트
       if (payload.subType === "PAPER_COUNT") {
-        setStore((prev) => {
+        setUserData((prev) => {
           return {
             ...prev,
-            manualMining: payload.data,
+            collectedPapers: payload.data,
           };
         });
       }
