@@ -1,5 +1,7 @@
 package com.a304.wildworker.domain.activeuser;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Repository;
@@ -7,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ActiveUserRepository {
 
-    private ConcurrentHashMap<Long, ActiveUser> activeUserMap;    //접속 중인 전체 사용자
+    private Map<Long, ActiveUser> activeUserMap;    //접속 중인 전체 사용자
 
     public ActiveUserRepository() {
         activeUserMap = new ConcurrentHashMap<>();
@@ -15,6 +17,10 @@ public class ActiveUserRepository {
 
     public Optional<ActiveUser> findById(Long id) {
         return Optional.ofNullable(activeUserMap.get(id));
+    }
+
+    public Collection<ActiveUser> findAll() {
+        return activeUserMap.values();
     }
 
     public ActiveUser save(ActiveUser activeUser) {
