@@ -50,7 +50,7 @@ public class SystemController {
     @MessageMapping("/mining/collect")
     public void collectPaper(@Header("simpSessionId") String sessionId,
             @Header("simpUser") ActiveUser user) {
-        int paperCount = miningService.collectPaper(user.getUserId());
+        int paperCount = miningService.manualMiningCollect(user.getUserId());
 
         // 현재까지 모은 종이개수 SEND
         WSBaseResponse<Integer> response = WSBaseResponse.mining(MiningType.PAPER_COUNT)
@@ -64,7 +64,7 @@ public class SystemController {
     @MessageMapping("/mining/sell")
     public void sellPaper(@Header("simpSessionId") String sessionId,
             @Header("simpUser") ActiveUser user) throws CipherException, IOException {
-        miningService.sellPaper(user.getUserId());
+        miningService.manualMiningSell(user.getUserId());
 
         // 초기화 된 종이개수 SEND
         WSBaseResponse<Integer> response = WSBaseResponse.mining(MiningType.PAPER_COUNT)
