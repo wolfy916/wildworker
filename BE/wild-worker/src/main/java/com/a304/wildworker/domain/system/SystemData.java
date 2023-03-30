@@ -5,8 +5,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 
+@Getter
 @Component
 public class SystemData {
 
@@ -37,11 +39,7 @@ public class SystemData {
     public String getNextBaseTime() {
         return nextBaseTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
-
-    public LocalDateTime getAutoMiningBaseTime() {
-        return autoMiningBaseTime;
-    }
-
+    
     /* 타임라인 시간 갱신 */
     public void updateBaseTime() {
         prevBaseTime = nextBaseTime;
