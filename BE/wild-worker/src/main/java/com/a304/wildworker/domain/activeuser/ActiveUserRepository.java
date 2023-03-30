@@ -1,8 +1,8 @@
 package com.a304.wildworker.domain.activeuser;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Repository;
 
@@ -19,8 +19,8 @@ public class ActiveUserRepository {
         return Optional.ofNullable(activeUserMap.get(id));
     }
 
-    public Set<Long> getKeySet() {
-        return activeUserMap.keySet();
+    public Collection<ActiveUser> findAll() {
+        return activeUserMap.values();
     }
 
     public ActiveUser save(ActiveUser activeUser) {

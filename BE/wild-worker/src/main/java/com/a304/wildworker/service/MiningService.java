@@ -90,12 +90,10 @@ public class MiningService {
         systemData.initAutoMiningTime();
 
         // 접속 유저 중에서 역 범위에 있는 유저는 자동 채굴 처리
-        for (Long userId : activeUserRepository.getKeySet()) {
-            activeUserRepository.findById(userId).ifPresent(activeUser -> {
-                if (activeUser.getStationId() > 0) {
-                    autoMining(activeUser);
-                }
-            });
+        for (ActiveUser activeUser : activeUserRepository.findAll()) {
+            if (activeUser.getStationId() > 0) {
+                autoMining(activeUser);
+            }
         }
     }
 
