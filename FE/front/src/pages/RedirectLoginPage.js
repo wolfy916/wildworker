@@ -35,7 +35,7 @@ function LoginPage(props) {
       targetTag.appendChild(blackBackgroundTag);
     }
     if (timeLeft === 0) {
-      // navigate("/main", { state: userData });
+      navigate("/main", { state: userData });
     }
   }, [timeLeft, navigate]);
   return (
