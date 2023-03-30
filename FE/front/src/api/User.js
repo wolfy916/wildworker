@@ -3,14 +3,14 @@ import http from "./Http.js";
 // 회원정보 조회
 function getUserInfo(payload) {
   if (payload) {
-    return http({
+    http({
       method: "get",
       url: "/user",
     })
       .then(({ status, data }) => {
         if (status === 200) {
           console.log("getUserInfo 성공", data);
-          return data;
+          payload.setFunc(data);
           // data 예시
           // {
           //   characterType: 0;

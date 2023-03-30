@@ -75,7 +75,7 @@ function App() {
   useEffect(() => {
     if (isLogin) {
       const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
-      setStompClient(connectSocket(Stomp.over(socket), setStore));
+      setStompClient(connectSocket(Stomp.over(socket), setStore, setUserData));
       setIsConnected(true);
     }
   }, [isLogin]);
@@ -139,13 +139,19 @@ function App() {
                   setStore={setStore}
                   userData={userData}
                   setUserData={setUserData}
-                  isLogin={isLogin}
-                  setIsLogin={setIsLogin}
                   stompClient={stompClient}
                 />
               }
             />
-            <Route path="/redirect/login" element={<RedirectLogin />} />
+            <Route
+              path="/redirect/login"
+              element={
+                <RedirectLogin
+                  setIsLogin={setIsLogin}
+                  setUserData={setUserData}
+                />
+              }
+            />
             <Route path="/map" element={<SubwayMapPage />} />
             <Route path="/map/mine" element={<MySubwayPage />} />
             <Route path="/map/hot" element={<HotSubwayPage />} />

@@ -3,8 +3,9 @@ import "./RedirectLoginPage.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import LoadingEffect from "../asset/image/pvpPageLoading.gif";
+import { getUserInfo } from "../api/User";
 
-function LoginPage() {
+function LoginPage(props) {
   const [timeLeft, setTimeLeft] = useState(3.5);
   const [imageSrc, setImageSrc] = useState("");
   const navigate = useNavigate();
@@ -13,6 +14,10 @@ function LoginPage() {
   )[0];
   const blackBackgroundTag = document.createElement("div");
   useEffect(() => {
+    props.setIsLogin(true);
+    // props.setUserData(getUserInfo(true));
+    getUserInfo({setFunc: props.setUserData});
+
     const interval = setInterval(() => {
       setTimeLeft((prevTimeLeft) => prevTimeLeft - 0.25);
     }, 250);
