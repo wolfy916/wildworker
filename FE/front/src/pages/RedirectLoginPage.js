@@ -15,8 +15,7 @@ function LoginPage(props) {
   const blackBackgroundTag = document.createElement("div");
   useEffect(() => {
     props.setIsLogin(true);
-    // props.setUserData(getUserInfo(true));
-    getUserInfo({setFunc: props.setUserData});
+    getUserInfo({ setFunc: props.setUserData });
 
     const interval = setInterval(() => {
       setTimeLeft((prevTimeLeft) => prevTimeLeft - 0.25);

@@ -30,11 +30,16 @@ function MainPage(props) {
   const [selectIdx, setSelectIdx] = React.useState(0); // 모달창에 띄울 컨텐츠 인덱스
   const [isToggled, setIsToggled] = React.useState(false);
   const [pvpRouterClick, setPvpRouterClick] = React.useState(false); // pvp 로딩 테스트 버튼
+  const [isClickDoc, setIsClickDoc] = React.useState(false);  // click시 
 
   const characterList = [character_man, character_woman];
 
   React.useEffect(() => {
     setIsReady(true);
+
+    if (coinCnt > 99) {
+      setIsEnough(true);
+    }
 
     // 06 ~ 16시는 아침 이미지
     // 17 ~ 05시는 밤 이미지
@@ -58,28 +63,20 @@ function MainPage(props) {
     stompClient.send("/pub/system/mining/collect", {}, message);
   };
 
-  function setCoinCntHandler() {
-    console.log(coinCnt);
-    if (coinCnt < 99) {
-      setIsEnough(false);
-      handleGetCnt();
-    } else if (coinCnt === 99) {
-      setIsEnough(true);
-      handleGetCnt();
-    } else if (coinCnt > 99) {
-      setIsEnough(true);
+  React.useEffect(()=>{
+    if(isReady) {
+      if (coinCnt < 99) {
+        setIsEnough(false);
+        handleGetCnt();
+      } else if (coinCnt === 99) {
+        setIsEnough(true);
+        handleGetCnt();
+      } else if (coinCnt > 99) {
+        setIsEnough(true);
+      }
     }
   }
-
-  React.useEffect(()=>{
-    setCoinCntHandler();
-  }, [])
-
-  // app.js에서 수동채굴 최신 데이터의 변화가 감지되었을 때
-  // coinCnt(화면에 렌더링되는 수집량)을 최신값으로 갱신
-  // React.useEffect(() => {
-  //   setCoinCnt(store.manualMining);
-  // }, [store.manualMining]);
+  , [isClickDoc])
 
   // 수동 채굴 아이템 수집량에 따른 버튼 이미지 변환
   React.useEffect(() => {
@@ -98,7 +95,12 @@ function MainPage(props) {
       event.target.removeEventListener("click", clickEventHandler);
       setTimeout(() => {
         setIsEnough(false); // 수집 버튼 되돌리기
-        // setCoinCnt(0); // dummy data 나중에 소켓으로 0 돌려줌
+        props.setUserData((prev) => {
+          return {
+            ...prev,
+            collectedPapers: 0,
+          };
+        });
         setGetCoinClick(true); // 전광판에 돈 갱신 이펙트 발생시키는 트리거
         handleGetCoin(); // 소켓으로 수집량 달성 신호 송신
       }, 1000);
@@ -190,7 +192,13 @@ function MainPage(props) {
         </Link>
       </div>
       {isReady && (
-        <GetCoinItem isEnough={isEnough} getCoinCnt={setCoinCntHandler} />
+        <GetCoinItem
+          isEnough={isEnough}
+          // getCoinCnt={setCoinCntHandler}
+          userData={props.userData}
+          setUserData={props.setUserData}
+          setIsClickDoc={setIsClickDoc}
+        />
       )}
       <div className="main-router-pvp" onClick={pvpRouterClickHandler}>
         pvp
