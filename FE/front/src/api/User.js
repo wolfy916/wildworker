@@ -13,10 +13,12 @@ function getUserInfo(payload) {
           return data;
           // data 예시
           // {
-          //   "name": "S2태형S2",
-          //   "titleType": 1,
-          //   "titleId": 1,
-          //   "characterType": 1
+          //   characterType: 0;
+          //   coin: 0;
+          //   collectedPapers: 74;
+          //   name: "rnjsxogud916@naver.com";
+          //   titleId: 0;
+          //   titleType: 0;
           // }
         }
       })

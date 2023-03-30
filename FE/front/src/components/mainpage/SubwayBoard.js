@@ -7,18 +7,18 @@ function SubwayBoard(props) {
 
   let getCoinClick = props.getCoinClick;
   const setGetCoinClick = props.setGetCoinClick;
-  const setCoin = props.setCoin;
+  const setUserData = props.setUserData;
 
   React.useEffect(() => {
     if (getCoinClick === true) {
-      setCoin((prev) => prev + 100);
+      console.log("수동채굴 제출");
       setGetCoinClick(false);
       setIsFlashing(true);
       setTimeout(() => {
         setIsFlashing(false);
       }, 1000);
     }
-  }, [getCoinClick, setGetCoinClick, setCoin]);
+  }, [getCoinClick, setGetCoinClick, setUserData]);
 
   return (
     <div>
@@ -31,13 +31,17 @@ function SubwayBoard(props) {
         </div>
         <div className="subway-board-wrapper">
           <div className="subway-board-screen">
-            <SubwayBoardFirstPart station={props.station} coin={props.coin} isFlashing={isFlashing} dominator={props.dominator}/>
+            <SubwayBoardFirstPart
+              userData={props.userData}
+              store={props.store}
+              isFlashing={isFlashing}
+            />
             <div className="board-second-part">
               <span className="current-station">
                 {" "}
-                {props.station}의 지배자{" "}
+                {props.store.location}의 지배자{" "}
               </span>
-              는<span className="current-station"> {props.dominator} </span>
+              는<span className="current-station"> {props.store.dominatorAppear} </span>
               입니다.
             </div>
           </div>

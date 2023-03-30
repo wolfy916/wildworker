@@ -36,8 +36,16 @@ function App() {
   // });
 
   const [isLogin, setIsLogin] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
   const [isChangeId, setIsChangeId] = useState(false);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({
+    characterType: 0,
+    coin: 0,
+    collectedPapers: 0,
+    name: "",
+    titleId: 0,
+    titleType: 0,
+  });
   const [store, setStore] = useState({
     locationData: {},
     manualMining: 1,
@@ -61,7 +69,6 @@ function App() {
   });
 
   // 소켓 인스턴스 생성하고, 상태관리에 넣음
-  // const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
   const [stompClient, setStompClient] = useState({});
 
   // 연결하고, 필요한거 다 구독하고 상태관리에 넣어 유지함
@@ -69,6 +76,7 @@ function App() {
     if (isLogin) {
       const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
       setStompClient(connectSocket(Stomp.over(socket), setStore));
+      setIsConnected(true);
     }
   }, [isLogin]);
 
@@ -89,7 +97,7 @@ function App() {
 
   // 실시간 위치 전송 코드
   useEffect(() => {
-    if (isLogin) {
+    if (isConnected) {
       const intervalId = setInterval(() => {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -109,115 +117,13 @@ function App() {
         clearInterval(intervalId);
       };
     }
-  }, [isLogin]);
+  }, [isConnected]);
 
   // 위치 전송 백에게 전달하는 함수
-  function handleSendLocation(e) {
+  const handleSendLocation = (e) => {
     const message = JSON.stringify(e);
     stompClient.send("/pub/system/location", {}, message);
   };
-
-  // 연결, 구독하기, 구독끊기, 데이터 받는 곳
-  // useEffect(() => {
-  //   stompClient.connect({}, () => {
-  //     // 같은 역 사람들 구독
-  //     stompClient.subscribe("/sub/systems/{station-id}", (message) => {
-  //       const payload = JSON.parse(message.body);
-
-  //       // 지배자 기능 모음
-  //       if (payload.type === "STATION") {
-  //         // 지배자 강림
-  //         if (payload.subType === "DOMINATOR") {
-  //           // setDominatorComeData(payload.data);
-  //         }
-  //         // 지배자 확성기
-  //         else if (payload.subType === "MESSAGE") {
-  //           // setDominatorMessageData(payload.data);
-  //         }
-  //       }
-  //     });
-  //     stompClient.subscribe("/user/queue", (message) => {
-  //       const payload = JSON.parse(message.body);
-
-  //       //현재 역 변동 & 역 정보
-  //       if (payload.type === "STATION" && payload.subType === "STATUS") {
-  //         // setLocationData(payload.data);
-  //       }
-
-  //       // 수동 채굴 모음
-  //       else if (payload.type === "MINING") {
-  //         // 서류 종이 카운트
-  //         if (payload.subType === "PAPER_COUNT") {
-  //           // setManualMiningData(payload.data);
-  //         }
-  //       }
-
-  //       // 코인변동 모음
-  //       else if (payload.type === "COIN") {
-  //         // 자동 코인 변동
-  //         if (payload.subType === "AUTO_MINING") {
-  //           // setAutoCoinData(payload.data);
-  //         }
-  //         //수동 코인변동
-  //         else if (payload.subType === "MANUAL_MINING") {
-  //           // setManualCoinData(payload.data);
-  //         }
-  //         //게임비
-  //         else if (payload.subType === "MINI_GAME_COST") {
-  //           // setGameCostData(payload.data);
-  //         }
-  //         //도망비
-  //         else if (payload.subType === "MINI_GAME_RUN_COST") {
-  //           // setRunCostData(payload.data);
-  //         }
-  //         //게임보상금
-  //         else if (payload.subType === "MINI_GAME_REWARD") {
-  //           // setGameRewardData(payload.data);
-  //         }
-  //         //투자액
-  //         else if (payload.subType === "INVESTMENT") {
-  //           // setInvestCostData(payload.data);
-  //         }
-  //         //투자보상금
-  //         else if (payload.subType === "INVESTMENT_REWARD") {
-  //           // setInvestRewardData(payload.data);
-  //         }
-  //       }
-
-  //       // 칭호관련 모음
-  //       else if (payload.type === "TITLE") {
-  //         // 칭호 획득
-  //         if (payload.subType === "GET") {
-  //           // setGetTitleData(payload.data);
-  //         }
-  //         // 내 대표 칭호 변동
-  //         else if (payload.subType === "MAIN_TITLE_UPDATE") {
-  //           // setChangeTitleData(payload.data);
-  //         }
-  //       }
-
-  //       // 미니게임 모음
-  //       else if (payload.type === "MINIGAME") {
-  //         // 게임 매칭
-  //         if (payload.subType === "MATCHING") {
-  //           // setMatchingData(payload.data);
-  //         }
-  //         // 게임 취소 (도망 성공)
-  //         else if (payload.subType === "CANCEL") {
-  //           // setGameRunData(payload.data);
-  //         }
-  //         // 게임 시작
-  //         else if (payload.subType === "START") {
-  //           // setGameStartData(payload.data);
-  //         }
-  //         // 게임 결과
-  //         else if (payload.subType === "RESULT") {
-  //           // setGameResultData(payload.data);
-  //         }
-  //       }
-  //     });
-  //   });
-  // }, []);
 
   return (
     <div id="App" className="App">
@@ -239,12 +145,7 @@ function App() {
                 />
               }
             />
-            <Route
-              path="/redirect/login"
-              element={
-                <RedirectLogin isLogin={isLogin} setIsLogin={setIsLogin} />
-              }
-            />
+            <Route path="/redirect/login" element={<RedirectLogin />} />
             <Route path="/map" element={<SubwayMapPage />} />
             <Route path="/map/mine" element={<MySubwayPage />} />
             <Route path="/map/hot" element={<HotSubwayPage />} />

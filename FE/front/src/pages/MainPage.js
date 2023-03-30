@@ -14,37 +14,26 @@ import getCoinImage from "../asset/image/get_coin_btn.png";
 import getCoinFullImage from "../asset/image/Full_Charge_Btn.png";
 import LoadingEffect from "../asset/image/pvpPageLoading.gif";
 import morningBackgroundImg from "../asset/image/test_morning.png";
-import {getUserInfo} from "../api/User";
+import { getUserInfo } from "../api/User";
 
 function MainPage(props) {
   // socket 인스턴스 상속
   const stompClient = props.stompClient;
   const navigate = useNavigate();
-
-  React.useEffect(() => {
-    props.setUserData(getUserInfo(true));
-    props.setIsLogin(true);
-  }, []);
-
-  // const dominatorComeData = props.dominatorComeData;
-  // const dominatorMessageData = props.dominatorMessageData;
-  // const locationData = props.locationData;
-  // const manualMiningData = props.manualMiningData;
-  // const autoCoinData = props.autoCoinData;
-  // const manualCoinData = props.manualCoinData;
-  // const gameCostData = props.gameCostData;
-  // const runCostData = props.runCostData;
-  // const gameRewardData = props.gameRewardData;
-  // const investCostData = props.investCoFstData;
-  // const investRewardData = props.investRewardData;
-  // const changeTitleData = props.changeTitleData;
-
-  // 수동 채굴한 갯수 데이터 받아서 coinCntData에 넣으면 됨
-  let coinCntData = props.store.manualMiningData;
+  const store = props.store;
+  // const userData = props.userData;
+  const [userData, setUserData] = React.useState({
+    characterType: 0,
+    coin: 0,
+    collectedPapers: 0,
+    name: "",
+    titleId: 0,
+    titleType: 0,
+  });
 
   const [isReady, setIsReady] = React.useState(false); // 비동기 오류 방지
   const [isEnough, setIsEnough] = React.useState(false); // 수동채굴 수집량 달성 여부 확인
-  const [coinCnt, setCoinCnt] = React.useState(coinCntData); // 수동채굴 아이템 수집량
+  const [coinCnt, setCoinCnt] = React.useState(store.manualMining); // 수동채굴 아이템 수집량
   const [getCoinClick, setGetCoinClick] = React.useState(false); // 수집량 만족 후 클릭 여부
   const [modalClick, setModalClick] = React.useState(false); // 메인페이지의 메뉴 클릭 여부
   const [selectIdx, setSelectIdx] = React.useState(0); // 모달창에 띄울 컨텐츠 인덱스
@@ -52,11 +41,11 @@ function MainPage(props) {
   const [pvpRouterClick, setPvpRouterClick] = React.useState(false); // pvp 로딩 테스트 버튼
 
   // 유저 관련 정보
-  const [badge, setBadge] = React.useState("쫄보");
-  const [nickname, setNickname] = React.useState("우주최강원석");
-  const [coin, setCoin] = React.useState(1500);
-  const [gender, setGender] = React.useState(1);
-  const genderList = [character_man, character_woman];
+  // props.userData.titleId, props.userData.titleType
+  // props.userData.name
+  // props.userData.coin
+  // props.userData.characterType
+  const characterList = [character_man, character_woman];
 
   // 매칭 잡혔을 때의 로딩 이펙트 테스트용 함수
   function pvpRouterClickHandler() {
@@ -75,13 +64,13 @@ function MainPage(props) {
 
   // socket : 서류 수집량 조건 만족 -> 제출
   const handleGetCoin = () => {
-    const message = "가방 - back요청대로 보내야함";
+    const message = "서류를 다 모아서 가방을 클릭했어요";
     stompClient.send("/pub/system/mining/sell", {}, message);
   };
 
   // socket : 서류클릭 신호 송신
   const handleGetCnt = () => {
-    const message = "서류 - back요청대로 보내야함";
+    const message = "서류를 클릭했어요";
     stompClient.send("/pub/system/mining/collect", {}, message);
   };
 
@@ -105,8 +94,8 @@ function MainPage(props) {
   // app.js에서 수동채굴 최신 데이터의 변화가 감지되었을 때
   // coinCnt(화면에 렌더링되는 수집량)을 최신값으로 갱신
   React.useEffect(() => {
-    setCoinCnt(props.store.manualMiningData);
-  }, [props.store.manualMiningData]);
+    setCoinCnt(store.manualMining);
+  }, [store.manualMining]);
 
   // 수동 채굴 아이템 수집량에 따른 버튼 이미지 변환
   React.useEffect(() => {
@@ -142,6 +131,15 @@ function MainPage(props) {
 
   React.useEffect(() => {
     setIsReady(true);
+    // props.setUserData(getUserInfo(true));
+    setUserData(getUserInfo(true));
+    props.setIsLogin(true);
+    props.setStore((prev) => {
+      return {
+        ...prev,
+        manualMining: userData.collectedPapers,
+      };
+    });
 
     // 06 ~ 16시는 아침 이미지
     // 17 ~ 05시는 밤 이미지
@@ -152,20 +150,16 @@ function MainPage(props) {
       backgroundTag.style.backgroundImage = `url(${morningBackgroundImg})`;
     }
   }, []);
+  
   return (
     <div className="subway-background">
       <SubwayBoard
         getCoinClick={getCoinClick}
         setGetCoinClick={setGetCoinClick}
-        badge={badge}
-        setBadge={setBadge}
-        nickname={nickname}
-        coin={coin}
-        setCoin={setCoin}
-        // station={locationData.current ? locationData.current.name : "역이 아님"}
-        // dominator={
-        //   locationData.current ? locationData.current.dominator : "없음"
-        // }
+        userData={userData}
+        setUserData={setUserData}
+        store={store}
+        setStore={props.setStore}
       />
       <div className="subway">
         {modalClick && (
@@ -174,14 +168,12 @@ function MainPage(props) {
             modalHeight={75}
             selectModalIdx={selectIdx}
             setModalClick={setModalClick}
-            nickname={nickname}
-            setNickname={setNickname}
-            badge={badge}
-            setBadge={setBadge}
+            store={store}
+            setStore={props.setStore}
+            userData={userData}
+            setUserData={setUserData}
             isToggled={isToggled}
             setIsToggled={setIsToggled}
-            gender={gender}
-            setGender={setGender}
           />
         )}
         {pvpRouterClick && (
@@ -192,10 +184,10 @@ function MainPage(props) {
           />
         )}
         <div className="character-nickname-title">
-          <div className="character-nickname">{nickname}</div>
-          <img
+          <div className="character-nickname">{userData.name}</div>
+          { userData.characterType + 1 && <img
             className="character"
-            src={genderList[gender - 1]}
+            src={characterList[userData.characterType]}
             alt="character"
             onClick={() => {
               const titleTag = document.querySelector(".character-title");
@@ -205,8 +197,8 @@ function MainPage(props) {
                 titleTag.style.visibility = "visible";
               }
             }}
-          />
-          <div className="character-title">{badge}</div>
+          />}
+          <div className="character-title">{userData.titleId}</div>
         </div>
         {!pvpRouterClick && (
           <MenuBar setModalClick={setModalClick} setSelectIdx={setSelectIdx} />
