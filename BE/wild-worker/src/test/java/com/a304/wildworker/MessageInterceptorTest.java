@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import com.a304.wildworker.domain.activestation.ActiveStation;
 import com.a304.wildworker.domain.activestation.ActiveStationRepository;
+import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.exception.StationNotFoundException;
 import com.a304.wildworker.interceptor.MessageInterceptor;
@@ -88,11 +89,12 @@ public class MessageInterceptorTest {
         assertFalse(activeStation.getSubscribers().containsKey(userId));
 
         // 구독하면 있음
-        interceptor.subUnsubStation(SimpMessageType.SUBSCRIBE, destination, userId);
+        ActiveUser activeUser = new ActiveUser(userId);
+        interceptor.subUnsubStation(SimpMessageType.SUBSCRIBE, destination, activeUser);
         assertTrue(activeStation.getSubscribers().containsKey(userId));
 
         // 구독 해제하면 다시 false
-        interceptor.subUnsubStation(SimpMessageType.UNSUBSCRIBE, destination, userId);
+        interceptor.subUnsubStation(SimpMessageType.UNSUBSCRIBE, destination, activeUser);
         assertFalse(activeStation.getSubscribers().containsKey(userId));
     }
 

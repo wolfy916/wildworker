@@ -57,7 +57,7 @@ public class MessageInterceptor implements ChannelInterceptor {
             case SUBSCRIBE:
             case UNSUBSCRIBE:
                 String destination = accessor.getDestination();
-                subUnsubStation(messageType, destination, activeUser.getUserId());
+                subUnsubStation(messageType, destination, activeUser);
                 break;
             case DISCONNECT:
                 activeUserRepository.deleteById(sessionUser.getId());
@@ -93,14 +93,14 @@ public class MessageInterceptor implements ChannelInterceptor {
                 .orElseThrow(StationNotFoundException::new);
     }
 
-    public void subUnsubStation(SimpMessageType type, String destination, Long userId) {
+    public void subUnsubStation(SimpMessageType type, String destination, ActiveUser activeUser) {
         if (isDestinationStation(destination)) {
             Long stationId = getStationIdFromDestination(destination);
             ActiveStation activeStation = activeStationRepository.findById(stationId);
             if (type == SimpMessageType.SUBSCRIBE) {
-                activeStation.subscribe(userId);
+                activeStation.subscribe(activeUser);
             } else {
-                activeStation.unsubscribe(userId);
+                activeStation.unsubscribe(activeUser.getUserId());
             }
         }
     }

@@ -1,8 +1,9 @@
 package com.a304.wildworker.domain.match;
 
+import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.common.MiniGameType;
-import com.a304.wildworker.domain.user.User;
 import java.util.List;
+import java.util.UUID;
 import lombok.Getter;
 
 /*
@@ -21,8 +22,8 @@ public class DefaultMatch extends Match {
     private static final int defaultRunCost = 5;
     private final int league;
 
-    public DefaultMatch(User user1, User user2, int league) {
-        super(List.of(user1, user2), MiniGameType.random());        //게임 랜덤으로 정함
+    public DefaultMatch(List<ActiveUser> users, int league) {
+        super(UUID.randomUUID().toString(), users, MiniGameType.random());        //게임 랜덤으로 정함
         this.league = league;
     }
 
