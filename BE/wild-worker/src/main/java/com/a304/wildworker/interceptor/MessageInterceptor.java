@@ -1,12 +1,12 @@
 package com.a304.wildworker.interceptor;
 
-import com.a304.wildworker.domain.activestation.ActiveStation;
-import com.a304.wildworker.domain.activestation.ActiveStationRepository;
+import com.a304.wildworker.domain.activestation.StationPoolRepository;
 import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
 import com.a304.wildworker.domain.sessionuser.PrincipalDetails;
 import com.a304.wildworker.domain.sessionuser.SessionUser;
 import com.a304.wildworker.domain.station.StationRepository;
+import com.a304.wildworker.event.common.EventPublish;
 import com.a304.wildworker.exception.NotLoginException;
 import com.a304.wildworker.exception.StationNotFoundException;
 import java.security.Principal;
@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 public class MessageInterceptor implements ChannelInterceptor {
 
     private final ActiveUserRepository activeUserRepository;
-    private final ActiveStationRepository activeStationRepository;
+    private final StationPoolRepository stationPoolRepository;
     private final StationRepository stationRepository;
 
     @Override
@@ -93,15 +93,10 @@ public class MessageInterceptor implements ChannelInterceptor {
                 .orElseThrow(StationNotFoundException::new);
     }
 
+    @EventPublish
     public void subUnsubStation(SimpMessageType type, String destination, ActiveUser activeUser) {
         if (isDestinationStation(destination)) {
-            Long stationId = getStationIdFromDestination(destination);
-            ActiveStation activeStation = activeStationRepository.findById(stationId);
-            if (type == SimpMessageType.SUBSCRIBE) {
-                activeStation.subscribe(activeUser);
-            } else {
-                activeStation.unsubscribe(activeUser.getUserId());
-            }
+            activeUser.setSubscribed(type == SimpMessageType.SUBSCRIBE);
         }
     }
 

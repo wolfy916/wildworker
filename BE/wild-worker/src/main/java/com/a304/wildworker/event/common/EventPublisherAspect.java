@@ -1,5 +1,6 @@
 package com.a304.wildworker.event.common;
 
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -7,6 +8,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Aspect
 @Component
 public class EventPublisherAspect implements ApplicationEventPublisherAware {
@@ -14,7 +16,16 @@ public class EventPublisherAspect implements ApplicationEventPublisherAware {
     private final ThreadLocal<Boolean> appliedLocal = new ThreadLocal<>();
     private ApplicationEventPublisher publisher;
 
-    //    @Around("@annotation(org.springframework.transaction.annotation.Transactional)")
+//    @Before("execution(* com.a304.wildworker.*.*(..)) && @annotation(com.a304.wildworker.event.common.EventPublish)")
+//    public void beforeMethodCall(JoinPoint joinPoint) {
+//        // Check if the calling method has the @EventPublish annotation
+//        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+//        Method method = signature.getMethod();
+//        if (!method.isAnnotationPresent(EventPublish.class)) {
+//            throw new RuntimeException("Method " + method.getName() + " can only be called from methods with @EventPublish annotation");
+//        }
+//    }
+
     @Around("@annotation(com.a304.wildworker.event.common.EventPublish)")
     public Object handleEvent(ProceedingJoinPoint joinPoint) throws Throwable {
         Boolean appliedValue = appliedLocal.get();

@@ -1,4 +1,4 @@
-package com.a304.wildworker;
+package com.a304.wildworker.dummy;
 
 import com.a304.wildworker.event.common.DomainEvent;
 import com.a304.wildworker.event.common.EventPublish;
@@ -6,15 +6,15 @@ import com.a304.wildworker.event.common.Events;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TestTestService {
+public class TestEventService {
 
-    @EventPublish
     private void callEventPublish(DomainEvent event) {
         Events.raise(event);
     }
 
     @EventPublish
     public void eventRaise(DomainEvent event) {
-        Events.raise(event);
+        callEventPublish(event);
     }
+
 }

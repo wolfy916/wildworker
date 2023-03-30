@@ -5,20 +5,20 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ActiveStationRepository {
+public class StationPoolRepository {
 
-    private ConcurrentHashMap<Long, ActiveStation> activeStations;
+    private ConcurrentHashMap<Long, StationPool> activeStations;
 
-    public ActiveStationRepository() {
+    public StationPoolRepository() {
         activeStations = new ConcurrentHashMap<>();
     }
 
-    public ActiveStation findById(Long id) {
+    public StationPool findById(Long id) {
         return Optional.ofNullable(activeStations.get(id))
-                .orElseGet(() -> save(new ActiveStation(id)));
+                .orElseGet(() -> save(new StationPool(id)));
     }
 
-    private ActiveStation save(ActiveStation station) {
+    private StationPool save(StationPool station) {
         activeStations.put(station.getId(), station);
         return station;
     }

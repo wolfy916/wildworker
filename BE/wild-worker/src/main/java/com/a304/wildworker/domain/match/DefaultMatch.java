@@ -1,6 +1,7 @@
 package com.a304.wildworker.domain.match;
 
 import com.a304.wildworker.domain.activeuser.ActiveUser;
+import com.a304.wildworker.domain.common.League;
 import com.a304.wildworker.domain.common.MiniGameType;
 import java.util.List;
 import java.util.UUID;
@@ -20,19 +21,19 @@ public class DefaultMatch extends Match {
     public static final int timeLimitSec = 7;
     private static final int defaultCost = 20;
     private static final int defaultRunCost = 5;
-    private final int league;
+    private final League league;
 
-    public DefaultMatch(List<ActiveUser> users, int league) {
+    public DefaultMatch(List<ActiveUser> users, League league) {
         super(UUID.randomUUID().toString(), users, MiniGameType.random());        //게임 랜덤으로 정함
         this.league = league;
     }
 
     public int getCost() {
-        return defaultCost * (int) (Math.pow(10, league));
+        return defaultCost * (int) (Math.pow(10, league.ordinal()));
     }
 
     public int getRunCost() {
-        return defaultRunCost * (int) (Math.pow(10, league));
+        return defaultRunCost * (int) (Math.pow(10, league.ordinal()));
     }
 
 }

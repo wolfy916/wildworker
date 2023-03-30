@@ -25,6 +25,12 @@ public class WebSocketConfig extends
 
     private final ChannelInterceptor interceptor;
 
+    public static final String DESTINATION_PREFIX = "/pub";
+    public static final String BROKER_DEST_PREFIX = "/sub";
+    public static final String BROKER_DEST_PREFIX_USER = "/queue";
+    public static final String USER_DEST_PREFIX = "/user";
+    public static final String WS_DEST_STATION = "/stations";
+
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.setApplicationDestinationPrefixes("/pub");

@@ -6,6 +6,7 @@ import com.a304.wildworker.event.MatchingSuccessEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CreateMatchEventHandler {
 
-    //    private final SimpMessagingTemplate messagingTemplate;
+    private final SimpMessagingTemplate messagingTemplate;
     private final MatchRepository matchRepository;
 
     @EventListener

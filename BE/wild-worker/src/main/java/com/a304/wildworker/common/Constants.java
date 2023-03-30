@@ -25,5 +25,4 @@ public final class Constants {
     public static final long AMOUNT_MANUAL_MINE = 100L; //수동 채굴 금액
     public static final long AMOUNT_AUTO_MINE = 100L;   //자동 채굴 금액
 
-    public static final String SEND_TO_USER_DEST = "/queue";
 }
