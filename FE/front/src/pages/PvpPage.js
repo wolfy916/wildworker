@@ -9,8 +9,9 @@ function PvpPage(props) {
   const gameCancelData = props.gameCancelData;
   const gameStartData = props.gameStartData;
   const stompClient = props.stompClient;
+  //userdata 받기
+  // const userData = props.
 
-  //getUserInfo를 useEffect로 받아서 내 캐릭터에 props로 내려주기.
   return (
     <div className="PvpPageBg">
       <div className="battleCharacter1">
@@ -18,15 +19,17 @@ function PvpPage(props) {
         <img src={battleDirection} alt="battleDirection" />
         {/* <BattleCharater characterType={matchingData.enemy.characterType} /> */}
         <BattleCharater type={1} />
-        <p>신도림의 지배자 권태형</p>
         {/* <p>
           {matchingData.enemy.title} {matchingData.enemy.data}{" "}
         </p> */}
+        <p>신도림의 지배자 권태형</p>
       </div>
       <div className="battleCharacter2">
         {/* user 본인 */}
         <img src={battleDirection} alt="battleDirection" />
+        {/* <BattleCharater type={userData.CharcterType} /> */}
         <BattleCharater type={0} />
+        {/* title type, id 있는데 어떻게 받아야 할지 프론트 논의필요 */}
         <p>신도림의 지배자 권태형</p>
       </div>
 
@@ -35,6 +38,12 @@ function PvpPage(props) {
         matchingData={matchingData}
         gameCancelData={gameCancelData}
         gameStartData={gameStartData}
+        //result아직 app.js없음
+        // gameResultData={gameResultData}
+        //본인정보 받기
+        // userData={userData}
+        //현재 역id만 받기
+        // stationId = {stationId}
       />
     </div>
   );

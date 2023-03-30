@@ -8,10 +8,13 @@ import { useNavigate } from "react-router-dom";
 import battleDialogImg from "../../asset/image/battleTalk.png";
 
 export default function BattleDialog(props) {
+  const stompClient = props.stompClient;
   const matchingData = props.matchingData;
   const gameCancelData = props.gameCancelData;
   const gameStartData = props.gameStartData;
-  const stompClient = props.stompClient;
+  const gameResultData = props.gameResultData;
+  const userData = props.userData;
+  const stationId = props.stationId;
   // const sentences = [
   //   "신도림의 지배자 권태형이 나타났다!!!",
   //   "강한 기운이 느껴진다...",
@@ -49,12 +52,30 @@ export default function BattleDialog(props) {
       //결투하기 연결
       //역주소랑 게임아이디 받아야 함.
       setIndex(index + 1);
+      const isDual = {
+        isDual: true,
+      };
+      const message = JSON.stringify(isDual);
+      stompClient.send(
+        `/stations/${stationId}/minigame/${matchingData.id}/select`,
+        {},
+        message
+      );
     }
   }
   function msgSecondClick() {
     if (index === 1) {
       console.log("ㅋㅋㅋㅋㅋㅋ도망쳐보던가");
       //도망치기 연결
+      const isDual = {
+        isDual: false,
+      };
+      const message = JSON.stringify(isDual);
+      stompClient.send(
+        `/stations/${stationId}/minigame/${matchingData.id}/select`,
+        {},
+        message
+      );
       setIndex(index + 1);
     }
   }
@@ -91,16 +112,6 @@ export default function BattleDialog(props) {
     }
   }
 
-  // 게임 진행 선택! (결투 or 도망)
-  const handleSelectGame = e => {
-    const message = JSON.stringify(e);
-    stompClient.send(
-      "/stations/{station-id}/minigame/{game-id}/select",
-      {},
-      message
-    );
-  };
-
   useEffect(() => {
     console.log(index);
     sentences[index]();
@@ -135,6 +146,7 @@ export default function BattleDialog(props) {
       setloadingDot(dotList[timeLeft % 3]);
       setmsg(loadingDot);
     }
+    //여기서 소켓통신해서
   }, [timeLeft, navigate]);
 
   return (
