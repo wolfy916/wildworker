@@ -1,17 +1,21 @@
 package com.a304.wildworker.service;
 
+import com.a304.wildworker.domain.common.TransactionType;
 import com.a304.wildworker.domain.station.Station;
 import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
 import com.a304.wildworker.ethereum.contract.Bank;
+import com.a304.wildworker.event.ChangedBalanceEvent;
 import com.a304.wildworker.exception.StationNotFoundException;
 import com.a304.wildworker.exception.UserNotFoundException;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.web3j.crypto.CipherException;
 
 @RequiredArgsConstructor
@@ -23,16 +27,21 @@ public class InvestService {
     private final UserRepository userRepository;
     private final Bank bank;
 
+    private final ApplicationEventPublisher publisher;
+
+    /* 역 투자 */
+    @Transactional
     public void investToStation(Long stationId, Long userId, Long amount)
             throws CipherException, IOException {
-        Station station = getStationOrThrow(stationId);
-        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-
-        bank.invest(station, user, amount)
-                .thenAccept(receipt -> log.info("invest receipt : {}", receipt));
+        User user = getUserOrElseThrow(userId);
+        Station station = getStationOrElseThrow(stationId);
 
         user.invest(amount);
         station.invest(user, amount);
+
+        // 코인 변동 이벤트 발생
+        publisher.publishEvent(
+                new ChangedBalanceEvent(user, station, TransactionType.INVESTMENT, amount * -1));
     }
 
     /**
@@ -54,7 +63,13 @@ public class InvestService {
         }
     }
 
-    private Station getStationOrThrow(Long stationId) {
-        return stationRepository.findById(stationId).orElseThrow(StationNotFoundException::new);
+    private User getUserOrElseThrow(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
+    private Station getStationOrElseThrow(Long stationId) {
+        return stationRepository.findById(stationId)
+                .orElseThrow(StationNotFoundException::new);
     }
 }

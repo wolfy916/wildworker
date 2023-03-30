@@ -32,6 +32,7 @@ public class Station extends BaseEntity {
     private Map<User, Long> investors = new HashMap<>();
 
     public void invest(User user, Long amount) {
+        this.balance += amount;
         investors.put(user, investors.getOrDefault(user, 0L) + amount);
     }
 

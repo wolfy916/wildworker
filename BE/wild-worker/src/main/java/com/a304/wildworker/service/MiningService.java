@@ -10,7 +10,6 @@ import com.a304.wildworker.domain.system.SystemData;
 import com.a304.wildworker.domain.transaction.TransactionLogRepository;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
-import com.a304.wildworker.ethereum.contract.Bank;
 import com.a304.wildworker.event.ChangedBalanceEvent;
 import com.a304.wildworker.exception.StationNotFoundException;
 import com.a304.wildworker.exception.UserNotFoundException;
@@ -27,8 +26,6 @@ import org.web3j.crypto.CipherException;
 @RequiredArgsConstructor
 @Service
 public class MiningService {
-
-    private final Bank bank;
 
     private final SystemData systemData;
     private final UserRepository userRepository;
