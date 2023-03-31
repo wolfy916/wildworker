@@ -81,10 +81,8 @@ public class SecurityConfig<S extends Session> {
                 .userService(oAuth2UserService);
 
         http
-                .csrf()
+                .csrf().disable()
                 // ignore our stomp endpoints since they are protected using Stomp headers
-                .ignoringAntMatchers("/ws/**")
-                .and()
                 .headers()
                 // allow same origin to frame our site to support iframe SockJS
                 .frameOptions().sameOrigin();
