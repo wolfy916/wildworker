@@ -15,6 +15,7 @@ import HotSubwayPage from "./pages/HotSubwayPage";
 import DetailSubwayPage from "./pages/DetailSubwayPage";
 import MiniGamePage from "./pages/MiniGamePage";
 import MiniGameReadyPage from "./pages/MiniGameReadyPage";
+import Modal from "./components/mainpage/Modal";
 
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -60,14 +61,13 @@ function App() {
       INVESTMENT: {},
       INVESTMENT_REWARD: {},
     },
-    getTitle: {},
+    getTitle: "",
     changeTitle: {},
     matching: {},
     gameStart: {},
     gameCancel: {},
     gameResult: {},
   });
-
   // 소켓 인스턴스 생성하고, 상태관리에 넣음
   const [stompClient, setStompClient] = useState({});
 
@@ -81,19 +81,21 @@ function App() {
   }, [isLogin]);
 
   // // 5초 뒤에 isChangeId = true로 지하철 Id가 변경되는 타이밍이라고 가정
+  // const [isChangeId, setIsChangeId] = useState(false);
   // setTimeout(() => {
   //   setIsChangeId(true);
   // }, 5000);
 
   // isChangeId값의 변화로 지하철역 구독해제하고 새로운 지하철로 재연결
+
   useEffect(() => {
-    if (isChangeId) {
-      setStompClient(unsubscribeStation(stompClient));
+    if (store.locationData.prev) {
+      setStompClient(unsubscribeStation(stompClient, store.locationData.prev));
       setStompClient(
         subscribeStation(stompClient, setStore, store.locationData.current)
       );
     }
-  }, [isChangeId]);
+  }, [store.locationData.prev]);
 
   // 실시간 위치 전송 코드
   useEffect(() => {
@@ -112,7 +114,7 @@ function App() {
             console.log(error);
           }
         );
-      }, 5000);
+      }, 1000);
       return () => {
         clearInterval(intervalId);
       };
