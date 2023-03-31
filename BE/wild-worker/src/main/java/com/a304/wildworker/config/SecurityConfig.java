@@ -44,8 +44,7 @@ public class SecurityConfig<S extends Session> {
                 .cors()
                 .configurationSource(request -> {
                     var cors = new CorsConfiguration();
-                    cors.setAllowedOrigins(
-                            List.of(allowedOrigins));
+                    cors.setAllowedOriginPatterns(List.of(allowedOrigins));
                     cors.setAllowedMethods(
                             List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
                     cors.setAllowedHeaders(
@@ -61,8 +60,8 @@ public class SecurityConfig<S extends Session> {
                 .csrf().disable()   //TODO. csrf disable 안 하고 처리
 //                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .authorizeHttpRequests()
+                .antMatchers("/test/**").permitAll()
                 .antMatchers("/ws/**").authenticated()
-                .antMatchers("/secured/ws/**").authenticated()
                 .antMatchers("/auth/login", "/oauth2/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -81,10 +80,6 @@ public class SecurityConfig<S extends Session> {
                 .userService(oAuth2UserService);
 
         http
-                .csrf()
-                // ignore our stomp endpoints since they are protected using Stomp headers
-                .ignoringAntMatchers("/ws/**")
-                .and()
                 .headers()
                 // allow same origin to frame our site to support iframe SockJS
                 .frameOptions().sameOrigin();
