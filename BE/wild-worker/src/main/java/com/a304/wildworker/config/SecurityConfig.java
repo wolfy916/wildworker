@@ -6,7 +6,7 @@ import com.a304.wildworker.auth.CustomOAuth2UserService;
 import com.a304.wildworker.common.Constants;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -28,21 +28,29 @@ public class SecurityConfig<S extends Session> {
     private final CustomLogoutHandler logoutHandler;
     private final CustomLoginSuccessHandler loginSuccessHandler;
     private final CustomOAuth2UserService oAuth2UserService;
-    @Autowired
-    private FindByIndexNameSessionRepository<S> sessionRepository;
+    @Value("${allowed-origins}")
+    private final String[] allowedOrigins;
+    private final FindByIndexNameSessionRepository<S> sessionRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .sessionManagement()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false) //true: 동시 로그인 차단, false: 기존 세션 만료
+                .sessionRegistry(sessionRegistry());
+
+        http
                 .cors()
                 .configurationSource(request -> {
                     var cors = new CorsConfiguration();
-                    cors.setAllowedOrigins(List.of("*"));
+                    cors.setAllowedOrigins(
+                            List.of(allowedOrigins));
                     cors.setAllowedMethods(
                             List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
                     cors.setAllowedHeaders(
-                            List.of("Content-Type", "x-requested-with", "Authorization",
-                                    "Access-Control-Allow-Origin"));
+                            List.of("DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Cookie"));
+                    cors.setAllowCredentials(true);
                     return cors;
                 })
                 .and()
@@ -53,10 +61,9 @@ public class SecurityConfig<S extends Session> {
                 .csrf().disable()   //TODO. csrf disable 안 하고 처리
 //                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .authorizeHttpRequests()
-                .antMatchers("/ws/**").permitAll()
+                .antMatchers("/ws/**").authenticated()
                 .antMatchers("/secured/ws/**").authenticated()
                 .antMatchers("/auth/login", "/oauth2/**").permitAll()
-                .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout()
@@ -81,12 +88,6 @@ public class SecurityConfig<S extends Session> {
                 .headers()
                 // allow same origin to frame our site to support iframe SockJS
                 .frameOptions().sameOrigin();
-
-        http
-                .sessionManagement((sessionManagement) -> sessionManagement
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(false)    //true: 동시 로그인 차단, false: 기존 세션 만료
-                        .sessionRegistry(sessionRegistry()));
 
         return http.build();
     }

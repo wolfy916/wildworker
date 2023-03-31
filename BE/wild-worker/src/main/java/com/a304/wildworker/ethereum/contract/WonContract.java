@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.Bool;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Numeric;
 
 /**
@@ -32,15 +34,25 @@ public class WonContract {
     private final String address;
     private final TransactionSendHelper transactionSendHelper;
 
-    public CompletableFuture<Void> manualMine(String userAddress, long amount) throws IOException {
+    public CompletableFuture<TransactionReceipt> manualMine(String userAddress, long amount)
+            throws IOException {
 
         Function function = new Function("manualMine",
                 Arrays.asList(new Address(userAddress), new Uint256(amount)),
                 Collections.emptyList());
 
-        return transactionSendHelper.sendContractAsync(this.address, function)
-                .thenAccept((transactionReceipt) -> log.info("manualMine result : {}",
-                        transactionReceipt));
+        return transactionSendHelper.sendContractAsync(this.address, function);
+    }
+
+    public CompletableFuture<TransactionReceipt> transferWon(String sender, String receiver,
+            Long amount)
+            throws IOException {
+        Function function = new Function("transfer",
+                List.of(new Address(sender), new Address(receiver), new Uint256(amount)),
+                List.of(new TypeReference<Bool>() {
+                }));
+
+        return transactionSendHelper.sendContractAsync(this.address, function);
     }
 
     /**

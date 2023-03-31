@@ -53,6 +53,7 @@ function subscribeUser(client, setStore, setUserData) {
     else if (payload.type === "MINING") {
       // 서류 종이 카운트
       if (payload.subType === "PAPER_COUNT") {
+        console.log(payload.data, "socketFunc.js")
         setUserData((prev) => {
           return {
             ...prev,
@@ -64,7 +65,7 @@ function subscribeUser(client, setStore, setUserData) {
 
     // 코인변동 모음
     else if (payload.type === "COIN") {
-      // 자동 코인 변동
+      // 코인 변동
       setStore((prev) => {
         return {
           ...prev,

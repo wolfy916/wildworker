@@ -1,30 +1,35 @@
 package com.a304.wildworker.domain.activeuser;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ActiveUserRepository {
 
-    private ConcurrentHashMap<String, ActiveUser> activeUserMap;    //접속 중인 전체 사용자
+    private Map<Long, ActiveUser> activeUserMap;    //접속 중인 전체 사용자
 
     public ActiveUserRepository() {
         activeUserMap = new ConcurrentHashMap<>();
     }
 
-    /* 접속 중인 사용자 추가 or 수정 */
-    public void saveActiveUser(String httpSessionId, ActiveUser activeUser) {
-        activeUserMap.put(httpSessionId, activeUser);
+    public Optional<ActiveUser> findById(Long id) {
+        return Optional.ofNullable(activeUserMap.get(id));
     }
 
-    /* 접속 중인 사용자 삭제 */
-    public ActiveUser removeActiveUser(String httpSessionId) {
-        return activeUserMap.remove(httpSessionId);
+    public Collection<ActiveUser> findAll() {
+        return activeUserMap.values();
     }
 
-    /* httpSessionId로 접속 중인 사용자 정보 반환 */
-    public ActiveUser getActiveUser(String httpSessionId) {
-        return activeUserMap.get(httpSessionId);
+    public ActiveUser save(ActiveUser activeUser) {
+        activeUserMap.put(activeUser.getUserId(), activeUser);
+        return activeUser;
+    }
+
+    public void deleteById(Long id) {
+        activeUserMap.remove(id);
     }
 
 }

@@ -144,7 +144,7 @@ function SubwayMapPage(props) {
           blinkAnimationStyle.innerHTML = blinkAnimation;
           currentPoint.appendChild(blinkAnimationStyle);
 
-          currentPoint.style.animation = "blink 1s linear infinite";
+          // currentPoint.style.animation = "blink 1s linear infinite";
           areaTag.appendChild(currentPoint);
         }
 

@@ -17,11 +17,38 @@
 }
 .battleDialog-talk {
   /* border: 1px black solid; */
+  width: 85%;
+  height: 90%;
   position: absolute;
-  left: 8%;
-  top: 10%;
+  left: 7.5%;
+  top: 5%;
+  text-align: left;
   font-family: galmuri9;
   font-size: large;
+}
+.battle-dialog-timer {
+  /* border: 1px solid black; */
+  position: absolute;
+  top: 80%;
+  left: 70%;
+  width: 25%;
+  height: 15%;
+  display: flex;
+}
+.battle-dialog-timer-img {
+  background-image: url(../../asset/image/timer.png);
+  background-size: 90%;
+  width: 40%;
+  height: 100%;
+  /* border: 1px solid black; */
+  background-repeat: no-repeat;
+}
+.battle-dialog-timer-count {
+  /* border: 1px solid black; */
+  width: 50%;
+  height: 100%;
+  margin: 0%;
+  font-size: 150%;
 }
 
 .battleAudio {

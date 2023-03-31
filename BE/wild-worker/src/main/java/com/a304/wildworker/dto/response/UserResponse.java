@@ -13,14 +13,19 @@ import lombok.ToString;
 public class UserResponse {
 
     private String name;
-    private String title;
+    private int characterType;
+    private int titleId;
+    private int titleType;
     private long coin;
     private int collectedPapers;
 
     public static UserResponse of(User user) {
         return UserResponse.builder()
                 .name(user.getName())
-//                .title(user.getTitle_id())    //TODO. get title_id to title name
+                .characterType(user.getCharacterId().ordinal())
+                .titleType(user.getTitleType().ordinal())
+                .titleId(0)
+//                .titleId(user.getTitle_id())    //TODO. get title_id to title name
                 .coin(user.getBalance())
                 .collectedPapers(user.getNumberOfCollectedPaper())
                 .build();
