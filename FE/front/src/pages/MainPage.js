@@ -62,7 +62,7 @@ function MainPage(props) {
   };
 
   function setCoinCntHandler() {
-    console.log(coinCnt);
+    console.log(props.userData.collectedPapers);
     if (coinCnt < 99) {
       setIsEnough(false);
       handleGetCnt();
@@ -74,9 +74,10 @@ function MainPage(props) {
     }
   }
 
-  React.useEffect(() => {
-    setCoinCntHandler();
-  }, []);
+
+  // React.useEffect(() => {
+  //   setCoinCntHandler();
+  // }, []);
 
   // app.js에서 수동채굴 최신 데이터의 변화가 감지되었을 때
   // coinCnt(화면에 렌더링되는 수집량)을 최신값으로 갱신
@@ -243,6 +244,7 @@ function MainPage(props) {
           className="main-dominator-msg-btn"
           onClick={dominatorMsgModalClickHandler}
         >
+
           지배자 한마디
         </div>
       )}

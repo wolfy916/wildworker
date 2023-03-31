@@ -46,6 +46,7 @@ function SubwayBoard(props) {
               coin={props.coin}
               isFlashing={isFlashing}
               dominator={props.dominator}
+              userData={props.userData}
             />
             <div className="board-second-part">
               <span className="current-station">

@@ -114,7 +114,7 @@ function App() {
             console.log(error);
           }
         );
-      }, 5000);
+      }, 1000);
       return () => {
         clearInterval(intervalId);
       };

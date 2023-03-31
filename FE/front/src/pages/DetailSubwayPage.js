@@ -43,30 +43,30 @@ function DetailSubwayPage() {
     },
   };
   
-  useEffect(() => {
-    axios
-      .get(`/api/${location.state}`)
-      .then((response) => {
-        setData(response.data)
-        const rankingData = data.ranking.map((item) => (
-          <div className="detail-content">
-            <div>
-              <p className="detail-subject">{item.name}</p>
-            </div>
-            <div>
-              <p className="detail-subject">
-                {item.investment.toLocaleString("ko-KR")}
-              </p>
-              <p className="detail-subject-2">({item.percent}%)</p>
-            </div>
-          </div>
-        ))
-        setRanking(rankingData)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+  // useEffect(() => {
+  //   axios
+  //     .get(`/api/${location.state}`)
+  //     .then((response) => {
+  //       setData(response.data)
+  //       const rankingData = data.ranking.map((item) => (
+  //         <div className="detail-content">
+  //           <div>
+  //             <p className="detail-subject">{item.name}</p>
+  //           </div>
+  //           <div>
+  //             <p className="detail-subject">
+  //               {item.investment.toLocaleString("ko-KR")}
+  //             </p>
+  //             <p className="detail-subject-2">({item.percent}%)</p>
+  //           </div>
+  //         </div>
+  //       ))
+  //       setRanking(rankingData)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //     })
+  // }, [])
 
 
   // useEffect(() => {
