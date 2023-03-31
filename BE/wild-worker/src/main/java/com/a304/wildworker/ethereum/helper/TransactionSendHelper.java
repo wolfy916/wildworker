@@ -121,19 +121,40 @@ public class TransactionSendHelper {
                                         transactionReceipt = getTransactionReceipt(ethSendTransaction);
                                     } catch (IOException e) {
                                         e.printStackTrace();
-                                        throw new RuntimeException(e);
+                                        transactionReceipt = getDefaultTransactionReceipt(contractAddress,
+                                                fromAddress, block, nonce, amountUsed,
+                                                ethSendTransaction, e);
                                     }
+                                    log.info("transaction receipt : {}", transactionReceipt);
                                     return transactionReceipt;
                                 }
                         ).get(); // TODO: 2023-03-27 내부 로직 수정 필요
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    private TransactionReceipt getDefaultTransactionReceipt(String contractAddress,
+            String fromAddress, Block block, BigInteger nonce, BigInteger amountUsed,
+            EthSendTransaction ethSendTransaction, IOException e) {
+        return new TransactionReceipt(
+                ethSendTransaction.getTransactionHash(),
+                Numeric.encodeQuantity(nonce),
+                block.getHash(),
+                block.getNumberRaw(),
+                block.getGasUsedRaw(),
+                Numeric.encodeQuantity(amountUsed),
+                contractAddress,
+                null, null,
+                fromAddress,
+                contractAddress,
+                null,
+                null,
+                e.getMessage(),
+                null,
+                null);
     }
 
     private CompletableFuture<Block> getBlock() {
