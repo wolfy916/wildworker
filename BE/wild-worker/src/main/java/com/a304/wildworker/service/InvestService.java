@@ -71,7 +71,7 @@ public class InvestService {
 
         for (Station station : stationRepository.findAll()) {
             // 수수료 정산(DB) 후 새 지배자 얻기
-            User dominator = distributeStationCommission(station);
+            User dominator = distributeCommissionAndGetDominator(station);
 
             // 지배자 설정
             setNewDominator(station, dominator);
@@ -87,7 +87,7 @@ public class InvestService {
      */
     /* station의 수수료 정산 후 새 지배자를 반환 */
     @Transactional
-    public User distributeStationCommission(Station station) {
+    public User distributeCommissionAndGetDominator(Station station) {
         Map<User, Long> investors = station.getInvestors();
         User dominator = null;
         Long maxInvestment = 0L;
