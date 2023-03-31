@@ -103,8 +103,8 @@ function App() {
           (position) => {
             if (position.coords) {
               handleSendLocation({
-                lat: position.coords.latitude,
-                lon: position.coords.longitude,
+                lat: 37.5008,
+                lon: 127.0369,
               });
             }
           },

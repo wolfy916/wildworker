@@ -8,7 +8,7 @@ function connectSocket(client, setstore, setUserData) {
 }
 // 지하철 구독
 function subscribeStation(client, setStore, curStation) {
-  client.subscribe(`/sub/systems/${1}`, (message) => {
+  client.subscribe(`/sub/stations/${1}`, (message) => {
     const payload = JSON.parse(message.body);
     // 지배자 기능 모음
     if (payload.type === "STATION") {

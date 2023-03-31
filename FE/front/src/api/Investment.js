@@ -92,6 +92,7 @@ async function invest(payload) {
     }).then(({status, data}) => {
       if (status == 200) {
         console.log("invest 성공");
+        console.log(data);
       }
     }).catch(err => {
       console.log("invest 실패");
@@ -139,4 +140,4 @@ async function getMyInvestList(payload) {
   }
 }
 
-export default { getStationRanking, getStationStake, invest, getMyInvestList };
+export { getStationRanking, getStationStake, invest, getMyInvestList };

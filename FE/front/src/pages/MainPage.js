@@ -14,6 +14,7 @@ import getCoinImage from "../asset/image/get_coin_btn.png";
 import getCoinFullImage from "../asset/image/Full_Charge_Btn.png";
 import LoadingEffect from "../asset/image/pvpPageLoading.gif";
 import morningBackgroundImg from "../asset/image/test_morning.png";
+import { invest } from "../api/Investment";
 
 function MainPage(props) {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ function MainPage(props) {
   const handleGetCnt = () => {
     const message = "서류를 클릭했어요";
     stompClient.send("/pub/system/mining/collect", {}, message);
-  };
+  };  
 
   React.useEffect(()=>{
     if(isReady) {
@@ -74,6 +75,7 @@ function MainPage(props) {
       } else if (coinCnt > 99) {
         setIsEnough(true);
       }
+      invest({stationId: 3, investment: 100});
     }
   }
   , [isClickDoc])
