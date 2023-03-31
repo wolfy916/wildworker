@@ -48,7 +48,7 @@ public class SecurityConfig<S extends Session> {
                     cors.setAllowedMethods(
                             List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
                     cors.setAllowedHeaders(
-                            List.of("DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Cookie,Content-Type,Accept,Origin,Authorization"));
+                            List.of("DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Cookie,Accept,Origin,Authorization"));
                     cors.setAllowCredentials(true);
                     return cors;
                 })
