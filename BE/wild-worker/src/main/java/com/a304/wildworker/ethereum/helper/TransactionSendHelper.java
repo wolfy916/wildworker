@@ -79,39 +79,7 @@ public class TransactionSendHelper {
     public CompletableFuture<TransactionReceipt> sendContractAsync(String contractAddress,
             Function function)
             throws IOException {
-        return web3j.ethGetBlockByNumber(
-                        DefaultBlockParameterName.LATEST, false)
-                .sendAsync()
-                .thenApply(EthBlock::getBlock)
-                .thenApply(block -> {
-                    BigInteger gasLimit = block.getGasLimit();
-                    BigInteger baseFeePerGas = Numeric.decodeQuantity(block.getBaseFeePerGas());
-                    BigInteger amountUsed = baseFeePerGas; // TODO: 2023-03-23 값 조정 필요
-                    EthSendTransaction ethSendTransaction = null;
-                    try {
-                        ethSendTransaction = transactionManager.sendEIP1559Transaction(
-                                chainId,
-                                amountUsed,
-                                baseFeePerGas,
-                                gasLimit,
-                                contractAddress,
-                                FunctionEncoder.encode(function), null);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                    return ethSendTransaction;
-                }).thenApply((ethSendTransaction) -> {
-                    TransactionReceipt transactionReceipt = null;
-                    try {
-                        transactionReceipt = getTransactionReceipt(ethSendTransaction);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-
-                    return transactionReceipt;
-                });
+        return this.sendContractAsync(contractAddress, senderAddress, function);
     }
 
     /**
@@ -127,6 +95,10 @@ public class TransactionSendHelper {
             String fromAddress,
             Function function)
             throws IOException {
+        log.info("in transaction ::::");
+        log.info("contract :: {}", contractAddress);
+        log.info("sender :: {}", fromAddress);
+
         return getBlock().thenCombine(getNonce(fromAddress), (block, nonce) -> {
             BigInteger gasLimit = block.getGasLimit();
             BigInteger baseFeePerGas = Numeric.decodeQuantity(block.getBaseFeePerGas());
