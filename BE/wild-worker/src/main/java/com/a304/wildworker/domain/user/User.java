@@ -70,7 +70,7 @@ public class User extends BaseEntity {
         this.balance = 0L;
         this.characterId = CharacterType.MAN;
         this.titleType = TitleType.TITLE;
-        this.title_id = Constants.noneTitle;
+        this.title_id = Constants.NONE_TITLE_ID;
         this.numberOfCollectedPaper = 0;
     }
 
