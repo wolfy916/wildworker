@@ -20,16 +20,21 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 public class WebSocketConfig extends
         AbstractSessionWebSocketMessageBrokerConfigurer<Session> {
 
+    public static final String DESTINATION_PREFIX = "/pub";
+    public static final String BROKER_DEST_PREFIX = "/sub";
+    public static final String BROKER_DEST_PREFIX_USER = "/queue";
+    public static final String USER_DEST_PREFIX = "/user";
+    public static final String WS_DEST_STATION = "/stations";
+
     @Value("${allowed-origins}")
     private final String[] allowedOrigins;
-
     private final ChannelInterceptor interceptor;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.setApplicationDestinationPrefixes("/pub");
-        config.enableSimpleBroker("/sub", "/queue");
-        config.setUserDestinationPrefix("/user");
+        config.setApplicationDestinationPrefixes(DESTINATION_PREFIX);
+        config.enableSimpleBroker(BROKER_DEST_PREFIX, BROKER_DEST_PREFIX_USER);
+        config.setUserDestinationPrefix(USER_DEST_PREFIX);
     }
 
     @Override
@@ -44,11 +49,5 @@ public class WebSocketConfig extends
         registry.addEndpoint("/ws")
                 .setAllowedOriginPatterns(allowedOrigins)
                 .withSockJS();
-        registry.addEndpoint("/secured/ws")
-                .setAllowedOriginPatterns(allowedOrigins);
-        registry.addEndpoint("/secured/ws")
-                .setAllowedOriginPatterns(allowedOrigins)
-                .withSockJS();
-
     }
 }
