@@ -4,7 +4,10 @@ import "./GetCoinItem.css";
 function GetCoinItem(props) {
   // useEffect 내부에서 props를 사용하는데
   // useRef를 사용하여 종속성을 부여하고, drop()의 재실행을 방지
-  const getCoinCntRef = React.useRef(props.getCoinCnt);
+  const getCoinCnt = () => {
+    props.setIsClickDoc(prev => !prev);
+  }
+  const getCoinCntRef = React.useRef(getCoinCnt);
 
   // useEffect 내부의 재귀함수를 중지하기 위한 트리거
   let stopRecursion = props.isEnough;

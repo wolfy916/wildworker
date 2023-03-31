@@ -1,0 +1,38 @@
+.current-msg-info{
+    text-align: start;
+    font-size: 1.2rem;
+    margin-top: 10%;
+}
+.current-msg{
+    font-size: 1.7rem;
+    margin-top: 10%;
+}
+.change-msg{
+    height: 3rem;
+    margin-top: 10%;
+}
+.change-msg-input{
+    text-align: center;
+    height: 2rem;
+    width: 60%;
+    font-size: 1.5rem;
+    font-family: "galmuri9";
+    outline: none;
+    border: none;
+    border-bottom: solid 5px;
+    background-color: aliceblue;
+}
+
+.change-msg-btn{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.2rem;
+    margin-top: 10%;
+    padding: 5%;
+    height: 5%;
+    width: 30%;
+    background-color: white;
+    border: solid 3px black;
+    border-radius: 30px;
+}

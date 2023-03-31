@@ -8,21 +8,27 @@ function SubwayBoardFirstPart(props) {
     <div className="board-content">
       {/* <div className="subway-board-grid"></div> */}
       <span className="current-station-info">이번 역</span>
-      <span className="current-station-info2">{props.station}</span>
+      <span className="current-station-info2">{props.store.locatinData}</span>
     </div>
   );
   const coinContent = (
     <div className="board-content" style={{ justifyContent: "space-around" }}>
       <span className="coin-text">●</span>
       <span className={`board-coin ${props.isFlashing ? "flash" : ""}`}>
-        {props.coin.toLocaleString("ko-KR")} 원
+        {props.userData.coin ? props.userData.coin.toLocaleString("ko-KR") : ""}{" "}
+        원
       </span>
     </div>
   );
   const dominatorContent = (
     <div className="board-content" style={{ flexDirection: "column" }}>
       <div className="board-dominator-chat">
-        <span style={{ color: "#fec189" }}>{`${props.dominator}`}</span> : 하하하, 이거라도 주워오실래요?
+        {/* <span style={{ color: "#fec189" }}>{`${props.dominator}`}</span> //{" "}
+        {props.store.dominatorMsg.message} */}
+        <span
+          style={{ color: "#fec189" }}
+        >{`${props.store.dominatorMsg}`}</span>{" "}
+        : 하하하, 이거라도 주워오실래요?
       </div>
     </div>
   );
