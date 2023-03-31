@@ -18,15 +18,20 @@ function MainPage(props) {
         <p className="receipt-text-header"></p>
         <div className="receipt-text-main">
           <p className="receipt-text-main-left">게임비</p>
-          <p className="receipt-text-main-right">1,000원</p>
+          {/* <p className="receipt-text-main-right">1,000원</p> */}
+          {/* <p className="receipt-text-main-right">{gameResultData.receipt.cost}원</p> */}
           <p className="receipt-text-main-left">도망비</p>
           <p className="receipt-text-main-right">1111111111원</p>
+          {/* <p className="receipt-text-main-right">{gameResultData.receipt.runCost}원</p> */}
           <p className="receipt-text-main-left">환급비</p>
           <p className="receipt-text-main-right">111,111,111,111원</p>
+          {/* <p className="receipt-text-main-right">{gameResultData.receipt.reward}원</p> */}
           <p className="receipt-text-main-left">수수료</p>
           <p className="receipt-text-main-right">342,314,234원</p>
+          {/* <p className="receipt-text-main-right">{gameResultData.receipt.commission}원</p> */}
           <p className="receipt-text-main-total1">TOTAL</p>
           <p className="receipt-text-main-total2">10,000원</p>
+          {/* <p className="receipt-text-main-right">{gameResultData.receipt.total}원</p> */}
         </div>
         <p className="receipt-text-footer">야생의 직장인</p>
         {/* <div className="receipt-button-home">
