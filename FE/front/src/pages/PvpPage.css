@@ -17,7 +17,7 @@
 
 .battleCharacter1 > p {
   margin-top: 32%;
-  margin-left: 7%;
+  margin-left: 6%;
   position: absolute;
   /* border: 1px solid blue; */
 }
@@ -34,7 +34,7 @@
 
 .battleCharacter2 {
   /* border: 1px solid red; */
-  position: relative;
+  /* position: relative; */
   width: 100%;
   height: 30%;
   display: flex;
@@ -43,10 +43,11 @@
 }
 
 .battleCharacter2 > p {
-  margin-top: 22%;
-  margin-left: 9%;
+  margin-top: 32%;
+  left: 5%;
   position: absolute;
   transform: scaleX(-1);
+  text-align: right;
   /* border: 1px solid blue; */
 }
 .battleCharacter2 > img {
@@ -56,7 +57,8 @@
   height: 20%;
   width: 70%;
   margin-left: 2%;
-  margin-top: 20%;
+  margin-top: 30%;
+  top: 60%;
   margin-right: -6%;
 }
 

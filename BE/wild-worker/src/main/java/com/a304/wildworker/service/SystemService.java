@@ -8,17 +8,13 @@ import com.a304.wildworker.domain.location.Location;
 import com.a304.wildworker.domain.station.Station;
 import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.domain.system.SystemData;
-import com.a304.wildworker.domain.user.User;
-import com.a304.wildworker.domain.user.UserRepository;
 import com.a304.wildworker.dto.response.StationInfoResponse;
 import com.a304.wildworker.dto.response.StationWithUserResponse;
-import com.a304.wildworker.exception.UserNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,8 +23,9 @@ public class SystemService {
 
     private final StationRepository stationRepository;
     private final DominatorLogRepository dominatorLogRepository;
-    private final UserRepository userRepository;
     private final SystemData systemData;
+
+    private final MiningService miningService;
 
     /* 유저의 현재 좌표를 기준으로 역 조회 후 진입이나 이탈 여부 판단 */
     public StationWithUserResponse checkUserLocation(ActiveUser user, Location userLocation) {
@@ -43,6 +40,12 @@ public class SystemService {
         if (currentStationId != user.getStationId()) {
             // 접속 유저의 현재 역 정보 갱신
             user.setStationId(currentStationId);
+
+            // 특정 역 범위에 들어갈 경우
+            if (currentStationId != 0) {
+                // 자동 채굴 체크
+                miningService.autoMining(user);
+            }
 
             // TODO: 일단 current만 새로 채워 보냄.. 방향 판단하여 prev, next 채우는 것은 추후 예정
             stationWithUserResponse
@@ -116,13 +119,4 @@ public class SystemService {
         return (rad * 180 / Math.PI);
     }
 
-    /* 수동 채굴 - 종이 줍기 */
-    @Transactional
-    public int collectPaper(ActiveUser activeUser) {
-        User user = userRepository.findById(activeUser.getUserId())
-                .orElseThrow(UserNotFoundException::new);
-
-        // 유저의 누적 종이 개수 갱신
-        return user.collectPaper();
-    }
 }
