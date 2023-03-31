@@ -15,7 +15,7 @@ public class UserResponse {
 
     private String name;
     private int characterType;
-    private long titleId;
+    private TitleDto title;
     private int titleType;
     private long coin;
     private int collectedPapers;
@@ -25,8 +25,7 @@ public class UserResponse {
                 .name(user.getName())
                 .characterType(user.getCharacterId().ordinal())
                 .titleType(user.getTitleType().ordinal())
-                .titleId(Constants.NONE_TITLE_ID)
-//                .titleId(user.getTitle_id())    //TODO. get title_id to title name
+                .title(new TitleDto(Constants.NONE_TITLE_ID, "x"))     //TODO: get title from info
                 .coin(user.getBalance())
                 .collectedPapers(user.getNumberOfCollectedPaper())
                 .build();
