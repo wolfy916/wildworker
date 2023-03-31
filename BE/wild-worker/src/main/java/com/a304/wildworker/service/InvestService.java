@@ -8,6 +8,8 @@ import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.domain.system.SystemData;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
+import com.a304.wildworker.dto.response.common.StationType;
+import com.a304.wildworker.dto.response.common.WSBaseResponse;
 import com.a304.wildworker.ethereum.contract.Bank;
 import com.a304.wildworker.event.ChangedBalanceEvent;
 import com.a304.wildworker.exception.StationNotFoundException;
@@ -21,6 +23,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +41,7 @@ public class InvestService {
     private final SystemData systemData;
 
     private final ApplicationEventPublisher publisher;
+    private final SimpMessagingTemplate messagingTemplate;
 
     /* 역 투자 */
     @Transactional
@@ -127,8 +131,11 @@ public class InvestService {
     /* 지배자 설정 */
     @Transactional
     public void setNewDominator(Station station, User dominator) {
+        String dominatorName = null;
+
         // 현재 지배자가 존재하는 경우 설정
         if (dominator != null) {
+            dominatorName = dominator.getName();
             dominatorLogRepository.save(
                     new DominatorLog(station, dominator, systemData.getNowBaseTimeString()));
         }
@@ -151,7 +158,10 @@ public class InvestService {
 
         if (isChange) {
             // 역 구독자에게 변동사항 브로드캐스트
-            
+            WSBaseResponse<String> response = WSBaseResponse.station(
+                    StationType.CHANGE_DOMINATOR).data(dominatorName);
+
+            messagingTemplate.convertAndSend("/sub/stations/" + station.getId(), response);
         }
     }
 
