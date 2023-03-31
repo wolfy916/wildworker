@@ -19,7 +19,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -140,29 +139,11 @@ public class InvestService {
                     new DominatorLog(station, dominator, systemData.getNowBaseTimeString()));
         }
 
-        // 기존 지배자에서 변경된 경우 역 구독자들에게 Noti
-        Optional<DominatorLog> prevDominator = dominatorLogRepository.findByStationIdAndDominateStartTime(
-                station.getId(), systemData.getPrevBaseTimeString());
+        // 새로운 지배자를 역 구독자들에게 Noti (지배자가 변경되지 않은 경우에도 보냄)
+        WSBaseResponse<String> response = WSBaseResponse.station(StationType.CHANGE_DOMINATOR)
+                .data(dominatorName);
 
-        boolean isChange = false;
-        if (prevDominator.isPresent()) {
-            if (dominator == null ||
-                    prevDominator.get().getUser().getId() != dominator.getId()) {
-                isChange = true;
-            }
-        } else {
-            if (dominator != null) {
-                isChange = true;
-            }
-        }
-
-        if (isChange) {
-            // 역 구독자에게 변동사항 브로드캐스트
-            WSBaseResponse<String> response = WSBaseResponse.station(
-                    StationType.CHANGE_DOMINATOR).data(dominatorName);
-
-            messagingTemplate.convertAndSend("/sub/stations/" + station.getId(), response);
-        }
+        messagingTemplate.convertAndSend("/sub/stations/" + station.getId(), response);
     }
 
     private User getUserOrElseThrow(Long userId) {
