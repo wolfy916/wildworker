@@ -8,8 +8,8 @@ import goMain from "../asset/image/goMain.png";
 import myMap from "../asset/image/myMap.png";
 import hotMap from "../asset/image/hotMap.png";
 import tomato from "../asset/image/tomato.png";
-import current_point from "../asset/image/current_point.png";
-import money from "../asset/image/money.png";
+import current_point from "../asset/image/current_point.gif";
+import money from "../asset/image/money.gif";
 import subwaymap_logo from "../asset/image/subwaymap_logo.png";
 import "./SubwayMapPage.css";
 
