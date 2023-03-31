@@ -3,8 +3,9 @@ package com.a304.wildworker.domain.station;
 import com.a304.wildworker.domain.common.BaseEntity;
 import com.a304.wildworker.domain.location.Location;
 import com.a304.wildworker.domain.user.User;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -28,10 +29,10 @@ public class Station extends BaseEntity {
     private Long commission;
 
     @Transient
-    private Map<User, Long> investors = new HashMap<>();
+    private Map<User, Long> investors = new ConcurrentHashMap<>();
 
     @Transient
-    private Long prevCommission = 0L;
+    private AtomicLong prevCommission = new AtomicLong(0L);
 
     public void invest(User user, Long amount) {
         this.balance += amount;
@@ -39,7 +40,7 @@ public class Station extends BaseEntity {
     }
 
     public void resetCommission() {
-        prevCommission = this.commission;
+        prevCommission.set(this.commission);
         this.commission = 0L;
     }
 
