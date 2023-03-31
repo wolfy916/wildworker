@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../minigame/CalGame.css";
 
-function CalculationGame() {
+function CalculationGame(props) {
+  const stompClient = props.stompClient;
   const [currentMoney, setcurrentMoney] = useState("0");
   const [currentFoodValue, setcurrentFoodValue] = useState(
     String(Math.floor(Math.random() * 100)) + "00"
@@ -62,12 +63,22 @@ function CalculationGame() {
 
     return () => clearInterval(interval);
   }, []);
+
   useEffect(() => {
     if (timeLeft === 0) {
       // handleFinishGame({result:'맞춘갯수'})
-      navigate("/pvp/result");
+      const result = {
+        result: score,
+      };
+      const message = JSON.stringify(result);
+      stompClient.send(
+        // `/stations/${station-id}/minigame/${game-id}/progress`,
+        {},
+        message
+      );
     }
-  }, [timeLeft, navigate]);
+    navigate("/pvp/result");
+  }, [timeLeft, navigate, score, stompClient]);
 
   return (
     <div className="minigame-cal">
