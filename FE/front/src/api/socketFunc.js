@@ -1,14 +1,16 @@
 // 연결
-function connectSocket(client, setstore, setUserData) {
+function connectSocket(client, setstore, setUserData, store) {
   client.connect({}, () => {
-    subscribeStation(client, setstore);
     subscribeUser(client, setstore, setUserData);
+    setTimeout(() => {
+      subscribeStation(client, setstore, store.locationData.current);
+    }, 1000);
   });
   return client;
 }
 // 지하철 구독
 function subscribeStation(client, setStore, curStation) {
-  client.subscribe(`/sub/systems/${1}`, (message) => {
+  client.subscribe(`/sub/systems/${curStation? curStation.id : "none"}`, (message) => {
     const payload = JSON.parse(message.body);
     // 지배자 기능 모음
     if (payload.type === "STATION") {

@@ -29,12 +29,12 @@ import {
 function App() {
   // 웹에서 개발할 때, 얘 꼭 주석처리 해라
 
-  // const elem = document.documentElement;
-  // document.addEventListener('click', function() {
-  //   if (elem.requestFullscreen) {
-  //     elem.requestFullscreen();
-  //   }
-  // });
+  const elem = document.documentElement;
+  document.addEventListener('click', function() {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    }
+  });
 
   const [isLogin, setIsLogin] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
@@ -75,7 +75,7 @@ function App() {
   useEffect(() => {
     if (isLogin) {
       const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
-      setStompClient(connectSocket(Stomp.over(socket), setStore, setUserData));
+      setStompClient(connectSocket(Stomp.over(socket), setStore, setUserData, store));
       setIsConnected(true);
     }
   }, [isLogin]);
