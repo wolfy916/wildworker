@@ -22,12 +22,15 @@ public class Station extends BaseEntity {
     private Long balance;
     @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
     private Long commission;
+    @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
+    private Long prevCommission;
 
     public void invest(Long amount) {
         this.balance += amount;
     }
 
     public void resetCommission() {
+        this.prevCommission = commission;
         this.commission = 0L;
     }
 

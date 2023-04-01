@@ -1,10 +1,10 @@
 package com.a304.wildworker.service;
 
+import com.a304.wildworker.domain.activestation.ActiveStation;
+import com.a304.wildworker.domain.activestation.ActiveStationRepository;
 import com.a304.wildworker.domain.common.TransactionType;
 import com.a304.wildworker.domain.dominator.DominatorLog;
 import com.a304.wildworker.domain.dominator.DominatorLogRepository;
-import com.a304.wildworker.domain.investment.InvestmentLog;
-import com.a304.wildworker.domain.investment.InvestmentLogRepository;
 import com.a304.wildworker.domain.station.Station;
 import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.domain.system.SystemData;
@@ -19,8 +19,6 @@ import com.a304.wildworker.exception.UserNotFoundException;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +37,8 @@ public class InvestService {
 
     private final StationRepository stationRepository;
     private final UserRepository userRepository;
-    private final InvestmentLogRepository investmentLogRepository;
     private final DominatorLogRepository dominatorLogRepository;
+    private final ActiveStationRepository activeStationRepository;
     private final Bank bank;
     private final SystemData systemData;
 
@@ -53,10 +51,11 @@ public class InvestService {
             throws CipherException, IOException {
         User user = getUserOrElseThrow(userId);
         Station station = getStationOrElseThrow(stationId);
+        ActiveStation activeStation = activeStationRepository.findById(stationId);
 
         user.invest(amount);
         station.invest(amount);
-        investmentLogRepository.save(new InvestmentLog(user, station, amount));
+        activeStation.invest(user, amount);
 
         // 코인 변동 이벤트 발생
         publisher.publishEvent(
@@ -69,7 +68,7 @@ public class InvestService {
      * @throws CipherException
      * @throws IOException
      */
-    @Scheduled(cron = "0 0/2 * * * *")
+    @Scheduled(cron = "0 0/10 * * * *")
     @Transactional
     public void distributeInvestReward() throws IOException {
         // 10분 타임라인 시간 갱신
@@ -113,7 +112,8 @@ public class InvestService {
     /* station의 수수료 정산 후 새 지배자를 반환 */
     @Transactional
     public User distributeCommissionAndGetDominator(Station station) {
-        Map<User, Long> investors = getInvestorsOfStation(station);
+        ActiveStation activeStation = activeStationRepository.findById(station.getId());
+        Map<User, Long> investors = activeStation.getInvestors();
         User dominator = null;
         Long maxInvestment = 0L;
 
@@ -139,22 +139,6 @@ public class InvestService {
         }
 
         return dominator;
-    }
-
-    /* 해당 역의 투자 정보 가져오기 */
-    Map<User, Long> getInvestorsOfStation(Station station) {
-        Map<User, Long> investors = new HashMap<>();
-        List<InvestmentLog> investmentLogList =
-                investmentLogRepository.findByStationAndCreatedAtGreaterThanEqualAndCreatedAtBefore(
-                        station, systemData.getInvestmentBaseTime(), systemData.getNowBaseTime());
-
-        for (InvestmentLog investmentLog : investmentLogList) {
-            User user = investmentLog.getUser();
-            Long amount = investmentLog.getAmount();
-            investors.put(user, investors.getOrDefault(user, 0L) + amount);
-        }
-
-        return investors;
     }
 
     /* 지배자 설정 */
