@@ -3,6 +3,8 @@ package com.a304.wildworker.service;
 import com.a304.wildworker.domain.common.TransactionType;
 import com.a304.wildworker.domain.dominator.DominatorLog;
 import com.a304.wildworker.domain.dominator.DominatorLogRepository;
+import com.a304.wildworker.domain.investment.InvestmentLog;
+import com.a304.wildworker.domain.investment.InvestmentLogRepository;
 import com.a304.wildworker.domain.station.Station;
 import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.domain.system.SystemData;
@@ -17,6 +19,8 @@ import com.a304.wildworker.exception.UserNotFoundException;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +39,7 @@ public class InvestService {
 
     private final StationRepository stationRepository;
     private final UserRepository userRepository;
+    private final InvestmentLogRepository investmentLogRepository;
     private final DominatorLogRepository dominatorLogRepository;
     private final Bank bank;
     private final SystemData systemData;
@@ -50,7 +55,8 @@ public class InvestService {
         Station station = getStationOrElseThrow(stationId);
 
         user.invest(amount);
-        station.invest(user, amount);
+        station.invest(amount);
+        investmentLogRepository.save(new InvestmentLog(user, station, amount));
 
         // 코인 변동 이벤트 발생
         publisher.publishEvent(
@@ -63,14 +69,34 @@ public class InvestService {
      * @throws CipherException
      * @throws IOException
      */
-    @Scheduled(cron = "0 0/10 * * * *")
+    @Scheduled(cron = "0 0/2 * * * *")
+    @Transactional
     public void distributeInvestReward() throws IOException {
         // 10분 타임라인 시간 갱신
         systemData.updateBaseTime();
 
+        // 투자금 초기화 시간 갱신
+        LocalDateTime nowDateTime = systemData.getNowBaseTime();
+        DayOfWeek dayOfWeek = nowDateTime.getDayOfWeek();
+        boolean isInitInvestmentTime = false;
+
+        if (dayOfWeek == DayOfWeek.MONDAY &&
+                (nowDateTime.getHour() == 0 && nowDateTime.getMinute() == 0)) {
+            systemData.initInvestmentTime();
+            isInitInvestmentTime = true;
+        }
+
         for (Station station : stationRepository.findAll()) {
             // 수수료 정산(DB) 후 새 지배자 얻기
             User dominator = distributeCommissionAndGetDominator(station);
+
+            // 누적 수수료 초기화
+            station.resetCommission();
+
+            //매 주 월요일 0시에는 누적금도 전부 초기화
+            if (isInitInvestmentTime) {
+                station.resetBalance();
+            }
 
             // 지배자 설정
             setNewDominator(station, dominator);
@@ -87,7 +113,7 @@ public class InvestService {
     /* station의 수수료 정산 후 새 지배자를 반환 */
     @Transactional
     public User distributeCommissionAndGetDominator(Station station) {
-        Map<User, Long> investors = station.getInvestors();
+        Map<User, Long> investors = getInvestorsOfStation(station);
         User dominator = null;
         Long maxInvestment = 0L;
 
@@ -102,7 +128,7 @@ public class InvestService {
             }
 
             // 지분율에 따라 수수료 정산
-            long userShare = (investment / station.getBalance()) * 1000;
+            long userShare = (long) ((double) investment / station.getBalance()) * 1000;
             long money = (userShare * station.getCommission()) / 1000;
             user.changeBalance(money);
 
@@ -112,19 +138,23 @@ public class InvestService {
                             money));
         }
 
-        // 누적 수수료 초기화
-        station.resetCommission();
+        return dominator;
+    }
 
-        //매 주 월요일 0시에는 누적금도 전부 초기화
-        LocalDateTime nowDateTime = systemData.getNowBaseTime();
-        DayOfWeek dayOfWeek = nowDateTime.getDayOfWeek();
+    /* 해당 역의 투자 정보 가져오기 */
+    Map<User, Long> getInvestorsOfStation(Station station) {
+        Map<User, Long> investors = new HashMap<>();
+        List<InvestmentLog> investmentLogList =
+                investmentLogRepository.findByStationAndCreatedAtGreaterThanEqualAndCreatedAtBefore(
+                        station, systemData.getInvestmentBaseTime(), systemData.getNowBaseTime());
 
-        if (dayOfWeek == DayOfWeek.MONDAY &&
-                (nowDateTime.getHour() == 0 && nowDateTime.getMinute() == 0)) {
-            station.resetBalance();
+        for (InvestmentLog investmentLog : investmentLogList) {
+            User user = investmentLog.getUser();
+            Long amount = investmentLog.getAmount();
+            investors.put(user, investors.getOrDefault(user, 0L) + amount);
         }
 
-        return dominator;
+        return investors;
     }
 
     /* 지배자 설정 */
