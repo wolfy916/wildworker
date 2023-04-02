@@ -1,6 +1,5 @@
 package com.a304.wildworker.domain.activestation;
 
-import com.a304.wildworker.domain.user.User;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -13,7 +12,7 @@ public class ActiveStation {
 
     private final Long id;
     private final Map<Long, Long> subscribers = new ConcurrentHashMap<>();
-    private final Map<User, Long> investors = new ConcurrentHashMap<>();
+    private final Map<Long, Long> investors = new ConcurrentHashMap<>();
     private final AtomicLong prevCommission = new AtomicLong(0L);
 
     public void subscribe(Long userId) {
@@ -24,8 +23,8 @@ public class ActiveStation {
         subscribers.remove(userId);
     }
 
-    public void invest(User user, Long amount) {
-        investors.put(user, investors.getOrDefault(user, 0L) + amount);
+    public void invest(Long userId, Long amount) {
+        investors.put(userId, investors.getOrDefault(userId, 0L) + amount);
     }
 
 }

@@ -4,6 +4,7 @@ import com.a304.wildworker.domain.sessionuser.PrincipalDetails;
 import com.a304.wildworker.domain.sessionuser.SessionUser;
 import com.a304.wildworker.dto.request.InvestmentRequest;
 import com.a304.wildworker.dto.response.InvestmentInfoResponse;
+import com.a304.wildworker.dto.response.MyInvestmentResponse;
 import com.a304.wildworker.exception.NotLoginException;
 import com.a304.wildworker.service.InvestService;
 import java.io.IOException;
@@ -54,5 +55,17 @@ public class InvestmentController {
         investService.investToStation(stationId, user.getId(), investmentRequest.getInvestment());
 
         return ResponseEntity.ok().build();
+    }
+
+    /* 나의 투자한 역 목록 */
+    @GetMapping("/mine")
+    public ResponseEntity<MyInvestmentResponse> showMyInvestment(
+            String order, String ascend, @AuthenticationPrincipal PrincipalDetails principal)
+            throws IOException {
+        SessionUser user = Optional.of(principal.getSessionUser())
+                .orElseThrow(NotLoginException::new);
+
+        MyInvestmentResponse response = investService.showMyInvestment(user.getId(), order, ascend);
+        return ResponseEntity.ok(response);
     }
 }

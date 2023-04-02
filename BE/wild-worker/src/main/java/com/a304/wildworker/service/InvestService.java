@@ -1,5 +1,6 @@
 package com.a304.wildworker.service;
 
+import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.domain.activestation.ActiveStation;
 import com.a304.wildworker.domain.activestation.ActiveStationRepository;
 import com.a304.wildworker.domain.common.TransactionType;
@@ -12,6 +13,9 @@ import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
 import com.a304.wildworker.dto.response.InvestmentInfoResponse;
 import com.a304.wildworker.dto.response.InvestmentRankResponse;
+import com.a304.wildworker.dto.response.MyInvestmentInfoResponse;
+import com.a304.wildworker.dto.response.MyInvestmentResponse;
+import com.a304.wildworker.dto.response.StationDto;
 import com.a304.wildworker.dto.response.common.StationType;
 import com.a304.wildworker.dto.response.common.WSBaseResponse;
 import com.a304.wildworker.ethereum.contract.Bank;
@@ -20,8 +24,12 @@ import com.a304.wildworker.exception.StationNotFoundException;
 import com.a304.wildworker.exception.UserNotFoundException;
 import java.io.IOException;
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -56,7 +64,7 @@ public class InvestService {
         User user = getUserOrElseThrow(userId);
         Station station = getStationOrElseThrow(stationId);
         ActiveStation activeStation = activeStationRepository.findById(station.getId());
-        Map<User, Long> investors = activeStation.getInvestors();
+        Map<Long, Long> investors = activeStation.getInvestors();
 
         // 해당 역의 지배자 정보 조회
         Optional<DominatorLog> dominator = dominatorLogRepository.findByStationIdAndDominateStartTime(
@@ -71,18 +79,30 @@ public class InvestService {
         // 랭킹 정보
         List<InvestmentRankResponse> rankList = new ArrayList<>(5);
         InvestmentRankResponse mine = null;
-        List<Entry<User, Long>> entryList = new ArrayList<>(investors.entrySet());
-        entryList.sort(Map.Entry.<User, Long>comparingByValue().reversed());
+        List<Entry<Long, Long>> entryList = new ArrayList<>(investors.entrySet());
+        entryList.sort(Map.Entry.<Long, Long>comparingByValue().reversed());
 
-        // 5위까지 세팅
-        int end = (entryList.size() > 5) ? 5 : entryList.size();
-        for (int rank = 1; rank <= end; rank++) {
-            rankList.add(getInvestmentRankResponse(rank, entryList.get(rank - 1), station));
+        int rank = 1;
+        for (Map.Entry<Long, Long> entry : entryList) {
+            InvestmentRankResponse rankResponse = null;
+
+            // 5위까지 세팅
+            if (rank <= 5) {
+                rankResponse = getInvestmentRankResponse(rank, entry, station);
+                rankList.add(rankResponse);
+            }
+
+            // 내 지분 정보
+            if (entry.getKey().equals(userId)) {
+                if (rankResponse == null) {
+                    rankResponse = getInvestmentRankResponse(rank, entry, station);
+                }
+
+                mine = rankResponse;
+            }
+
+            rank++;
         }
-
-        // 내 지분 정보
-        int myRank = entryList.indexOf(user) + 1;
-        mine = getInvestmentRankResponse(myRank, entryList.get(myRank - 1), station);
 
         InvestmentInfoResponse response = InvestmentInfoResponse.builder()
                 .stationName(station.getName())
@@ -97,14 +117,88 @@ public class InvestService {
         return response;
     }
 
-    public InvestmentRankResponse getInvestmentRankResponse(int rank, Map.Entry<User, Long> entry,
+    public InvestmentRankResponse getInvestmentRankResponse(int rank, Map.Entry<Long, Long> entry,
             Station station) {
+        User user = getUserOrElseThrow(entry.getKey());
         return InvestmentRankResponse.builder()
                 .rank(rank)
-                .name(entry.getKey().getName())
+                .name(user.getName())
                 .investment(entry.getValue())
                 .percent((int) ((double) entry.getValue() / station.getBalance()) * 100)
                 .build();
+    }
+
+    /* 내가 투자한 역 목록 조회 */
+    public MyInvestmentResponse showMyInvestment(Long userId, String orderBy, String ascend)
+            throws IOException {
+        User user = getUserOrElseThrow(userId);
+        List<MyInvestmentInfoResponse> investmentList = new LinkedList<>();
+
+        // 내 투자 리스트
+        for (Long id = 1L; id <= Constants.STATION_COUNT; id++) {
+            ActiveStation activeStation = activeStationRepository.findById(id);
+            Map<Long, Long> investors = activeStation.getInvestors();
+
+            Long amount = investors.get(user.getId());
+            if (amount != null) {
+                Station station = getStationOrElseThrow(id);
+                investmentList.add(MyInvestmentInfoResponse.builder()
+                        .station(new StationDto(station.getId(), station.getName()))
+                        .investment(amount)
+                        .percent(getPercent(station.getBalance(), amount))
+                        .build());
+            }
+        }
+
+        // 이름순 정렬
+        if (orderBy.equals("name")) {
+            if (ascend.equals("ASC")) {
+                Collections.sort(investmentList,
+                        Comparator.comparing(i -> i.getStation().getName()));
+            } else {
+                Collections.sort(investmentList, Comparator.comparing(i -> i.getStation().getName(),
+                        Comparator.reverseOrder()));
+            }
+        }
+        // 투자금액순 정렬
+        else if (orderBy.equals("investment")) {
+            if (ascend.equals("ASC")) {
+                Collections.sort(investmentList,
+                        Comparator.comparing(MyInvestmentInfoResponse::getInvestment));
+            } else {
+                Collections.sort(investmentList,
+                        Comparator.comparing(MyInvestmentInfoResponse::getInvestment,
+                                Comparator.reverseOrder()));
+            }
+        }
+        // 지분율순 정렬
+        else if (orderBy.equals("percent")) {
+            if (ascend.equals("ASC")) {
+                Collections.sort(investmentList,
+                        Comparator.comparing(MyInvestmentInfoResponse::getPercent));
+            } else {
+                Collections.sort(investmentList,
+                        Comparator.comparing(MyInvestmentInfoResponse::getPercent,
+                                Comparator.reverseOrder()));
+            }
+        }
+
+        // 수수료 정산까지 남은 시간
+        int remainSec = (int) Duration.between(LocalDateTime.now(), systemData.getNextBaseTime())
+                .getSeconds();
+
+        MyInvestmentResponse response = MyInvestmentResponse.builder()
+                .investments(investmentList)
+                .remainSec(remainSec)
+                .orderBy(orderBy)
+                .ascend(ascend)
+                .build();
+
+        return response;
+    }
+
+    public int getPercent(Long allValue, Long myValue) {
+        return (int) (((double) myValue / allValue) * 100);
     }
 
     /* 역 투자 */
@@ -117,7 +211,7 @@ public class InvestService {
 
         user.invest(amount);
         station.invest(amount);
-        activeStation.invest(user, amount);
+        activeStation.invest(user.getId(), amount);
 
         // 코인 변동 이벤트 발생
         publisher.publishEvent(
@@ -175,12 +269,12 @@ public class InvestService {
     @Transactional
     public User distributeCommissionAndGetDominator(Station station) {
         ActiveStation activeStation = activeStationRepository.findById(station.getId());
-        Map<User, Long> investors = activeStation.getInvestors();
+        Map<Long, Long> investors = activeStation.getInvestors();
         User dominator = null;
         Long maxInvestment = 0L;
 
-        for (Entry<User, Long> entry : investors.entrySet()) {
-            User user = entry.getKey();
+        for (Entry<Long, Long> entry : investors.entrySet()) {
+            User user = getUserOrElseThrow(entry.getKey());
             Long investment = entry.getValue();
 
             // 지분율 1위 찾기
