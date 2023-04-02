@@ -7,7 +7,7 @@ import characterWoman from "../../asset/image/stop_woman.png";
 export default function battleCharacterType(props) {
   // const characterType = props.CharacterType;
   //더미데이터
-  const characterType = props.type;
+  const characterType = props.characterType;
   const TypeList = [characterMan, characterWoman];
   return (
     <div className="battleCharacter">

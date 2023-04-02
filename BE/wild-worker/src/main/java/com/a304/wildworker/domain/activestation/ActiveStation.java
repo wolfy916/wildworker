@@ -17,7 +17,6 @@ public class ActiveStation {
     private final Long id;
     private final Queue<Long> pool = new ConcurrentLinkedDeque<>();
     private final Map<Long, Long> investors = new ConcurrentHashMap<>();
-    private final AtomicLong prevCommission = new AtomicLong(0L);
 
     public void insertToPool(Long userId) {
         //user must subscribe and matchable
@@ -33,6 +32,10 @@ public class ActiveStation {
 
     public void invest(Long userId, Long amount) {
         investors.put(userId, investors.getOrDefault(userId, 0L) + amount);
+    }
+
+    public void resetInvestors() {
+        investors.clear();
     }
 
 }
