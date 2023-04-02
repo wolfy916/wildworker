@@ -105,7 +105,7 @@ function App() {
     ranking: [
       {
         rank: 1,
-        namae: "S2태형S2",
+        name: "S2태형S2",
         investment: 123,
         percent: 10,
       },
@@ -183,7 +183,6 @@ function App() {
   // isChangeId값의 변화로 지하철역 구독해제하고 새로운 지하철로 재연결
   useEffect(() => {
     if (store.locationData.prev) {
-
       setStompClient(unsubscribeStation(stompClient, store.locationData.prev));
       setStompClient(
         subscribeStation(stompClient, setStore, store.locationData.current)
@@ -250,9 +249,25 @@ function App() {
               }
             />
             <Route path="/map" element={<SubwayMapPage />} />
-            <Route path="/map/mine" element={<MySubwayPage />} />
+            <Route
+              path="/map/mine"
+              element={
+                <MySubwayPage
+                  myInvestList={myInvestList}
+                  setMyInvestList={setMyInvestList}
+                />
+              }
+            />
             <Route path="/map/hot" element={<HotSubwayPage />} />
-            <Route path="/map/detail" element={<DetailSubwayPage />} />
+            <Route
+              path="/map/detail"
+              element={
+                <DetailSubwayPage
+                  stationStake={stationStake}
+                  setStationStake={setStationStake}
+                />
+              }
+            />
             <Route
               path="/pvp"
               element={
