@@ -138,11 +138,9 @@ public class InvestService {
         for (Long id = 1L; id <= Constants.STATION_COUNT; id++) {
             ActiveStation activeStation = activeStationRepository.findById(id);
             Map<Long, Long> investors = activeStation.getInvestors();
-            System.out.println(id + " investors 크기" + investors.size());
 
             Long amount = investors.get(user.getId());
             if (amount != null) {
-                System.out.println("amount 이씀");
                 Station station = getStationOrElseThrow(id);
                 investmentList.add(MyInvestmentInfoResponse.builder()
                         .station(new StationDto(station.getId(), station.getName()))
