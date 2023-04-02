@@ -2,7 +2,7 @@ import * as React from "react";
 import "./Title.css";
 
 function Title(props) {
-  const [selectTitle, setSelectTitle] = React.useState("없음");
+  const [selectTitle, setSelectTitle] = React.useState(titleList[props.userData.titleId]);
 
   function toggleClickHandler() {
     props.setIsToggled((prev) => !prev);

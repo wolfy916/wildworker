@@ -44,11 +44,12 @@ function getStationStake(payload) {
   if (payload) {
     http({
       method: "get",
-      url: `/investment/${payload.stationId}`,
+      url: `/investment/${payload}`,
     }).then(({status, data}) => {
       if (status == 200) {
         console.log("getStationStake 성공");
         payload.setFunc(data);
+        console.log()
         // data 예시
         // {
         //   "stationName": "역삼역",

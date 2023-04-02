@@ -13,7 +13,7 @@ import { getStationStake } from "../api/Investment.js";
 function DetailSubwayPage() {
   const location = useLocation();
   const [data, setData] = useState([])
-  // const detailSubwayTotalData = getStationStake(location.state);
+  const detailSubwayTotalData = getStationStake(location.state);
   const [ranking, setRanking] = useState([]);
   const [modalClick, setModalClick] = useState(false);
   const testData = {
@@ -69,22 +69,22 @@ function DetailSubwayPage() {
   // }, [])
 
 
-  // useEffect(() => {
-  //   const rankingData = detailSubwayTotalData.ranking.map((item) => (
-  //     <div className="detail-content">
-  //       <div>
-  //         <p className="detail-subject">{item.name}</p>
-  //       </div>
-  //       <div>
-  //         <p className="detail-subject">
-  //           {item.investment.toLocaleString("ko-KR")}
-  //         </p>
-  //         <p className="detail-subject-2">({item.percent}%)</p>
-  //       </div>
-  //     </div>
-  //   ));
-  //   setRanking(rankingData);
-  // }, []);
+  useEffect(() => {
+    const rankingData = detailSubwayTotalData.ranking.map((item) => (
+      <div className="detail-content">
+        <div>
+          <p className="detail-subject">{item.name}</p>
+        </div>
+        <div>
+          <p className="detail-subject">
+            {item.investment.toLocaleString("ko-KR")}
+          </p>
+          <p className="detail-subject-2">({item.percent}%)</p>
+        </div>
+      </div>
+    ));
+    setRanking(rankingData);
+  }, []);
 
   return (
     <div className="detail-background">
