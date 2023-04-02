@@ -40,9 +40,9 @@ function getUserInfo(payload) {
 // }
 
 // 회원정보 수정
-async function patchUserInfo(payload) {
+function patchUserInfo(payload) {
   if (payload) {
-    await http({
+    http({
       method: "patch",
       url: "/user",
       // 바꾼 값 이외에는 null로 채워보내야함
@@ -76,9 +76,9 @@ async function patchUserInfo(payload) {
 // }
 
 // 회원탈퇴
-async function deleteUserInfo(payload) {
+function deleteUserInfo(payload) {
   if (payload) {
-    await http({
+    http({
       method: "delete",
       url: "/user",
     })
@@ -95,16 +95,16 @@ async function deleteUserInfo(payload) {
 }
 
 // 보유 칭호목록 조회
-async function getTitleList(payload) {
+function getTitleList(payload) {
   if (payload) {
-    return await http({
+    http({
       method: "get",
       url: "/user/titles",
     })
       .then(({ status, data }) => {
         if (status === 200) {
           console.log("getTitleList 성공", data);
-          return data;
+          payload.setFunc(data);
           // data 예시
           // {
           //   "titleType": 1,
@@ -128,9 +128,9 @@ async function getTitleList(payload) {
 }
 
 // 코인 내역 조회
-async function getCoinLog(payload) {
+function getCoinLog(payload) {
   if (payload) {
-    return await http({
+    http({
       method: "get",
       url: "/user/coin-log",
       params: { size: payload.size, page: payload.page },
@@ -138,7 +138,7 @@ async function getCoinLog(payload) {
       .then(({ status, data }) => {
         if (status === 200) {
           console.log("getCoinLog 성공", data);
-          return data;
+          payload.setFunc(data);
           // data 예시
           // {
           //   "balance": 1234,  -> 현재 잔액
