@@ -289,9 +289,11 @@ public class InvestService {
             user.changeBalance(money);
 
             // 코인 변동 이벤트 발생
-            publisher.publishEvent(
-                    new ChangedBalanceEvent(user, station, TransactionType.INVESTMENT_REWARD,
-                            money));
+            if (money > 0) {
+                publisher.publishEvent(
+                        new ChangedBalanceEvent(user, station, TransactionType.INVESTMENT_REWARD,
+                                money));
+            }
         }
 
         return dominator;
