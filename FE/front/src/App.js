@@ -27,15 +27,6 @@ import {
 } from "../src/api/socketFunc";
 
 function App() {
-  // 웹에서 개발할 때, 얘 꼭 주석처리 해라
-
-  const elem = document.documentElement;
-  document.addEventListener('click', function() {
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    }
-  });
-
   const [isLogin, setIsLogin] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [isChangeId, setIsChangeId] = useState(false);
@@ -48,7 +39,7 @@ function App() {
     titleType: 0,
   });
   const [store, setStore] = useState({
-    locationData: {},
+    locationData: { current: null, prev: null },
     manualMining: 1,
     dominatorAppear: "",
     dominatorMsg: "",
@@ -75,7 +66,9 @@ function App() {
   useEffect(() => {
     if (isLogin) {
       const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
-      setStompClient(connectSocket(Stomp.over(socket), setStore, setUserData, store));
+      setStompClient(
+        connectSocket(Stomp.over(socket), setStore, setUserData, store)
+      );
       setIsConnected(true);
     }
   }, [isLogin]);
@@ -87,9 +80,10 @@ function App() {
   // }, 5000);
 
   // isChangeId값의 변화로 지하철역 구독해제하고 새로운 지하철로 재연결
-
+  console.log(store)
   useEffect(() => {
     if (store.locationData.prev) {
+
       setStompClient(unsubscribeStation(stompClient, store.locationData.prev));
       setStompClient(
         subscribeStation(stompClient, setStore, store.locationData.current)
@@ -114,7 +108,7 @@ function App() {
             console.log(error);
           }
         );
-      }, 1000);
+      }, 2000);
       return () => {
         clearInterval(intervalId);
       };
