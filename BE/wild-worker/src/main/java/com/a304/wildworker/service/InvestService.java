@@ -1,5 +1,7 @@
 package com.a304.wildworker.service;
 
+import com.a304.wildworker.domain.activestation.ActiveStation;
+import com.a304.wildworker.domain.activestation.ActiveStationRepository;
 import com.a304.wildworker.domain.common.TransactionType;
 import com.a304.wildworker.domain.dominator.DominatorLog;
 import com.a304.wildworker.domain.dominator.DominatorLogRepository;
@@ -36,6 +38,7 @@ public class InvestService {
     private final StationRepository stationRepository;
     private final UserRepository userRepository;
     private final DominatorLogRepository dominatorLogRepository;
+    private final ActiveStationRepository activeStationRepository;
     private final Bank bank;
     private final SystemData systemData;
 
@@ -48,9 +51,11 @@ public class InvestService {
             throws CipherException, IOException {
         User user = getUserOrElseThrow(userId);
         Station station = getStationOrElseThrow(stationId);
+        ActiveStation activeStation = activeStationRepository.findById(stationId);
 
         user.invest(amount);
-        station.invest(user, amount);
+        station.invest(amount);
+        activeStation.invest(user, amount);
 
         // 코인 변동 이벤트 발생
         publisher.publishEvent(
@@ -64,13 +69,33 @@ public class InvestService {
      * @throws IOException
      */
     @Scheduled(cron = "0 0/10 * * * *")
+    @Transactional
     public void distributeInvestReward() throws IOException {
         // 10분 타임라인 시간 갱신
         systemData.updateBaseTime();
 
+        // 투자금 초기화 시간 갱신
+        LocalDateTime nowDateTime = systemData.getNowBaseTime();
+        DayOfWeek dayOfWeek = nowDateTime.getDayOfWeek();
+        boolean isInitInvestmentTime = false;
+
+        if (dayOfWeek == DayOfWeek.MONDAY &&
+                (nowDateTime.getHour() == 0 && nowDateTime.getMinute() == 0)) {
+            systemData.initInvestmentTime();
+            isInitInvestmentTime = true;
+        }
+
         for (Station station : stationRepository.findAll()) {
             // 수수료 정산(DB) 후 새 지배자 얻기
             User dominator = distributeCommissionAndGetDominator(station);
+
+            // 누적 수수료 초기화
+            station.resetCommission();
+
+            //매 주 월요일 0시에는 누적금도 전부 초기화
+            if (isInitInvestmentTime) {
+                station.resetBalance();
+            }
 
             // 지배자 설정
             setNewDominator(station, dominator);
@@ -87,7 +112,8 @@ public class InvestService {
     /* station의 수수료 정산 후 새 지배자를 반환 */
     @Transactional
     public User distributeCommissionAndGetDominator(Station station) {
-        Map<User, Long> investors = station.getInvestors();
+        ActiveStation activeStation = activeStationRepository.findById(station.getId());
+        Map<User, Long> investors = activeStation.getInvestors();
         User dominator = null;
         Long maxInvestment = 0L;
 
@@ -102,7 +128,7 @@ public class InvestService {
             }
 
             // 지분율에 따라 수수료 정산
-            long userShare = (investment / station.getBalance()) * 1000;
+            long userShare = (long) ((double) investment / station.getBalance()) * 1000;
             long money = (userShare * station.getCommission()) / 1000;
             user.changeBalance(money);
 
@@ -110,18 +136,6 @@ public class InvestService {
             publisher.publishEvent(
                     new ChangedBalanceEvent(user, station, TransactionType.INVESTMENT_REWARD,
                             money));
-        }
-
-        // 누적 수수료 초기화
-        station.resetCommission();
-
-        //매 주 월요일 0시에는 누적금도 전부 초기화
-        LocalDateTime nowDateTime = systemData.getNowBaseTime();
-        DayOfWeek dayOfWeek = nowDateTime.getDayOfWeek();
-
-        if (dayOfWeek == DayOfWeek.MONDAY &&
-                (nowDateTime.getHour() == 0 && nowDateTime.getMinute() == 0)) {
-            station.resetBalance();
         }
 
         return dominator;
