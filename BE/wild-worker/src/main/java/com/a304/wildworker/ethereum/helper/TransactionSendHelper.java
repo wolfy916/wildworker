@@ -79,39 +79,7 @@ public class TransactionSendHelper {
     public CompletableFuture<TransactionReceipt> sendContractAsync(String contractAddress,
             Function function)
             throws IOException {
-        return web3j.ethGetBlockByNumber(
-                        DefaultBlockParameterName.LATEST, false)
-                .sendAsync()
-                .thenApply(EthBlock::getBlock)
-                .thenApply(block -> {
-                    BigInteger gasLimit = block.getGasLimit();
-                    BigInteger baseFeePerGas = Numeric.decodeQuantity(block.getBaseFeePerGas());
-                    BigInteger amountUsed = baseFeePerGas; // TODO: 2023-03-23 값 조정 필요
-                    EthSendTransaction ethSendTransaction = null;
-                    try {
-                        ethSendTransaction = transactionManager.sendEIP1559Transaction(
-                                chainId,
-                                amountUsed,
-                                baseFeePerGas,
-                                gasLimit,
-                                contractAddress,
-                                FunctionEncoder.encode(function), null);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                    return ethSendTransaction;
-                }).thenApply((ethSendTransaction) -> {
-                    TransactionReceipt transactionReceipt = null;
-                    try {
-                        transactionReceipt = getTransactionReceipt(ethSendTransaction);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-
-                    return transactionReceipt;
-                });
+        return this.sendContractAsync(contractAddress, senderAddress, function);
     }
 
     /**
@@ -127,6 +95,10 @@ public class TransactionSendHelper {
             String fromAddress,
             Function function)
             throws IOException {
+        log.info("in transaction ::::");
+        log.info("contract :: {}", contractAddress);
+        log.info("sender :: {}", fromAddress);
+
         return getBlock().thenCombine(getNonce(fromAddress), (block, nonce) -> {
             BigInteger gasLimit = block.getGasLimit();
             BigInteger baseFeePerGas = Numeric.decodeQuantity(block.getBaseFeePerGas());
@@ -149,19 +121,40 @@ public class TransactionSendHelper {
                                         transactionReceipt = getTransactionReceipt(ethSendTransaction);
                                     } catch (IOException e) {
                                         e.printStackTrace();
-                                        throw new RuntimeException(e);
+                                        transactionReceipt = getDefaultTransactionReceipt(contractAddress,
+                                                fromAddress, block, nonce, amountUsed,
+                                                ethSendTransaction, e);
                                     }
+                                    log.info("transaction receipt : {}", transactionReceipt);
                                     return transactionReceipt;
                                 }
                         ).get(); // TODO: 2023-03-27 내부 로직 수정 필요
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    private TransactionReceipt getDefaultTransactionReceipt(String contractAddress,
+            String fromAddress, Block block, BigInteger nonce, BigInteger amountUsed,
+            EthSendTransaction ethSendTransaction, IOException e) {
+        return new TransactionReceipt(
+                ethSendTransaction.getTransactionHash(),
+                Numeric.encodeQuantity(nonce),
+                block.getHash(),
+                block.getNumberRaw(),
+                block.getGasUsedRaw(),
+                Numeric.encodeQuantity(amountUsed),
+                contractAddress,
+                null, null,
+                fromAddress,
+                contractAddress,
+                null,
+                null,
+                e.getMessage(),
+                null,
+                null);
     }
 
     private CompletableFuture<Block> getBlock() {
