@@ -124,7 +124,7 @@ public class InvestService {
                 .rank(rank)
                 .name(user.getName())
                 .investment(entry.getValue())
-                .percent((int) ((double) entry.getValue() / station.getBalance()) * 100)
+                .percent(getPercent(station.getBalance(), entry.getValue()))
                 .build();
     }
 
