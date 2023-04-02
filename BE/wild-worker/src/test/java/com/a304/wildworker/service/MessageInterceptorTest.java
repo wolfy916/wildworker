@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.a304.wildworker.config.WebSocketConfig;
-import com.a304.wildworker.domain.activestation.StationPoolRepository;
+import com.a304.wildworker.domain.activestation.ActiveStationRepository;
 import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
 import com.a304.wildworker.domain.station.StationRepository;
@@ -33,7 +33,7 @@ import org.springframework.messaging.simp.SimpMessageType;
 @ComponentScan(basePackages = {"com.a304.wildworker.interceptor.MessageInterceptor"})
 public class MessageInterceptorTest {
 
-    StationPoolRepository stationPoolRepository;
+    ActiveStationRepository activeStationRepository;
     MessageInterceptor interceptor;
     String stationDestination =
             WebSocketConfig.BROKER_DEST_PREFIX + WebSocketConfig.WS_DEST_STATION + "/";

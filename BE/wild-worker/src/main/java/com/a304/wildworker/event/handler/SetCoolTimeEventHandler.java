@@ -1,7 +1,7 @@
 package com.a304.wildworker.event.handler;
 
-import com.a304.wildworker.domain.activestation.StationPool;
-import com.a304.wildworker.domain.activestation.StationPoolRepository;
+import com.a304.wildworker.domain.activestation.ActiveStation;
+import com.a304.wildworker.domain.activestation.ActiveStationRepository;
 import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
 import com.a304.wildworker.event.SetCoolTimeEvent;
@@ -25,7 +25,7 @@ public class SetCoolTimeEventHandler {
     private final static int COOL_TIME_BOUND = 30 - COOL_TIME_MIN;
     private final TaskScheduler taskScheduler;
     private final Random random = new Random();
-    private final StationPoolRepository stationPoolRepository;
+    private final ActiveStationRepository activeStationRepository;
     private final ActiveUserRepository activeUserRepository;
     private final EventService eventService;
 
@@ -57,8 +57,8 @@ public class SetCoolTimeEventHandler {
 
             //구독 중이고 매칭 가능한 상태면, 풀에 추가
             if (activeUser.isSubscribed() && activeUser.isMatchable()) {
-                StationPool stationPool = stationPoolRepository.findById(stationId);
-                eventService.insertToStationPool(userId, stationPool);
+                ActiveStation activeStation = activeStationRepository.findById(stationId);
+                eventService.insertToStationPool(userId, activeStation);
             }
         };
     }

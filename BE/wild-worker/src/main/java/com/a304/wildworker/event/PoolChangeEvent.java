@@ -1,6 +1,6 @@
 package com.a304.wildworker.event;
 
-import com.a304.wildworker.domain.activestation.StationPool;
+import com.a304.wildworker.domain.activestation.ActiveStation;
 import com.a304.wildworker.event.common.DomainEvent;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,5 +10,6 @@ import lombok.ToString;
 @ToString
 @RequiredArgsConstructor(staticName = "of")
 public class PoolChangeEvent implements DomainEvent {
-    private final StationPool stationPool;
+
+    private final ActiveStation activeStation;
 }

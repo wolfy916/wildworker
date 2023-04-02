@@ -1,6 +1,6 @@
 package com.a304.wildworker.event.handler;
 
-import com.a304.wildworker.domain.activestation.StationPool;
+import com.a304.wildworker.domain.activestation.ActiveStation;
 import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
 import com.a304.wildworker.domain.common.League;
@@ -45,8 +45,8 @@ public class PoolChangeEventHandler {
     public void makeMatch(PoolChangeEvent event) {
         log.info("PoolChangeEvent raise: {}", event);
 
-        StationPool stationPool = event.getStationPool();
-        Queue<Long> pool = stationPool.getPool();
+        ActiveStation activeStation = event.getActiveStation();
+        Queue<Long> pool = activeStation.getPool();
 
         Map<League, Queue<Long>> byLeague = pool.stream()
                 .map(id -> userRepository.findById(id).orElseThrow())
@@ -63,7 +63,7 @@ public class PoolChangeEventHandler {
                 Events.raise(MatchingSuccessEvent.of(match));
                 for (ActiveUser user :
                         matchUsers) {
-                    stationPool.removeById(user.getUserId());
+                    activeStation.removeFromPool(user.getUserId());
                 }
             }
         }));

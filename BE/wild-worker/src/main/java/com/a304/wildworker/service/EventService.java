@@ -1,6 +1,6 @@
 package com.a304.wildworker.service;
 
-import com.a304.wildworker.domain.activestation.StationPool;
+import com.a304.wildworker.domain.activestation.ActiveStation;
 import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.event.common.EventPublish;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,8 @@ public class EventService {
     }
 
     @EventPublish
-    public void insertToStationPool(long userId, StationPool stationPool) {
-        stationPool.insert(userId);
+    public void insertToStationPool(long userId, ActiveStation activeStation) {
+        activeStation.insertToPool(userId);
     }
 
 }

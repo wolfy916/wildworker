@@ -6,10 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.a304.wildworker.config.WebSocketConfig;
-import com.a304.wildworker.domain.activestation.StationPoolRepository;
+import com.a304.wildworker.domain.activestation.ActiveStationRepository;
 import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
 import com.a304.wildworker.domain.station.StationRepository;
+import com.a304.wildworker.domain.system.SystemData;
+import com.a304.wildworker.domain.transaction.TransactionLogRepository;
 import com.a304.wildworker.domain.user.UserRepository;
 import com.a304.wildworker.event.SetCoolTimeEvent;
 import com.a304.wildworker.service.EventService;
@@ -33,7 +35,7 @@ public class ActiveUserTest {
 
     @Autowired
     ApplicationEvents events;
-    StationPoolRepository stationPoolRepository;
+    ActiveStationRepository activeStationRepository;
     ActiveUserRepository activeUserRepository;
     @Mock
     UserRepository userRepository;
@@ -45,11 +47,15 @@ public class ActiveUserTest {
             WebSocketConfig.BROKER_DEST_PREFIX + WebSocketConfig.WS_DEST_STATION;
     @Mock
     private StationRepository stationRepository;
+    @Mock
+    private SystemData systemData;
+    @Mock
+    private TransactionLogRepository transactionLogRepository;
 
     @BeforeEach
     void setUp() {
         activeUserRepository = new ActiveUserRepository();
-        stationPoolRepository = new StationPoolRepository();
+        activeStationRepository = new ActiveStationRepository(systemData, transactionLogRepository);
         MockitoAnnotations.openMocks(this);
         interceptor = new MessageInterceptor(
                 activeUserRepository,
