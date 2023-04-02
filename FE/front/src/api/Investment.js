@@ -119,6 +119,7 @@ async function getMyInvestList(payload) {
       },
     })
       .then(({ status, data }) => {
+        console.log(data)
         if (status == 200) {
           console.log("getMyInvestList 성공");
           return data;

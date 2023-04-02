@@ -10,41 +10,21 @@ import hotMap from "../asset/image/hotMap.png";
 import { getMyInvestList } from "../api/Investment";
 
 function MySubwayPage() {
-  // const payload = {
-  //   order: "investment",
-  //   ascend: "DESC",
-  // };
-  // const myInvestListData = getMyInvestList(payload)
-  // const [investData, setInvestData] = useState([])
+  const payload = {
+    order: "investment",
+    ascend: "DESC",
+  };
+  const myInvestListData = getMyInvestList(payload)
+  const [investData, setInvestData] = useState([])
   const [data, setData] = useState([]);
   const [mySubway, setMySubway] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("/api/data")
-      .then((response) => {
-        setData(response.data);
-        const mySubwayData = data.investments.map((item) => (
-          <div className="my-content">
-            <div>
-              <p className="my-subject">{item.station.name}</p>
-            </div>
-            <div>
-              <p className="my-subject">{item.investment}</p>
-              <p className="my-subject-2">({item.percent}%)</p>
-            </div>
-          </div>
-        ));
-        setMySubway(mySubwayData);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
   // useEffect(() => {
-  //   setInvestData(myInvestListData.investments)
-  //       const mySubwayData = investData.investments.map((item) => (
+  //   axios
+  //     .get("/api/data")
+  //     .then((response) => {
+  //       setData(response.data);
+  //       const mySubwayData = data.investments.map((item) => (
   //         <div className="my-content">
   //           <div>
   //             <p className="my-subject">{item.station.name}</p>
@@ -54,9 +34,29 @@ function MySubwayPage() {
   //             <p className="my-subject-2">({item.percent}%)</p>
   //           </div>
   //         </div>
-  //       ))
-  //       setMySubway(mySubwayData)
-  // }, [])
+  //       ));
+  //       setMySubway(mySubwayData);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    setInvestData(myInvestListData.investments)
+        const mySubwayData = investData.investments.map((item) => (
+          <div className="my-content">
+            <div>
+              <p className="my-subject">{item.station.name}</p>
+            </div>
+            <div>
+              <p className="my-subject">{item.investment}</p>
+              <p className="my-subject-2">({item.percent}%)</p>
+            </div>
+          </div>
+        ))
+        setMySubway(mySubwayData)
+  }, [])
 
   return (
     <div className="my-background">

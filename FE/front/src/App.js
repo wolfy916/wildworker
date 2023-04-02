@@ -80,7 +80,6 @@ function App() {
   // }, 5000);
 
   // isChangeId값의 변화로 지하철역 구독해제하고 새로운 지하철로 재연결
-  console.log(store)
   useEffect(() => {
     if (store.locationData.prev) {
 
