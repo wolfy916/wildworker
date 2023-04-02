@@ -49,4 +49,7 @@ public class ActiveStationRepository {
         return station;
     }
 
+    public void resetInvestorsByStation(Long id) {
+        findById(id).resetInvestors();
+    }
 }

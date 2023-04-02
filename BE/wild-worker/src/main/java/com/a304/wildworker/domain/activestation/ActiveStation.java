@@ -27,4 +27,8 @@ public class ActiveStation {
         investors.put(userId, investors.getOrDefault(userId, 0L) + amount);
     }
 
+    public void resetInvestors() {
+        investors.clear();
+    }
+
 }

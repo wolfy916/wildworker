@@ -251,6 +251,7 @@ public class InvestService {
             //매 주 월요일 0시에는 누적금도 전부 초기화
             if (isInitInvestmentTime) {
                 station.resetBalance();
+                activeStationRepository.resetInvestorsByStation(station.getId());
             }
 
             // 지배자 설정
