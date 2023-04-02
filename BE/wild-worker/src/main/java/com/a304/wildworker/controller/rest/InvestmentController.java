@@ -35,8 +35,6 @@ public class InvestmentController {
     public ResponseEntity<StationRankResponse> showStationRank(
             int size, String order, @AuthenticationPrincipal PrincipalDetails principal)
             throws IOException {
-        SessionUser user = Optional.of(principal.getSessionUser())
-                .orElseThrow(NotLoginException::new);
 
         StationRankResponse response = investService.showStationRank(size, order);
         return ResponseEntity.ok(response);
