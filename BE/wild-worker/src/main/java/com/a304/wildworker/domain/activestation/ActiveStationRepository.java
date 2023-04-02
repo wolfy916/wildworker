@@ -48,8 +48,5 @@ public class ActiveStationRepository {
         activeStations.put(station.getId(), station);
         return station;
     }
-
-    public void resetInvestorsByStation(Long id) {
-        findById(id).resetInvestors();
-    }
+    
 }
