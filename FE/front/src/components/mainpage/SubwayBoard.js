@@ -11,7 +11,6 @@ function SubwayBoard(props) {
 
   React.useEffect(() => {
     if (getCoinClick === true) {
-      console.log("수동채굴 제출");
       setGetCoinClick(false);
       setIsFlashing(true);
       setTimeout(() => {
@@ -22,12 +21,13 @@ function SubwayBoard(props) {
 
   React.useEffect(() => {
     if (isFlashing) {
-      document.getElementsByClassName("board-modal-wrap")[0].style.display = "block";
+      document.getElementsByClassName("board-modal-wrap")[0].style.display =
+        "block";
+    } else {
+      document.getElementsByClassName("board-modal-wrap")[0].style.display =
+        "none";
     }
-    else {
-      document.getElementsByClassName("board-modal-wrap")[0].style.display = "none";
-    }
-  },[isFlashing]);
+  }, [isFlashing]);
 
   return (
     <div>
@@ -42,20 +42,35 @@ function SubwayBoard(props) {
           <div className="subway-board-screen">
             <SubwayBoardFirstPart
               store={props.store}
-              station={props.station}
-              coin={props.coin}
-              isFlashing={isFlashing}
-              dominator={props.dominator}
               userData={props.userData}
+              isFlashing={isFlashing}
             />
-            <div className="board-second-part">
-              <span className="current-station">
-                {" "}
-                {props.store.location}의 지배자{" "}
-              </span>
-              는<span className="current-station"> {props.store.dominatorAppear} </span>
-              입니다.
-            </div>
+            {props.store.locationData.current != null ? (
+              <div className="board-second-part">
+                <span className="current-station">
+                  {" "}
+                  {props.store.locationData.current.name}의 지배자{" "}
+                </span>
+                는
+                {props.store.locationData.current.dominator != null ? (
+                  <span className="current-station">
+                    {" "}
+                    {props.store.locationData.current.dominator}{" "}
+                  </span>
+                ) : (
+                  ""
+                )}
+                {props.store.locationData.current.dominator != null
+                  ? "입니다."
+                  : " 아직 결정되지 않았습니다."}
+              </div>
+            ) : (
+              <div className="board-second-part">
+                <span className="current-station">
+                  이곳은 지하철 역이 아닙니다.
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>
