@@ -78,7 +78,6 @@ function MainPage(props) {
       } else if (coinCnt > 99) {
         setIsEnough(true);
       }
-      invest({stationId: 3, investment: 100});
     }
   }
   , [isClickDoc])

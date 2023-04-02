@@ -36,7 +36,7 @@ function App() {
     characterType: 0,
     coin: 0,
     collectedPapers: 0,
-    name: "",
+    name: "이름바꿔",
     titleId: 0,
     titleType: 0,
   });
@@ -186,8 +186,8 @@ function App() {
           (position) => {
             if (position.coords) {
               handleSendLocation({
-                lat: 37.5008,
-                lon: 127.0369,
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
               });
             }
           },
