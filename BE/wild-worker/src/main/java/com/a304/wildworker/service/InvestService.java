@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -54,6 +53,7 @@ public class InvestService {
     /* 해당 역에 대한 지분 조회 */
     public InvestmentInfoResponse showInvestmentByStation(Long stationId, Long userId)
             throws IOException {
+        User user = getUserOrElseThrow(userId);
         Station station = getStationOrElseThrow(stationId);
         ActiveStation activeStation = activeStationRepository.findById(station.getId());
         Map<User, Long> investors = activeStation.getInvestors();
@@ -71,30 +71,18 @@ public class InvestService {
         // 랭킹 정보
         List<InvestmentRankResponse> rankList = new ArrayList<>(5);
         InvestmentRankResponse mine = null;
-        List<Entry<User, Long>> entryList = new LinkedList<>(investors.entrySet());
+        List<Entry<User, Long>> entryList = new ArrayList<>(investors.entrySet());
         entryList.sort(Map.Entry.<User, Long>comparingByValue().reversed());
 
-        int rank = 1;
-        for (Map.Entry<User, Long> entry : entryList) {
-            InvestmentRankResponse rankResponse = InvestmentRankResponse.builder()
-                    .rank(rank)
-                    .name(entry.getKey().getName())
-                    .investment(entry.getValue())
-                    .percent((int) ((double) entry.getValue() / station.getBalance()) * 100)
-                    .build();
-
-            // 5위까지 세팅
-            if (rank <= 5) {
-                rankList.add(rankResponse);
-            }
-
-            // 내 지분 정보
-            if (entry.getKey().getId().equals(userId)) {
-                mine = rankResponse;
-            }
-
-            rank++;
+        // 5위까지 세팅
+        int end = (entryList.size() > 5) ? 5 : entryList.size();
+        for (int rank = 1; rank <= end; rank++) {
+            rankList.add(getInvestmentRankResponse(rank, entryList.get(rank - 1), station));
         }
+
+        // 내 지분 정보
+        int myRank = entryList.indexOf(user) + 1;
+        mine = getInvestmentRankResponse(myRank, entryList.get(myRank - 1), station);
 
         InvestmentInfoResponse response = InvestmentInfoResponse.builder()
                 .stationName(station.getName())
@@ -107,6 +95,16 @@ public class InvestService {
                 .build();
 
         return response;
+    }
+
+    public InvestmentRankResponse getInvestmentRankResponse(int rank, Map.Entry<User, Long> entry,
+            Station station) {
+        return InvestmentRankResponse.builder()
+                .rank(rank)
+                .name(entry.getKey().getName())
+                .investment(entry.getValue())
+                .percent((int) ((double) entry.getValue() / station.getBalance()) * 100)
+                .build();
     }
 
     /* 역 투자 */
