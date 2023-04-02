@@ -14,12 +14,12 @@ document.documentElement.addEventListener('touchstart', function (event) {
 var lastTouchEnd = 0; 
 
 // 웹에서 개발할 때, 얘 꼭 주석처리 해라
-// const elem = document.documentElement;
-// document.addEventListener('click', function() {
-//   if (elem.requestFullscreen) {
-//     elem.requestFullscreen();
-//   }
-// });
+const elem = document.documentElement;
+document.addEventListener('click', function() {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  }
+});
 
 document.documentElement.addEventListener('touchend', function (event) {
   var now = (new Date()).getTime();

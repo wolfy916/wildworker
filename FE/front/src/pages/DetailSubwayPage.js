@@ -12,33 +12,39 @@ import { getStationStake } from "../api/Investment.js";
 
 function DetailSubwayPage(props) {
   const location = useLocation();
+  const [cnt,setCnt] = useState(0);
+  const [isRetry,setIsRetry] = useState(false);
 
   const [rankingData, setRankingData] = useState([]);
   const [modalClick, setModalClick] = useState(false);
 
   useEffect(() => {
+    // cnt 5번은 해야 실시간으로 다 바뀜
+    if (cnt < 5) {
     const fetchData = async () => {
       await getStationStake({
         stationId: location.state,
         setFunc: props.setStationStake,
       });
-      const rankingDataSave = props.stationStake.ranking.map((item, idx) => (
-        <div className="detail-content" key={idx}>
-          <div>
-            <p className="detail-subject">{item.name}</p>
+        const rankingDataSave = props.stationStake.ranking.map((item, idx) => (
+          <div className="detail-content" key={idx}>
+            <div>
+              <p className="detail-subject">{item.name}</p>
+            </div>
+            <div>
+              <p className="detail-subject">
+                {item.investment.toLocaleString("ko-KR")}
+              </p>
+              <p className="detail-subject-2">({item.percent}%)</p>
+            </div>
           </div>
-          <div>
-            <p className="detail-subject">
-              {item.investment.toLocaleString("ko-KR")}
-            </p>
-            <p className="detail-subject-2">({item.percent}%)</p>
-          </div>
-        </div>
-      ));
-      setRankingData(rankingDataSave);
+        ));
+        setRankingData(rankingDataSave);
+        setCnt((prev) => prev += 1)
+      }
+      fetchData();
     };
-    fetchData();
-  }, []);
+  }, [props.stationStake, isRetry]);
 
   return (
     <div className="detail-background">
@@ -132,6 +138,8 @@ function DetailSubwayPage(props) {
           stationId={location.state}
           investment={props.stationStake.mine.investment.toLocaleString("ko-KR")}
           setModalClick={setModalClick}
+          setCnt={setCnt}
+          setIsRetry={setIsRetry}
         />
       )}
     </div>

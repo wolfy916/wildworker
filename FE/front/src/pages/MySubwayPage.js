@@ -10,21 +10,24 @@ import hotMap from "../asset/image/hotMap.png";
 import { getMyInvestList } from "../api/Investment";
 
 function MySubwayPage(props) {
+  const [cnt, setCnt] = useState(0);
   const payload = {
     order: "investment",
     ascend: "DESC",
-    setFunc:props.setMyInvestList
+    setFunc: props.setMyInvestList,
   };
-  const myInvestListData = getMyInvestList(payload)
-  const [investData, setInvestData] = useState([])
-  const [data, setData] = useState([]);
   const [mySubway, setMySubway] = useState([]);
 
-
-
   useEffect(() => {
-    setInvestData(myInvestListData.investments)
-        const mySubwayData = investData.investments.map((item) => (
+    // cnt 5번은 해야 실시간으로 다 바뀜
+    if (cnt < 2) {
+      const fetchData = async () => {
+        await getMyInvestList({
+          order: "investment",
+          ascend: "DESC",
+          setFunc: props.setMyInvestList,
+        });
+        const mySubwayData = props.myInvestList.investments.map((item) => (
           <div className="my-content">
             <div>
               <p className="my-subject">{item.station.name}</p>
@@ -34,9 +37,13 @@ function MySubwayPage(props) {
               <p className="my-subject-2">({item.percent}%)</p>
             </div>
           </div>
-        ))
-        setMySubway(mySubwayData)
-  }, [])
+        ));
+        setMySubway(mySubwayData);
+        setCnt((prev) => (prev += 1));
+      };
+      fetchData();
+    }
+  }, [props.myInvestList]);
 
   return (
     <div className="my-background">
@@ -51,33 +58,6 @@ function MySubwayPage(props) {
           <div>
             <p className="my-subject">투자 금액</p>
             <p className="my-subject-2">(지분율)</p>
-          </div>
-        </div>
-        <div className="my-content">
-          <div>
-            <p className="my-subject">역삼역</p>
-          </div>
-          <div>
-            <p className="my-subject">200,000원</p>
-            <p className="my-subject-2">(24%)</p>
-          </div>
-        </div>
-        <div className="my-content">
-          <div>
-            <p className="my-subject">역곡역</p>
-          </div>
-          <div>
-            <p className="my-subject">3,000,000원</p>
-            <p className="my-subject-2">(45%)</p>
-          </div>
-        </div>
-        <div className="my-content">
-          <div>
-            <p className="my-subject">청계산입구역</p>
-          </div>
-          <div>
-            <p className="my-subject">120,000원</p>
-            <p className="my-subject-2">(5%)</p>
           </div>
         </div>
         {mySubway}
