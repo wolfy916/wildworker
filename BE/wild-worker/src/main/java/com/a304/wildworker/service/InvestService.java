@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -72,7 +71,7 @@ public class InvestService {
         // 랭킹 정보
         List<InvestmentRankResponse> rankList = new ArrayList<>(5);
         InvestmentRankResponse mine = null;
-        List<Entry<User, Long>> entryList = new LinkedList<>(investors.entrySet());
+        List<Entry<User, Long>> entryList = new ArrayList<>(investors.entrySet());
         entryList.sort(Map.Entry.<User, Long>comparingByValue().reversed());
 
         // 5위까지 세팅
