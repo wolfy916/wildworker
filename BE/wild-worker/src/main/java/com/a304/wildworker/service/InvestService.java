@@ -76,20 +76,30 @@ public class InvestService {
 
         int rank = 1;
         for (Map.Entry<User, Long> entry : entryList) {
-            InvestmentRankResponse rankResponse = InvestmentRankResponse.builder()
-                    .rank(rank)
-                    .name(entry.getKey().getName())
-                    .investment(entry.getValue())
-                    .percent((int) ((double) entry.getValue() / station.getBalance()) * 100)
-                    .build();
+            InvestmentRankResponse rankResponse = null;
 
             // 5위까지 세팅
             if (rank <= 5) {
+                rankResponse = InvestmentRankResponse.builder()
+                        .rank(rank)
+                        .name(entry.getKey().getName())
+                        .investment(entry.getValue())
+                        .percent((int) ((double) entry.getValue() / station.getBalance()) * 100)
+                        .build();
                 rankList.add(rankResponse);
             }
 
             // 내 지분 정보
             if (entry.getKey().getId().equals(userId)) {
+                if (rankResponse == null) {
+                    rankResponse = InvestmentRankResponse.builder()
+                            .rank(rank)
+                            .name(entry.getKey().getName())
+                            .investment(entry.getValue())
+                            .percent((int) ((double) entry.getValue() / station.getBalance()) * 100)
+                            .build();
+                }
+
                 mine = rankResponse;
             }
 
