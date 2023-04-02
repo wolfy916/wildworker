@@ -1,6 +1,6 @@
 import http from "./Http.js";
 
-// 회원정보 조회
+// 회원정보 조회 ok
 function getUserInfo(payload) {
   if (payload) {
     http({
@@ -9,7 +9,6 @@ function getUserInfo(payload) {
     })
       .then(({ status, data }) => {
         if (status === 200) {
-          console.log("getUserInfo 성공", data);
           payload.setFunc(data);
           // data 예시
           // {
@@ -48,14 +47,15 @@ function patchUserInfo(payload) {
       // 바꾼 값 이외에는 null로 채워보내야함
       data: {
         name: payload.name, // 닉네임
-        titleType: payload.titleType, // 칭호 종류(1:지배자, 2:칭호)
+        titleType: payload.titleType, // 칭호 종류(0:지배자, 1:칭호)
         titleId: payload.titleId, // 대표 칭호 고유번호
-        characterType: payload.characterType, // 캐릭터 종류(1:남자, 2:여자)
+        characterType: payload.characterType, // 캐릭터 종류(0:남자, 1:여자)
       },
     })
       .then(({ status, data }) => {
         if (status === 200) {
           console.log("patchUserInfo 성공");
+          console.log(data);
         }
       })
       .catch((err) => {

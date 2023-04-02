@@ -8,7 +8,11 @@ function SubwayBoardFirstPart(props) {
     <div className="board-content">
       {/* <div className="subway-board-grid"></div> */}
       <span className="current-station-info">이번 역</span>
-      <span className="current-station-info2">{props.store.locatinData}</span>
+      <span className="current-station-info2">
+        {props.store.locationData.current != null
+          ? props.store.locationData.current.name
+          : ""}
+      </span>
     </div>
   );
   const coinContent = (
@@ -25,10 +29,22 @@ function SubwayBoardFirstPart(props) {
       <div className="board-dominator-chat">
         {/* <span style={{ color: "#fec189" }}>{`${props.dominator}`}</span> //{" "}
         {props.store.dominatorMsg.message} */}
-        <span
-          style={{ color: "#fec189" }}
-        >{`${props.store.dominatorMsg}`}</span>{" "}
-        : 하하하, 이거라도 주워오실래요?
+        {props.store.locationData.current != null ? (
+          props.store.locationData.current.dominator != null ? (
+            <span style={{ color: "#fec189" }}>
+              {props.store.locationData.current.dominator}
+            </span>
+          ) : (
+            ""
+          )
+        ) : (
+          ""
+        )}
+        {props.store.locationData.current != null
+          ? props.store.locationData.current.dominator != null
+            ? " : 하하하, 이거라도 주워오실래요?"
+            : "지배자의 한마디 없음"
+          : "역이 아님"}
       </div>
     </div>
   );
@@ -41,7 +57,9 @@ function SubwayBoardFirstPart(props) {
 
   return (
     <div className="board-first-part" onClick={pageMoveClickHandler}>
-      {contentList[contentIdx]}
+      {props.store.locationData.current != null
+        ? contentList[contentIdx]
+        : coinContent}
     </div>
   );
 }
