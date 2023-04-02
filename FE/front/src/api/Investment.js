@@ -88,15 +88,17 @@ function invest(payload) {
       url: `/investment/${payload.stationId}`,
       data: {
         investment: payload.investment,
-      }
-    }).then(({status, data}) => {
-      if (status == 200) {
-        console.log("invest 성공");
-      }
-    }).catch(err => {
-      console.log("invest 실패");
-      console.log(err.response);
-    });
+      },
+    })
+      .then(({ status, data }) => {
+        if (status == 200) {
+          console.log("invest 성공");
+        }
+      })
+      .catch((err) => {
+        console.log("invest 실패");
+        console.log(err);
+      });
   }
 }
 
@@ -108,7 +110,7 @@ function getMyInvestList(payload) {
       method: "get",
       url: "/investment/mine",
       params: {
-        order: payload.name, // payload.name || payload.investment || payload.percent
+        order: payload.order, // payload.name || payload.investment || payload.percent
         ascend: payload.ascend, // ASC = 오름차순 정렬, DESC = 내림차순 정렬
       },
     }).then(({status, data}) => {

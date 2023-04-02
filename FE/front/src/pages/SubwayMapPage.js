@@ -7,17 +7,26 @@ import subwaymap from "../asset/image/subwaymap.png";
 import goMain from "../asset/image/goMain.png";
 import myMap from "../asset/image/myMap.png";
 import hotMap from "../asset/image/hotMap.png";
+import tomato from "../asset/image/tomato.png";
 import current_point from "../asset/image/current_point.gif";
 import money from "../asset/image/money.gif";
 import subwaymap_logo from "../asset/image/subwaymap_logo.png";
 import "./SubwayMapPage.css";
 
-function SubwayMapPage() {
+import { getMyInvestList } from "../api/Investment";
+
+function SubwayMapPage(props) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  // const [isReady, setIsReady] = useState(false);
+  // const [myStationList, setMyStationList] = useState([]);
+  // const CURRENT_STATION = props.store.locationData.current.id;
+  const [remainSec, setRemainSec] = useState(2);
   const [isReady, setIsReady] = useState(true);
   const MY_STATION_LIST = [3, 4, 16];
   const CURRENT_STATION = 40;
   const [zoomLevel, setZoomLevel] = useState(1);
+  const [previousZoomLevel, setPreviousZoomLevel] = useState(1);
+  const [previousDistance, setPreviousDistance] = useState(0);
 
   function handleDoubleTouchMove(e) {
     if (e.touches.length === 2) {
@@ -26,16 +35,28 @@ function SubwayMapPage() {
         (touch1.clientX - touch2.clientX) ** 2 +
           (touch1.clientY - touch2.clientY) ** 2
       );
-      setZoomLevel(distance / 300);
+      if (previousDistance === 0) {
+        setPreviousDistance(distance);
+        setPreviousZoomLevel(zoomLevel);
+      } else {
+        const delta = distance - previousDistance;
+        const newZoomLevel = previousZoomLevel + delta / 500;
+        setZoomLevel(newZoomLevel);
+      }
     }
   }
 
-  const handleTouchStart = e => {
+  function handleTouchEnd() {
+    setPreviousDistance(0);
+    setPreviousZoomLevel(zoomLevel);
+  }
+
+  const handleTouchStart = (e) => {
     const touch = e.touches[0];
     const startX = touch.pageX - position.x;
     const startY = touch.pageY - position.y;
 
-    const handleTouchMove = e => {
+    const handleTouchMove = (e) => {
       const touch = e.touches[0];
       const x = touch.pageX - startX;
       const y = touch.pageY - startY;
@@ -53,8 +74,8 @@ function SubwayMapPage() {
 
   const navigate = useNavigate();
 
-  function navigateToPage(subwayId) {
-    navigate(`/map/detail`, { state: subwayId });
+  function navigateToPage(stationId) {
+    navigate(`/map/detail`, { state: stationId });
   }
 
   const PAGE_COUNT = 51;
@@ -73,12 +94,27 @@ function SubwayMapPage() {
     }
   `;
 
+  // useEffect(() => {
+  //   const payload = {
+  //     order: "investment",
+  //     ascend: "DESC",
+  //   };
+  //   const myInvestList = getMyInvestList(payload);
+  //   const myIdList = myInvestList.investments.map(
+  //     (investment) => investment.station.id
+  //   );
+  //   setMyStationList(myIdList);
+  //   setRemainSec(myInvestList.remainSec);
+  //   setIsReady(true);
+  // }, []);
+
   useEffect(() => {
     if (isReady) {
       const photoMapTag = document.getElementsByName("photo-map")[0];
       for (let i = 1; i <= PAGE_COUNT; i++) {
         const areaTag = document.createElement("area");
         areaTag.setAttribute("alt", "area");
+        // if (myStationList.includes(i)) {
         if (MY_STATION_LIST.includes(i)) {
           const currentPoint = document.createElement("div");
           const imgTag = document.createElement("img");
@@ -118,18 +154,18 @@ function SubwayMapPage() {
 
         photoMapTag.appendChild(areaTag);
       }
-      const areaTag = document.createElement("area");
-      areaTag.setAttribute("alt", "subwaymap_logo");
-      const currentPoint = document.createElement("div");
-      const imgTag = document.createElement("img");
+      // const areaTag = document.createElement("area");
+      // areaTag.setAttribute("alt", "subwaymap_logo");
+      // const currentPoint = document.createElement("div");
+      // const imgTag = document.createElement("img");
 
-      imgTag.setAttribute("src", `${subwaymap_logo}`);
-      imgTag.style.width = "120%";
-      imgTag.style.position = "absolute";
-      currentPoint.appendChild(imgTag);
+      // imgTag.setAttribute("src", `${subwaymap_logo}`);
+      // imgTag.style.width = "120%";
+      // imgTag.style.position = "absolute";
+      // currentPoint.appendChild(imgTag);
 
-      areaTag.appendChild(currentPoint);
-      photoMapTag.appendChild(areaTag);
+      // areaTag.appendChild(currentPoint);
+      // photoMapTag.appendChild(areaTag);
 
       setIsReady(false);
     }
@@ -137,7 +173,7 @@ function SubwayMapPage() {
 
   return (
     <div>
-      <SubwayTime />
+      <SubwayTime remainSec={remainSec} />
       <div className="map-station-color">
         <p className="map-station-color-content">
           <img className="map-station-color-img" src={money} alt="color" /> 나의
@@ -178,6 +214,7 @@ function SubwayMapPage() {
           useMap="#photo-map"
           onTouchStart={handleTouchStart}
           onTouchMove={handleDoubleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           <map name="photo-map"></map>
         </div>

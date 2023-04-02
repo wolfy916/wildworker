@@ -44,8 +44,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         User user = findOrSave(attributes);
         SessionUser sessionUser = new SessionUser(user);
-        httpSession.setAttribute(Constants.SESSION_NAME_USER, sessionUser);
-        log.info("- {}: {}", Constants.SESSION_NAME_USER, sessionUser);
 
         String accessToken = userRequest.getAccessToken().getTokenValue();
         httpSession.setAttribute(Constants.SESSION_NAME_ACCESS_TOKEN, accessToken);

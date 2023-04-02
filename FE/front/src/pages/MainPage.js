@@ -28,6 +28,9 @@ function MainPage(props) {
   const [isEnough, setIsEnough] = React.useState(false); // 수동채굴 수집량 달성 여부 확인
   const [getCoinClick, setGetCoinClick] = React.useState(false); // 수집량 만족 후 클릭 여부
   const [modalClick, setModalClick] = React.useState(false); // 메인페이지의 메뉴 클릭 여부
+  const [titleModalClick, setTitleModalClick] = React.useState(false); // 메인페이지의 칭호 메뉴 획득하면 띄움
+  const [dominatorMsgModalClick, setDominatorMsgModalClick] =
+    React.useState(false); // 지배자 한마디 모달
   const [selectIdx, setSelectIdx] = React.useState(0); // 모달창에 띄울 컨텐츠 인덱스
   const [isToggled, setIsToggled] = React.useState(false);
   const [pvpRouterClick, setPvpRouterClick] = React.useState(false); // pvp 로딩 테스트 버튼
@@ -132,8 +135,47 @@ function MainPage(props) {
     }, 1200);
   }
 
+  // 칭호 획득 시 ( 처음에는 getTitle은 빈문자열 )
+  const getTitle = props.store.getTitle;
+  React.useEffect(() => {
+    if (getTitle) {
+      setTitleModalClick(true);
+    }
+  }, [getTitle]);
+
+  function dominatorMsgModalClickHandler() {
+    setDominatorMsgModalClick(true);
+  }
+
+  const [isFlashing, setIsFlashing] = React.useState(false);
+  const dominatorAppear = props.store.dominatorAppear;
+
+  React.useEffect(() => {
+    if (dominatorAppear) {
+      setIsFlashing(true);
+      setTimeout(() => {
+        setIsFlashing(false);
+      }, 1000);
+    }
+  }, [dominatorAppear]);
+
+  React.useEffect(() => {
+    if (isFlashing) {
+      document.getElementsByClassName(
+        "main-board-modal-wrap"
+      )[0].style.display = "block";
+    } else {
+      document.getElementsByClassName(
+        "main-board-modal-wrap"
+      )[0].style.display = "none";
+    }
+  }, [isFlashing]);
+
+  const dominatorTitles = "rest api로 가져와야함 지배자 여부";
+
   return (
     <div className="subway-background">
+      <div className="main-board-modal-wrap">지배자 강림</div>
       <SubwayBoard
         getCoinClick={getCoinClick}
         setGetCoinClick={setGetCoinClick}
@@ -205,6 +247,35 @@ function MainPage(props) {
       <div className="main-router-pvp" onClick={pvpRouterClickHandler}>
         pvp
       </div>
+
+      {dominatorTitles && (
+        <div
+          className="main-dominator-msg-btn"
+          onClick={dominatorMsgModalClickHandler}
+        >
+
+          지배자 한마디
+        </div>
+      )}
+      {titleModalClick && (
+        <Modal
+          modalWidth={85}
+          modalHeight={75}
+          selectModalIdx={4}
+          getTitleData={props.store.getTitle}
+          setTitleModalClick={setTitleModalClick}
+        />
+      )}
+      {dominatorMsgModalClick && (
+        <Modal
+          modalWidth={85}
+          modalHeight={75}
+          selectModalIdx={5}
+          dominatorMsg={props.store.dominatorMsg}
+          stompClient={props.stompClient}
+          setDominatorMsgModalClick={setDominatorMsgModalClick}
+        />
+      )}
     </div>
   );
 }

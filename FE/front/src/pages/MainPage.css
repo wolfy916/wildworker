@@ -148,6 +148,15 @@
   z-index: 1002;
 }
 
+.main-dominator-msg-btn {
+  position: absolute;
+  bottom: 45%;
+  right: 6%;
+  width: 10%;
+  height: 5%;
+  z-index: 1002;
+}
+
 .test-loading-effect {
   position: absolute;
   top: 0%;
@@ -163,4 +172,40 @@
   width: 100%;
   background-color: black;
   z-index: 1004;
+}
+
+.flash {
+  animation: flash 1s infinite;
+}
+
+@keyframes flash {
+  0% {
+    color: #fff;
+    opacity: 0.5;
+  }
+  50% {
+    color: rgb(217, 255, 49);
+    opacity: 1;
+  }
+  100% {
+    color: #fff;
+    opacity: 0.5;
+  }
+}
+
+.main-board-modal-wrap {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  padding: 50px;
+  height: 400px;
+  z-index: 1500;
+  color: #eeeb31;
+  font-size: 4rem;
+  font-weight: 1000;
+  font-family: "galmuri9";
+  -webkit-text-stroke: 0.5px rgb(0, 0, 0);
 }

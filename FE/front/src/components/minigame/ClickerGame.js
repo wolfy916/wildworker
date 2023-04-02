@@ -5,7 +5,8 @@ import beam from "../../asset/image/stop_man.png";
 
 const MOLE_INITIAL_STATE = Array(9).fill(false);
 
-function ClickerGame() {
+function ClickerGame(props) {
+  const stompClient = props.stompClient;
   const [moles, setMoles] = useState(MOLE_INITIAL_STATE);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(100000);
@@ -17,7 +18,18 @@ function ClickerGame() {
       }, 100);
       return () => clearTimeout(timerId);
     }
-  }, [timeLeft]);
+    if (timeLeft === 0) {
+      const result = {
+        result: score,
+      };
+      const message = JSON.stringify(result);
+      stompClient.send(
+        // `/stations/${station-id}/minigame/${game-id}/progress`,
+        {},
+        message
+      );
+    }
+  }, [timeLeft, score, stompClient]);
 
   function handleMoleClick(index, event) {
     console.log(event);
