@@ -26,6 +26,14 @@
   font-family: galmuri9;
   font-size: large;
 }
+.battle-dialog-start {
+  /* border: 1px black solid; */
+}
+
+.battle-dialog-run {
+  /* border: 1px black solid; */
+}
+
 .battle-dialog-timer {
   /* border: 1px solid black; */
   position: absolute;

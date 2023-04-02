@@ -2,6 +2,7 @@ import * as React from "react";
 import "./NickName.css";
 import character_man from "../../asset/image/stop_man.png";
 import character_woman from "../../asset/image/stop_woman.png";
+import { patchUserInfo } from "../../api/User.js";
 
 function NickName(props) {
   function changeClickHandler() {
@@ -9,12 +10,24 @@ function NickName(props) {
     const inputTag = document.getElementsByClassName(
       "change-nickname-input"
     )[0];
-    props.setNickname(inputTag.value);
-    props.setGender(mySelectGender);
+    props.setUserData((prev) => {
+      return {
+        ...prev,
+        name: inputTag.value,
+        CharacterType: mySelectGender,
+      };
+    });
+    const payload = {
+      name: inputTag.value,
+      titleType: props.userData.titleType,
+      titleId: props.userData.titleId,
+      CharacterType: mySelectGender,
+    };
+    patchUserInfo(payload);
   }
 
   let mySelectGender = props.gender;
-  
+
   const genderList = [character_man, character_woman];
   const genderItemTags = genderList.map((value, idx) => {
     let isSelected = false;
@@ -41,14 +54,14 @@ function NickName(props) {
       <div className="modal-title">닉네임</div>
       <div className="modal-content">
         <div className="current-nickname-info">닉네임 ?</div>
-        <div className="current-nickname">{props.nickname}</div>
+        <div className="current-nickname">{props.userData.name}</div>
         <div className="change-nickname">
           <input
             className="change-nickname-input"
             type="text"
             placeholder="닉네임 변경"
             maxLength="8"
-            defaultValue={props.nickname}
+            defaultValue={props.userData.name}
           />
         </div>
         <div className="current-gender-info">성별 ?</div>

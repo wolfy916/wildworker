@@ -2,38 +2,39 @@
 function connectSocket(client, setstore, setUserData, store) {
   client.connect({}, () => {
     subscribeUser(client, setstore, setUserData);
-    setTimeout(() => {
-      subscribeStation(client, setstore, store.locationData.current);
-    }, 1000);
+    // subscribeStation(client, setstore, store.locationData.current);
   });
   return client;
 }
 // 지하철 구독
 function subscribeStation(client, setStore, curStation) {
-  client.subscribe(`/sub/systems/${curStation? curStation.id : "none"}`, (message) => {
-    const payload = JSON.parse(message.body);
-    // 지배자 기능 모음
-    if (payload.type === "STATION") {
-      // 지배자 강림
-      if (payload.subType === "DOMINATOR") {
-        setStore((prev) => {
-          return {
-            ...prev,
-            dominatoreAppear: payload.data,
-          };
-        });
-      }
-      // 지배자 확성기
-      else if (payload.subType === "MESSAGE") {
-        setStore((prev) => {
-          return {
-            ...prev,
-            dominatoreMsg: payload.data,
-          };
-        });
+  client.subscribe(
+    `/sub/stations/${curStation ? curStation.id : 1}`,
+    (message) => {
+      const payload = JSON.parse(message.body);
+      // 지배자 기능 모음
+      if (payload.type === "STATION") {
+        // 지배자 강림
+        if (payload.subType === "DOMINATOR") {
+          setStore((prev) => {
+            return {
+              ...prev,
+              dominatoreAppear: payload.data,
+            };
+          });
+        }
+        // 지배자 확성기
+        else if (payload.subType === "MESSAGE") {
+          setStore((prev) => {
+            return {
+              ...prev,
+              dominatoreMsg: payload.data,
+            };
+          });
+        }
       }
     }
-  });
+  );
   return client;
 }
 
@@ -46,7 +47,10 @@ function subscribeUser(client, setStore, setUserData) {
       setStore((prev) => {
         return {
           ...prev,
-          locationData: payload.data,
+          locationData: {
+            prev: prev.locationData.current,
+            current: payload.data.current,
+          },
         };
       });
     }
@@ -55,7 +59,6 @@ function subscribeUser(client, setStore, setUserData) {
     else if (payload.type === "MINING") {
       // 서류 종이 카운트
       if (payload.subType === "PAPER_COUNT") {
-        console.log(payload.data, "socketFunc.js")
         setUserData((prev) => {
           return {
             ...prev,
@@ -77,6 +80,12 @@ function subscribeUser(client, setStore, setUserData) {
           },
         };
       });
+      setUserData((prev) => {
+        return {
+          ...prev,
+          coin: payload.data.balance,
+        }
+      })
     }
 
     // 칭호관련 모음
@@ -146,7 +155,7 @@ function subscribeUser(client, setStore, setUserData) {
 
 function unsubscribeStation(client, prevStation) {
   if (prevStation != null) {
-    client.unsubscribe(`/sub/systems/${prevStation.id}`);
+    client.unsubscribe(`/sub/stations/${prevStation.id}`);
   }
   return client;
 }

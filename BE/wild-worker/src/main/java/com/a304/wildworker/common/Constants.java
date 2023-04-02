@@ -2,15 +2,15 @@ package com.a304.wildworker.common;
 
 public final class Constants {
 
-    public static final String SESSION_NAME_USER = "user";
+    //key of Session cookie
+    public static final String KEY_SESSION_ID = "SESSION";
+
+    //Session attribute names
     public static final String SESSION_NAME_ACCESS_TOKEN = "access_token";
     public static final String SESSION_NAME_PREV_PAGE = "prev_page";
-    public static final Long noneTitle = 1L;
 
-    // The HTTP Set-Cookie header field name.
-    // See Also: Section 4.2.2 of RFC 2109
-    public static final String SET_COOKIE = "Set-Cookie";
-    public static final String KEY_SESSION_ID = "SESSION";
+    //타이틀 '없음' id
+    public static final Long NONE_TITLE_ID = 1L;
 
     // 스케줄러 동작 주기 (minute)
     public static final int INTERVAL = 10;
@@ -25,5 +25,4 @@ public final class Constants {
     public static final long AMOUNT_MANUAL_MINE = 100L; //수동 채굴 금액
     public static final long AMOUNT_AUTO_MINE = 100L;   //자동 채굴 금액
 
-    public static final String SEND_TO_USER_DEST = "/queue";
 }

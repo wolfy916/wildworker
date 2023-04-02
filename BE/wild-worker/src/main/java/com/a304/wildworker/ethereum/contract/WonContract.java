@@ -36,7 +36,8 @@ public class WonContract {
 
     public CompletableFuture<TransactionReceipt> manualMine(String userAddress, long amount)
             throws IOException {
-
+        log.info("manualMine method in contract wrapper : user : {}", userAddress);
+        log.info("manualMine method in contract wrapper : contract : {}", this.address);
         Function function = new Function("manualMine",
                 Arrays.asList(new Address(userAddress), new Uint256(amount)),
                 Collections.emptyList());

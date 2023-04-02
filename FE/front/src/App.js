@@ -29,26 +29,118 @@ import {
 function App() {
   // 웹에서 개발할 때, 얘 꼭 주석처리 해라
 
-  const elem = document.documentElement;
-  document.addEventListener('click', function() {
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    }
-  });
+  // const elem = document.documentElement;
+  // document.addEventListener('click', function() {
+  //   if (elem.requestFullscreen) {
+  //     elem.requestFullscreen();
+  //   }
+  // });
 
   const [isLogin, setIsLogin] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [isChangeId, setIsChangeId] = useState(false);
+
+  // 유저 데이터
   const [userData, setUserData] = useState({
     characterType: 0,
     coin: 0,
     collectedPapers: 0,
-    name: "",
+    name: "이름바꿔",
     titleId: 0,
     titleType: 0,
   });
+
+  // 보유 칭호목록 조회 데이터
+  const [myTitles, setMyTitles] = useState({
+    titleType: 1,
+    mainTitleId: 1,
+    dominatorTitles: [{ id: 1, name: "역삼역의 지배자" }],
+    titles: [{ id: 0, name: "없음" }],
+  });
+
+  // 코인 내역 조회 데이터
+  const [myCoinLogs, setMyCoinLogs] = useState({
+    balance: 1234,
+    list: [
+      {
+        station: {
+          id: 1,
+          name: "역삼역",
+        },
+        type: "게임",
+        value: -20,
+        applied: true,
+        time: "2023-03-14 14:20",
+      },
+    ],
+    size: 10,
+    totalPage: 10,
+    currentPage: 1,
+  });
+
+  // 실시간 역 랭킹 데이터
+  const [stationRank, setStationRank] = useState({
+    ranking: [
+      {
+        rank: 1,
+        station: {
+          id: 1,
+          name: "역삼역",
+          totalInvestment: 12345,
+          prevCommission: 1234,
+          currentCommission: 123,
+        },
+      },
+    ],
+    orderBy: "investment",
+  });
+
+  // 해당 역에 대한 지분 데이터
+  const [stationStake, setStationStake] = useState({
+    stationName: "역삼역",
+    dominator: "S2태형S2",
+    totalInvestment: 10000000,
+    prevCommission: 12345,
+    currentCommission: 1234,
+    ranking: [
+      {
+        rank: 1,
+        namae: "S2태형S2",
+        investment: 123,
+        percent: 10,
+      },
+    ],
+    mine: {
+      rank: 1,
+      investment: 123,
+      percent: 10,
+    },
+  });
+
+  // 내가 투자한 역 목록
+  const [myInvestList, setMyInvestList] = useState({
+    investments: [
+      {
+        station: {
+          id: 1,
+          name: "역삼역",
+        },
+        investment: 1234,
+        percent: 10,
+      },
+    ],
+    remainSec: 90,
+    orderBy: "investment",
+    ascend: "ASC",
+  });
+
+  // 소켓 메세지로 넘어오는 데이터
   const [store, setStore] = useState({
-    locationData: {},
+    locationData: {
+      prev: null,
+      current: null,
+      next: null,
+    },
     manualMining: 1,
     dominatorAppear: "",
     dominatorMsg: "",
@@ -75,7 +167,9 @@ function App() {
   useEffect(() => {
     if (isLogin) {
       const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
-      setStompClient(connectSocket(Stomp.over(socket), setStore, setUserData, store));
+      setStompClient(
+        connectSocket(Stomp.over(socket), setStore, setUserData, store)
+      );
       setIsConnected(true);
     }
   }, [isLogin]);
@@ -87,9 +181,9 @@ function App() {
   // }, 5000);
 
   // isChangeId값의 변화로 지하철역 구독해제하고 새로운 지하철로 재연결
-
   useEffect(() => {
     if (store.locationData.prev) {
+
       setStompClient(unsubscribeStation(stompClient, store.locationData.prev));
       setStompClient(
         subscribeStation(stompClient, setStore, store.locationData.current)
@@ -114,7 +208,7 @@ function App() {
             console.log(error);
           }
         );
-      }, 1000);
+      }, 2000);
       return () => {
         clearInterval(intervalId);
       };
@@ -142,6 +236,7 @@ function App() {
                   userData={userData}
                   setUserData={setUserData}
                   stompClient={stompClient}
+                  setIsLogin={setIsLogin}
                 />
               }
             />

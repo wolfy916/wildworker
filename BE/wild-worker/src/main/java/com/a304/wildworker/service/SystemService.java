@@ -63,7 +63,7 @@ public class SystemService {
 
         // 해당 역의 지배자 정보 조회
         Optional<DominatorLog> dominator = dominatorLogRepository.findByStationIdAndDominateStartTime(
-                station.getId(), systemData.getPrevBaseTime());
+                station.getId(), systemData.getNowBaseTimeString());
 
         // 해당 역에 지배자가 있는 경우 이름 가져오기
         String dominatorName = null;

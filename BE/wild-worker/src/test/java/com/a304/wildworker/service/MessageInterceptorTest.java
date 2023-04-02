@@ -11,6 +11,8 @@ import com.a304.wildworker.domain.activestation.StationPoolRepository;
 import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
 import com.a304.wildworker.domain.station.StationRepository;
+import com.a304.wildworker.domain.system.SystemData;
+import com.a304.wildworker.domain.transaction.TransactionLogRepository;
 import com.a304.wildworker.domain.user.UserRepository;
 import com.a304.wildworker.exception.StationNotFoundException;
 import com.a304.wildworker.service.interceptor.MessageInterceptor;
@@ -38,11 +40,15 @@ public class MessageInterceptorTest {
     @Mock
     private StationRepository stationRepository;
     @Mock
+    private SystemData systemData;
+    @Mock
+    private TransactionLogRepository transactionLogRepository;
+    @Mock
     private UserRepository userRepository;
 
     @BeforeEach
     void setUp() {
-        stationPoolRepository = new StationPoolRepository();
+        activeStationRepository = new ActiveStationRepository(systemData, transactionLogRepository);
         MockitoAnnotations.openMocks(this);
         interceptor = new MessageInterceptor(
                 new ActiveUserRepository(),

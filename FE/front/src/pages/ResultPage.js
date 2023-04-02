@@ -9,6 +9,7 @@ import "./ResultPage.css";
 
 function ResultPage(props) {
   const gameResultData = props.gameResultData;
+  const userData = props.userData;
 
   const navigate = useNavigate();
 
@@ -20,17 +21,26 @@ function ResultPage(props) {
   return (
     <div className="Pvp-Result">
       <div className="battle-result-1">
+        {/* 본인 */}
         <p className="battle-result-p1">
-          신도림의 지배자 <br /> 권태형
+          {userData.titleId} <br /> {userData.name}
         </p>
         <div className="battle-result-char">
+          {/* 삼항연산자로 true=winner false=loser */}
           <BattleCharWinner />
         </div>
+        {/* 승리했을때 패배했을때 컴포넌트로 분리하기 */}
         <p className="battle-result-p2">승리</p>
         <p className="battle-result-p3">맞춘 개수: 12개</p>
+        {/* <p className="battle-result-p3">맞춘 개수: {gameResultData.result.me}개</p> */}
       </div>
 
       <div className="battle-result-2">
+        {/* 적 */}
+        {/* <p className="battle-result2-p1">
+          {gameResultData.enemy.title}
+          <br /> {gameResultData.enemy.name}
+        </p> */}
         <p className="battle-result2-p1">
           신도림의 지배자
           <br /> 권태형
@@ -39,6 +49,9 @@ function ResultPage(props) {
           <BattleCharLoser />
         </div>
         <p className="battle-result2-p2">패배</p>
+        {/* <p className="battle-result-p3">
+          맞춘 개수: {gameResultData.result.enemy}개
+        </p> */}
         <p className="battle-result2-p3">맞춘 개수: 10개</p>
       </div>
 
