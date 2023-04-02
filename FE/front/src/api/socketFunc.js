@@ -55,7 +55,6 @@ function subscribeUser(client, setStore, setUserData) {
     else if (payload.type === "MINING") {
       // 서류 종이 카운트
       if (payload.subType === "PAPER_COUNT") {
-        console.log(payload.data, "socketFunc.js")
         setUserData((prev) => {
           return {
             ...prev,
@@ -77,6 +76,12 @@ function subscribeUser(client, setStore, setUserData) {
           },
         };
       });
+      setUserData((prev) => {
+        return {
+          ...prev,
+          coin: payload.data.balance,
+        }
+      })
     }
 
     // 칭호관련 모음

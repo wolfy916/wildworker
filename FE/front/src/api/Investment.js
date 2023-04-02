@@ -8,7 +8,7 @@ function getStationRanking(payload) {
       url: "/investment",
       params: {
         size: payload.size,
-        order: payload.investment  // -> payload.investment or payload.commission
+        order: payload.order  // -> payload.investment or payload.commission
       }
     }).then(({status, data}) => {
       if (status == 200) {
@@ -93,6 +93,7 @@ function invest(payload) {
       .then(({ status, data }) => {
         if (status == 200) {
           console.log("invest 성공");
+          console.log(data);
         }
       })
       .catch((err) => {

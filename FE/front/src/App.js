@@ -29,12 +29,12 @@ import {
 function App() {
   // 웹에서 개발할 때, 얘 꼭 주석처리 해라
 
-  const elem = document.documentElement;
-  document.addEventListener('click', function() {
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    }
-  });
+  // const elem = document.documentElement;
+  // document.addEventListener('click', function() {
+  //   if (elem.requestFullscreen) {
+  //     elem.requestFullscreen();
+  //   }
+  // });
 
   const [isLogin, setIsLogin] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
@@ -136,7 +136,11 @@ function App() {
 
   // 소켓 메세지로 넘어오는 데이터
   const [store, setStore] = useState({
-    locationData: {},
+    locationData: {
+      prev: null,
+      current: null,
+      next: null,
+    },
     manualMining: 1,
     dominatorAppear: "",
     dominatorMsg: "",
@@ -193,6 +197,8 @@ function App() {
           (position) => {
             if (position.coords) {
               handleSendLocation({
+                // lat: 30.0000,
+                // lon: 127.0000,
                 lat: 37.5008,
                 lon: 127.0369,
               });
@@ -230,6 +236,7 @@ function App() {
                   userData={userData}
                   setUserData={setUserData}
                   stompClient={stompClient}
+                  setIsLogin={setIsLogin}
                 />
               }
             />

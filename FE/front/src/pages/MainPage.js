@@ -14,7 +14,8 @@ import getCoinImage from "../asset/image/get_coin_btn.png";
 import getCoinFullImage from "../asset/image/Full_Charge_Btn.png";
 import LoadingEffect from "../asset/image/pvpPageLoading.gif";
 import morningBackgroundImg from "../asset/image/test_morning.png";
-import { invest } from "../api/Investment";
+
+import { getUserInfo } from "../api/User";
 
 function MainPage(props) {
   const navigate = useNavigate();
@@ -40,6 +41,8 @@ function MainPage(props) {
 
   React.useEffect(() => {
     setIsReady(true);
+    props.setIsLogin(true);
+    getUserInfo({setFunc: props.setUserData});
 
     if (coinCnt > 99) {
       setIsEnough(true);
@@ -78,7 +81,6 @@ function MainPage(props) {
       } else if (coinCnt > 99) {
         setIsEnough(true);
       }
-      invest({stationId: 3, investment: 100});
     }
   }
   , [isClickDoc])
