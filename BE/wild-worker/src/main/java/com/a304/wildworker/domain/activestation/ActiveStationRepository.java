@@ -34,7 +34,7 @@ public class ActiveStationRepository {
 
         for (TransactionLog investmentLog : transactionLogList) {
             ActiveStation station = findById(investmentLog.getStation().getId());
-            station.invest(investmentLog.getUser(), investmentLog.getValue() * -1);
+            station.invest(investmentLog.getUser().getId(), investmentLog.getValue() * -1);
         }
 
     }
