@@ -5,6 +5,7 @@ import com.a304.wildworker.domain.sessionuser.SessionUser;
 import com.a304.wildworker.dto.request.InvestmentRequest;
 import com.a304.wildworker.dto.response.InvestmentInfoResponse;
 import com.a304.wildworker.dto.response.MyInvestmentResponse;
+import com.a304.wildworker.dto.response.StationRankResponse;
 import com.a304.wildworker.exception.NotLoginException;
 import com.a304.wildworker.service.InvestService;
 import java.io.IOException;
@@ -28,6 +29,16 @@ import org.web3j.crypto.CipherException;
 public class InvestmentController {
 
     private final InvestService investService;
+
+    /* 실시간 역 순위 */
+    @GetMapping
+    public ResponseEntity<StationRankResponse> showStationRank(
+            int size, String order, @AuthenticationPrincipal PrincipalDetails principal)
+            throws IOException {
+
+        StationRankResponse response = investService.showStationRank(size, order);
+        return ResponseEntity.ok(response);
+    }
 
     /* 해당 역에 대한 지분 조회 */
     @GetMapping("/{station-id}")
