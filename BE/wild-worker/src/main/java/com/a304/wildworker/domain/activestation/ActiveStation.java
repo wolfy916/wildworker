@@ -2,7 +2,6 @@ package com.a304.wildworker.domain.activestation;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -13,7 +12,6 @@ public class ActiveStation {
     private final Long id;
     private final Map<Long, Long> subscribers = new ConcurrentHashMap<>();
     private final Map<Long, Long> investors = new ConcurrentHashMap<>();
-    private final AtomicLong prevCommission = new AtomicLong(0L);
 
     public void subscribe(Long userId) {
         subscribers.put(userId, userId);
@@ -25,6 +23,10 @@ public class ActiveStation {
 
     public void invest(Long userId, Long amount) {
         investors.put(userId, investors.getOrDefault(userId, 0L) + amount);
+    }
+
+    public void resetInvestors() {
+        investors.clear();
     }
 
 }

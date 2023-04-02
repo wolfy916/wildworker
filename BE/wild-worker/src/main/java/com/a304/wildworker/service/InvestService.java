@@ -284,8 +284,10 @@ public class InvestService {
         }
 
         for (Station station : stationRepository.findAll()) {
+            ActiveStation activeStation = activeStationRepository.findById(station.getId());
+
             // 수수료 정산(DB) 후 새 지배자 얻기
-            User dominator = distributeCommissionAndGetDominator(station);
+            User dominator = distributeCommissionAndGetDominator(station, activeStation);
 
             // 누적 수수료 초기화
             station.resetCommission();
@@ -293,6 +295,7 @@ public class InvestService {
             //매 주 월요일 0시에는 누적금도 전부 초기화
             if (isInitInvestmentTime) {
                 station.resetBalance();
+                activeStation.resetInvestors();
             }
 
             // 지배자 설정
@@ -309,8 +312,7 @@ public class InvestService {
      */
     /* station의 수수료 정산 후 새 지배자를 반환 */
     @Transactional
-    public User distributeCommissionAndGetDominator(Station station) {
-        ActiveStation activeStation = activeStationRepository.findById(station.getId());
+    public User distributeCommissionAndGetDominator(Station station, ActiveStation activeStation) {
         Map<Long, Long> investors = activeStation.getInvestors();
         User dominator = null;
         Long maxInvestment = 0L;
@@ -331,9 +333,11 @@ public class InvestService {
             user.changeBalance(money);
 
             // 코인 변동 이벤트 발생
-            publisher.publishEvent(
-                    new ChangedBalanceEvent(user, station, TransactionType.INVESTMENT_REWARD,
-                            money));
+            if (money > 0) {
+                publisher.publishEvent(
+                        new ChangedBalanceEvent(user, station, TransactionType.INVESTMENT_REWARD,
+                                money));
+            }
         }
 
         return dominator;
