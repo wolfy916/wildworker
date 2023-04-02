@@ -11,10 +11,10 @@ function NickName(props) {
       "change-nickname-input"
     )[0];
     const payload = {
-      name: inputTag.value,
-      titleType: props.userData.titleType,
-      titleId: props.userData.titleId,
-      characterType: mySelectGender,
+      name: (inputTag.value === props.userData.name ? null : inputTag.value),
+      titleType: null,
+      mainTitleId: null,
+      characterType: (mySelectGender === props.userData.characterType ? null : mySelectGender),
       setFunc: props.setUserData,
     };
     patchUserInfo(payload);

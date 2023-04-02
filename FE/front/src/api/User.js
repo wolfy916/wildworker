@@ -48,22 +48,14 @@ function patchUserInfo(payload) {
       data: {
         name: payload.name, // 닉네임
         titleType: payload.titleType, // 칭호 종류(0:지배자, 1:칭호)
-        title: payload.title, // 대표 칭호 고유번호
+        mainTitleId: payload.mainTitleId, // 대표 칭호 고유번호
         characterType: payload.characterType, // 캐릭터 종류(0:남자, 1:여자)
       },
     })
       .then(({ status, data }) => {
         if (status === 200) {
           console.log("patchUserInfo 성공");
-          payload.setFunc((prev) => {
-            return {
-              ...prev,
-              name: payload.name,
-              titleType: payload.titleType,
-              title: payload.title,
-              characterType: payload.characterType,
-            };
-          });
+          getUserInfo({setFunc: payload.setFunc});
         }
       })
       .catch((err) => {

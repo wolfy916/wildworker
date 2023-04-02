@@ -11,10 +11,10 @@ function Title(props) {
     }
     props.setIsToggled((prev) => !prev);
     patchUserInfo({
-      name: props.userData.name,
+      name: null,
       titleType: (props.userData.titleType + 1) % 2,
-      title: props.userData.title,
-      characterType: props.userData.characterType,
+      mainTitleId: null,
+      characterType: null,
       setFunc: props.setUserData,
     });
   }
@@ -23,7 +23,7 @@ function Title(props) {
     const selectBadgeTags = await document.getElementsByClassName(
       "select-badge"
     );
-    if (props.isToggled) {
+    if (!props.isToggled) {
       selectBadgeTags[0].classList.add("badge-appear");
       selectBadgeTags[1].classList.add("badge-disappear");
     } else {
@@ -47,10 +47,10 @@ function Title(props) {
           defaultChecked={isSelected}
           onClick={() => {
             patchUserInfo({
-              name: props.userData.name,
-              titleType: props.userData.titleType,
-              title: title,
-              characterType: props.userData.characterType,
+              name: null,
+              titleType: null,
+              mainTitleId: (isSelected ? null: title.id),
+              characterType: null,
               setFunc: props.setUserData,
             });
           }}
@@ -69,7 +69,7 @@ function Title(props) {
           <div className="select-badge">칭호</div>
         </div>
         <div className="title-container">{titleItemTags}</div>
-        {props.isToggled && <div className="title-container-blur"></div>}
+        {!props.isToggled && <div className="title-container-blur"></div>}
       </div>
     </div>
   );
