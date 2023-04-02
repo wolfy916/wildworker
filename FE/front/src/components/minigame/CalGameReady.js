@@ -3,20 +3,24 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../minigame/CalGameReady.css";
 
-function MiniGameReadyPage() {
-  const [timeLeft, setTimeLeft] = useState(100);
+function CalGameReadyPage(props) {
+  const [timeLeft, setTimeLeft] = useState(3);
   const navigate = useNavigate();
+  //navData에 user정보가 담겨야 함.
+  const state = props.state;
+  // console.log(state);
+  const navData = [state, { gameType: 0 }];
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+      setTimeLeft((prevTimeLeft) => prevTimeLeft - 1);
     }, 1000);
 
     return () => clearInterval(interval);
   }, []);
   useEffect(() => {
     if (timeLeft === 0) {
-      navigate("/pvp/minigame");
+      navigate("/pvp/minigame", { state: navData });
     }
   }, [timeLeft, navigate]);
   return (
@@ -41,4 +45,4 @@ function MiniGameReadyPage() {
   );
 }
 
-export default MiniGameReadyPage;
+export default CalGameReadyPage;

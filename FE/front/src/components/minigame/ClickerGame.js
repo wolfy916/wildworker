@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 import "./ClickerGame.css";
-// import blank from "../../asset/image/battleCharWinnerMan.png";
+import { useNavigate } from "react-router-dom";
 import beam from "../../asset/image/stop_man.png";
 
 const MOLE_INITIAL_STATE = Array(9).fill(false);
 
 function ClickerGame(props) {
   const stompClient = props.stompClient;
+  //navData에 userData담아서 /result로 보내기
+  const propState = props.state;
+  const stationId = propState[0][0].stationId;
+  const gameId = propState[0][2].matchingDataId;
   const [moles, setMoles] = useState(MOLE_INITIAL_STATE);
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(100000);
+  const [timeLeft, setTimeLeft] = useState(200);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -19,15 +24,17 @@ function ClickerGame(props) {
       return () => clearTimeout(timerId);
     }
     if (timeLeft === 0) {
-      const result = {
-        result: score,
-      };
-      const message = JSON.stringify(result);
-      stompClient.send(
-        // `/stations/${station-id}/minigame/${game-id}/progress`,
-        {},
-        message
-      );
+      // stomClient Send보내기
+      // const result = {
+      //   result: score,
+      // };
+      // const message = JSON.stringify(result);
+      // stompClient.send(
+      //   // `/stations/${stationId}/minigame/${gameId}/progress`,
+      //   {},
+      //   message
+      // );
+      navigate("/pvp/result", { state: propState });
     }
   }, [timeLeft, score, stompClient]);
 
@@ -35,9 +42,6 @@ function ClickerGame(props) {
     console.log(event);
     console.log(event.pageX);
     console.log(event.pageY);
-    // let elementTop = window.pageYOffset + event.getBoundingClientRect().top;
-    // let elementLeft = window.pageXOffset + event.getBoundingClientRect().left;
-    // console.log(elementTop, elementLeft);
 
     if (moles[index]) {
       setScore(score + 1);
@@ -49,17 +53,11 @@ function ClickerGame(props) {
     const randomInterval = Math.floor(Math.random() * (900 - 200)) + 200;
     const createItem = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * 9);
-      // const randomIndex1 = Math.floor(Math.random() * 9);
       setMoles(
         moles.map((mole, i) => {
           if (i === randomIndex && !mole) {
-            // console.log("hi");
             return true;
           }
-          // if (i === randomIndex1 && !mole) {
-          //   // console.log("hi");
-          //   return true;
-          // }
         })
       );
     }, randomInterval);
@@ -72,9 +70,6 @@ function ClickerGame(props) {
   function getCoinEffect(x, y) {
     const target = document.querySelector(".minigame-clicker-body");
     console.log(x, y);
-    // 수집 아이템 이동 중 클릭하였을 때의 위치 좌표
-    // let elementTop = window.pageYOffset + element.getBoundingClientRect().top;
-    // let elementLeft = window.pageXOffset + element.getBoundingClientRect().left;
 
     // + 1 이펙트를 넣을 div Tag 생성 및 속성 설정
     const getClickerScoreEffectObject = document.createElement("div");
@@ -105,7 +100,7 @@ function ClickerGame(props) {
           <div
             key={index}
             className="minigame-clicker-chair"
-            onClick={event => handleMoleClick(index, event)}
+            onClick={(event) => handleMoleClick(index, event)}
           >
             {mole ? (
               <div />
