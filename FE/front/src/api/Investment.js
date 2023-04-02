@@ -1,9 +1,9 @@
 import http from "./Http.js";
 
 // 실시간 역 랭킹 조회
-async function getStationRanking(payload) {
+function getStationRanking(payload) {
   if (payload) {
-    return await http({
+    http({
       method: "get",
       url: "/investment",
       params: {
@@ -13,7 +13,7 @@ async function getStationRanking(payload) {
     }).then(({status, data}) => {
       if (status == 200) {
         console.log("getStationRanking 성공");
-        return data;
+        payload.setFunc(data);
         // data 예시
         // {
         //   "ranking": [
@@ -40,15 +40,15 @@ async function getStationRanking(payload) {
 }
 
 // 해당 역에 대한 지분 조회
-async function getStationStake(payload) {
+function getStationStake(payload) {
   if (payload) {
-    return await http({
+    http({
       method: "get",
       url: `/investment/${payload.stationId}`,
     }).then(({status, data}) => {
       if (status == 200) {
         console.log("getStationStake 성공");
-        return data;
+        payload.setFunc(data);
         // data 예시
         // {
         //   "stationName": "역삼역",
@@ -81,9 +81,9 @@ async function getStationStake(payload) {
 }
 
 // 해당 역에 투자
-async function invest(payload) {
+function invest(payload) {
   if (payload) {
-    await http({
+    http({
       method: "post",
       url: `/investment/${payload.stationId}`,
       data: {
@@ -92,7 +92,6 @@ async function invest(payload) {
     }).then(({status, data}) => {
       if (status == 200) {
         console.log("invest 성공");
-        console.log(data);
       }
     }).catch(err => {
       console.log("invest 실패");
@@ -103,9 +102,9 @@ async function invest(payload) {
 
 // 내가 투자한 역 목록 조회
 // 노선도 클릭 시 and 내가 투자한 역 클릭 시 호출
-async function getMyInvestList(payload) {
+function getMyInvestList(payload) {
   if (payload) {
-    return await http({
+    http({
       method: "get",
       url: "/investment/mine",
       params: {
@@ -115,7 +114,7 @@ async function getMyInvestList(payload) {
     }).then(({status, data}) => {
       if (status == 200) {
         console.log("getMyInvestList 성공");
-        return data;
+        payload.setFunc(data);
         // data 예시
         // {
         //   "investments": [
