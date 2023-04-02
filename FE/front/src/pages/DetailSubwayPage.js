@@ -97,11 +97,15 @@ function DetailSubwayPage(props) {
       <div className="detail-mine">
         <div>
           <p className="detail-subject-1">나의 랭킹 및 정보</p>
-          <p className="detail-subject-1">
-            {props.stationStake.mine.rank}등{" "}
-            {props.stationStake.mine.investment.toLocaleString("ko-KR")}(
-            {props.stationStake.mine.percent}%)
-          </p>
+          {props.stationStake.mine ? (
+            <p className="detail-subject-1">
+              {props.stationStake.mine.rank}등{" "}
+              {props.stationStake.mine.investment.toLocaleString("ko-KR")}(
+              {props.stationStake.mine.percent}%)
+            </p>
+          ) : (
+            <p className="detail-subject-1">투자한 기록이 없어요.</p>
+          )}
         </div>
         <div>
           <button
@@ -130,8 +134,13 @@ function DetailSubwayPage(props) {
           modalHeight={75}
           selectModalIdx={3}
           stationId={location.state}
-          investment={props.stationStake.mine.investment.toLocaleString("ko-KR")}
+          investment={
+            props.stationStake.mine
+              ? props.stationStake.mine.investment.toLocaleString("ko-KR")
+              : 0
+          }
           setModalClick={setModalClick}
+          setUserData={props.setUserData}
         />
       )}
     </div>

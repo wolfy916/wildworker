@@ -10,28 +10,22 @@ function NickName(props) {
     const inputTag = document.getElementsByClassName(
       "change-nickname-input"
     )[0];
-    props.setUserData((prev) => {
-      return {
-        ...prev,
-        name: inputTag.value,
-        CharacterType: mySelectGender,
-      };
-    });
     const payload = {
       name: inputTag.value,
       titleType: props.userData.titleType,
       titleId: props.userData.titleId,
-      CharacterType: mySelectGender,
+      characterType: mySelectGender,
+      setFunc: props.setUserData,
     };
     patchUserInfo(payload);
   }
 
-  let mySelectGender = props.gender;
+  let mySelectGender = props.userData.characterType;
 
   const genderList = [character_man, character_woman];
   const genderItemTags = genderList.map((value, idx) => {
     let isSelected = false;
-    if (mySelectGender === idx + 1) {
+    if (mySelectGender === idx) {
       isSelected = true;
     }
     return (
@@ -42,8 +36,8 @@ function NickName(props) {
         value={value}
         defaultChecked={isSelected}
         key={`${idx}`}
-        onClick={(event) => {
-          mySelectGender = idx + 1;
+        onClick={() => {
+          mySelectGender = idx;
         }}
         style={{ backgroundImage: `url(${value})` }}
       />

@@ -1,16 +1,22 @@
 import * as React from "react";
 import "./Title.css";
+import { patchUserInfo } from "../../api/User";
 
 function Title(props) {
-  const [selectTitle, setSelectTitle] = React.useState(titleList[props.userData.titleId]);
-
   function toggleClickHandler() {
-    props.setIsToggled((prev) => !prev);
     const selectBadgeTags = document.getElementsByClassName("select-badge");
     for (let idx = 0; idx < 2; idx++) {
       selectBadgeTags[idx].classList.toggle("badge-appear");
       selectBadgeTags[idx].classList.toggle("badge-disappear");
     }
+    props.setIsToggled((prev) => !prev);
+    patchUserInfo({
+      name: props.userData.name,
+      titleType: (props.userData.titleType + 1) % 2,
+      title: props.userData.title,
+      characterType: props.userData.characterType,
+      setFunc: props.setUserData,
+    });
   }
 
   React.useState(async () => {
@@ -26,23 +32,27 @@ function Title(props) {
     }
   }, []);
 
-  const titleList = ["없음", "쫄보", "승부사", "거상", "몰락한 자", "신생아"];
-  const titleItemTags = titleList.map((value, idx) => {
+  const titleItemTags = props.myTitles.titles.map((title, idx) => {
     let isSelected = false;
-    if (selectTitle === value) {
+    if (props.userData.title.id === title.id) {
       isSelected = true;
     }
     return (
       <div className="title-item" key={`${idx}`}>
-        <div className="title-item-name">{value}</div>
+        <div className="title-item-name">{title.name}</div>
         <input
           className="title-item-input"
           type="radio"
           name="title"
-          value={value}
           defaultChecked={isSelected}
-          onClick={(event) => {
-            setSelectTitle(event.target.value);
+          onClick={() => {
+            patchUserInfo({
+              name: props.userData.name,
+              titleType: props.userData.titleType,
+              title: title,
+              characterType: props.userData.characterType,
+              setFunc: props.setUserData,
+            });
           }}
         />
       </div>

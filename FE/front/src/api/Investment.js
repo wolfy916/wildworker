@@ -1,6 +1,6 @@
 import http from "./Http.js";
 
-// 실시간 역 랭킹 조회
+// 실시간 역 랭킹 조회 ok
 function getStationRanking(payload) {
   if (payload) {
     http({
@@ -12,7 +12,6 @@ function getStationRanking(payload) {
       }
     }).then(({status, data}) => {
       if (status == 200) {
-        console.log("getStationRanking 성공");
         payload.setFunc(data);
         // data 예시
         // {
@@ -48,7 +47,7 @@ function getStationStake(payload) {
     }).then(({status, data}) => {
       if (status == 200) {
         console.log("getStationStake 성공");
-        console.log(data)
+        console.log(data);
         payload.setFunc(data);
         // data 예시
         // {
@@ -94,7 +93,12 @@ function invest(payload) {
       .then(({ status, data }) => {
         if (status == 200) {
           console.log("invest 성공");
-          console.log(data);
+          payload.setFunc((prev) => {
+            return {
+              ...prev,
+              coin: prev.coin - payload.investment, 
+            }
+          })
         }
       })
       .catch((err) => {
