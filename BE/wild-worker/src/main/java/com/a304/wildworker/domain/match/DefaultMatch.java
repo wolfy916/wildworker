@@ -29,11 +29,11 @@ public class DefaultMatch extends Match {
     }
 
     public int getCost() {
-        return defaultCost * (int) (Math.pow(10, league.ordinal()));
+        return defaultCost * (int) (Math.pow(10, league.ordinal() - 1));
     }
 
     public int getRunCost() {
-        return defaultRunCost * (int) (Math.pow(10, league.ordinal()));
+        return defaultRunCost * (int) (Math.pow(10, league.ordinal() - 1));
     }
 
 }
