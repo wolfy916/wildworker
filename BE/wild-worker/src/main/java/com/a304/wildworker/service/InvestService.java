@@ -56,7 +56,7 @@ public class InvestService {
         User user = getUserOrElseThrow(userId);
         Station station = getStationOrElseThrow(stationId);
         ActiveStation activeStation = activeStationRepository.findById(station.getId());
-        Map<User, Long> investors = activeStation.getInvestors();
+        Map<Long, Long> investors = activeStation.getInvestors();
 
         // 해당 역의 지배자 정보 조회
         Optional<DominatorLog> dominator = dominatorLogRepository.findByStationIdAndDominateStartTime(
@@ -71,18 +71,30 @@ public class InvestService {
         // 랭킹 정보
         List<InvestmentRankResponse> rankList = new ArrayList<>(5);
         InvestmentRankResponse mine = null;
-        List<Entry<User, Long>> entryList = new ArrayList<>(investors.entrySet());
-        entryList.sort(Map.Entry.<User, Long>comparingByValue().reversed());
+        List<Entry<Long, Long>> entryList = new ArrayList<>(investors.entrySet());
+        entryList.sort(Map.Entry.<Long, Long>comparingByValue().reversed());
 
-        // 5위까지 세팅
-        int end = (entryList.size() > 5) ? 5 : entryList.size();
-        for (int rank = 1; rank <= end; rank++) {
-            rankList.add(getInvestmentRankResponse(rank, entryList.get(rank - 1), station));
+        int rank = 1;
+        for (Map.Entry<Long, Long> entry : entryList) {
+            InvestmentRankResponse rankResponse = null;
+
+            // 5위까지 세팅
+            if (rank <= 5) {
+                rankResponse = getInvestmentRankResponse(rank, entry, station);
+                rankList.add(rankResponse);
+            }
+
+            // 내 지분 정보
+            if (entry.getKey().equals(userId)) {
+                if (rankResponse == null) {
+                    rankResponse = getInvestmentRankResponse(rank, entry, station);
+                }
+
+                mine = rankResponse;
+            }
+
+            rank++;
         }
-
-        // 내 지분 정보
-        int myRank = entryList.indexOf(user) + 1;
-        mine = getInvestmentRankResponse(myRank, entryList.get(myRank - 1), station);
 
         InvestmentInfoResponse response = InvestmentInfoResponse.builder()
                 .stationName(station.getName())
@@ -97,11 +109,12 @@ public class InvestService {
         return response;
     }
 
-    public InvestmentRankResponse getInvestmentRankResponse(int rank, Map.Entry<User, Long> entry,
+    public InvestmentRankResponse getInvestmentRankResponse(int rank, Map.Entry<Long, Long> entry,
             Station station) {
+        User user = getUserOrElseThrow(entry.getKey());
         return InvestmentRankResponse.builder()
                 .rank(rank)
-                .name(entry.getKey().getName())
+                .name(user.getName())
                 .investment(entry.getValue())
                 .percent((int) ((double) entry.getValue() / station.getBalance()) * 100)
                 .build();
@@ -117,7 +130,7 @@ public class InvestService {
 
         user.invest(amount);
         station.invest(amount);
-        activeStation.invest(user, amount);
+        activeStation.invest(user.getId(), amount);
 
         // 코인 변동 이벤트 발생
         publisher.publishEvent(
@@ -175,12 +188,12 @@ public class InvestService {
     @Transactional
     public User distributeCommissionAndGetDominator(Station station) {
         ActiveStation activeStation = activeStationRepository.findById(station.getId());
-        Map<User, Long> investors = activeStation.getInvestors();
+        Map<Long, Long> investors = activeStation.getInvestors();
         User dominator = null;
         Long maxInvestment = 0L;
 
-        for (Entry<User, Long> entry : investors.entrySet()) {
-            User user = entry.getKey();
+        for (Entry<Long, Long> entry : investors.entrySet()) {
+            User user = getUserOrElseThrow(entry.getKey());
             Long investment = entry.getValue();
 
             // 지분율 1위 찾기
