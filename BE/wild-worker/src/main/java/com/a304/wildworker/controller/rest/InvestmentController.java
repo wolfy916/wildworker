@@ -3,6 +3,7 @@ package com.a304.wildworker.controller.rest;
 import com.a304.wildworker.domain.sessionuser.PrincipalDetails;
 import com.a304.wildworker.domain.sessionuser.SessionUser;
 import com.a304.wildworker.dto.request.InvestmentRequest;
+import com.a304.wildworker.dto.response.InvestmentInfoResponse;
 import com.a304.wildworker.exception.NotLoginException;
 import com.a304.wildworker.service.InvestService;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +27,20 @@ import org.web3j.crypto.CipherException;
 public class InvestmentController {
 
     private final InvestService investService;
+
+    /* 해당 역에 대한 지분 조회 */
+    @GetMapping("/{station-id}")
+    public ResponseEntity<InvestmentInfoResponse> showInvestmentByStation(
+            @PathVariable("station-id") Long stationId,
+            @AuthenticationPrincipal PrincipalDetails principal)
+            throws IOException {
+        SessionUser user = Optional.of(principal.getSessionUser())
+                .orElseThrow(NotLoginException::new);
+
+        InvestmentInfoResponse response = investService.showInvestmentByStation(stationId,
+                user.getId());
+        return ResponseEntity.ok(response);
+    }
 
     /* 역 투자 */
     @PostMapping("/{station-id}")
