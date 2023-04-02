@@ -52,7 +52,6 @@ public class InvestService {
     private final SimpMessagingTemplate messagingTemplate;
 
     /* 해당 역에 대한 지분 조회 */
-    @Transactional
     public InvestmentInfoResponse showInvestmentByStation(Long stationId, Long userId)
             throws IOException {
         Station station = getStationOrElseThrow(stationId);
