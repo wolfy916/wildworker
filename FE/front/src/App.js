@@ -183,7 +183,6 @@ function App() {
   // isChangeId값의 변화로 지하철역 구독해제하고 새로운 지하철로 재연결
   useEffect(() => {
     if (store.locationData.prev) {
-
       setStompClient(unsubscribeStation(stompClient, store.locationData.prev));
       setStompClient(
         subscribeStation(stompClient, setStore, store.locationData.current)
@@ -259,12 +258,19 @@ function App() {
                 <PvpPage
                   matchingData={store.matching}
                   gameRunData={store.gameCancel}
-                  gameStartData={store.gameStart}
+                  currentLocationData={store.locationData.current}
+                  stompClient={stompClient}
                 />
               }
             />
-            <Route path="/pvp/ready" element={<MiniGameReadyPage />} />
-            <Route path="/pvp/minigame" element={<MiniGamePage />} />
+            <Route
+              path="/pvp/ready"
+              element={<MiniGameReadyPage gameStartData={store.gameStart} />}
+            />
+            <Route
+              path="/pvp/minigame"
+              element={<MiniGamePage stompClient={stompClient} />}
+            />
             <Route
               path="/pvp/result"
               element={<PvpResultPage gameResultData={store.gameResult} />}

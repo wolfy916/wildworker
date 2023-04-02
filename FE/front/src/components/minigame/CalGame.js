@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../minigame/CalGame.css";
 
 function CalculationGame(props) {
   const stompClient = props.stompClient;
+  //여기 찍어보고 stationid랑 userData 받아야 됨
+  const propState = props.state;
+  const stationId = propState[0][0].stationId;
+  const gameId = propState[0][2].matchingDataId;
   const [currentMoney, setcurrentMoney] = useState("0");
   const [currentFoodValue, setcurrentFoodValue] = useState(
     String(Math.floor(Math.random() * 100)) + "00"
@@ -43,22 +47,12 @@ function CalculationGame(props) {
     setValue("");
   }
 
-  const [timeLeft, setTimeLeft] = useState(5000);
+  const [timeLeft, setTimeLeft] = useState(3);
   const navigate = useNavigate();
-
-  // 미니 게임끝났을 때, 결과 값 백한테 주기
-  // const handleFinishGame = e => {
-  //   const message = JSON.stringify(e);
-  //   stompClient.send(
-  //     "/stations/{station-id}/minigame/{game-id}/progress",
-  //     {},
-  //     message
-  //   );
-  // };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+      setTimeLeft((prevTimeLeft) => prevTimeLeft - 1);
     }, 1000);
 
     return () => clearInterval(interval);
@@ -67,17 +61,17 @@ function CalculationGame(props) {
   useEffect(() => {
     if (timeLeft === 0) {
       // handleFinishGame({result:'맞춘갯수'})
-      const result = {
-        result: score,
-      };
-      const message = JSON.stringify(result);
-      stompClient.send(
-        // `/stations/${station-id}/minigame/${game-id}/progress`,
-        {},
-        message
-      );
+      // const result = {
+      //   result: score,
+      // };
+      // const message = JSON.stringify(result);
+      // stompClient.send(
+      //   // `/stations/${stationId}/minigame/${gameId}/progress`,
+      //   {},
+      //   message
+      // );
+      navigate("/pvp/result", { state: propState });
     }
-    navigate("/pvp/result");
   }, [timeLeft, navigate, score, stompClient]);
 
   return (
@@ -121,7 +115,6 @@ function CalculationGame(props) {
           </button>
         </form>
       </div>
-      {/* <div className="minigame-pixelart-crab"></div> */}
       <div className="minigame-cal-pixelart-metamong"></div>
     </div>
   );
