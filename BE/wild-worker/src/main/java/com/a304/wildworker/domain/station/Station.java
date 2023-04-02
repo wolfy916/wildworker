@@ -2,14 +2,9 @@ package com.a304.wildworker.domain.station;
 
 import com.a304.wildworker.domain.common.BaseEntity;
 import com.a304.wildworker.domain.location.Location;
-import com.a304.wildworker.domain.user.User;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import lombok.Getter;
 
 @Getter
@@ -27,26 +22,20 @@ public class Station extends BaseEntity {
     private Long balance;
     @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
     private Long commission;
+    @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
+    private Long prevCommission;
 
-    @Transient
-    private Map<User, Long> investors = new ConcurrentHashMap<>();
-
-    @Transient
-    private AtomicLong prevCommission = new AtomicLong(0L);
-
-    public void invest(User user, Long amount) {
+    public void invest(Long amount) {
         this.balance += amount;
-        investors.put(user, investors.getOrDefault(user, 0L) + amount);
     }
 
     public void resetCommission() {
-        prevCommission.set(this.commission);
+        this.prevCommission = commission;
         this.commission = 0L;
     }
 
     public void resetBalance() {
         this.balance = 0L;
-        investors.clear();
     }
 
     public void setAddress(String address) {

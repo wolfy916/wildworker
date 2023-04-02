@@ -9,6 +9,8 @@ import static org.mockito.Mockito.when;
 import com.a304.wildworker.domain.activestation.ActiveStation;
 import com.a304.wildworker.domain.activestation.ActiveStationRepository;
 import com.a304.wildworker.domain.station.StationRepository;
+import com.a304.wildworker.domain.system.SystemData;
+import com.a304.wildworker.domain.transaction.TransactionLogRepository;
 import com.a304.wildworker.exception.StationNotFoundException;
 import com.a304.wildworker.interceptor.MessageInterceptor;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,10 +32,14 @@ public class MessageInterceptorTest {
     MessageInterceptor interceptor;
     @Mock
     private StationRepository stationRepository;
+    @Mock
+    private SystemData systemData;
+    @Mock
+    private TransactionLogRepository transactionLogRepository;
 
     @BeforeEach
     void setUp() {
-        activeStationRepository = new ActiveStationRepository();
+        activeStationRepository = new ActiveStationRepository(systemData, transactionLogRepository);
         MockitoAnnotations.openMocks(this);
         interceptor = new MessageInterceptor(
                 null,
