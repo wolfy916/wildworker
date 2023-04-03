@@ -67,6 +67,7 @@ public class ChangedBalanceHandler {
             case MANUAL_MINING: {
                 bank.manualMine(event.getUser()).thenAccept(t -> {
                     transactionLog.setAppliedAt(LocalDateTime.now());
+                    transactionLogRepository.save(transactionLog);
                 });
                 break;
             }
@@ -74,6 +75,7 @@ public class ChangedBalanceHandler {
             case AUTO_MINING: {
                 bank.autoMine(event.getStation(), event.getUser()).thenAccept(t -> {
                     transactionLog.setAppliedAt(LocalDateTime.now());
+                    transactionLogRepository.save(transactionLog);
                 });
                 break;
             }
@@ -83,6 +85,7 @@ public class ChangedBalanceHandler {
                         .thenAccept(receipt -> {
                             log.info("invest receipt : {}", receipt);
                             transactionLog.setAppliedAt(LocalDateTime.now());
+                            transactionLogRepository.save(transactionLog);
                         });
                 break;
             }

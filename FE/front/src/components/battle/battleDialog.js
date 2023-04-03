@@ -11,16 +11,9 @@ export default function BattleDialog(props) {
   const matchingData = props.matchingData;
   const gameCancelData = props.gameCancelData;
   const gameStartData = props.gameStartData;
-  const gameResultData = props.gameResultData;
   const userData = props.userData;
+  //역id
   const stationId = props.stationId;
-  // const sentences = [
-  //   "신도림의 지배자 권태형이 나타났다!!!",
-  //   "강한 기운이 느껴진다...",
-  //   "결투하기: -20원   도망치기: -5원",
-  //   "...",
-  //   "결투가 곧 시작될 것 같다!!!",
-  // ];
   const sentences = [
     matchingDialog,
     selectStartOrCancel,
@@ -30,32 +23,36 @@ export default function BattleDialog(props) {
     failCancel,
     successCancel,
   ];
-  // const sentences = [index1, index2, index3, index4];
   const navigate = useNavigate();
   const [sentenceIndex, setSentenceIndex] = useState(0);
   const [msg, setmsg] = useState("");
   const [msgCancel, setmsgCancel] = useState("");
   const [loadingDot, setloadingDot] = useState("");
   const dotList = [".", "...", ".."];
-  const [nextClock, setNextClock] = useState(true);
   const [gameStartClock, setGameStartClock] = useState(true);
+
+  //useLocation
+  const navData = [
+    { stationId: stationId },
+    userData,
+    { matchingDataId: matchingData.id },
+  ];
 
   function matchingDialog() {
     console.log("나타났다.");
-    setmsg("신도림의" + "지배자 " + "권태형이 나타났다.");
-    //데이터 연결 잘되는지 확인용
-    // setmsg(`${userData.name}이 나타났다.!!`);
-    // setmsg(
-    //   matchingData.enemy.title + matchingData.enemy.name + " 이 나타났다."
-    // );
+    //첫 dialog
+    // 적의 이름 띄워주기
+    setmsg(
+      matchingData.enemy.title +
+        " " +
+        matchingData.enemy.name +
+        "이 나타났다!!!!"
+    );
   }
   function selectStartOrCancel() {
     console.log("나타났다.1");
-    // setmsg("결투하기: -" + matchingData.cost +"원");
-    // setmsgSecond("도망가기: -" + matchingData.runCost +"원");
-    setmsg("결투하기: -20원");
-    setmsgCancel("도망가기: -5원");
-    //여기에서 도망 및 결투 하면 될듯 todo
+    setmsg("결투하기: -" + matchingData.cost + "원");
+    setmsgCancel("도망가기: -" + matchingData.runCost + "원");
   }
   //결투와 도망에만 쓰이는 클릭버튼
   function msgClick() {
@@ -108,7 +105,7 @@ export default function BattleDialog(props) {
   const [gametimeLeft, setGameTimeLeft] = useState(3);
   function leftGameTime() {
     const interval = setInterval(() => {
-      setGameTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+      setGameTimeLeft((prevTimeLeft) => prevTimeLeft - 1);
     }, 1000);
     return () => clearInterval(interval);
   }
@@ -117,11 +114,13 @@ export default function BattleDialog(props) {
       if (sentenceIndex === 4) {
         //결투시작
         console.log("결투시작");
-        navigate("ready");
+        navigate("ready", { state: navData });
       }
       //
       if (sentenceIndex === 5) {
         //도망실패
+        console.log("도망 실패");
+        navigate("ready", { state: navData });
       }
       if (sentenceIndex === 6) {
         //도망성공
@@ -170,7 +169,7 @@ export default function BattleDialog(props) {
   //처음에 시간
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+      setTimeLeft((prevTimeLeft) => prevTimeLeft - 1);
     }, 1000);
 
     return () => clearInterval(interval);

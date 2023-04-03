@@ -17,6 +17,9 @@ function Invest(props) {
     };
     invest(payload);
     props.setModalClick((prev) => !prev);
+    props.setCnt(0)
+    props.setIsRetry((prev) => !prev)
+    // axios 보낼 함수 짜야함
   }
 
   return (
