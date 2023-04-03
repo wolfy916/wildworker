@@ -12,20 +12,20 @@ import { getStationStake } from "../api/Investment.js";
 
 function DetailSubwayPage(props) {
   const location = useLocation();
-  const [cnt,setCnt] = useState(0);
-  const [isRetry,setIsRetry] = useState(false);
+  const [cnt, setCnt] = useState(0);
+  const [isRetry, setIsRetry] = useState(false);
 
   const [rankingData, setRankingData] = useState([]);
   const [modalClick, setModalClick] = useState(false);
 
   useEffect(() => {
     // cnt 5번은 해야 실시간으로 다 바뀜
-    if (cnt < 5) {
-    const fetchData = async () => {
-      await getStationStake({
-        stationId: location.state,
-        setFunc: props.setStationStake,
-      });
+    if (cnt < 10) {
+      const fetchData = async () => {
+        await getStationStake({
+          stationId: location.state,
+          setFunc: props.setStationStake,
+        });
         const rankingDataSave = props.stationStake.ranking.map((item, idx) => (
           <div className="detail-content" key={idx}>
             <div>
@@ -40,10 +40,10 @@ function DetailSubwayPage(props) {
           </div>
         ));
         setRankingData(rankingDataSave);
-        setCnt((prev) => prev += 1)
-      }
+        setCnt((prev) => (prev += 1));
+      };
       fetchData();
-    };
+    }
   }, [props.stationStake, isRetry]);
 
   return (
@@ -103,15 +103,13 @@ function DetailSubwayPage(props) {
       <div className="detail-mine">
         <div>
           <p className="detail-subject-1">나의 랭킹 및 정보</p>
-          {props.stationStake.mine ? (
-            <p className="detail-subject-1">
-              {props.stationStake.mine.rank}등{" "}
-              {props.stationStake.mine.investment.toLocaleString("ko-KR")}(
-              {props.stationStake.mine.percent}%)
-            </p>
-          ) : (
-            <p className="detail-subject-1">투자한 기록이 없어요.</p>
-          )}
+          <p className="detail-subject-1">
+            {props.stationStake.mine ? props.stationStake.mine.rank : "x"}등{" "}
+            {props.stationStake.mine
+              ? props.stationStake.mine.investment.toLocaleString("ko-KR")
+              : "x"}
+            ({props.stationStake.mine ? props.stationStake.mine.percent : "x"}%)
+          </p>
         </div>
         <div>
           <button
