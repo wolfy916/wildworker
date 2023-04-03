@@ -1,20 +1,20 @@
 package com.a304.wildworker.domain.common;
 
 public enum TitleCode {
-    RISK_TAKER(1),
-    RUNNER(2),
-    POOR(3),
-    RICH(4),
-    LOOSER(5),
-    WINNER(6);
+    RISK_TAKER(1L),
+    RUNNER(2L),
+    POOR(3L),
+    RICH(4L),
+    LOOSER(5L),
+    WINNER(6L);
 
-    private final int id;
+    private final Long id;
 
-    TitleCode(int id) {
+    TitleCode(Long id) {
         this.id = id;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 }
