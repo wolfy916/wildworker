@@ -1,8 +1,9 @@
 package com.a304.wildworker.service;
 
-import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.domain.common.ResultCode;
 import com.a304.wildworker.domain.common.RunCode;
+import com.a304.wildworker.domain.common.TitleCode;
+import com.a304.wildworker.domain.common.TitleCondition;
 import com.a304.wildworker.domain.minigame.MiniGameLog;
 import com.a304.wildworker.domain.minigame.MiniGameLogRepository;
 import com.a304.wildworker.domain.title.Title;
@@ -39,27 +40,27 @@ public class TitleService {
 
         boolean getTitle = false;
         // 승부사
-        if (titleId == Constants.RISK_TAKER) {
+        if (titleId == TitleCode.RISK_TAKER.getId()) {
             getTitle = checkGetRiskTaker(userId);
         }
         // 쫄보
-        else if (titleId == Constants.RUNNER) {
+        else if (titleId == TitleCode.RUNNER.getId()) {
             getTitle = checkGetRunner(userId);
         }
         // 무일푼
-        else if (titleId == Constants.POOR) {
+        else if (titleId == TitleCode.POOR.getId()) {
             getTitle = checkGetPoor(userId);
         }
         // 부자
-        else if (titleId == Constants.RICH) {
+        else if (titleId == TitleCode.RICH.getId()) {
             getTitle = checkGetRich(userId);
         }
         // 똥손
-        else if (titleId == Constants.LOOSER) {
+        else if (titleId == TitleCode.LOOSER.getId()) {
             getTitle = checkGetLooser(userId);
         }
         // 금손
-        else if (titleId == Constants.WINNER) {
+        else if (titleId == TitleCode.WINNER.getId()) {
             getTitle = checkGetWinner(userId);
         }
 
@@ -72,10 +73,11 @@ public class TitleService {
     /* 승부사 칭호 */
     private boolean checkGetRiskTaker(Long userId) {
         // 최근 게임로그 가져오기
-        List<MiniGameLog> gameLogList = getGameLogByCount(userId, Constants.CONDITION_RISK_TAKER);
+        List<MiniGameLog> gameLogList
+                = getGameLogByCount(userId, TitleCondition.RISK_TAKER.getValue());
         boolean getTitle = true;
 
-        if (gameLogList.size() < Constants.CONDITION_RISK_TAKER) {
+        if (gameLogList.size() < TitleCondition.RISK_TAKER.getValue()) {
             getTitle = false;
         } else {
             for (MiniGameLog gameLog : gameLogList) {
@@ -110,10 +112,10 @@ public class TitleService {
     /* 쫄보 칭호 */
     private boolean checkGetRunner(Long userId) {
         // 최근 게임로그 가져오기
-        List<MiniGameLog> gameLogList = getGameLogByCount(userId, Constants.CONDITION_RUNNER);
+        List<MiniGameLog> gameLogList = getGameLogByCount(userId, TitleCondition.RUNNER.getValue());
         boolean getTitle = true;
 
-        if (gameLogList.size() < Constants.CONDITION_RUNNER) {
+        if (gameLogList.size() < TitleCondition.RUNNER.getValue()) {
             getTitle = false;
         } else {
             for (MiniGameLog gameLog : gameLogList) {
@@ -150,7 +152,7 @@ public class TitleService {
         User user = getUserOrElseThrow(userId);
 
         boolean getTitle = true;
-        if (user.getBalance() > Constants.CONDITION_POOR) {
+        if (user.getBalance() > TitleCondition.POOR.getValue()) {
             getTitle = false;
         }
 
@@ -162,7 +164,7 @@ public class TitleService {
         User user = getUserOrElseThrow(userId);
 
         boolean getTitle = true;
-        if (user.getBalance() < Constants.CONDITION_RICH) {
+        if (user.getBalance() < TitleCondition.RICH.getValue()) {
             getTitle = false;
         }
 
@@ -172,10 +174,10 @@ public class TitleService {
     /* 똥손 칭호 */
     private boolean checkGetLooser(Long userId) {
         // 최근 게임로그 가져오기
-        List<MiniGameLog> gameLogList = getGameLogByCount(userId, Constants.CONDITION_LOOSER);
+        List<MiniGameLog> gameLogList = getGameLogByCount(userId, TitleCondition.LOOSER.getValue());
         boolean getTitle = true;
 
-        if (gameLogList.size() < Constants.CONDITION_LOOSER) {
+        if (gameLogList.size() < TitleCondition.LOOSER.getValue()) {
             getTitle = false;
         } else {
             for (MiniGameLog gameLog : gameLogList) {
@@ -210,10 +212,10 @@ public class TitleService {
     /* 금손 칭호 */
     private boolean checkGetWinner(Long userId) {
         // 최근 게임로그 가져오기
-        List<MiniGameLog> gameLogList = getGameLogByCount(userId, Constants.CONDITION_WINNER);
+        List<MiniGameLog> gameLogList = getGameLogByCount(userId, TitleCondition.WINNER.getValue());
         boolean getTitle = true;
 
-        if (gameLogList.size() < Constants.CONDITION_WINNER) {
+        if (gameLogList.size() < TitleCondition.WINNER.getValue()) {
             getTitle = false;
         } else {
             for (MiniGameLog gameLog : gameLogList) {
