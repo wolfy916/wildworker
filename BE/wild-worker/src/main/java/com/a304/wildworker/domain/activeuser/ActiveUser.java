@@ -1,6 +1,6 @@
 package com.a304.wildworker.domain.activeuser;
 
-import com.a304.wildworker.event.ChangeActiveUserStatusEvent;
+import com.a304.wildworker.event.SetCoolTimeEvent;
 import com.a304.wildworker.event.common.Events;
 import java.security.Principal;
 import java.util.concurrent.ScheduledFuture;
