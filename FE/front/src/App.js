@@ -97,23 +97,23 @@ function App() {
 
   // 해당 역에 대한 지분 데이터
   const [stationStake, setStationStake] = useState({
-    stationName: "역삼역",
-    dominator: "S2태형S2",
-    totalInvestment: 10000000,
-    prevCommission: 12345,
-    currentCommission: 1234,
+    stationName: null,
+    dominator: null,
+    totalInvestment: 0,
+    prevCommission: 0,
+    currentCommission: 0,
     ranking: [
       {
-        rank: 1,
-        namae: "S2태형S2",
-        investment: 123,
-        percent: 10,
+        rank: null,
+        name: null,
+        investment: 0,
+        percent: null,
       },
     ],
     mine: {
-      rank: 1,
-      investment: 123,
-      percent: 10,
+      rank: null,
+      investment: 0,
+      percent: null,
     },
   });
 
@@ -249,9 +249,25 @@ function App() {
               }
             />
             <Route path="/map" element={<SubwayMapPage />} />
-            <Route path="/map/mine" element={<MySubwayPage />} />
+            <Route
+              path="/map/mine"
+              element={
+                <MySubwayPage
+                  myInvestList={myInvestList}
+                  setMyInvestList={setMyInvestList}
+                />
+              }
+            />
             <Route path="/map/hot" element={<HotSubwayPage />} />
-            <Route path="/map/detail" element={<DetailSubwayPage />} />
+            <Route
+              path="/map/detail"
+              element={
+                <DetailSubwayPage
+                  stationStake={stationStake}
+                  setStationStake={setStationStake}
+                />
+              }
+            />
             <Route
               path="/pvp"
               element={

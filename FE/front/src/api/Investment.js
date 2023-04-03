@@ -48,6 +48,7 @@ function getStationStake(payload) {
     }).then(({status, data}) => {
       if (status == 200) {
         console.log("getStationStake 성공");
+        console.log(data)
         payload.setFunc(data);
         // data 예시
         // {
@@ -117,6 +118,7 @@ function getMyInvestList(payload) {
     }).then(({status, data}) => {
       if (status == 200) {
         console.log("getMyInvestList 성공");
+        console.log(data)
         payload.setFunc(data);
         // data 예시
         // {
