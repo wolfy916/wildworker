@@ -24,7 +24,7 @@ public class UserResponse {
         return UserResponse.builder()
                 .name(user.getName())
                 .characterType(user.getCharacterId().ordinal())
-                .titleType(user.getTitleType().ordinal())
+                .titleType(user.getTitleShowType().ordinal())
                 .title(new TitleDto(Constants.NONE_TITLE_ID, "x"))     //TODO: get title from info
                 .coin(user.getBalance())
                 .collectedPapers(user.getNumberOfCollectedPaper())
