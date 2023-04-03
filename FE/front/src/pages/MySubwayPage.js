@@ -21,13 +21,13 @@ function MySubwayPage(props) {
           ascend: "DESC",
           setFunc: props.setMyInvestList,
         });
-        const mySubwayData = props.myInvestList.investments.map((item) => (
-          <div className="my-content">
+        const mySubwayData = props.myInvestList.investments.map((item,idx) => (
+          <div className="my-content" key={idx}>
             <div>
               <p className="my-subject">{item.station.name}</p>
             </div>
             <div>
-              <p className="my-subject">{item.investment}</p>
+              <p className="my-subject">{item.investment}원</p>
               <p className="my-subject-2">({item.percent}%)</p>
             </div>
           </div>
