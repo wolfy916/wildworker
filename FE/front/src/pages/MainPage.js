@@ -6,6 +6,7 @@ import SubwayBoard from "../components/mainpage/SubwayBoard";
 import GetCoinItem from "../components/mainpage/GetCoinItem";
 import Modal from "../components/mainpage/Modal";
 import MenuBar from "../components/mainpage/MenuBar";
+import StationEvent from "../components/mainpage/StationEvent";
 
 import character_man from "../asset/image/moving_man.gif";
 import character_woman from "../asset/image/moving_woman1.gif";
@@ -38,8 +39,26 @@ function MainPage(props) {
   const [isToggled, setIsToggled] = React.useState(
     Boolean(props.userData.titleType)
   ); // 유저의 칭호타입
-
+  
   const characterList = [character_man, character_woman];
+
+  const [currentStation, setCurrentStation] = React.useState("");
+  const [startStationEvent, setStartStationEvent] = React.useState(false);
+  const eventStationList = ["역삼역", "신도림역", "잠실역"];
+
+  // 지하철 역에 맞는 이벤트 실행
+  React.useEffect(()=>{
+    if (props.store.locationData.current) {
+      if (props.store.locationData.current.name !== currentStation) {
+        setCurrentStation(props.store.locationData.current.name);
+        if (props.store.locationData.current.name.includes(eventStationList)) {
+          setStartStationEvent(true);
+        } else {
+          setStartStationEvent(false);
+        }
+      }
+    }
+  }, [props.store.locationData.current])
 
   React.useEffect(() => {
     setIsReady(true);
@@ -249,6 +268,12 @@ function MainPage(props) {
           userData={props.userData}
           setUserData={props.setUserData}
           setIsClickDoc={setIsClickDoc}
+        />
+      )}
+      {startStationEvent && (
+        <StationEvent 
+          startStationEvent={startStationEvent}
+          stationName={currentStation}
         />
       )}
       <div className="main-router-pvp" onClick={pvpRouterClickHandler}>

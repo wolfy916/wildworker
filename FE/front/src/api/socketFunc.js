@@ -8,33 +8,35 @@ function connectSocket(client, setstore, setUserData, store) {
 }
 // 지하철 구독
 function subscribeStation(client, setStore, curStation) {
-  client.subscribe(
-    `/sub/stations/${curStation ? curStation.id : 1}`,
-    (message) => {
-      const payload = JSON.parse(message.body);
-      // 지배자 기능 모음
-      if (payload.type === "STATION") {
-        // 지배자 강림
-        if (payload.subType === "DOMINATOR") {
-          setStore((prev) => {
-            return {
-              ...prev,
-              dominatoreAppear: payload.data,
-            };
-          });
-        }
-        // 지배자 확성기
-        else if (payload.subType === "MESSAGE") {
-          setStore((prev) => {
-            return {
-              ...prev,
-              dominatoreMsg: payload.data,
-            };
-          });
+  if (curStation !== null) {
+    client.subscribe(
+      `/sub/stations/${curStation ? curStation.id : 1}`,
+      (message) => {
+        const payload = JSON.parse(message.body);
+        // 지배자 기능 모음
+        if (payload.type === "STATION") {
+          // 지배자 강림
+          if (payload.subType === "DOMINATOR") {
+            setStore((prev) => {
+              return {
+                ...prev,
+                dominatoreAppear: payload.data,
+              };
+            });
+          }
+          // 지배자 확성기
+          else if (payload.subType === "MESSAGE") {
+            setStore((prev) => {
+              return {
+                ...prev,
+                dominatoreMsg: payload.data,
+              };
+            });
+          }
         }
       }
-    }
-  );
+    );
+  }
   return client;
 }
 

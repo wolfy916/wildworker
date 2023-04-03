@@ -33,11 +33,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 1011 !important;
 }
 .character {
   width: 70%;
   height: 72%;
-  z-index: 1002;
+  z-index: 1011;
 }
 .character-nickname {
   box-sizing: border-box;
@@ -68,7 +69,7 @@
   width: 22%;
   bottom: 4%;
   left: 39%;
-  z-index: 1002;
+  z-index: 1032 !important;
   animation: bottomBtnAppear 1s ease-in-out 0s 1 normal forwards;
 }
 

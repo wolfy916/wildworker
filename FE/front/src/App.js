@@ -27,15 +27,6 @@ import {
 } from "../src/api/socketFunc";
 
 function App() {
-  // 웹에서 개발할 때, 얘 꼭 주석처리 해라
-
-  // const elem = document.documentElement;
-  // document.addEventListener('click', function() {
-  //   if (elem.requestFullscreen) {
-  //     elem.requestFullscreen();
-  //   }
-  // });
-
   const [isLogin, setIsLogin] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [isChangeId, setIsChangeId] = useState(false);
@@ -74,7 +65,7 @@ function App() {
       },
     ],
     size: 10,
-    totalPage: 10,
+    totalPage: 1,
     currentPage: 1,
   });
 
@@ -182,13 +173,33 @@ function App() {
 
   // isChangeId값의 변화로 지하철역 구독해제하고 새로운 지하철로 재연결
   useEffect(() => {
-    if (store.locationData.prev) {
+    if (store.locationData.current) {
       setStompClient(unsubscribeStation(stompClient, store.locationData.prev));
       setStompClient(
         subscribeStation(stompClient, setStore, store.locationData.current)
       );
     }
-  }, [store.locationData.prev]);
+  }, [store.locationData.current]);
+
+  const [testCoordinate, setTestCoordinate] = React.useState({
+    lat: 37.500658, // 역삼
+    lon: 127.03643,
+  });
+  useEffect(() => {
+    setTimeout(() => {
+      setTestCoordinate({
+        lat: 37.513305,  // 잠실
+        lon: 127.100129,
+      });
+    }, 10000);
+
+    setTimeout(() => {
+      setTestCoordinate({
+        lat: 37.508815, // 신도림
+        lon: 126.891222,
+      });
+    }, 20000);
+  }, []);
 
   // 실시간 위치 전송 코드
   useEffect(() => {
@@ -198,8 +209,10 @@ function App() {
           (position) => {
             if (position.coords) {
               handleSendLocation({
-                lat: position.coords.latitude,
-                lon: position.coords.longitude,
+                lat: testCoordinate.lat,
+                lon: testCoordinate.lon,
+                // lat: position.coords.latitude,
+                // lon: position.coords.longitude,
               });
             }
           },
@@ -212,7 +225,7 @@ function App() {
         clearInterval(intervalId);
       };
     }
-  }, [isConnected]);
+  }, [isConnected, testCoordinate]);
 
   // 위치 전송 백에게 전달하는 함수
   const handleSendLocation = (e) => {
@@ -262,13 +275,18 @@ function App() {
                 />
               }
             />
-            <Route path="/map/hot" element={<HotSubwayPage 
-              stationRank={stationRank}
-              setStationRank={setStationRank}
-              stationStake={stationStake}
-              setStationStake={setStationStake}
-              setUserData={setUserData}
-            />} />
+            <Route
+              path="/map/hot"
+              element={
+                <HotSubwayPage
+                  stationRank={stationRank}
+                  setStationRank={setStationRank}
+                  stationStake={stationStake}
+                  setStationStake={setStationStake}
+                  setUserData={setUserData}
+                />
+              }
+            />
             <Route
               path="/map/detail"
               element={
