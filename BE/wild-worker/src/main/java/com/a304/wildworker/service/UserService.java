@@ -41,7 +41,7 @@ public class UserService {
         if (request.getName() != null) {
             // 중복 확인
             if (!userRepository.existsByNameAndIdNot(request.getName(), userId)) {
-                user.changeName(request.getName());
+                user.setName(request.getName());
             } else {
                 throw new DuplicatedNameException();
             }
@@ -49,14 +49,14 @@ public class UserService {
 
         // 칭호 종류 변경
         if (request.getTitleType() != null) {
-            user.changeTitleShowType(TitleShowType.fromOrdinary(request.getTitleType()));
+            user.setTitleShowType(TitleShowType.fromOrdinary(request.getTitleType()));
         }
 
         // 대표 칭호 고유번호 변경
         if (request.getMainTitleId() != null) {
             // 보유 여부 확인
             if (titleAwardedRepository.existsByTitleIdAndUserId(request.getMainTitleId(), userId)) {
-                user.changeTitleId(request.getMainTitleId());
+                user.setTitleId(request.getMainTitleId());
             } else {
                 throw new NotOwnTitleException();
             }
@@ -64,7 +64,7 @@ public class UserService {
 
         // 캐릭터 종류 변경
         if (request.getCharacterType() != null) {
-            user.changeCharacterType(CharacterType.fromOrdinary(request.getCharacterType()));
+            user.setCharacterId(CharacterType.fromOrdinary(request.getCharacterType()));
         }
     }
 

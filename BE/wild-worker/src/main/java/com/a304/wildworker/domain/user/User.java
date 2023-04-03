@@ -21,6 +21,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
@@ -36,6 +37,7 @@ public class User extends BaseEntity {
     @ToString.Include
     @Column(unique = true, nullable = false)
     private String email;
+    @Setter
     @Column(unique = true, nullable = false)
     private String name;
     @Column(unique = true, nullable = false)
@@ -44,16 +46,19 @@ public class User extends BaseEntity {
     private String walletPassword; // key for blockchain wallet
     @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
     private Long balance;
+    @Setter
     @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private CharacterType characterId;
+    @Setter
     @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private TitleShowType titleShowType;
     //    @ManyToOne(targetEntity = Title.class, fetch = FetchType.LAZY)
 //    @JoinColumn(nullable = false)
 //    private Title title;
-    private Long title_id;  // TODO
+    @Setter
+    private Long titleId;  // TODO
     @Column(nullable = false)
     private int numberOfCollectedPaper;
     private boolean deleted;
@@ -71,7 +76,7 @@ public class User extends BaseEntity {
         this.balance = 0L;
         this.characterId = CharacterType.MAN;
         this.titleShowType = TitleShowType.TITLE;
-        this.title_id = TitleCode.NONE.getId();
+        this.titleId = TitleCode.NONE.getId();
         this.numberOfCollectedPaper = 0;
     }
 
@@ -96,21 +101,5 @@ public class User extends BaseEntity {
 
     public Long changeBalance(Long value) {
         return this.balance += value;
-    }
-
-    public void changeName(String name) {
-        this.name = name;
-    }
-
-    public void changeTitleShowType(TitleShowType titleType) {
-        this.titleShowType = titleType;
-    }
-
-    public void changeTitleId(Long title_id) {
-        this.title_id = title_id;
-    }
-
-    public void changeCharacterType(CharacterType characterType) {
-        this.characterId = characterType;
     }
 }
