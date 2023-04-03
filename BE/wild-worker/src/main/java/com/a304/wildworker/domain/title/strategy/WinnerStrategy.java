@@ -1,7 +1,7 @@
 package com.a304.wildworker.domain.title.strategy;
 
 import com.a304.wildworker.domain.common.ResultCode;
-import com.a304.wildworker.domain.common.TitleCondition;
+import com.a304.wildworker.domain.common.TitleCode;
 import com.a304.wildworker.domain.minigame.MiniGameLog;
 import com.a304.wildworker.domain.minigame.MiniGameLogRepository;
 import com.a304.wildworker.domain.title.TitleRepository;
@@ -17,10 +17,10 @@ public class WinnerStrategy extends TitleStrategy {
 
     public boolean checkTitle(Long userId) {
         // 최근 게임로그 가져오기
-        List<MiniGameLog> gameLogList = getGameLogByCount(userId, TitleCondition.WINNER.getValue());
+        List<MiniGameLog> gameLogList = getGameLogByCount(userId, TitleCode.WINNER.getCondition());
         boolean getTitle = true;
 
-        if (gameLogList.size() < TitleCondition.WINNER.getValue()) {
+        if (gameLogList.size() < TitleCode.WINNER.getCondition()) {
             getTitle = false;
         } else {
             for (MiniGameLog gameLog : gameLogList) {

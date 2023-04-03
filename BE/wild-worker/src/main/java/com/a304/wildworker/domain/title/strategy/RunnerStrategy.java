@@ -1,7 +1,7 @@
 package com.a304.wildworker.domain.title.strategy;
 
 import com.a304.wildworker.domain.common.RunCode;
-import com.a304.wildworker.domain.common.TitleCondition;
+import com.a304.wildworker.domain.common.TitleCode;
 import com.a304.wildworker.domain.minigame.MiniGameLog;
 import com.a304.wildworker.domain.minigame.MiniGameLogRepository;
 import com.a304.wildworker.domain.title.TitleRepository;
@@ -17,10 +17,10 @@ public class RunnerStrategy extends TitleStrategy {
 
     public boolean checkTitle(Long userId) {
         // 최근 게임로그 가져오기
-        List<MiniGameLog> gameLogList = getGameLogByCount(userId, TitleCondition.RUNNER.getValue());
+        List<MiniGameLog> gameLogList = getGameLogByCount(userId, TitleCode.RUNNER.getCondition());
         boolean getTitle = true;
 
-        if (gameLogList.size() < TitleCondition.RUNNER.getValue()) {
+        if (gameLogList.size() < TitleCode.RUNNER.getCondition()) {
             getTitle = false;
         } else {
             for (MiniGameLog gameLog : gameLogList) {

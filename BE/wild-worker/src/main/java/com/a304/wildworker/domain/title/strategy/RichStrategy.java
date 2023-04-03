@@ -1,6 +1,6 @@
 package com.a304.wildworker.domain.title.strategy;
 
-import com.a304.wildworker.domain.common.TitleCondition;
+import com.a304.wildworker.domain.common.TitleCode;
 import com.a304.wildworker.domain.minigame.MiniGameLogRepository;
 import com.a304.wildworker.domain.title.TitleRepository;
 import com.a304.wildworker.domain.user.User;
@@ -17,7 +17,7 @@ public class RichStrategy extends TitleStrategy {
         User user = getUserOrElseThrow(userId);
 
         boolean getTitle = true;
-        if (user.getBalance() < TitleCondition.RICH.getValue()) {
+        if (user.getBalance() < TitleCode.RICH.getCondition()) {
             getTitle = false;
         }
 
