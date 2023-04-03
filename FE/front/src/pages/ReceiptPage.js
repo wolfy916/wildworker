@@ -35,32 +35,35 @@ function ReceiptPage(props) {
   }
   return (
     <div className="receipt">
-      <div className="receipt-whiteblock"></div>
-      <div className="receipt-text" onTouchStart={handleTouchStart}>
-        <p className="receipt-text-header"></p>
-        <div className="receipt-text-main">
-          <p className="receipt-text-main-left">게임비</p>
-          <p className="receipt-text-main-right">
-            {gameResultData.receipt.cost}원
-          </p>
-          <p className="receipt-text-main-left">도망비</p>
-          <p className="receipt-text-main-right">
-            {gameResultData.receipt.runCost}원
-          </p>
-          <p className="receipt-text-main-left">환급비</p>
-          <p className="receipt-text-main-right">
-            {gameResultData.receipt.reward}원
-          </p>
-          <p className="receipt-text-main-left">수수료</p>
-          <p className="receipt-text-main-right">
-            {gameResultData.receipt.commission}원
-          </p>
-          <p className="receipt-text-main-total1">TOTAL</p>
-          <p className="receipt-text-main-right">
-            {gameResultData.receipt.total}원
-          </p>
+      <div className="receipt-backimg">
+        <div className="receipt-whiteblock"></div>
+        <div className="receipt-ticket"></div>
+        <div className="receipt-text" onTouchStart={handleTouchStart}>
+          <p className="receipt-text-header"></p>
+          <div className="receipt-text-main">
+            <p className="receipt-text-main-left">게임비</p>
+            <p className="receipt-text-main-right">
+              {gameResultData.receipt.cost}원
+            </p>
+            <p className="receipt-text-main-left">도망비</p>
+            <p className="receipt-text-main-right">
+              {gameResultData.receipt.runCost}원
+            </p>
+            <p className="receipt-text-main-left">환급비</p>
+            <p className="receipt-text-main-right">
+              {gameResultData.receipt.reward}원
+            </p>
+            <p className="receipt-text-main-left">수수료</p>
+            <p className="receipt-text-main-right">
+              {gameResultData.receipt.commission}원
+            </p>
+            <p className="receipt-text-main-total1">TOTAL</p>
+            <p className="receipt-text-main-right">
+              {gameResultData.receipt.total}원
+            </p>
+          </div>
+          <p className="receipt-text-footer">야생의 직장인</p>
         </div>
-        <p className="receipt-text-footer">야생의 직장인</p>
       </div>
     </div>
   );
