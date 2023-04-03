@@ -11,23 +11,36 @@ import { getMyInvestList } from "../api/Investment";
 
 function MySubwayPage(props) {
   const [cnt, setCnt] = useState(0);
+  const [isRetry, setIsRetry] = useState(true);
   const [mySubway, setMySubway] = useState([]);
+  const [sortingOrder, setSortingOrder] = useState("investment");
+
+  const sortingOptions = [
+    { value: "investment", label: "나의 투자 금액" },
+    { value: "percent", label: "나의 지분율" },
+    { value: "name", label: "이름순" },
+  ];
+
+  function handleSortingChange(event) {
+    setCnt(0);
+    setSortingOrder(event.target.value);
+  }
 
   useEffect(() => {
     if (cnt < 2) {
       const fetchData = async () => {
         await getMyInvestList({
-          order: "investment",
-          ascend: "DESC",
+          order: sortingOrder,
+          ascend: sortingOrder === "name" ? "ASC" : "DESC",
           setFunc: props.setMyInvestList,
         });
-        const mySubwayData = props.myInvestList.investments.map((item) => (
-          <div className="my-content">
+        const mySubwayData = props.myInvestList.investments.map((item, idx) => (
+          <div className="my-content" key={idx}>
             <div>
               <p className="my-subject">{item.station.name}</p>
             </div>
             <div>
-              <p className="my-subject">{item.investment}</p>
+              <p className="my-subject">{item.investment}원</p>
               <p className="my-subject-2">({item.percent}%)</p>
             </div>
           </div>
@@ -37,13 +50,20 @@ function MySubwayPage(props) {
       };
       fetchData();
     }
-  }, [props.myInvestList]);
+  }, [props.myInvestList, sortingOrder]);
 
   return (
     <div className="my-background">
       <div className="my-holder">
         <div className="my-title">
           <p className="my-subject">나의 투자 내역</p>
+          <select value={sortingOrder} onChange={handleSortingChange}>
+            {sortingOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="my-subtitle">
           <div>
@@ -54,7 +74,7 @@ function MySubwayPage(props) {
             <p className="my-subject-2">(지분율)</p>
           </div>
         </div>
-        {mySubway}
+        <div className="my-scroll-div">{mySubway}</div>
       </div>
       <Link className="my-router-my-btn" to="/map/mine">
         <img src={myMap} alt="myMap" />

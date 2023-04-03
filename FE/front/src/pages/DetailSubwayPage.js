@@ -50,9 +50,13 @@ function DetailSubwayPage(props) {
     <div className="detail-background">
       <div className="detail-holder">
         <div className="detail-title">
-          <p className="detail-subject">
-            {props.stationStake.dominator}의 {props.stationStake.stationName}
-          </p>
+          {props.stationStake.dominator ? (
+            <p className="detail-subject">
+              {props.stationStake.dominator}의 {props.stationStake.stationName}
+            </p>
+          ) : (
+            <p className="detail-subject">{props.stationStake.stationName}</p>
+          )}
         </div>
 
         <div className="detail-content-box">
@@ -97,19 +101,21 @@ function DetailSubwayPage(props) {
             <p className="detail-subject-2">(지분율)</p>
           </div>
         </div>
-        {rankingData}
+        <div className="detail-scroll-div">{rankingData}</div>
       </div>
 
       <div className="detail-mine">
         <div>
           <p className="detail-subject-1">나의 랭킹 및 정보</p>
-          <p className="detail-subject-1">
-            {props.stationStake.mine ? props.stationStake.mine.rank : "x"}등{" "}
-            {props.stationStake.mine
-              ? props.stationStake.mine.investment.toLocaleString("ko-KR")
-              : "x"}
-            ({props.stationStake.mine ? props.stationStake.mine.percent : "x"}%)
-          </p>
+          {props.stationStake.mine ? (
+            <p className="detail-subject-1">
+              {props.stationStake.mine.rank}등{" "}
+              {props.stationStake.mine.investment.toLocaleString("ko-KR")}(
+              {props.stationStake.mine.percent}%)
+            </p>
+          ) : (
+            <p className="detail-subject-1">투자한 기록이 없어요.</p>
+          )}
         </div>
         <div>
           <button
@@ -137,6 +143,7 @@ function DetailSubwayPage(props) {
           modalWidth={85}
           modalHeight={75}
           selectModalIdx={3}
+          detailOrHot={0}
           stationId={location.state}
           investment={
             props.stationStake.mine

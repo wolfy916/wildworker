@@ -154,6 +154,7 @@ function SubwayMapPage(props) {
 
         photoMapTag.appendChild(areaTag);
       }
+      setCnt((prev) => (prev += 1));
     }
   });
 
