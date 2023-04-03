@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PatchMapping
-    public ResponseEntity<Void> ChangeUserInfo(
+    public ResponseEntity<Void> changeUserInfo(
             @AuthenticationPrincipal PrincipalDetails principal,
             @RequestBody ChangeUserInfoRequest changeUserInfoRequest) {
         SessionUser user = Optional.of(principal.getSessionUser())
