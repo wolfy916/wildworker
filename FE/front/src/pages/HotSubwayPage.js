@@ -1,50 +1,54 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import "./HotSubwayPage.css";
 import goMap from "../asset/image/goMap.png";
 import myMap from "../asset/image/myMap.png";
 import hotMap from "../asset/image/hotMap.png";
 import Modal from "../components/mainpage/Modal";
-import { getStationRanking } from "../api/Investment.js";
+import { getStationRanking, getStationStake } from "../api/Investment.js";
 
-function HotSubwayPage() {
-  const payload = {
-    size: 5,
-    order: "investment",
-  };
-  const hotSubwayTotalData = getStationRanking(payload);
-  const [hotSubway, setHotSubway] = useState([]);
+function HotSubwayPage(props) {
   const [modalClick, setModalClick] = useState(false);
-
+  const [selectedStationId, setSelectedStationId] = useState(1);
 
   useEffect(() => {
-    const hotSubwayData = hotSubwayTotalData.ranking.map((item) => (
-      <div
-        className="hot-content"
-        onClick={() => {
-          setModalClick(true);
-        }}
-      >
-        <div>
-          <p className="hot-subject">{item.station.name}</p>
-        </div>
-        <div>
-          <p className="hot-subject">
-            {item.station.totalInvestment.toLocaleString("ko-KR")}원
-          </p>
-          <p className="hot-subject">
-            {item.station.currentCommission.toLocaleString("ko-KR")}원
-          </p>
-          <p className="hot-subject-2">
-            ({item.station.prevCommission.toLocaleString("ko-KR")}원)
-          </p>
-        </div>
-      </div>
-    ));
-    setHotSubway(hotSubwayData);
+    getStationRanking({
+      size: 5,
+      order: "investment",
+      setFunc: props.setStationRank,
+    });
   }, []);
+
+  const hotSubwayData = props.stationRank.ranking.map((item, idx) => (
+    <div
+      className="hot-content"
+      key={idx}
+      onClick={() => {
+        setModalClick(true);
+        setSelectedStationId(item.station.id);
+        getStationStake({
+          stationId: item.station.id,
+          setFunc: props.setStationStake,
+        });
+      }}
+    >
+      <div>
+        <p className="hot-subject">{item.station.name}</p>
+      </div>
+      <div>
+        <p className="hot-subject">
+          {item.station.totalInvestment.toLocaleString("ko-KR")}원
+        </p>
+        <p className="hot-subject">
+          {item.station.currentCommission.toLocaleString("ko-KR")}원
+        </p>
+        <p className="hot-subject-2">
+          ({item.station.prevCommission.toLocaleString("ko-KR")}원)
+        </p>
+      </div>
+    </div>
+  ));
 
   return (
     <div className="hot-background">
@@ -62,52 +66,7 @@ function HotSubwayPage() {
             <p className="hot-subject-2">(10분간 누적 수수료 총액)</p>
           </div>
         </div>
-        <div
-          className="hot-content"
-          onClick={() => {
-            setModalClick(true);
-          }}
-        >
-          <div>
-            <p className="hot-subject">강남역</p>
-          </div>
-          <div>
-            <p className="hot-subject">215,200,000원</p>
-            <p className="hot-subject">11,600,000원</p>
-            <p className="hot-subject-2">(214,200원)</p>
-          </div>
-        </div>
-        <div
-          className="hot-content"
-          onClick={() => {
-            setModalClick(true);
-          }}
-        >
-          <div>
-            <p className="hot-subject">왕십리역</p>
-          </div>
-          <div>
-            <p className="hot-subject">175,200,000원</p>
-            <p className="hot-subject">10,420,000원</p>
-            <p className="hot-subject-2">(142,200원)</p>
-          </div>
-        </div>
-        <div
-          className="hot-content"
-          onClick={() => {
-            setModalClick(true);
-          }}
-        >
-          <div>
-            <p className="hot-subject">신림역</p>
-          </div>
-          <div>
-            <p className="hot-subject">160,320,000원</p>
-            <p className="hot-subject">8,240,000원</p>
-            <p className="hot-subject-2">(102,200원)</p>
-          </div>
-        </div>
-        {hotSubway}
+        {hotSubwayData}
       </div>
 
       <Link className="hot-router-my-btn" to="/map/mine">
@@ -124,7 +83,10 @@ function HotSubwayPage() {
           modalWidth={85}
           modalHeight={75}
           selectModalIdx={3}
+          selectedStationId={selectedStationId}
+          investment={props.stationStake.mine ? props.stationStake.mine.investment.toLocaleString("ko-KR"): 0}
           setModalClick={setModalClick}
+          setUserData={props.setUserData}
         />
       )}
     </div>

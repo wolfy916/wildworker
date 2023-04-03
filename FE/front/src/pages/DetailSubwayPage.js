@@ -136,10 +136,13 @@ function DetailSubwayPage(props) {
           modalHeight={75}
           selectModalIdx={3}
           stationId={location.state}
-          investment={props.stationStake.mine ? props.stationStake.mine.investment.toLocaleString(
-            "ko-KR"
-          ) : ""}
+          investment={
+            props.stationStake.mine
+              ? props.stationStake.mine.investment.toLocaleString("ko-KR")
+              : 0
+          }
           setModalClick={setModalClick}
+          setUserData={props.setUserData}
           setCnt={setCnt}
           setIsRetry={setIsRetry}
         />

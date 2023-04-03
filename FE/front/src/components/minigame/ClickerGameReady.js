@@ -3,20 +3,25 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../minigame/ClickerGameReady.css";
 
-function MiniGameReadyPage() {
-  const [timeLeft, setTimeLeft] = useState(10000);
+function ClickerGameReadyPage(props) {
+  const [timeLeft, setTimeLeft] = useState(3);
   const navigate = useNavigate();
+  //gameid, userData,stationId을 useLocation으로 minigame에 보내줘야함.
+  //navData에 user정보가 담겨야 함.
+  const state = props.state;
+  // console.log(state);
+  const navData = [state, { gameType: 1 }];
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+      setTimeLeft((prevTimeLeft) => prevTimeLeft - 1);
     }, 1000);
 
     return () => clearInterval(interval);
   }, []);
   useEffect(() => {
     if (timeLeft === 0) {
-      navigate("/pvp/minigame");
+      navigate("/pvp/minigame", { state: navData });
     }
   }, [timeLeft, navigate]);
   return (
@@ -45,4 +50,4 @@ function MiniGameReadyPage() {
   );
 }
 
-export default MiniGameReadyPage;
+export default ClickerGameReadyPage;
