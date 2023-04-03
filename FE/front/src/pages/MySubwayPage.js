@@ -11,15 +11,9 @@ import { getMyInvestList } from "../api/Investment";
 
 function MySubwayPage(props) {
   const [cnt, setCnt] = useState(0);
-  const payload = {
-    order: "investment",
-    ascend: "DESC",
-    setFunc: props.setMyInvestList,
-  };
   const [mySubway, setMySubway] = useState([]);
 
   useEffect(() => {
-    // cnt 5번은 해야 실시간으로 다 바뀜
     if (cnt < 2) {
       const fetchData = async () => {
         await getMyInvestList({

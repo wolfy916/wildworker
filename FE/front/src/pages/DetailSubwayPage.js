@@ -20,7 +20,7 @@ function DetailSubwayPage(props) {
 
   useEffect(() => {
     // cnt 5번은 해야 실시간으로 다 바뀜
-    if (cnt < 5) {
+    if (cnt < 10) {
       const fetchData = async () => {
         await getStationStake({
           stationId: location.state,
@@ -104,9 +104,11 @@ function DetailSubwayPage(props) {
         <div>
           <p className="detail-subject-1">나의 랭킹 및 정보</p>
           <p className="detail-subject-1">
-            {props.stationStake.mine ? props.stationStake.mine.rank : 'x'}등{" "}
-            {props.stationStake.mine ? props.stationStake.mine.investment.toLocaleString("ko-KR") : 'x'}(
-            {props.stationStake.mine ? props.stationStake.mine.percent : 'x'}%)
+            {props.stationStake.mine ? props.stationStake.mine.rank : "x"}등{" "}
+            {props.stationStake.mine
+              ? props.stationStake.mine.investment.toLocaleString("ko-KR")
+              : "x"}
+            ({props.stationStake.mine ? props.stationStake.mine.percent : "x"}%)
           </p>
         </div>
         <div>
