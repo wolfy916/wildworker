@@ -45,16 +45,25 @@ public class StationContract {
         log.info("\t to station : {}", stationAddress);
         log.info("\t amount : {}", amount);
 
-        Function function = new Function("recordInvestment", List.of(new Uint256(amount)),
+        Function function = new Function("recordInvestment",
+                List.of(new Address(userAddress), new Uint256(amount)),
                 Collections.emptyList());
 
-        return transactionSendHelper.sendContractAsync(stationAddress, userAddress, function);
+        return transactionSendHelper.sendContractAsync(stationAddress, function);
     }
 
     public CompletableFuture<TransactionReceipt> distributeInvestReward(String stationAddress,
             Long currentCommissionOfStation) throws IOException {
         Function function = new Function("countChargeEvery10Min",
                 List.of(new Uint256(currentCommissionOfStation)), Collections.emptyList());
+
+        return transactionSendHelper.sendContractAsync(stationAddress, function);
+    }
+
+    public CompletableFuture<TransactionReceipt> resetInvestmentAmount(String stationAddress)
+            throws IOException {
+        Function function = new Function("resetInvestmentAmount",
+                Collections.emptyList(), Collections.emptyList());
 
         return transactionSendHelper.sendContractAsync(stationAddress, function);
     }
