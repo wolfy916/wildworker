@@ -1,4 +1,4 @@
-package com.a304.wildworker.service;
+package com.a304.wildworker.service.factory;
 
 import com.a304.wildworker.domain.common.MiniGameCode;
 import com.a304.wildworker.domain.minigame.MiniGame;
@@ -12,14 +12,12 @@ public class MiniGameFactory {
     private static MiniGameRepository miniGameRepository;
 
     public static MiniGame findByCode(MiniGameCode code) {
-        switch (code) {
-            case CALCULATE_GAME:
-            case CLICKER_GAME:
-            case ROCK_PAPER_SCISSORS:
-                return miniGameRepository.findByCode(code)
-                        .orElseThrow(() -> new NoSuchCodeException(code));
-            default:
-                throw new IllegalArgumentException("Unknown code: " + code);
-        }
+        return miniGameRepository.findByCode(code)
+                .orElseThrow(() -> new NoSuchCodeException(code));
+    }
+
+    public static MiniGame randomMiniGame() {
+        MiniGameCode code = MiniGameCode.random();
+        return findByCode(code);
     }
 }

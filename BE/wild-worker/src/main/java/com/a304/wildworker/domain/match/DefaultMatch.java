@@ -1,8 +1,7 @@
 package com.a304.wildworker.domain.match;
 
-import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.common.League;
-import com.a304.wildworker.domain.common.MiniGameCode;
+import com.a304.wildworker.domain.user.User;
 import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
@@ -19,12 +18,12 @@ import lombok.Getter;
 public class DefaultMatch extends Match {
 
     public static final int SELECT_TIME_LIMIT_SEC = 7;
-    public static final int DEFAULT_COST = 20;
-    public static final int DEFAULT_RUN_COST = 5;
+    public static final long DEFAULT_COST = 20;
+    public static final long DEFAULT_RUN_COST = 5;
     private final League league;
 
-    public DefaultMatch(List<ActiveUser> users, League league) {
-        super(UUID.randomUUID().toString(), users, MiniGameCode.random());        //게임 랜덤으로 정함
+    public DefaultMatch(List<User> users, long stationId, League league) {
+        super(UUID.randomUUID().toString(), stationId, users);
         this.league = league;
     }
 
@@ -33,12 +32,12 @@ public class DefaultMatch extends Match {
         return SELECT_TIME_LIMIT_SEC;
     }
 
-    public int getCost() {
-        return DEFAULT_COST * (int) (Math.pow(10, league.ordinal() - 1));
+    public long getRunCost() {
+        return DEFAULT_RUN_COST * (int) (Math.pow(10, league.ordinal() - 1));
     }
 
-    public int getRunCost() {
-        return DEFAULT_RUN_COST * (int) (Math.pow(10, league.ordinal() - 1));
+    public long getCost() {
+        return DEFAULT_COST * (int) (Math.pow(10, league.ordinal() - 1));
     }
 
 }

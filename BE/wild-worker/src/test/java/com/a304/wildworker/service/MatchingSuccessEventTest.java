@@ -52,7 +52,7 @@ public class MatchingSuccessEventTest {
     public void testMatchingSuccessEventRaise() {
         MatchingSuccessEvent event = DummyEvent.getMatchingSuccessEvent();
 
-        eventHandler.insertMatchRepository(event);
+        eventHandler.insertToRepository(event);
 
         int count = matchRepository.getMatchs().size();
         assertEquals(1, count);

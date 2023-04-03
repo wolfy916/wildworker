@@ -61,6 +61,7 @@ public class SecurityConfig<S extends Session> {
                 .csrf().disable()   //TODO. csrf disable 안 하고 처리
 //                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .authorizeHttpRequests()
+//                .antMatchers("/ws/**").permitAll()
                 .antMatchers("/ws/**").authenticated()
                 .antMatchers("/auth/login", "/oauth2/**").permitAll()
                 .anyRequest().authenticated()

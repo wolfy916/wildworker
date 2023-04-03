@@ -1,13 +1,15 @@
 package com.a304.wildworker.event;
 
 import com.a304.wildworker.domain.match.Match;
-import com.a304.wildworker.event.common.DomainEvent;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@Getter
-@RequiredArgsConstructor(staticName = "of")
-public class MatchCancelEvent implements DomainEvent {
+public class MatchCancelEvent extends DeleteMatchEvent {
 
-    private final Match match;
+    private MatchCancelEvent(Match match) {
+        super(match);
+    }
+
+    public static MatchCancelEvent of(Match match) {
+        return new MatchCancelEvent(match);
+    }
+
 }
