@@ -3,6 +3,7 @@ package com.a304.wildworker.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.a304.wildworker.domain.match.MatchRepository;
+import com.a304.wildworker.domain.user.UserRepository;
 import com.a304.wildworker.dummy.DummyEvent;
 import com.a304.wildworker.dummy.TestEventService;
 import com.a304.wildworker.event.MatchingSuccessEvent;
@@ -10,6 +11,7 @@ import com.a304.wildworker.event.handler.MatchingSuccessEventHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,6 +26,8 @@ public class MatchingSuccessEventTest {
     @Autowired
     ApplicationEvents events;
     MatchRepository matchRepository;
+    @Mock
+    UserRepository userRepository;
     MatchingSuccessEventHandler eventHandler;
     @Autowired
     TestEventService testService;
@@ -31,7 +35,7 @@ public class MatchingSuccessEventTest {
     @BeforeEach
     void setUp() {
         matchRepository = new MatchRepository();
-        eventHandler = new MatchingSuccessEventHandler(null, matchRepository);
+        eventHandler = new MatchingSuccessEventHandler(null, matchRepository, userRepository);
     }
 
 //    @Test

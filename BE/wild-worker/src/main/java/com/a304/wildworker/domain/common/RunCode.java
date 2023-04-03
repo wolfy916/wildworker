@@ -4,5 +4,11 @@ public enum RunCode {
     NONE,
     USER1,
     USER2,
-    ALL
+    ALL;
+
+    private static final RunCode[] VALUES = values();
+
+    public static RunCode fromOrdinary(int ordinary) {
+        return VALUES[ordinary];
+    }
 }
