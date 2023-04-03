@@ -8,7 +8,6 @@ import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.exception.NotCurrentStationException;
 import com.a304.wildworker.exception.NotLoginException;
 import com.a304.wildworker.exception.StationNotFoundException;
-import com.a304.wildworker.exception.base.CustomException;
 import com.a304.wildworker.service.EventService;
 import java.security.Principal;
 import java.util.Objects;
@@ -38,35 +37,33 @@ public class MessageInterceptor implements ChannelInterceptor {
     public Message<?> preSend(@NotNull Message<?> message, @NotNull MessageChannel channel) {
         SimpMessageHeaderAccessor accessor = SimpMessageHeaderAccessor.wrap(message);
         log.debug("ws MessageInterceptor(preSend): {}", accessor.getMessageType());
-        try {
-            Principal beforeUser = accessor.getUser();
-            if (!(beforeUser instanceof OAuth2AuthenticationToken)) {
-                throw new NotLoginException();
-            }
 
-            OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) beforeUser;
-            SessionUser sessionUser = ((PrincipalDetails) token.getPrincipal()).getSessionUser();
-
-            ActiveUser activeUser = findOrSaveActiveUser(sessionUser);
-            activeUser.setWebsocketSessionId(accessor.getSessionId());
-            accessor.setUser(activeUser);
-            accessor.setLeaveMutable(true);
-            log.debug("-- activeUser: {}", activeUser);
-
-            SimpMessageType messageType = Objects.requireNonNull(accessor.getMessageType());
-            switch (messageType) {
-                case SUBSCRIBE:
-                case UNSUBSCRIBE:
-                    String destination = accessor.getDestination();
-                    subUnsubStation(messageType, destination, activeUser);
-                    break;
-                case DISCONNECT:
-                    activeUserRepository.deleteById(sessionUser.getId());
-                    break;
-            }
-        } catch (CustomException e) {
-            eventService.handleException(accessor.getSessionId(), e);
+        Principal beforeUser = accessor.getUser();
+        if (!(beforeUser instanceof OAuth2AuthenticationToken)) {
+            throw new NotLoginException();
         }
+
+        OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) beforeUser;
+        SessionUser sessionUser = ((PrincipalDetails) token.getPrincipal()).getSessionUser();
+
+        ActiveUser activeUser = findOrSaveActiveUser(sessionUser);
+        activeUser.setWebsocketSessionId(accessor.getSessionId());
+        accessor.setUser(activeUser);
+        accessor.setLeaveMutable(true);
+        log.debug("-- activeUser: {}", activeUser);
+
+        SimpMessageType messageType = Objects.requireNonNull(accessor.getMessageType());
+        switch (messageType) {
+            case SUBSCRIBE:
+            case UNSUBSCRIBE:
+                String destination = accessor.getDestination();
+                subUnsubStation(messageType, destination, activeUser);
+                break;
+            case DISCONNECT:
+                activeUserRepository.deleteById(sessionUser.getId());
+                break;
+        }
+
         return MessageBuilder.fromMessage(message).setHeaders(accessor).build();
     }
 
@@ -106,4 +103,5 @@ public class MessageInterceptor implements ChannelInterceptor {
             }
         }
     }
+
 }
