@@ -40,6 +40,10 @@ public class WSBaseResponse<T> {
         return new Builder(Type.COIN, subType);
     }
 
+    public static BodyBuilder title(TitleType subType) {
+        return new Builder(Type.TITLE, subType);
+    }
+
     public interface BodyBuilder {
 
         <T> WSBaseResponse<T> data(T data);
