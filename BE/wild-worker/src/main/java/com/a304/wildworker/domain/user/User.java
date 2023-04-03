@@ -97,4 +97,20 @@ public class User extends BaseEntity {
     public Long changeBalance(Long value) {
         return this.balance += value;
     }
+
+    public void changeName(String name) {
+        this.name = name;
+    }
+
+    public void changeTitleShowType(TitleShowType titleType) {
+        this.titleShowType = titleType;
+    }
+
+    public void changeTitleId(Long title_id) {
+        this.title_id = title_id;
+    }
+
+    public void changeCharacterType(CharacterType characterType) {
+        this.characterId = characterType;
+    }
 }
