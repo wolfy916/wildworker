@@ -10,15 +10,35 @@ import { getStationRanking, getStationStake } from "../api/Investment.js";
 
 function HotSubwayPage(props) {
   const [modalClick, setModalClick] = useState(false);
+  const [cnt, setCnt] = useState(0);
+  const [isRetry, setIsRetry] = useState(true);
   const [selectedStationId, setSelectedStationId] = useState(1);
+  const [sortingOrder, setSortingOrder] = useState("investment");
+
+  const sortingOptions = [
+    { value: "investment", label: "총 투자 금액" },
+    { value: "commission", label: "10분간 누적 수수료 총액" },
+  ];
+
+  function handleSortingChange(event) {
+    setSortingOrder(event.target.value);
+    setCnt(0);
+    setIsRetry((prev) => !prev);
+  }
 
   useEffect(() => {
-    getStationRanking({
-      size: 5,
-      order: "investment",
-      setFunc: props.setStationRank,
-    });
-  }, []);
+    if (cnt < 10) {
+      function go() {
+        getStationRanking({
+          size: 5,
+          order: sortingOrder,
+          setFunc: props.setStationRank,
+        });
+      }
+      setCnt((prev) => prev + 1);
+      go();
+    }
+  }, [props.stationRank, sortingOrder, isRetry]);
 
   const hotSubwayData = props.stationRank.ranking.map((item, idx) => (
     <div
@@ -55,6 +75,13 @@ function HotSubwayPage(props) {
       <div className="hot-holder">
         <div className="hot-title">
           <p className="hot-subject">실시간 역 순위</p>
+          <select value={sortingOrder} onChange={handleSortingChange}>
+            {sortingOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="hot-subtitle">
           <div>
@@ -83,8 +110,15 @@ function HotSubwayPage(props) {
           modalWidth={85}
           modalHeight={75}
           selectModalIdx={3}
+          detailOrHot={1}
+          setIsRetry={setIsRetry}
+          setCnt={setCnt}
           selectedStationId={selectedStationId}
-          investment={props.stationStake.mine ? props.stationStake.mine.investment.toLocaleString("ko-KR"): 0}
+          investment={
+            props.stationStake.mine
+              ? props.stationStake.mine.investment.toLocaleString("ko-KR")
+              : 0
+          }
           setModalClick={setModalClick}
           setUserData={props.setUserData}
         />
