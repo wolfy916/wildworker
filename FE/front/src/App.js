@@ -27,14 +27,6 @@ import {
 } from "../src/api/socketFunc";
 
 function App() {
-  // 웹에서 개발할 때, 얘 꼭 주석처리 해라
-
-  // const elem = document.documentElement;
-  // document.addEventListener('click', function() {
-  //   if (elem.requestFullscreen) {
-  //     elem.requestFullscreen();
-  //   }
-  // });
 
   const [isLogin, setIsLogin] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
@@ -252,7 +244,16 @@ function App() {
                 />
               }
             />
-            <Route path="/map" element={<SubwayMapPage />} />
+            <Route
+              path="/map"
+              element={
+                <SubwayMapPage
+                  myInvestList={myInvestList}
+                  setMyInvestList={setMyInvestList}
+                  store={store}
+                />
+              }
+            />
             <Route
               path="/map/mine"
               element={
@@ -262,13 +263,18 @@ function App() {
                 />
               }
             />
-            <Route path="/map/hot" element={<HotSubwayPage 
-              stationRank={stationRank}
-              setStationRank={setStationRank}
-              stationStake={stationStake}
-              setStationStake={setStationStake}
-              setUserData={setUserData}
-            />} />
+            <Route
+              path="/map/hot"
+              element={
+                <HotSubwayPage
+                  stationRank={stationRank}
+                  setStationRank={setStationRank}
+                  stationStake={stationStake}
+                  setStationStake={setStationStake}
+                  setUserData={setUserData}
+                />
+              }
+            />
             <Route
               path="/map/detail"
               element={

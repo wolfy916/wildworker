@@ -44,6 +44,10 @@ public class WSBaseResponse<T> {
         return new Builder(Type.TITLE, subType);
     }
 
+    public static BodyBuilder miniGame(MiniGameType subType) {
+        return new Builder(Type.MINIGAME, subType);
+    }
+
     public interface BodyBuilder {
 
         <T> WSBaseResponse<T> data(T data);

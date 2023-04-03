@@ -4,21 +4,19 @@ import timer from "../../asset/image/timer.png";
 import "./SubwayTime.css";
 
 function SubwayTime(props) {
-  const [seconds, setSeconds] = useState(props.remainSec);
-
   useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds((prevSeconds) => prevSeconds - 1);
-    }, 1000);
-    return () => clearInterval(interval);
+      const interval = setInterval(() => {
+        props.setRemainSec((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+      return () => clearInterval(interval);
   }, []);
 
-  if (seconds === -1) {
-    setSeconds(600);
+  if (props.remainSec === -1) {
+    props.setRemainSec(600);
   }
 
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
+  const minutes = Math.floor(props.remainSec / 60);
+  const remainingSeconds = props.remainSec % 60;
 
   return (
     <div className="map-timer">

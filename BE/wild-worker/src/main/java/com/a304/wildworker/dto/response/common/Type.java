@@ -6,4 +6,5 @@ public enum Type {
     MINING,
     COIN,
     TITLE,
+    MINIGAME
 }
