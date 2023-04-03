@@ -13,13 +13,13 @@ public class Title extends BaseEntity {
 
     @Column(unique = true, nullable = false)
     private String name;
-    private int condition1;
+    private Integer condition1;
     @Column(nullable = true)
-    private int condition2;
+    private Integer condition2;
     @Column(nullable = true)
-    private int condition3;
+    private Integer condition3;
     @Column(nullable = true)
-    private int condition4;
+    private Integer condition4;
     @Column(nullable = true)
-    private int condition5;
+    private Integer condition5;
 }
