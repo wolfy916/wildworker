@@ -5,5 +5,6 @@ public enum Type {
     STATION,
     MINING,
     COIN,
-    MINIGAME,
+    TITLE,
+    MINIGAME
 }

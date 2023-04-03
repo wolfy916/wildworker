@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TitleAwardedRepository extends JpaRepository<TitleAwarded, Long> {
 
+    boolean existsByTitleIdAndUserId(Long titleId, Long userId);
 }

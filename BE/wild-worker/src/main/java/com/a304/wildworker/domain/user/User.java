@@ -4,7 +4,7 @@ import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.domain.common.BaseEntity;
 import com.a304.wildworker.domain.common.CharacterType;
 import com.a304.wildworker.domain.common.Role;
-import com.a304.wildworker.domain.common.TitleType;
+import com.a304.wildworker.domain.common.TitleShowType;
 import com.a304.wildworker.ethereum.exception.WalletCreationException;
 import com.a304.wildworker.ethereum.service.WalletProvider;
 import com.a304.wildworker.exception.NotEnoughBalanceException;
@@ -48,7 +48,7 @@ public class User extends BaseEntity {
     private CharacterType characterId;
     @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
-    private TitleType titleType;
+    private TitleShowType titleShowType;
     //    @ManyToOne(targetEntity = Title.class, fetch = FetchType.LAZY)
 //    @JoinColumn(nullable = false)
 //    private Title title;
@@ -69,7 +69,7 @@ public class User extends BaseEntity {
         this.wallet = WalletProvider.createUserWallet(this.walletPassword);
         this.balance = 0L;
         this.characterId = CharacterType.MAN;
-        this.titleType = TitleType.TITLE;
+        this.titleShowType = TitleShowType.TITLE;
         this.title_id = Constants.NONE_TITLE_ID;
         this.numberOfCollectedPaper = 0;
     }

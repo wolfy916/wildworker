@@ -40,6 +40,10 @@ public class WSBaseResponse<T> {
         return new Builder(Type.COIN, subType);
     }
 
+    public static BodyBuilder title(TitleType subType) {
+        return new Builder(Type.TITLE, subType);
+    }
+
     public static BodyBuilder miniGame(MiniGameType subType) {
         return new Builder(Type.MINIGAME, subType);
     }
