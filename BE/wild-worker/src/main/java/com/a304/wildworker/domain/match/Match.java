@@ -4,7 +4,6 @@ import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.common.MiniGameCode;
 import com.a304.wildworker.domain.minigame.MiniGame;
 import com.a304.wildworker.exception.AlreadySendException;
-import com.a304.wildworker.service.MiniGameFactory;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,7 +26,7 @@ public abstract class Match {
         this.id = id;
         this.users = users;
         this.miniGameCode = miniGameCode;
-        this.miniGame = MiniGameFactory.findByCode(miniGameCode);
+//        this.miniGame = MiniGameFactory.findByCode(miniGameCode);
         selected = new ConcurrentHashMap<>();
         progress = new ConcurrentHashMap<>();
     }

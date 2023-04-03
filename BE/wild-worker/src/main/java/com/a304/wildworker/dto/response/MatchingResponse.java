@@ -3,7 +3,6 @@ package com.a304.wildworker.dto.response;
 import com.a304.wildworker.domain.common.CharacterType;
 import com.a304.wildworker.domain.match.Match;
 import com.a304.wildworker.domain.user.User;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -29,7 +28,9 @@ public class MatchingResponse {
                 .build();
     }
 
-    @AllArgsConstructor
+    @Getter
+    @ToString
+    @Builder
     public static class UserDto {
 
         private String name;
@@ -37,8 +38,11 @@ public class MatchingResponse {
         private CharacterType characterType;
 
         public static UserDto of(User user) {
-            //TODO: title 수정
-            return new UserDto(user.getName(), "없음", user.getCharacterId());
+            return UserDto.builder()
+                    .name(user.getName())
+                    .title("없음")        //TODO: title 수정
+                    .characterType(user.getCharacterId())
+                    .build();
         }
     }
 
