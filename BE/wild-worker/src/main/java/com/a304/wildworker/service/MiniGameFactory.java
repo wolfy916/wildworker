@@ -12,14 +12,12 @@ public class MiniGameFactory {
     private static MiniGameRepository miniGameRepository;
 
     public static MiniGame findByCode(MiniGameCode code) {
-        switch (code) {
-            case CALCULATE_GAME:
-            case CLICKER_GAME:
-            case ROCK_PAPER_SCISSORS:
-                return miniGameRepository.findByCode(code)
-                        .orElseThrow(() -> new NoSuchCodeException(code));
-            default:
-                throw new IllegalArgumentException("Unknown code: " + code);
-        }
+        return miniGameRepository.findByCode(code)
+                .orElseThrow(() -> new NoSuchCodeException(code));
+    }
+
+    public static MiniGame randomMiniGame() {
+        MiniGameCode code = MiniGameCode.random();
+        return findByCode(code);
     }
 }

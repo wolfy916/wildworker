@@ -1,8 +1,10 @@
 package com.a304.wildworker.event.handler;
 
+import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.common.WebSocketUtils;
 import com.a304.wildworker.config.WebSocketConfig;
 import com.a304.wildworker.domain.activeuser.ActiveUser;
+import com.a304.wildworker.domain.common.MatchProgress;
 import com.a304.wildworker.domain.match.Match;
 import com.a304.wildworker.domain.match.MatchRepository;
 import com.a304.wildworker.domain.user.User;
@@ -11,7 +13,9 @@ import com.a304.wildworker.dto.response.MatchingResponse;
 import com.a304.wildworker.dto.response.common.MiniGameType;
 import com.a304.wildworker.dto.response.common.WSBaseResponse;
 import com.a304.wildworker.event.MatchingSuccessEvent;
+import com.a304.wildworker.event.common.EventPublish;
 import com.a304.wildworker.exception.UserNotFoundException;
+import com.a304.wildworker.service.ScheduleService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +32,7 @@ public class MatchingSuccessEventHandler {
     private final SimpMessagingTemplate messagingTemplate;
     private final MatchRepository matchRepository;
     private final UserRepository userRepository;
+    private final ScheduleService scheduleService;
 
     @EventListener
     public void insertMatchRepository(MatchingSuccessEvent event) {
@@ -54,6 +59,9 @@ public class MatchingSuccessEventHandler {
                 .map(a -> userRepository.findById(a.getUserId())
                         .orElseThrow(UserNotFoundException::new))
                 .collect(Collectors.toList());
+
+        match.changeProgress(MatchProgress.SELECTING);
+
         for (int i = 0; i < users.size(); i++) {
             User enemy = getEnemy(i, users);
             MatchingResponse matchingResponse = MatchingResponse.of(match, enemy);
@@ -66,8 +74,15 @@ public class MatchingSuccessEventHandler {
                     WebSocketUtils.createHeaders(sessionId));
         }
 
-        //TODO: set receive cool time
+        scheduleService.scheduleWithDelay(endReceiveCoolTime(match),
+                match.getTimeLimitSec() + Constants.SELECTING_DELAY_TIME);
     }
+
+    @EventPublish
+    public Runnable endReceiveCoolTime(Match match) {
+        return match::endSelected;
+    }
+
 
     private User getEnemy(int idx, List<User> users) {
         return users.get((idx + 1) % users.size());

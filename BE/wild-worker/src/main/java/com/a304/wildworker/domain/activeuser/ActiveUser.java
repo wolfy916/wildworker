@@ -20,6 +20,7 @@ public class ActiveUser implements Principal {
     private boolean matchable;  // 미니게임 가능 여부
     private ScheduledFuture<?> coolTime;        //스케줄된 쿨타임 작업 상태(null: 쿨타임 아님)
     private boolean subscribed;     //현재 역 구독 여부
+    private String currentMatchId;   //진행중인 미니게임 id
 
     public ActiveUser(Long userId) {
         this.userId = userId;

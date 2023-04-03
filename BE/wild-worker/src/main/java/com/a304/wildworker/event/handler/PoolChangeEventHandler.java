@@ -4,16 +4,15 @@ import com.a304.wildworker.domain.activestation.ActiveStation;
 import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
 import com.a304.wildworker.domain.common.League;
+import com.a304.wildworker.domain.common.MatchProgress;
 import com.a304.wildworker.domain.match.DefaultMatch;
 import com.a304.wildworker.domain.match.Match;
 import com.a304.wildworker.domain.match.strategy.DefaultLeagueStrategy;
 import com.a304.wildworker.domain.match.strategy.LeagueStrategy;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
-import com.a304.wildworker.event.MatchingSuccessEvent;
 import com.a304.wildworker.event.PoolChangeEvent;
 import com.a304.wildworker.event.common.EventPublish;
-import com.a304.wildworker.event.common.Events;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -59,8 +58,8 @@ public class PoolChangeEventHandler {
                 ActiveUser user1 = activeUserRepository.findById(users.poll()).orElseThrow();
                 ActiveUser user2 = activeUserRepository.findById(users.poll()).orElseThrow();
                 List<ActiveUser> matchUsers = List.of(user1, user2);
-                Match match = new DefaultMatch(matchUsers, league);
-                Events.raise(MatchingSuccessEvent.of(match));
+                Match match = new DefaultMatch(matchUsers, activeStation.getId(), league);
+                match.changeProgress(MatchProgress.MATCHING);
                 for (ActiveUser user :
                         matchUsers) {
                     activeStation.removeFromPool(user.getUserId());
