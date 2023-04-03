@@ -8,15 +8,11 @@ import com.a304.wildworker.domain.user.User;
  */
 public class DefaultLeagueStrategy implements LeagueStrategy {
 
-    public final static long LOWER_LIMIT = 50;
-    public final static long[] UPPER_LIMIT = new long[]{1_000, 10_000, 100_000};
+    public final static long[] UPPER_LIMIT = new long[]{50, 1_000, 10_000, 100_000};
 
     @Override
-    public League getLeague(User users) {
-        long balance = users.getBalance();
-        if (balance < LOWER_LIMIT) {
-            return League.NONE;
-        }
+    public League getLeague(User user) {
+        long balance = user.getBalance();
         League league = League.TOP;
 
         for (int i = 0; i < UPPER_LIMIT.length; i++) {
