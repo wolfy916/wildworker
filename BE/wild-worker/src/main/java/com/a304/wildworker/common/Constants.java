@@ -9,9 +9,6 @@ public final class Constants {
     public static final String SESSION_NAME_ACCESS_TOKEN = "access_token";
     public static final String SESSION_NAME_PREV_PAGE = "prev_page";
 
-    //타이틀 '없음' id
-    public static final Long NONE_TITLE_ID = 1L;
-
     // 스케줄러 동작 주기 (minute)
     public static final int INTERVAL = 10;
 

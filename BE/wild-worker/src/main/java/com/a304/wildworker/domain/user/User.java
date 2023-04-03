@@ -4,6 +4,7 @@ import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.domain.common.BaseEntity;
 import com.a304.wildworker.domain.common.CharacterType;
 import com.a304.wildworker.domain.common.Role;
+import com.a304.wildworker.domain.common.TitleCode;
 import com.a304.wildworker.domain.common.TitleShowType;
 import com.a304.wildworker.ethereum.exception.WalletCreationException;
 import com.a304.wildworker.ethereum.service.WalletProvider;
@@ -70,7 +71,7 @@ public class User extends BaseEntity {
         this.balance = 0L;
         this.characterId = CharacterType.MAN;
         this.titleShowType = TitleShowType.TITLE;
-        this.title_id = Constants.NONE_TITLE_ID;
+        this.title_id = TitleCode.NONE.getId();
         this.numberOfCollectedPaper = 0;
     }
 
