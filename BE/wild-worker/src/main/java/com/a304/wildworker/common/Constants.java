@@ -26,12 +26,12 @@ public final class Constants {
     public static final long AMOUNT_AUTO_MINE = 100L;   //자동 채굴 금액
 
     // 칭호 아이디
-    public static final Long RISK_TAKER = 0L;
-    public static final Long RUNNER = 1L;
-    public static final Long POOR = 2L;
-    public static final Long RICH = 3L;
-    public static final Long LOOSER = 4L;
-    public static final Long WINNER = 5L;
+    public static final Long RISK_TAKER = 1L;
+    public static final Long RUNNER = 2L;
+    public static final Long POOR = 3L;
+    public static final Long RICH = 4L;
+    public static final Long LOOSER = 5L;
+    public static final Long WINNER = 6L;
 
     // 칭호 조건
     public static final int CONDITION_RISK_TAKER = 20;
