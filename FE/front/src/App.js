@@ -27,14 +27,6 @@ import {
 } from "../src/api/socketFunc";
 
 function App() {
-  // 웹에서 개발할 때, 얘 꼭 주석처리 해라
-
-  // const elem = document.documentElement;
-  // document.addEventListener('click', function() {
-  //   if (elem.requestFullscreen) {
-  //     elem.requestFullscreen();
-  //   }
-  // });
 
   const [isLogin, setIsLogin] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
