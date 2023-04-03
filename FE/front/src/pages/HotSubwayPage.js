@@ -10,76 +10,41 @@ import Modal from "../components/mainpage/Modal";
 import { getStationRanking } from "../api/Investment.js";
 
 function HotSubwayPage() {
-  // const payload = {
-  //   size:5,
-  //   order:'investment',
-  // }
-  // const hotSubwayTotalData = getStationRanking(payload);
-  const [data, setData] = useState([]);
+  const payload = {
+    size: 5,
+    order: "investment",
+  };
+  const hotSubwayTotalData = getStationRanking(payload);
   const [hotSubway, setHotSubway] = useState([]);
   const [modalClick, setModalClick] = useState(false);
 
-  useEffect(() => {
-    axios
-      .get("/api/data")
-      .then((response) => {
-        setData(response.data);
-        const hotSubwayData = data.ranking.map((item) => (
-          <div
-            className="hot-content"
-            onClick={() => {
-              setModalClick(true);
-            }}
-          >
-            <div>
-              <p className="hot-subject">{item.station.name}</p>
-            </div>
-            <div>
-              <p className="hot-subject">
-                {item.station.totalInvestment.toLocaleString("ko-KR")}원
-              </p>
-              <p className="hot-subject">
-                {item.station.currentCommission.toLocaleString("ko-KR")}원
-              </p>
-              <p className="hot-subject-2">
-                ({item.station.prevCommission.toLocaleString("ko-KR")}원)
-              </p>
-            </div>
-          </div>
-        ));
-        setHotSubway(hotSubwayData);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
 
-  // useEffect(() => {
-  //   const hotSubwayData = hotSubwayTotalData.ranking.map((item) => (
-  //     <div
-  //       className="hot-content"
-  //       onClick={() => {
-  //         setModalClick(true);
-  //       }}
-  //     >
-  //       <div>
-  //         <p className="hot-subject">{item.station.name}</p>
-  //       </div>
-  //       <div>
-  //         <p className="hot-subject">
-  //           {item.station.totalInvestment.toLocaleString("ko-KR")}원
-  //         </p>
-  //         <p className="hot-subject">
-  //           {item.station.currentCommission.toLocaleString("ko-KR")}원
-  //         </p>
-  //         <p className="hot-subject-2">
-  //           ({item.station.prevCommission.toLocaleString("ko-KR")}원)
-  //         </p>
-  //       </div>
-  //     </div>
-  //   ));
-  //   setHotSubway(hotSubwayData);
-  // }, []);
+  useEffect(() => {
+    const hotSubwayData = hotSubwayTotalData.ranking.map((item) => (
+      <div
+        className="hot-content"
+        onClick={() => {
+          setModalClick(true);
+        }}
+      >
+        <div>
+          <p className="hot-subject">{item.station.name}</p>
+        </div>
+        <div>
+          <p className="hot-subject">
+            {item.station.totalInvestment.toLocaleString("ko-KR")}원
+          </p>
+          <p className="hot-subject">
+            {item.station.currentCommission.toLocaleString("ko-KR")}원
+          </p>
+          <p className="hot-subject-2">
+            ({item.station.prevCommission.toLocaleString("ko-KR")}원)
+          </p>
+        </div>
+      </div>
+    ));
+    setHotSubway(hotSubwayData);
+  }, []);
 
   return (
     <div className="hot-background">

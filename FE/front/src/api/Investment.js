@@ -8,34 +8,37 @@ function getStationRanking(payload) {
       url: "/investment",
       params: {
         size: payload.size,
-        order: payload.order  // -> payload.investment or payload.commission
-      }
-    }).then(({status, data}) => {
-      if (status == 200) {
-        console.log("getStationRanking 성공");
-        payload.setFunc(data);
-        // data 예시
-        // {
-        //   "ranking": [
-        //     { 
-        //       "rank": 1,                   -> 순위
-        //       "station": [
-        //         "id": 1,                   -> 역 고유 번호
-        //         "name": "역삼역",
-        //         "totalInvestment": 12345,  -> 총 투자금액
-        //         "prevCommission": 1234,    -> 이전 10분 누적 수수료 총액
-        //         "currentCommission": 123   -> 현재 쌓이고 있는 누적 수수료 총액
-        //       ]
-        //     } 
-        //     ... // size 크기만큼의 데이터 (지면 상 생략) 
-        //   ],
-        //   "orderBy": "investment"   -> 정렬 기준
-        // }
-      }
-    }).catch(err => {
-      console.log("getStationRanking 실패");
-      console.log(err.response);
-    });
+        order: payload.order, // -> payload.investment or payload.commission
+      },
+    })
+      .then(({ status, data }) => {
+        if (status == 200) {
+          console.log("getStationRanking 성공");
+          console.log(data);
+          payload.setFunc(data);
+          // data 예시
+          // {
+          //   "ranking": [
+          //     {
+          //       "rank": 1,                   -> 순위
+          //       "station": [
+          //         "id": 1,                   -> 역 고유 번호
+          //         "name": "역삼역",
+          //         "totalInvestment": 12345,  -> 총 투자금액
+          //         "prevCommission": 1234,    -> 이전 10분 누적 수수료 총액
+          //         "currentCommission": 123   -> 현재 쌓이고 있는 누적 수수료 총액
+          //       ]
+          //     }
+          //     ... // size 크기만큼의 데이터 (지면 상 생략)
+          //   ],
+          //   "orderBy": "investment"   -> 정렬 기준
+          // }
+        }
+      })
+      .catch((err) => {
+        console.log("getStationRanking 실패");
+        console.log(err.response);
+      });
   }
 }
 
@@ -45,39 +48,41 @@ function getStationStake(payload) {
     http({
       method: "get",
       url: `/investment/${payload.stationId}`,
-    }).then(({status, data}) => {
-      if (status == 200) {
-        console.log("getStationStake 성공");
-        console.log(data)
-        payload.setFunc(data);
-        // data 예시
-        // {
-        //   "stationName": "역삼역",
-        //   "dominator": "S2태형S2", -> 해당 역의 지배자
-        //   "totalInvestment": 10000000, -> 총 투자금액
-        //   "prevCommission": 12345,     -> 이전 10분 누적 수수료 총액
-        //   "currentCommission": 1234,   -> 현재 쌓이고 있는 누적 수수료 총액
-        //   "ranking": [ -> 지분 순위 정보
-        //     { 
-        //       "rank": 1,
-        //       "namae": "S2태형S2",
-        //       "investment": 123,  -> 투자금액
-        //       "percent": 10       -> 지분율
-        //     }
-        //     ... // 5개 (지면 상 생략) 
-        //   ],
-        //   "mine": 	-> 내 지분 정보
-        //     { 
-        //       "rank": 1,
-        //       "investment": 123,
-        //       "percent": 10 
-        //     }
-        // }
-      }
-    }).catch(err => {
-      console.log("getStationStake 실패");
-      console.log(err.response);
-    });
+    })
+      .then(({ status, data }) => {
+        if (status == 200) {
+          console.log("getStationStake 성공");
+          console.log(data);
+          payload.setFunc(data);
+          // data 예시
+          // {
+          //   "stationName": "역삼역",
+          //   "dominator": "S2태형S2", -> 해당 역의 지배자
+          //   "totalInvestment": 10000000, -> 총 투자금액
+          //   "prevCommission": 12345,     -> 이전 10분 누적 수수료 총액
+          //   "currentCommission": 1234,   -> 현재 쌓이고 있는 누적 수수료 총액
+          //   "ranking": [ -> 지분 순위 정보
+          //     {
+          //       "rank": 1,
+          //       "namae": "S2태형S2",
+          //       "investment": 123,  -> 투자금액
+          //       "percent": 10       -> 지분율
+          //     }
+          //     ... // 5개 (지면 상 생략)
+          //   ],
+          //   "mine": 	-> 내 지분 정보
+          //     {
+          //       "rank": 1,
+          //       "investment": 123,
+          //       "percent": 10
+          //     }
+          // }
+        }
+      })
+      .catch((err) => {
+        console.log("getStationStake 실패");
+        console.log(err.response);
+      });
   }
 }
 
@@ -115,32 +120,34 @@ function getMyInvestList(payload) {
         order: payload.order, // payload.name || payload.investment || payload.percent
         ascend: payload.ascend, // ASC = 오름차순 정렬, DESC = 내림차순 정렬
       },
-    }).then(({status, data}) => {
-      if (status == 200) {
-        console.log("getMyInvestList 성공");
-        console.log(data)
-        payload.setFunc(data);
-        // data 예시
-        // {
-        //   "investments": [
-        //     {
-        //       "station": {
-        //         "id": 1,
-        //         "name": "역삼역"
-        //       },
-        //       "investment": 1234,
-        //       "percent": 10
-        //     }, ...
-        //   ],
-        //   "remainSec": 90
-        //   "orderBy": "investment",
-        //   "ascend": "ASC"
-        // }
-      }
-    }).catch(err => {
-      console.log("getMyInvestList 실패");
-      console.log(err.response);
-    });
+    })
+      .then(({ status, data }) => {
+        if (status == 200) {
+          console.log("getMyInvestList 성공");
+          console.log(data);
+          payload.setFunc(data);
+          // data 예시
+          // {
+          //   "investments": [
+          //     {
+          //       "station": {
+          //         "id": 1,
+          //         "name": "역삼역"
+          //       },
+          //       "investment": 1234,
+          //       "percent": 10
+          //     }, ...
+          //   ],
+          //   "remainSec": 90
+          //   "orderBy": "investment",
+          //   "ascend": "ASC"
+          // }
+        }
+      })
+      .catch((err) => {
+        console.log("getMyInvestList 실패");
+        console.log(err.response);
+      });
   }
 }
 
