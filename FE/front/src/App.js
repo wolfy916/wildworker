@@ -46,16 +46,16 @@ function App() {
     coin: 0,
     collectedPapers: 0,
     name: "이름바꿔",
-    titleId: 0,
+    title: { id: 1, name: "x" },
     titleType: 0,
   });
 
   // 보유 칭호목록 조회 데이터
   const [myTitles, setMyTitles] = useState({
     titleType: 1,
-    mainTitleId: 1,
+    mainTitleId: 0,
     dominatorTitles: [{ id: 1, name: "역삼역의 지배자" }],
-    titles: [{ id: 0, name: "없음" }],
+    titles: [{ id: 1, name: "없음" }],
   });
 
   // 코인 내역 조회 데이터
@@ -236,6 +236,10 @@ function App() {
                   setUserData={setUserData}
                   stompClient={stompClient}
                   setIsLogin={setIsLogin}
+                  myTitles={myTitles}
+                  setMytitles={setMyTitles}
+                  myCoinLogs={myCoinLogs}
+                  setMyCoinLogs={setMyCoinLogs}
                 />
               }
             />
@@ -258,13 +262,20 @@ function App() {
                 />
               }
             />
-            <Route path="/map/hot" element={<HotSubwayPage />} />
+            <Route path="/map/hot" element={<HotSubwayPage 
+              stationRank={stationRank}
+              setStationRank={setStationRank}
+              stationStake={stationStake}
+              setStationStake={setStationStake}
+              setUserData={setUserData}
+            />} />
             <Route
               path="/map/detail"
               element={
                 <DetailSubwayPage
                   stationStake={stationStake}
                   setStationStake={setStationStake}
+                  setUserData={setUserData}
                 />
               }
             />

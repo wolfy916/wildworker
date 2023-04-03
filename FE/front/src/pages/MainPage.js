@@ -15,34 +15,37 @@ import getCoinFullImage from "../asset/image/Full_Charge_Btn.png";
 import LoadingEffect from "../asset/image/pvpPageLoading.gif";
 import morningBackgroundImg from "../asset/image/test_morning.png";
 
-import { getUserInfo } from "../api/User";
+import { getUserInfo, getTitleList } from "../api/User";
 
 function MainPage(props) {
   const navigate = useNavigate();
-
   const stompClient = props.stompClient;
-  const store = props.store;
   const coinCnt = props.userData.collectedPapers;
-  const userData = props.userData;
 
   const [isReady, setIsReady] = React.useState(false); // 비동기 오류 방지
+
   const [isEnough, setIsEnough] = React.useState(false); // 수동채굴 수집량 달성 여부 확인
   const [getCoinClick, setGetCoinClick] = React.useState(false); // 수집량 만족 후 클릭 여부
-  const [modalClick, setModalClick] = React.useState(false); // 메인페이지의 메뉴 클릭 여부
+  const [isClickDoc, setIsClickDoc] = React.useState(false); // 서류 click시
+
+  const [modalClick, setModalClick] = React.useState(false); // 메인페이지의 메뉴바 클릭 여부
+  const [pvpRouterClick, setPvpRouterClick] = React.useState(false); // pvp 로딩 테스트 버튼
+
   const [titleModalClick, setTitleModalClick] = React.useState(false); // 메인페이지의 칭호 메뉴 획득하면 띄움
   const [dominatorMsgModalClick, setDominatorMsgModalClick] =
     React.useState(false); // 지배자 한마디 모달
   const [selectIdx, setSelectIdx] = React.useState(0); // 모달창에 띄울 컨텐츠 인덱스
-  const [isToggled, setIsToggled] = React.useState(false);
-  const [pvpRouterClick, setPvpRouterClick] = React.useState(false); // pvp 로딩 테스트 버튼
-  const [isClickDoc, setIsClickDoc] = React.useState(false);  // click시 
+  const [isToggled, setIsToggled] = React.useState(
+    Boolean(props.userData.titleType)
+  ); // 유저의 칭호타입
 
   const characterList = [character_man, character_woman];
 
   React.useEffect(() => {
     setIsReady(true);
     props.setIsLogin(true);
-    getUserInfo({setFunc: props.setUserData});
+    getUserInfo({ setFunc: props.setUserData });
+    getTitleList({ setFunc: props.setMyTitles });
 
     if (coinCnt > 99) {
       setIsEnough(true);
@@ -68,10 +71,10 @@ function MainPage(props) {
   const handleGetCnt = () => {
     const message = "서류를 클릭했어요";
     stompClient.send("/pub/system/mining/collect", {}, message);
-  };  
+  };
 
-  React.useEffect(()=>{
-    if(isReady) {
+  React.useEffect(() => {
+    if (isReady) {
       if (coinCnt < 99) {
         setIsEnough(false);
         handleGetCnt();
@@ -82,8 +85,7 @@ function MainPage(props) {
         setIsEnough(true);
       }
     }
-  }
-  , [isClickDoc])
+  }, [isClickDoc]);
 
   // 수동 채굴 아이템 수집량에 따른 버튼 이미지 변환
   React.useEffect(() => {
@@ -181,9 +183,9 @@ function MainPage(props) {
       <SubwayBoard
         getCoinClick={getCoinClick}
         setGetCoinClick={setGetCoinClick}
-        userData={userData}
+        userData={props.userData}
         setUserData={props.setUserData}
-        store={store}
+        store={props.store}
         setStore={props.setStore}
       />
       <div className="subway">
@@ -193,12 +195,16 @@ function MainPage(props) {
             modalHeight={75}
             selectModalIdx={selectIdx}
             setModalClick={setModalClick}
-            store={store}
+            store={props.store}
             setStore={props.setStore}
-            userData={userData}
+            userData={props.userData}
             setUserData={props.setUserData}
+            myTitles={props.myTitles}
+            setMyTitles={props.setMyTitles}
             isToggled={isToggled}
             setIsToggled={setIsToggled}
+            myCoinLogs={props.myCoinLogs}
+            setMyCoinLogs={props.setMyCoinLogs}
           />
         )}
         {pvpRouterClick && (
@@ -209,11 +215,11 @@ function MainPage(props) {
           />
         )}
         <div className="character-nickname-title">
-          <div className="character-nickname">{userData.name}</div>
-          {userData.characterType + 1 && (
+          <div className="character-nickname">{props.userData.name}</div>
+          {props.userData.characterType + 1 && (
             <img
               className="character"
-              src={characterList[userData.characterType]}
+              src={characterList[props.userData.characterType]}
               alt="character"
               onClick={() => {
                 const titleTag = document.querySelector(".character-title");
@@ -225,7 +231,7 @@ function MainPage(props) {
               }}
             />
           )}
-          <div className="character-title">{userData.titleId}</div>
+          <div className="character-title">{props.userData.title.name}</div>
         </div>
         {!pvpRouterClick && (
           <MenuBar setModalClick={setModalClick} setSelectIdx={setSelectIdx} />
@@ -240,7 +246,6 @@ function MainPage(props) {
       {isReady && (
         <GetCoinItem
           isEnough={isEnough}
-          // getCoinCnt={setCoinCntHandler}
           userData={props.userData}
           setUserData={props.setUserData}
           setIsClickDoc={setIsClickDoc}
@@ -255,7 +260,6 @@ function MainPage(props) {
           className="main-dominator-msg-btn"
           onClick={dominatorMsgModalClickHandler}
         >
-
           지배자 한마디
         </div>
       )}
