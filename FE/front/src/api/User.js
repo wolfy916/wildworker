@@ -48,14 +48,14 @@ function patchUserInfo(payload) {
       data: {
         name: payload.name, // 닉네임
         titleType: payload.titleType, // 칭호 종류(0:지배자, 1:칭호)
-        titleId: payload.titleId, // 대표 칭호 고유번호
+        mainTitleId: payload.mainTitleId, // 대표 칭호 고유번호
         characterType: payload.characterType, // 캐릭터 종류(0:남자, 1:여자)
       },
     })
       .then(({ status, data }) => {
         if (status === 200) {
           console.log("patchUserInfo 성공");
-          console.log(data);
+          getUserInfo({setFunc: payload.setFunc});
         }
       })
       .catch((err) => {
@@ -138,7 +138,13 @@ function getCoinLog(payload) {
       .then(({ status, data }) => {
         if (status === 200) {
           console.log("getCoinLog 성공", data);
-          payload.setFunc(data);
+          payload.setFunc.setMyCoinLogs(data);
+          payload.setFunc.setUserData((prev) => {
+            return {
+              ...prev,
+              coin: data.balance,
+            };
+          });
           // data 예시
           // {
           //   "balance": 1234,  -> 현재 잔액

@@ -27,14 +27,6 @@ import {
 } from "../src/api/socketFunc";
 
 function App() {
-  // 웹에서 개발할 때, 얘 꼭 주석처리 해라
-
-  // const elem = document.documentElement;
-  // document.addEventListener('click', function() {
-  //   if (elem.requestFullscreen) {
-  //     elem.requestFullscreen();
-  //   }
-  // });
 
   const [isLogin, setIsLogin] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
@@ -46,16 +38,16 @@ function App() {
     coin: 0,
     collectedPapers: 0,
     name: "이름바꿔",
-    titleId: 0,
+    title: { id: 1, name: "x" },
     titleType: 0,
   });
 
   // 보유 칭호목록 조회 데이터
   const [myTitles, setMyTitles] = useState({
     titleType: 1,
-    mainTitleId: 1,
+    mainTitleId: 0,
     dominatorTitles: [{ id: 1, name: "역삼역의 지배자" }],
-    titles: [{ id: 0, name: "없음" }],
+    titles: [{ id: 1, name: "없음" }],
   });
 
   // 코인 내역 조회 데이터
@@ -97,23 +89,23 @@ function App() {
 
   // 해당 역에 대한 지분 데이터
   const [stationStake, setStationStake] = useState({
-    stationName: "역삼역",
-    dominator: "S2태형S2",
-    totalInvestment: 10000000,
-    prevCommission: 12345,
-    currentCommission: 1234,
+    stationName: null,
+    dominator: null,
+    totalInvestment: 0,
+    prevCommission: 0,
+    currentCommission: 0,
     ranking: [
       {
-        rank: 1,
-        namae: "S2태형S2",
-        investment: 123,
-        percent: 10,
+        rank: null,
+        name: null,
+        investment: 0,
+        percent: null,
       },
     ],
     mine: {
-      rank: 1,
-      investment: 123,
-      percent: 10,
+      rank: null,
+      investment: 0,
+      percent: null,
     },
   });
 
@@ -236,6 +228,10 @@ function App() {
                   setUserData={setUserData}
                   stompClient={stompClient}
                   setIsLogin={setIsLogin}
+                  myTitles={myTitles}
+                  setMytitles={setMyTitles}
+                  myCoinLogs={myCoinLogs}
+                  setMyCoinLogs={setMyCoinLogs}
                 />
               }
             />
@@ -248,10 +244,47 @@ function App() {
                 />
               }
             />
-            <Route path="/map" element={<SubwayMapPage />} />
-            <Route path="/map/mine" element={<MySubwayPage />} />
-            <Route path="/map/hot" element={<HotSubwayPage />} />
-            <Route path="/map/detail" element={<DetailSubwayPage />} />
+            <Route
+              path="/map"
+              element={
+                <SubwayMapPage
+                  myInvestList={myInvestList}
+                  setMyInvestList={setMyInvestList}
+                  store={store}
+                />
+              }
+            />
+            <Route
+              path="/map/mine"
+              element={
+                <MySubwayPage
+                  myInvestList={myInvestList}
+                  setMyInvestList={setMyInvestList}
+                />
+              }
+            />
+            <Route
+              path="/map/hot"
+              element={
+                <HotSubwayPage
+                  stationRank={stationRank}
+                  setStationRank={setStationRank}
+                  stationStake={stationStake}
+                  setStationStake={setStationStake}
+                  setUserData={setUserData}
+                />
+              }
+            />
+            <Route
+              path="/map/detail"
+              element={
+                <DetailSubwayPage
+                  stationStake={stationStake}
+                  setStationStake={setStationStake}
+                  setUserData={setUserData}
+                />
+              }
+            />
             <Route
               path="/pvp"
               element={

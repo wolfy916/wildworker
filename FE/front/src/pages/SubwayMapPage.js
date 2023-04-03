@@ -7,23 +7,18 @@ import subwaymap from "../asset/image/subwaymap.png";
 import goMain from "../asset/image/goMain.png";
 import myMap from "../asset/image/myMap.png";
 import hotMap from "../asset/image/hotMap.png";
-import tomato from "../asset/image/tomato.png";
 import current_point from "../asset/image/current_point.gif";
 import money from "../asset/image/money.gif";
-import subwaymap_logo from "../asset/image/subwaymap_logo.png";
 import "./SubwayMapPage.css";
 
 import { getMyInvestList } from "../api/Investment";
 
 function SubwayMapPage(props) {
+  const [cnt, setCnt] = useState(0);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  // const [isReady, setIsReady] = useState(false);
-  // const [myStationList, setMyStationList] = useState([]);
-  // const CURRENT_STATION = props.store.locationData.current.id;
-  const [remainSec, setRemainSec] = useState(2);
-  const [isReady, setIsReady] = useState(true);
-  const MY_STATION_LIST = [3, 4, 16];
-  const CURRENT_STATION = 40;
+  const [myStationList, setMyStationList] = useState([]);
+  const CURRENT_STATION = props.store.locationData.current ? props.store.locationData.current.id: 'null';
+  const [remainSec, setRemainSec] = useState(10000);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [previousZoomLevel, setPreviousZoomLevel] = useState(1);
   const [previousDistance, setPreviousDistance] = useState(0);
@@ -94,28 +89,33 @@ function SubwayMapPage(props) {
     }
   `;
 
-  // useEffect(() => {
-  //   const payload = {
-  //     order: "investment",
-  //     ascend: "DESC",
-  //   };
-  //   const myInvestList = getMyInvestList(payload);
-  //   const myIdList = myInvestList.investments.map(
-  //     (investment) => investment.station.id
-  //   );
-  //   setMyStationList(myIdList);
-  //   setRemainSec(myInvestList.remainSec);
-  //   setIsReady(true);
-  // }, []);
+  useEffect(() => {
+    if (cnt < 2) {
+      const fetchData = async () => {
+        await getMyInvestList({
+          order: "investment",
+          ascend: "DESC",
+          setFunc: props.setMyInvestList,
+        });
+        const myIdList = props.myInvestList.investments.map(
+          (investment) => investment.station.id
+        );
+        setMyStationList(myIdList);
+        setCnt((prev) => (prev += 1));
+        setRemainSec(props.myInvestList.remainSec);
+      };
+      fetchData();
+    }
+  }, [props.myInvestList]);
 
   useEffect(() => {
-    if (isReady) {
+    if (cnt === 2) {
       const photoMapTag = document.getElementsByName("photo-map")[0];
       for (let i = 1; i <= PAGE_COUNT; i++) {
         const areaTag = document.createElement("area");
         areaTag.setAttribute("alt", "area");
-        // if (myStationList.includes(i)) {
-        if (MY_STATION_LIST.includes(i)) {
+        if (myStationList.includes(i)) {
+          // if (MY_STATION_LIST.includes(i)) {
           const currentPoint = document.createElement("div");
           const imgTag = document.createElement("img");
 
@@ -154,26 +154,12 @@ function SubwayMapPage(props) {
 
         photoMapTag.appendChild(areaTag);
       }
-      // const areaTag = document.createElement("area");
-      // areaTag.setAttribute("alt", "subwaymap_logo");
-      // const currentPoint = document.createElement("div");
-      // const imgTag = document.createElement("img");
-
-      // imgTag.setAttribute("src", `${subwaymap_logo}`);
-      // imgTag.style.width = "120%";
-      // imgTag.style.position = "absolute";
-      // currentPoint.appendChild(imgTag);
-
-      // areaTag.appendChild(currentPoint);
-      // photoMapTag.appendChild(areaTag);
-
-      setIsReady(false);
     }
   });
 
   return (
     <div>
-      <SubwayTime remainSec={remainSec} />
+      <SubwayTime remainSec={remainSec} setRemainSec={setRemainSec} />
       <div className="map-station-color">
         <p className="map-station-color-content">
           <img className="map-station-color-img" src={money} alt="color" /> 나의

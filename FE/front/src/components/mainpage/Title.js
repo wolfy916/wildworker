@@ -1,23 +1,29 @@
 import * as React from "react";
 import "./Title.css";
+import { patchUserInfo } from "../../api/User";
 
 function Title(props) {
-  const [selectTitle, setSelectTitle] = React.useState("없음");
-
   function toggleClickHandler() {
-    props.setIsToggled((prev) => !prev);
     const selectBadgeTags = document.getElementsByClassName("select-badge");
     for (let idx = 0; idx < 2; idx++) {
       selectBadgeTags[idx].classList.toggle("badge-appear");
       selectBadgeTags[idx].classList.toggle("badge-disappear");
     }
+    props.setIsToggled((prev) => !prev);
+    patchUserInfo({
+      name: null,
+      titleType: (props.userData.titleType + 1) % 2,
+      mainTitleId: null,
+      characterType: null,
+      setFunc: props.setUserData,
+    });
   }
 
   React.useState(async () => {
     const selectBadgeTags = await document.getElementsByClassName(
       "select-badge"
     );
-    if (props.isToggled) {
+    if (!props.isToggled) {
       selectBadgeTags[0].classList.add("badge-appear");
       selectBadgeTags[1].classList.add("badge-disappear");
     } else {
@@ -26,23 +32,27 @@ function Title(props) {
     }
   }, []);
 
-  const titleList = ["없음", "쫄보", "승부사", "거상", "몰락한 자", "신생아"];
-  const titleItemTags = titleList.map((value, idx) => {
+  const titleItemTags = props.myTitles.titles.map((title, idx) => {
     let isSelected = false;
-    if (selectTitle === value) {
+    if (props.userData.title.id === title.id) {
       isSelected = true;
     }
     return (
       <div className="title-item" key={`${idx}`}>
-        <div className="title-item-name">{value}</div>
+        <div className="title-item-name">{title.name}</div>
         <input
           className="title-item-input"
           type="radio"
           name="title"
-          value={value}
           defaultChecked={isSelected}
-          onClick={(event) => {
-            setSelectTitle(event.target.value);
+          onClick={() => {
+            patchUserInfo({
+              name: null,
+              titleType: null,
+              mainTitleId: (isSelected ? null: title.id),
+              characterType: null,
+              setFunc: props.setUserData,
+            });
           }}
         />
       </div>
@@ -59,7 +69,7 @@ function Title(props) {
           <div className="select-badge">칭호</div>
         </div>
         <div className="title-container">{titleItemTags}</div>
-        {props.isToggled && <div className="title-container-blur"></div>}
+        {!props.isToggled && <div className="title-container-blur"></div>}
       </div>
     </div>
   );

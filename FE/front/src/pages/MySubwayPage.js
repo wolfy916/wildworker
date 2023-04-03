@@ -9,42 +9,19 @@ import hotMap from "../asset/image/hotMap.png";
 
 import { getMyInvestList } from "../api/Investment";
 
-function MySubwayPage() {
-  const payload = {
-    order: "investment",
-    ascend: "DESC",
-  };
-  const myInvestListData = getMyInvestList(payload)
-  const [investData, setInvestData] = useState([])
-  const [data, setData] = useState([]);
+function MySubwayPage(props) {
+  const [cnt, setCnt] = useState(0);
   const [mySubway, setMySubway] = useState([]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get("/api/data")
-  //     .then((response) => {
-  //       setData(response.data);
-  //       const mySubwayData = data.investments.map((item) => (
-  //         <div className="my-content">
-  //           <div>
-  //             <p className="my-subject">{item.station.name}</p>
-  //           </div>
-  //           <div>
-  //             <p className="my-subject">{item.investment}</p>
-  //             <p className="my-subject-2">({item.percent}%)</p>
-  //           </div>
-  //         </div>
-  //       ));
-  //       setMySubway(mySubwayData);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
   useEffect(() => {
-    setInvestData(myInvestListData.investments)
-        const mySubwayData = investData.investments.map((item) => (
+    if (cnt < 2) {
+      const fetchData = async () => {
+        await getMyInvestList({
+          order: "investment",
+          ascend: "DESC",
+          setFunc: props.setMyInvestList,
+        });
+        const mySubwayData = props.myInvestList.investments.map((item) => (
           <div className="my-content">
             <div>
               <p className="my-subject">{item.station.name}</p>
@@ -54,9 +31,13 @@ function MySubwayPage() {
               <p className="my-subject-2">({item.percent}%)</p>
             </div>
           </div>
-        ))
-        setMySubway(mySubwayData)
-  }, [])
+        ));
+        setMySubway(mySubwayData);
+        setCnt((prev) => (prev += 1));
+      };
+      fetchData();
+    }
+  }, [props.myInvestList]);
 
   return (
     <div className="my-background">
@@ -71,33 +52,6 @@ function MySubwayPage() {
           <div>
             <p className="my-subject">투자 금액</p>
             <p className="my-subject-2">(지분율)</p>
-          </div>
-        </div>
-        <div className="my-content">
-          <div>
-            <p className="my-subject">역삼역</p>
-          </div>
-          <div>
-            <p className="my-subject">200,000원</p>
-            <p className="my-subject-2">(24%)</p>
-          </div>
-        </div>
-        <div className="my-content">
-          <div>
-            <p className="my-subject">역곡역</p>
-          </div>
-          <div>
-            <p className="my-subject">3,000,000원</p>
-            <p className="my-subject-2">(45%)</p>
-          </div>
-        </div>
-        <div className="my-content">
-          <div>
-            <p className="my-subject">청계산입구역</p>
-          </div>
-          <div>
-            <p className="my-subject">120,000원</p>
-            <p className="my-subject-2">(5%)</p>
           </div>
         </div>
         {mySubway}

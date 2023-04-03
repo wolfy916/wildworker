@@ -10,88 +10,48 @@ import hotMap from "../asset/image/hotMap.png";
 import Modal from "../components/mainpage/Modal";
 import { getStationStake } from "../api/Investment.js";
 
-function DetailSubwayPage() {
+function DetailSubwayPage(props) {
   const location = useLocation();
-  const [data, setData] = useState([])
-  // const detailSubwayTotalData = getStationStake(location.state);
-  const [ranking, setRanking] = useState([]);
+  const [cnt, setCnt] = useState(0);
+  const [isRetry, setIsRetry] = useState(false);
+
+  const [rankingData, setRankingData] = useState([]);
   const [modalClick, setModalClick] = useState(false);
-  const testData = {
-    stationName: "역삼역",
-    dominator: "S2태형S2",
-    totalInvestment: 10000000,
-    prevCommission: 12345,
-    currentCommission: 1234,
-    ranking: [
-      {
-        rank: 1,
-        name: "zl존원석",
-        investment: 12341,
-        percent: 20,
-      },
-      {
-        rank: 2,
-        name: "S2태형S2",
-        investment: 123,
-        percent: 10,
-      },
-    ],
-    mine: {
-      rank: 1,
-      investment: 123,
-      percent: 10,
-    },
-  };
-  
-  // useEffect(() => {
-  //   axios
-  //     .get(`/api/${location.state}`)
-  //     .then((response) => {
-  //       setData(response.data)
-  //       const rankingData = data.ranking.map((item) => (
-  //         <div className="detail-content">
-  //           <div>
-  //             <p className="detail-subject">{item.name}</p>
-  //           </div>
-  //           <div>
-  //             <p className="detail-subject">
-  //               {item.investment.toLocaleString("ko-KR")}
-  //             </p>
-  //             <p className="detail-subject-2">({item.percent}%)</p>
-  //           </div>
-  //         </div>
-  //       ))
-  //       setRanking(rankingData)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
-  // }, [])
 
-
-  // useEffect(() => {
-  //   const rankingData = detailSubwayTotalData.ranking.map((item) => (
-  //     <div className="detail-content">
-  //       <div>
-  //         <p className="detail-subject">{item.name}</p>
-  //       </div>
-  //       <div>
-  //         <p className="detail-subject">
-  //           {item.investment.toLocaleString("ko-KR")}
-  //         </p>
-  //         <p className="detail-subject-2">({item.percent}%)</p>
-  //       </div>
-  //     </div>
-  //   ));
-  //   setRanking(rankingData);
-  // }, []);
+  useEffect(() => {
+    // cnt 5번은 해야 실시간으로 다 바뀜
+    if (cnt < 10) {
+      const fetchData = async () => {
+        await getStationStake({
+          stationId: location.state,
+          setFunc: props.setStationStake,
+        });
+        const rankingDataSave = props.stationStake.ranking.map((item, idx) => (
+          <div className="detail-content" key={idx}>
+            <div>
+              <p className="detail-subject">{item.name}</p>
+            </div>
+            <div>
+              <p className="detail-subject">
+                {item.investment.toLocaleString("ko-KR")}
+              </p>
+              <p className="detail-subject-2">({item.percent}%)</p>
+            </div>
+          </div>
+        ));
+        setRankingData(rankingDataSave);
+        setCnt((prev) => (prev += 1));
+      };
+      fetchData();
+    }
+  }, [props.stationStake, isRetry]);
 
   return (
     <div className="detail-background">
       <div className="detail-holder">
         <div className="detail-title">
           <p className="detail-subject">
-            {testData.dominator}의 {testData.stationName}
+            {props.stationStake.dominator}의 {props.stationStake.stationName}
           </p>
         </div>
 
@@ -102,7 +62,7 @@ function DetailSubwayPage() {
             </div>
             <div>
               <p className="detail-subject">
-                {testData.totalInvestment.toLocaleString("ko-KR")}
+                {props.stationStake.totalInvestment.toLocaleString("ko-KR")}
               </p>
             </div>
           </div>
@@ -112,7 +72,7 @@ function DetailSubwayPage() {
             </div>
             <div>
               <p className="detail-subject">
-                {testData.currentCommission.toLocaleString("ko-KR")}
+                {props.stationStake.currentCommission.toLocaleString("ko-KR")}
               </p>
             </div>
           </div>
@@ -122,7 +82,7 @@ function DetailSubwayPage() {
             </div>
             <div>
               <p className="detail-subject">
-                {testData.prevCommission.toLocaleString("ko-KR")}
+                {props.stationStake.prevCommission.toLocaleString("ko-KR")}
               </p>
             </div>
           </div>
@@ -137,52 +97,18 @@ function DetailSubwayPage() {
             <p className="detail-subject-2">(지분율)</p>
           </div>
         </div>
-        <div className="detail-content">
-          <div>
-            <p className="detail-subject">zl존원석</p>
-          </div>
-          <div>
-            <p className="detail-subject">5,000,000원</p>
-            <p className="detail-subject-2">(24%)</p>
-          </div>
-        </div>
-        <div className="detail-content">
-          <div>
-            <p className="detail-subject">S2권태형S2</p>
-          </div>
-          <div>
-            <p className="detail-subject">4,000,000원</p>
-            <p className="detail-subject-2">(20%)</p>
-          </div>
-        </div>
-        <div className="detail-content">
-          <div>
-            <p className="detail-subject">행인</p>
-          </div>
-          <div>
-            <p className="detail-subject">3,000,000원</p>
-            <p className="detail-subject-2">(16%)</p>
-          </div>
-        </div>
-        <div className="detail-content">
-          <div>
-            <p className="detail-subject">아무나</p>
-          </div>
-          <div>
-            <p className="detail-subject">2,000,000원</p>
-            <p className="detail-subject-2">(24%)</p>
-          </div>
-        </div>
-        {ranking}
+        {rankingData}
       </div>
 
       <div className="detail-mine">
         <div>
           <p className="detail-subject-1">나의 랭킹 및 정보</p>
           <p className="detail-subject-1">
-            {testData.mine.rank}등{" "}
-            {testData.mine.investment.toLocaleString("ko-KR")}(
-            {testData.mine.percent}%)
+            {props.stationStake.mine ? props.stationStake.mine.rank : "x"}등{" "}
+            {props.stationStake.mine
+              ? props.stationStake.mine.investment.toLocaleString("ko-KR")
+              : "x"}
+            ({props.stationStake.mine ? props.stationStake.mine.percent : "x"}%)
           </p>
         </div>
         <div>
@@ -212,8 +138,15 @@ function DetailSubwayPage() {
           modalHeight={75}
           selectModalIdx={3}
           stationId={location.state}
-          investment={testData.mine.investment.toLocaleString("ko-KR")}
+          investment={
+            props.stationStake.mine
+              ? props.stationStake.mine.investment.toLocaleString("ko-KR")
+              : 0
+          }
           setModalClick={setModalClick}
+          setUserData={props.setUserData}
+          setCnt={setCnt}
+          setIsRetry={setIsRetry}
         />
       )}
     </div>

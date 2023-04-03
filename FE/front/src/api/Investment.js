@@ -1,6 +1,6 @@
 import http from "./Http.js";
 
-// 실시간 역 랭킹 조회
+// 실시간 역 랭킹 조회 ok
 function getStationRanking(payload) {
   if (payload) {
     http({
@@ -12,7 +12,6 @@ function getStationRanking(payload) {
       }
     }).then(({status, data}) => {
       if (status == 200) {
-        console.log("getStationRanking 성공");
         payload.setFunc(data);
         // data 예시
         // {
@@ -48,6 +47,7 @@ function getStationStake(payload) {
     }).then(({status, data}) => {
       if (status == 200) {
         console.log("getStationStake 성공");
+        console.log(data);
         payload.setFunc(data);
         // data 예시
         // {
@@ -93,7 +93,12 @@ function invest(payload) {
       .then(({ status, data }) => {
         if (status == 200) {
           console.log("invest 성공");
-          console.log(data);
+          payload.setFunc((prev) => {
+            return {
+              ...prev,
+              coin: prev.coin - payload.investment, 
+            }
+          })
         }
       })
       .catch((err) => {
@@ -114,31 +119,34 @@ function getMyInvestList(payload) {
         order: payload.order, // payload.name || payload.investment || payload.percent
         ascend: payload.ascend, // ASC = 오름차순 정렬, DESC = 내림차순 정렬
       },
-    }).then(({status, data}) => {
-      if (status == 200) {
-        console.log("getMyInvestList 성공");
-        payload.setFunc(data);
-        // data 예시
-        // {
-        //   "investments": [
-        //     {
-        //       "station": {
-        //         "id": 1,
-        //         "name": "역삼역"
-        //       },
-        //       "investment": 1234,
-        //       "percent": 10
-        //     }, ...
-        //   ],
-        //   "remainSec": 90
-        //   "orderBy": "investment",
-        //   "ascend": "ASC"
-        // }
-      }
-    }).catch(err => {
-      console.log("getMyInvestList 실패");
-      console.log(err.response);
-    });
+    })
+      .then(({ status, data }) => {
+        if (status == 200) {
+          console.log("getMyInvestList 성공");
+          console.log(data);
+          payload.setFunc(data);
+          // data 예시
+          // {
+          //   "investments": [
+          //     {
+          //       "station": {
+          //         "id": 1,
+          //         "name": "역삼역"
+          //       },
+          //       "investment": 1234,
+          //       "percent": 10
+          //     }, ...
+          //   ],
+          //   "remainSec": 90
+          //   "orderBy": "investment",
+          //   "ascend": "ASC"
+          // }
+        }
+      })
+      .catch((err) => {
+        console.log("getMyInvestList 실패");
+        console.log(err.response);
+      });
   }
 }
 
