@@ -14,8 +14,12 @@ public class Title extends BaseEntity {
     @Column(unique = true, nullable = false)
     private String name;
     private int condition1;
+    @Column(nullable = true)
     private int condition2;
+    @Column(nullable = true)
     private int condition3;
+    @Column(nullable = true)
     private int condition4;
+    @Column(nullable = true)
     private int condition5;
 }
