@@ -67,28 +67,29 @@ contract Station {
 
     // 투자내역기록
     //mapping은 iterable하지 못해서 investorWallets를 array로 생성해서 user의 목록으로
-    //------msg.sender가 user--------
-    function recordInvestment(uint256 _amount) public {
+    //------msg.sender가 owner
+    //------sender 가 user
+    function recordInvestment(address _sender, uint256 _amount) public {
         bool isIn = false;
         for (uint256 i = 0; i < investorWallets.length; i++) {
-            if (investorWallets[i] == msg.sender) {
+            if (investorWallets[i] == _sender) {
                 //array 안에 이미 user가 있을 경우 true
                 isIn = true;
                 break;
             }
         }
         if (isIn) {
-            investors[msg.sender] += _amount;
+            investors[_sender] += _amount;
             //총 투자금
         } else {
             //array안에 user가 없으면 추가
-            investorWallets.push(msg.sender);
+            investorWallets.push(_sender);
             //user가 투자한 금액
-            investors[msg.sender] = _amount;
+            investors[_sender] = _amount;
         }
         //총 투자금에 기록(일주일 유지)
         investmentAmount += _amount;
         //Won 송금
-        won.transfer(msg.sender, owner, _amount);
+        won.transfer(_sender, owner, _amount);
     }
 }
