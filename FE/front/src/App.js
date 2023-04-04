@@ -27,7 +27,6 @@ import {
 } from "../src/api/socketFunc";
 
 function App() {
-
   const [isLogin, setIsLogin] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [isChangeId, setIsChangeId] = useState(false);
@@ -174,13 +173,13 @@ function App() {
 
   // isChangeId값의 변화로 지하철역 구독해제하고 새로운 지하철로 재연결
   useEffect(() => {
-    if (store.locationData.current) {
+    if (store.locationData) {
       setStompClient(unsubscribeStation(stompClient, store.locationData.prev));
       setStompClient(
         subscribeStation(stompClient, setStore, store.locationData.current)
       );
     }
-  }, [store.locationData.current]);
+  }, [store.locationData]);
 
   // 실시간 위치 전송 코드
   useEffect(() => {

@@ -20,7 +20,7 @@ function DetailSubwayPage(props) {
 
   useEffect(() => {
     // cnt 5번은 해야 실시간으로 다 바뀜
-    if (cnt < 10) {
+    if (cnt < 20) {
       const fetchData = async () => {
         await getStationStake({
           stationId: location.state,

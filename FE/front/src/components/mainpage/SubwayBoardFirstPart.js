@@ -42,7 +42,7 @@ function SubwayBoardFirstPart(props) {
         )}
         {props.store.locationData.current != null
           ? props.store.locationData.current.dominator != null
-            ? " : 하하하, 이거라도 주워오실래요?"
+            ? ` : ${props.store.dominatorMsg}`
             : "지배자의 한마디 없음"
           : "역이 아님"}
       </div>
