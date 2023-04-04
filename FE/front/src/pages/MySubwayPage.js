@@ -57,9 +57,9 @@ function MySubwayPage(props) {
       <div className="my-holder">
         <div className="my-title">
           <p className="my-subject">나의 투자 내역</p>
-          <select value={sortingOrder} onChange={handleSortingChange}>
+          <select className="my-select" value={sortingOrder} onChange={handleSortingChange}>
             {sortingOptions.map((option) => (
-              <option key={option.value} value={option.value}>
+              <option className="my-option" key={option.value} value={option.value}>
                 {option.label}
               </option>
             ))}

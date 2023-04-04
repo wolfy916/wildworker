@@ -97,19 +97,18 @@
 
 select {
   display: inline-block; /* 추가 */
-  text-align: center; /* 추가 */
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   background-color: #f5f5f5;
-  border: none;
-  border-radius: 4px;
+  border: solid 2px rgb(0, 0, 0);
+  border-radius: 10px;
   padding: 8px;
   font-size: 16px;
   color: #333;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height: 40px;
-  width: 36%;
+  width: 38%;
 }
 
 select:hover,
@@ -120,4 +119,12 @@ select:focus {
 select option {
   background-color: #fff;
   color: #333;
+}
+
+.my-select {
+  font-family: galmuri9;
+}
+
+.my-option {
+  font-family: galmuri9;
 }

@@ -55,7 +55,7 @@ function Invest(props) {
               : changeClickHandlerFromHot
           }
         >
-          변경하기
+          투자하기
         </div>
       </div>
     </div>

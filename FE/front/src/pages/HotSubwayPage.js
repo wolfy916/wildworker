@@ -17,7 +17,7 @@ function HotSubwayPage(props) {
 
   const sortingOptions = [
     { value: "investment", label: "총 투자 금액" },
-    { value: "commission", label: "10분간 누적 수수료 총액" },
+    { value: "commission", label: "10분간 수수료" },
   ];
 
   function handleSortingChange(event) {
@@ -75,9 +75,9 @@ function HotSubwayPage(props) {
       <div className="hot-holder">
         <div className="hot-title">
           <p className="hot-subject">실시간 역 순위</p>
-          <select value={sortingOrder} onChange={handleSortingChange}>
+          <select className="hot-select" value={sortingOrder} onChange={handleSortingChange}>
             {sortingOptions.map((option) => (
-              <option key={option.value} value={option.value}>
+              <option className="hot-option" key={option.value} value={option.value}>
                 {option.label}
               </option>
             ))}

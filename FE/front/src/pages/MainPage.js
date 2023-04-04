@@ -14,6 +14,7 @@ import getCoinImage from "../asset/image/get_coin_btn.png";
 import getCoinFullImage from "../asset/image/Full_Charge_Btn.png";
 import LoadingEffect from "../asset/image/pvpPageLoading.gif";
 import morningBackgroundImg from "../asset/image/test_morning.png";
+import dominator_speaker from "../asset/image/dominator_speaker.png";
 
 import { getUserInfo, getTitleList } from "../api/User";
 
@@ -256,12 +257,12 @@ function MainPage(props) {
       </div>
 
       {dominatorTitles && (
-        <div
-          className="main-dominator-msg-btn"
+        <img
           onClick={dominatorMsgModalClickHandler}
-        >
-          지배자 한마디
-        </div>
+          className="main-dominator-msg-btn"
+          src={dominator_speaker}
+          alt="dominator_speaker"
+        />
       )}
       {titleModalClick && (
         <Modal

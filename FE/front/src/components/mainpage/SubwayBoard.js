@@ -15,7 +15,7 @@ function SubwayBoard(props) {
       setIsFlashing(true);
       setTimeout(() => {
         setIsFlashing(false);
-      }, 1000);
+      }, 2000);
     }
   }, [getCoinClick, setGetCoinClick, setUserData]);
 
