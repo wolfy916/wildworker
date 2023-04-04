@@ -6,11 +6,7 @@ import "../minigame/ClickerGameReady.css";
 function ClickerGameReadyPage(props) {
   const [timeLeft, setTimeLeft] = useState(3);
   const navigate = useNavigate();
-  //gameid, userData,stationId을 useLocation으로 minigame에 보내줘야함.
-  //navData에 user정보가 담겨야 함.
-  const state = props.state;
-  // console.log(state);
-  const navData = [state, { gameType: 1 }];
+  const navData = { gameType: 1 };
 
   useEffect(() => {
     const interval = setInterval(() => {

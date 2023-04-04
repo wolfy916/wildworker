@@ -7,8 +7,10 @@ import "./ResultPage.css";
 
 function ResultPage(props) {
   // const gameResultData = props.gameResultData;
+  const userData = props.userData;
+  // console.log(userData);
   const gameResultData = {
-    isWinner: true,
+    isWinner: false,
     enemy: {
       name: "권태형",
       title: "신도림의 지배자",
@@ -26,9 +28,7 @@ function ResultPage(props) {
       total: 18,
     },
   };
-  //state에 userData 들어있음.
-  const { state } = useLocation();
-  const myCharType = state[0][1].characterType;
+
   const isWinner = gameResultData.isWinner;
 
   const navigate = useNavigate();
@@ -43,14 +43,14 @@ function ResultPage(props) {
       <div className="battle-result-1">
         {/* 본인 */}
         <p className="battle-result-p1">
-          {state[0][1].title} <br /> {state[0][1].name}
+          {userData.title.name} <br /> {userData.name}
         </p>
         <div className="battle-result-char">
           {/* 승리 패배시 컴포넌트 분리 */}
           {
             {
-              true: <BattleCharWinner characterType={myCharType} />,
-              false: <BattleCharLoser characterType={myCharType} />,
+              true: <BattleCharWinner characterType={userData.characterType} />,
+              false: <BattleCharLoser characterType={userData.characterType} />,
             }[isWinner]
           }
         </div>

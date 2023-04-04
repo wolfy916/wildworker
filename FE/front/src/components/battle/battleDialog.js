@@ -39,7 +39,6 @@ export default function BattleDialog(props) {
   ];
 
   function matchingDialog() {
-    console.log("나타났다.");
     //첫 dialog
     // 적의 이름 띄워주기
     setmsg(
@@ -50,7 +49,6 @@ export default function BattleDialog(props) {
     );
   }
   function selectStartOrCancel() {
-    console.log("나타났다.1");
     setmsg("결투하기: -" + matchingData.cost + "원");
     setmsgCancel("도망가기: -" + matchingData.runCost + "원");
   }
@@ -133,7 +131,6 @@ export default function BattleDialog(props) {
   }, [gametimeLeft]);
 
   function startGame() {
-    console.log("나타났다.2");
     setmsg("결투가 곧 시작될 것 같다!!");
     setmsgCancel("");
     leftGameTime();
@@ -234,7 +231,6 @@ export default function BattleDialog(props) {
         <p className="battle-dialog-timer-count">
           {gameStartClock ? timeLeft : gametimeLeft}
         </p>
-        {/* <p className="battle-dialog-timer-count">{RuntimeLeft}</p> */}
       </div>
     </div>
   );

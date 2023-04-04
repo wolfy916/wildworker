@@ -19,7 +19,13 @@
   outline: none;
   border: none;
   border-bottom: solid 5px;
+  border-bottom-color: black;
   background-color: aliceblue;
+}
+
+.nickname-err-sentence{
+  color:red;
+  -webkit-text-stroke: 0.1px red;
 }
 
 .change-nickname-btn {
