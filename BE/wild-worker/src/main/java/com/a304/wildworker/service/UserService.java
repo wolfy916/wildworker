@@ -89,6 +89,10 @@ public class UserService {
                     user.setTitleId(TitleCode.NONE.getId());
                 }
             }
+            // 일반 칭호로 설정한 경우
+            else {
+                user.setTitleId(TitleCode.NONE.getId());
+            }
         }
 
         // 대표 칭호 고유번호 변경
