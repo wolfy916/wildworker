@@ -57,13 +57,13 @@ function ResultPage(props) {
         {/* 승리했을때 패배했을때 분리하기 */}
         {
           {
-            true: <p className="battle-result-p2">승리</p>,
-            false: <p className="battle-result2-p2">패배</p>,
+            true: <p className="battle-result-win-p2">승리</p>,
+            false: <p className="battle-result-lose-p2">패배</p>,
           }[isWinner]
         }
-        <p className="battle-result-p3">
+        <div className="battle-result-p3">
           맞춘 개수: {gameResultData.result.me}개
-        </p>
+        </div>
       </div>
 
       <div className="battle-result-2">
@@ -93,13 +93,13 @@ function ResultPage(props) {
         {/* 승리 패배시 분리 */}
         {
           {
-            false: <p className="battle-result-p2">승리</p>,
-            true: <p className="battle-result2-p2">패배</p>,
+            false: <p className="battle-result2-win-p2">승리</p>,
+            true: <p className="battle-result2-lose-p2">패배</p>,
           }[isWinner]
         }
-        <p className="battle-result2-p3">
+        <div className="battle-result2-p3">
           맞춘 개수: {gameResultData.result.enemy}개
-        </p>
+        </div>
       </div>
 
       <div className="battleResult-talk">
