@@ -5,9 +5,6 @@ import "../minigame/CalGame.css";
 function CalculationGame(props) {
   const stompClient = props.stompClient;
   //여기 찍어보고 stationid랑 userData 받아야 됨
-  const propState = props.state;
-  const stationId = propState[0][0].stationId;
-  const gameId = propState[0][2].matchingDataId;
   const [currentMoney, setcurrentMoney] = useState("0");
   const [currentFoodValue, setcurrentFoodValue] = useState(
     String(Math.floor(Math.random() * 100)) + "00"
@@ -70,7 +67,7 @@ function CalculationGame(props) {
       //   {},
       //   message
       // );
-      navigate("/pvp/result", { state: propState });
+      navigate("/pvp/result");
     }
   }, [timeLeft, navigate, score, stompClient]);
 

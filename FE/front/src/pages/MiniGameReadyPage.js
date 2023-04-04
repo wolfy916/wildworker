@@ -10,7 +10,7 @@ function MiniGameReadyPage(props) {
   //일단 더미로 gameType = 0
   const gameType = 1;
   //state 잘들어옴.
-  console.log(state);
+  // console.log(state);
 
   return (
     <div className="minigame-ready">

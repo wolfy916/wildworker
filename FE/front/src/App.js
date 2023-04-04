@@ -158,7 +158,13 @@ function App() {
     if (isLogin) {
       const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
       setStompClient(
-        connectSocket(Stomp.over(socket), setStore, setUserData, store, setIsMatched)
+        connectSocket(
+          Stomp.over(socket),
+          setStore,
+          setUserData,
+          store,
+          setIsMatched
+        )
       );
       setIsConnected(true);
     }
@@ -285,8 +291,10 @@ function App() {
                 <PvpPage
                   matchingData={store.matching}
                   gameRunData={store.gameCancel}
+                  gameStartData={store.gameStart}
                   currentLocationData={store.locationData.current}
                   stompClient={stompClient}
+                  userData={userData}
                 />
               }
             />
@@ -300,7 +308,12 @@ function App() {
             />
             <Route
               path="/pvp/result"
-              element={<PvpResultPage gameResultData={store.gameResult} />}
+              element={
+                <PvpResultPage
+                  gameResultData={store.gameResult}
+                  userData={userData}
+                />
+              }
             />
             <Route
               path="/pvp/receipt"
