@@ -172,6 +172,14 @@ function App() {
   // }, 5000);
 
   // isChangeId값의 변화로 지하철역 구독해제하고 새로운 지하철로 재연결
+  useEffect(() => {
+    if (store.locationData) {
+      setStompClient(unsubscribeStation(stompClient, store.locationData.prev));
+      setStompClient(
+        subscribeStation(stompClient, setStore, store.locationData.current)
+      );
+    }
+  }, [store.locationData]);
 
   // 실시간 위치 전송 코드
   useEffect(() => {
@@ -195,7 +203,7 @@ function App() {
         clearInterval(intervalId);
       };
     }
-  }, [isConnected]);
+  }, [isConnected, testCoordinate]);
 
   // 위치 전송 백에게 전달하는 함수
   const handleSendLocation = (e) => {
