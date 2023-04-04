@@ -46,8 +46,8 @@ function getStationStake(payload) {
       url: `/investment/${payload.stationId}`,
     }).then(({status, data}) => {
       if (status == 200) {
-        console.log("getStationStake 성공");
-        console.log(data);
+        // console.log("getStationStake 성공");
+        // console.log(data);
         payload.setFunc(data);
         // data 예시
         // {
@@ -92,7 +92,7 @@ function invest(payload) {
     })
       .then(({ status, data }) => {
         if (status == 200) {
-          console.log("invest 성공");
+          // console.log("invest 성공");
           payload.setFunc((prev) => {
             return {
               ...prev,
@@ -122,8 +122,8 @@ function getMyInvestList(payload) {
     })
       .then(({ status, data }) => {
         if (status == 200) {
-          console.log("getMyInvestList 성공");
-          console.log(data);
+          // console.log("getMyInvestList 성공");
+          // console.log(data);
           payload.setFunc(data);
           // data 예시
           // {

@@ -1,6 +1,6 @@
 import http from "./Http.js";
 
-// 회원정보 조회 ok
+// 회원정보 조회
 function getUserInfo(payload) {
   if (payload) {
     http({
@@ -9,7 +9,22 @@ function getUserInfo(payload) {
     })
       .then(({ status, data }) => {
         if (status === 200) {
-          payload.setFunc(data);
+          // console.log(data);
+          payload.setFunc((prev) => {
+            let titleName;
+            if (data.titleType === 0 && data.title.id !== -1) {
+              titleName = `${data.title.name}의 지배자`;
+            } else {
+              titleName = data.title.name;
+            }
+            return {
+              ...data,
+              title: {
+                ...data.title,
+                name: titleName,
+              },
+            };
+          });
           // data 예시
           // {
           //   characterType: 0;
@@ -54,7 +69,7 @@ function patchUserInfo(payload) {
     })
       .then(({ status, data }) => {
         if (status === 200) {
-          console.log("patchUserInfo 성공");
+          // console.log("patchUserInfo 성공");
           getUserInfo({ setFunc: payload.setFunc });
         }
       })
@@ -133,7 +148,7 @@ function getCoinLog(payload) {
     })
       .then(({ status, data }) => {
         if (status === 200) {
-          console.log("getCoinLog 성공", data);
+          // console.log("getCoinLog 성공", data);
           payload.setFunc.setMyCoinLogs(data);
           payload.setFunc.setUserData((prev) => {
             return {

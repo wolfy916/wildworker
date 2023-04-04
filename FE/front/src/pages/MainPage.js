@@ -169,7 +169,7 @@ function MainPage(props) {
   }, [props.isMatched]);
 
   // 칭호 획득 시 ( 처음에는 getTitle은 빈문자열 )
-  const getTitle = props.store.getTitle;
+  const getTitle = "";
   React.useEffect(() => {
     if (getTitle) {
       setTitleModalClick(true);
@@ -203,8 +203,6 @@ function MainPage(props) {
       )[0].style.display = "none";
     }
   }, [isFlashing]);
-
-  const dominatorTitles = "rest api로 가져와야함 지배자 여부";
 
   return (
     <div className="subway-background">
@@ -244,7 +242,7 @@ function MainPage(props) {
           />
         )}
         <div className="character-nickname-title">
-          <div className="character-title">{props.userData.title.name}</div>
+          <div className="character-title">{props.userData.title.name==="x" ? " " : props.userData.title.name}</div>
           <div className="character-nickname">{props.userData.name}</div>
           {props.userData.characterType + 1 && (
             <img
@@ -293,15 +291,12 @@ function MainPage(props) {
       <div className="main-router-pvp" onClick={pvpRouterClickHandler}>
         pvp
       </div>
-
-      {dominatorTitles && (
-        <img
-          onClick={dominatorMsgModalClickHandler}
-          className="main-dominator-msg-btn"
-          src={dominator_speaker}
-          alt="dominator_speaker"
-        />
-      )}
+      <img
+        onClick={dominatorMsgModalClickHandler}
+        className="main-dominator-msg-btn"
+        src={dominator_speaker}
+        alt="dominator_speaker"
+      />
       {titleModalClick && (
         <Modal
           modalWidth={85}
@@ -314,11 +309,11 @@ function MainPage(props) {
       {dominatorMsgModalClick && (
         <Modal
           modalWidth={85}
-          modalHeight={75}
+          modalHeight={45}
           selectModalIdx={5}
-          dominatorMsg={props.store.dominatorMsg}
+          setModalClick={setDominatorMsgModalClick}
+          store={props.store}
           stompClient={props.stompClient}
-          setDominatorMsgModalClick={setDominatorMsgModalClick}
         />
       )}
     </div>
