@@ -6,10 +6,7 @@ import "../minigame/CalGameReady.css";
 function CalGameReadyPage(props) {
   const [timeLeft, setTimeLeft] = useState(3);
   const navigate = useNavigate();
-  //navData에 user정보가 담겨야 함.
-  const state = props.state;
-  // console.log(state);
-  const navData = [state, { gameType: 0 }];
+  const navData = { gameType: 0 };
 
   useEffect(() => {
     const interval = setInterval(() => {

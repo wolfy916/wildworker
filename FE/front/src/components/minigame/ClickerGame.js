@@ -7,10 +7,6 @@ const MOLE_INITIAL_STATE = Array(9).fill(false);
 
 function ClickerGame(props) {
   const stompClient = props.stompClient;
-  //navData에 userData담아서 /result로 보내기
-  const propState = props.state;
-  const stationId = propState[0][0].stationId;
-  const gameId = propState[0][2].matchingDataId;
   const [moles, setMoles] = useState(MOLE_INITIAL_STATE);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(200);
@@ -34,7 +30,7 @@ function ClickerGame(props) {
       //   {},
       //   message
       // );
-      navigate("/pvp/result", { state: propState });
+      navigate("/pvp/result");
     }
   }, [timeLeft, score, stompClient]);
 

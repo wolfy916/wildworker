@@ -27,6 +27,7 @@
   position: relative;
   font-size: 200%;
   color: red;
+  margin-bottom: 15%;
   /* border: 1px solid blue; */
 }
 .battle-result-lose-p2 {
@@ -35,6 +36,7 @@
   position: relative;
   font-size: 200%;
   color: blue;
+  margin-bottom: 14%;
   /* border: 1px solid blue; */
 }
 .battle-result-p3 {
