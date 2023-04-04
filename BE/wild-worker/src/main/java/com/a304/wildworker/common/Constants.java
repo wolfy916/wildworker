@@ -22,4 +22,7 @@ public final class Constants {
     public static final long AMOUNT_MANUAL_MINE = 100L; //수동 채굴 금액
     public static final long AMOUNT_AUTO_MINE = 100L;   //자동 채굴 금액
 
+    public static final int SELECTING_DELAY_TIME = 3;   //선택 여유 시간
+
+    public static final double COMMISSION_RATE = 0.5;   //게임 수수료 비율(%)
 }
