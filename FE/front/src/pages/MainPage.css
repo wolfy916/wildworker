@@ -208,9 +208,9 @@
   font-weight: 1000;
   font-family: "galmuri9";
   -webkit-text-stroke: 0.1px rgb(0, 0, 0);
-  animation: flicker 1s infinite;
+  animation: flicker 0.5s infinite;
   animation-fill-mode: both; /* to apply the animation on the element's style */
-  animation-delay: 1s; /* to start the animation with a delay of 1s */
+  animation-delay: 0.5s; /* to start the animation with a delay of 1s */
   animation-direction: alternate; /* to alternate the animation direction */
   background-color: white; /* to blur the background */
 }
@@ -229,6 +229,6 @@
     opacity: 0.75;
   }
   100% {
-    opacity: 1;
+    opacity: 0.75;
   }
 }
