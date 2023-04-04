@@ -58,7 +58,7 @@ const WonContract = new web3.eth.Contract(wonAbi);
     .send({ from: account.address, gas: gasEstimate + Math.floor(gasEstimate * 0.3), gasPrice: gasPrice});
 
   console.log("Won 컨트랙트 주소:", wonInstance.options.address);
-    const wonAddress = "0x1adc3a1066f0eb96d7230eab7aae9cad94f05bf8";
+    const wonAddress =  wonInstance.options.address;
   const stationContract = new web3.eth.Contract(stationAbi);
 
   const connection = await mysql.createConnection({
@@ -70,9 +70,6 @@ const WonContract = new web3.eth.Contract(wonAbi);
 
 //   connection.connect(); // MySQL 서버에 연결
 
-  console.log("station size : " +  Buffer.byteLength(stationBytecode, "utf8"));
-
-  const fieldName = "contract_name";
   const tableName = "station";
 
   for (let i = 1; i <= 51; i++) {
@@ -81,7 +78,6 @@ const WonContract = new web3.eth.Contract(wonAbi);
     const stationName = `Station ${i}`;
     console.log("stationName = " + JSON.stringify(stationName));
 
-    // console.log("rows =" + rows);
     const stationGasEstimate = await stationContract.deploy({ data: stationBytecode, arguments: [wonAddress, i, stationName] })
         .estimateGas();
     console.log("station estimate gas : " + stationGasEstimate);
