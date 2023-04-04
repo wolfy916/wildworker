@@ -188,7 +188,7 @@ function MainPage(props) {
       setIsFlashing(true);
       setTimeout(() => {
         setIsFlashing(false);
-      }, 1000);
+      }, 2000);
     }
   }, [dominatorAppear]);
 
@@ -305,9 +305,9 @@ function MainPage(props) {
       {titleModalClick && (
         <Modal
           modalWidth={85}
-          modalHeight={75}
+          modalHeight={35}
           selectModalIdx={4}
-          getTitleData={props.store.getTitle}
+          getTitle={props.store.getTitle}
           setTitleModalClick={setTitleModalClick}
         />
       )}

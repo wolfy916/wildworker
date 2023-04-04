@@ -17,7 +17,9 @@ function SubwayMapPage(props) {
   const [cnt, setCnt] = useState(0);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [myStationList, setMyStationList] = useState([]);
-  const CURRENT_STATION = props.store.locationData.current ? props.store.locationData.current.id: 'null';
+  const CURRENT_STATION = props.store.locationData.current
+    ? props.store.locationData.current.id
+    : "null";
   const [remainSec, setRemainSec] = useState(10000);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [previousZoomLevel, setPreviousZoomLevel] = useState(1);
@@ -36,7 +38,12 @@ function SubwayMapPage(props) {
       } else {
         const delta = distance - previousDistance;
         const newZoomLevel = previousZoomLevel + delta / 500;
+        const mapElement = document.querySelector(".test");
+        const rect = mapElement.getBoundingClientRect();
+        const x = (touch1.clientX + touch2.clientX) / 2 - rect.left;
+        const y = (touch1.clientY + touch2.clientY) / 2 - rect.top;
         setZoomLevel(newZoomLevel);
+        setPosition({ x, y });
       }
     }
   }
