@@ -61,7 +61,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private User findOrSave(OAuth2Attribute attributes) throws WalletCreationException {
         String email = attributes.getEmail();
         User user = userRepository.findByEmail(email)
-                .orElseGet(() -> new User(email, titleRepository.findById(-1L).get()));
+                .orElseGet(() -> new User(email));
 
         return userRepository.save(user);
     }
