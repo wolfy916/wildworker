@@ -1,6 +1,6 @@
 package com.a304.wildworker.dto.response;
 
-import com.a304.wildworker.common.Constants;
+import com.a304.wildworker.domain.common.TitleCode;
 import com.a304.wildworker.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,8 +24,8 @@ public class UserResponse {
         return UserResponse.builder()
                 .name(user.getName())
                 .characterType(user.getCharacterId().ordinal())
-                .titleType(user.getTitleType().ordinal())
-                .title(new TitleDto(Constants.NONE_TITLE_ID, "x"))     //TODO: get title from info
+                .titleType(user.getTitleShowType().ordinal())
+                .title(new TitleDto(TitleCode.NONE.getId(), "x"))     //TODO: get title from info
                 .coin(user.getBalance())
                 .collectedPapers(user.getNumberOfCollectedPaper())
                 .build();

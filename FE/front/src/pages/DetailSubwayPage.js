@@ -12,20 +12,20 @@ import { getStationStake } from "../api/Investment.js";
 
 function DetailSubwayPage(props) {
   const location = useLocation();
-  const [cnt,setCnt] = useState(0);
-  const [isRetry,setIsRetry] = useState(false);
+  const [cnt, setCnt] = useState(0);
+  const [isRetry, setIsRetry] = useState(false);
 
   const [rankingData, setRankingData] = useState([]);
   const [modalClick, setModalClick] = useState(false);
 
   useEffect(() => {
     // cnt 5번은 해야 실시간으로 다 바뀜
-    if (cnt < 10) {
-    const fetchData = async () => {
-      await getStationStake({
-        stationId: location.state,
-        setFunc: props.setStationStake,
-      });
+    if (cnt < 20) {
+      const fetchData = async () => {
+        await getStationStake({
+          stationId: location.state,
+          setFunc: props.setStationStake,
+        });
         const rankingDataSave = props.stationStake.ranking.map((item, idx) => (
           <div className="detail-content" key={idx}>
             <div>
@@ -40,19 +40,23 @@ function DetailSubwayPage(props) {
           </div>
         ));
         setRankingData(rankingDataSave);
-        setCnt((prev) => prev += 1)
-      }
+        setCnt((prev) => (prev += 1));
+      };
       fetchData();
-    };
+    }
   }, [props.stationStake, isRetry]);
 
   return (
     <div className="detail-background">
       <div className="detail-holder">
         <div className="detail-title">
-          <p className="detail-subject">
-            {props.stationStake.dominator}의 {props.stationStake.stationName}
-          </p>
+          {props.stationStake.dominator ? (
+            <p className="detail-subject">
+              {props.stationStake.dominator}의 {props.stationStake.stationName}
+            </p>
+          ) : (
+            <p className="detail-subject">{props.stationStake.stationName}</p>
+          )}
         </div>
 
         <div className="detail-content-box">
@@ -97,7 +101,7 @@ function DetailSubwayPage(props) {
             <p className="detail-subject-2">(지분율)</p>
           </div>
         </div>
-        {rankingData}
+        <div className="detail-scroll-div">{rankingData}</div>
       </div>
 
       <div className="detail-mine">
@@ -139,6 +143,7 @@ function DetailSubwayPage(props) {
           modalWidth={85}
           modalHeight={75}
           selectModalIdx={3}
+          detailOrHot={0}
           stationId={location.state}
           investment={
             props.stationStake.mine

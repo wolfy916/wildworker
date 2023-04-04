@@ -21,19 +21,28 @@
   position: relative;
   /* border: 1px solid blue; */
 }
-.battle-result-p2 {
-  margin-top: 23%;
+.battle-result-win-p2 {
+  top: 3%;
   width: 100%;
   position: relative;
   font-size: 200%;
   color: red;
   /* border: 1px solid blue; */
 }
-.battle-result-p3 {
-  margin-top: 20%;
+.battle-result-lose-p2 {
+  top: 3%;
   width: 100%;
   position: relative;
+  font-size: 200%;
+  color: blue;
   /* border: 1px solid blue; */
+}
+.battle-result-p3 {
+  margin-top: 25%;
+  width: 100%;
+  position: relative;
+  /* border: 1px solid yellow; */
+  font-family: galmuri9;
 }
 .battle-result-char {
   width: 100%;
@@ -57,19 +66,29 @@
   position: relative;
   /* border: 1px solid blue; */
 }
-.battle-result2-p2 {
-  top: 2%;
+.battle-result2-win-p2 {
+  margin-top: 24%;
+  width: 100%;
+  position: relative;
+  font-size: 200%;
+  color: red;
+  /* border: 1px solid blue; */
+}
+.battle-result2-lose-p2 {
+  top: 3%;
   width: 100%;
   position: relative;
   font-size: 200%;
   color: blue;
+  margin-bottom: 25%;
   /* border: 1px solid blue; */
 }
 .battle-result2-p3 {
   margin-top: 15%;
   width: 100%;
   position: relative;
-  /* border: 1px solid blue; */
+  /* border: 1px solid yellow; */
+  font-family: galmuri9;
 }
 .battle-result2-char {
   width: 100%;

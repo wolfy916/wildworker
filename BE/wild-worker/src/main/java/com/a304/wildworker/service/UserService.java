@@ -1,18 +1,34 @@
 package com.a304.wildworker.service;
 
+import com.a304.wildworker.domain.common.CharacterType;
+import com.a304.wildworker.domain.common.TitleShowType;
+import com.a304.wildworker.domain.dominator.DominatorLogRepository;
+import com.a304.wildworker.domain.system.SystemData;
+import com.a304.wildworker.domain.title.Title;
+import com.a304.wildworker.domain.title.TitleRepository;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
+import com.a304.wildworker.dto.request.ChangeUserInfoRequest;
+import com.a304.wildworker.dto.response.TitleListResponse;
 import com.a304.wildworker.dto.response.UserResponse;
+import com.a304.wildworker.exception.DuplicatedNameException;
+import com.a304.wildworker.exception.NotOwnTitleException;
+import com.a304.wildworker.exception.TitleNotFoundException;
 import com.a304.wildworker.exception.UserNotFoundException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final TitleRepository titleRepository;
+    private final DominatorLogRepository dominatorLogRepository;
+    private final SystemData systemData;
+    private final TitleService titleService;
 
     public UserResponse getUser(String email) {
         User user = Optional.of(userRepository.findByEmail(email)).get()
@@ -20,9 +36,62 @@ public class UserService {
         return UserResponse.of(user);
     }
 
-    public long getUserId(String email) {
-        User user = Optional.of(userRepository.findByEmail(email)).get()
+    /* 회원정보 수정 */
+    @Transactional
+    public void changeUserInfo(Long userId, ChangeUserInfoRequest request) {
+        User user = getUserOrElseThrow(userId);
+
+        // 닉네임 변경
+        if (request.getName() != null) {
+            // 중복 확인
+            if (!userRepository.existsByNameAndIdNot(request.getName(), userId)) {
+                user.setName(request.getName());
+            } else {
+                throw new DuplicatedNameException();
+            }
+        }
+
+        // 칭호 종류 변경
+        if (request.getTitleType() != null) {
+            user.setTitleShowType(TitleShowType.fromOrdinary(request.getTitleType()));
+        }
+
+        // 대표 칭호 고유번호 변경
+        if (request.getMainTitleId() != null) {
+            Title title = getTitleOrElseThrow(request.getMainTitleId());
+            // 보유 여부 확인
+            if (request.getMainTitleId() == -1 ||
+                    titleService.alreadyGetTitle(userId, request.getMainTitleId())) {
+                user.setTitle(title);
+            } else {
+                throw new NotOwnTitleException();
+            }
+        }
+
+        // 캐릭터 종류 변경
+        if (request.getCharacterType() != null) {
+            user.setCharacterId(CharacterType.fromOrdinary(request.getCharacterType()));
+        }
+    }
+
+    /* 보유 칭호목록 조회 */
+    public TitleListResponse getTitleList(Long userId) {
+        User user = getUserOrElseThrow(userId);
+
+        return TitleListResponse.builder()
+                .titleType(user.getTitleShowType().ordinal())
+                .mainTitleId(user.getTitle().getId())
+                .titles(titleService.getTitleList(userId))
+                .build();
+    }
+
+    private User getUserOrElseThrow(Long userId) {
+        return userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
-        return user.getId();
+    }
+
+    private Title getTitleOrElseThrow(Long titleId) {
+        return titleRepository.findById(titleId)
+                .orElseThrow(TitleNotFoundException::new);
     }
 }

@@ -1,6 +1,7 @@
 package com.a304.wildworker.domain.minigame;
 
 import com.a304.wildworker.domain.common.BaseEntity;
+import com.a304.wildworker.domain.common.ResultCode;
 import com.a304.wildworker.domain.common.RunCode;
 import com.a304.wildworker.domain.user.User;
 import javax.persistence.Column;
@@ -10,7 +11,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "mini_game_log")
 public class MiniGameLog extends BaseEntity {
@@ -27,4 +30,7 @@ public class MiniGameLog extends BaseEntity {
     @Enumerated
     @Column(nullable = false)
     private RunCode runCode;
+    @Enumerated
+    @Column(nullable = false)
+    private ResultCode resultCode;
 }

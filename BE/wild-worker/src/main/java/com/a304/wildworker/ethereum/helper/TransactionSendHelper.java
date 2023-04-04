@@ -95,9 +95,9 @@ public class TransactionSendHelper {
             String fromAddress,
             Function function)
             throws IOException {
-        log.info("in transaction ::::");
-        log.info("contract :: {}", contractAddress);
-        log.info("sender :: {}", fromAddress);
+        log.info("transaction start");
+        log.info("\tcontract : {}", contractAddress);
+        log.info("\tsender : {}", fromAddress);
 
         return getBlock().thenCombine(getNonce(fromAddress), (block, nonce) -> {
             BigInteger gasLimit = block.getGasLimit();
@@ -105,6 +105,7 @@ public class TransactionSendHelper {
             BigInteger amountUsed = baseFeePerGas; // TODO: 2023-03-23 값 조정 필요
 
             try {
+                log.info("\t\ttransaction sending");
                 return web3j.ethSendTransaction(
                                 Transaction.createFunctionCallTransaction(
                                         fromAddress,
@@ -119,13 +120,20 @@ public class TransactionSendHelper {
                                     TransactionReceipt transactionReceipt;
                                     try {
                                         transactionReceipt = getTransactionReceipt(ethSendTransaction);
+                                        if (ethSendTransaction.hasError()) {
+                                            transactionReceipt = getDefaultTransactionReceipt(
+                                                    contractAddress, fromAddress, block, nonce,
+                                                    amountUsed, ethSendTransaction,
+                                                    ethSendTransaction.getError().getMessage());
+                                        }
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                         transactionReceipt = getDefaultTransactionReceipt(contractAddress,
                                                 fromAddress, block, nonce, amountUsed,
-                                                ethSendTransaction, e);
+                                                ethSendTransaction, e.getMessage());
                                     }
-                                    log.info("transaction receipt : {}", transactionReceipt);
+                                    log.info("\t\ttransaction receipt : {}", transactionReceipt);
+                                    log.info("transaction end");
                                     return transactionReceipt;
                                 }
                         ).get(); // TODO: 2023-03-27 내부 로직 수정 필요
@@ -138,7 +146,7 @@ public class TransactionSendHelper {
 
     private TransactionReceipt getDefaultTransactionReceipt(String contractAddress,
             String fromAddress, Block block, BigInteger nonce, BigInteger amountUsed,
-            EthSendTransaction ethSendTransaction, IOException e) {
+            EthSendTransaction ethSendTransaction, String message) {
         return new TransactionReceipt(
                 ethSendTransaction.getTransactionHash(),
                 Numeric.encodeQuantity(nonce),
@@ -152,7 +160,7 @@ public class TransactionSendHelper {
                 contractAddress,
                 null,
                 null,
-                e.getMessage(),
+                message,
                 null,
                 null);
     }

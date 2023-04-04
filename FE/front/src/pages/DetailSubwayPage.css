@@ -121,3 +121,8 @@
   height: 100%;
   width: 100%;
 }
+
+.detail-scroll-div {
+  height: 400%;
+  overflow: scroll;
+}
