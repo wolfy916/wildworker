@@ -58,7 +58,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private TitleShowType titleShowType;
     @Setter
-    @ManyToOne(targetEntity = Title.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Title.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private Title title;
     @Column(nullable = false)
