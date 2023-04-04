@@ -29,16 +29,16 @@
   height: 22%;
   position: absolute;
   left: 10%;
-  top: 59%;
+  top: 55%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 1011 !important;
+  z-index: 1010 !important;
 }
 .character {
   width: 70%;
   height: 72%;
-  z-index: 1011;
+  z-index: 1010;
 }
 .character-nickname {
   box-sizing: border-box;
@@ -54,10 +54,8 @@
   width: max-content;
   margin-top: 3%;
   padding: 3% 10%;
-  font-size: 110%;
+  font-size: 100%;
   font-weight: 900;
-  border: solid black 2px;
-  border-radius: 30px;
   z-index: 1002;
   font-family: "galmuri9";
   visibility: hidden;
@@ -158,11 +156,11 @@
   z-index: 1002;
 }
 
-.test-loading-effect {
+.pvp-loading-effect {
   position: absolute;
   top: 0%;
   left: 0%;
-  z-index: 1003;
+  z-index: 1100;
 }
 
 .black-background {
@@ -172,7 +170,7 @@
   height: 100%;
   width: 100%;
   background-color: black;
-  z-index: 1004;
+  z-index: 1100;
 }
 
 .flash {

@@ -1,7 +1,7 @@
 // 연결
-function connectSocket(client, setstore, setUserData, store) {
+function connectSocket(client, setstore, setUserData, store, setIsMatched) {
   client.connect({}, () => {
-    subscribeUser(client, setstore, setUserData);
+    subscribeUser(client, setstore, setUserData, setIsMatched);
     // subscribeStation(client, setstore, store.locationData.current);
   });
   return client;
@@ -40,7 +40,7 @@ function subscribeStation(client, setStore, curStation) {
   return client;
 }
 
-function subscribeUser(client, setStore, setUserData) {
+function subscribeUser(client, setStore, setUserData, setIsMatched) {
   client.subscribe("/user/queue", (message) => {
     const payload = JSON.parse(message.body);
 
@@ -122,6 +122,7 @@ function subscribeUser(client, setStore, setUserData) {
             matching: payload.data,
           };
         });
+        setIsMatched(true);
       }
       // 게임 취소 (도망 성공)
       else if (payload.subType === "CANCEL") {
