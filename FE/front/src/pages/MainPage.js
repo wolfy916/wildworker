@@ -6,6 +6,7 @@ import SubwayBoard from "../components/mainpage/SubwayBoard";
 import GetCoinItem from "../components/mainpage/GetCoinItem";
 import Modal from "../components/mainpage/Modal";
 import MenuBar from "../components/mainpage/MenuBar";
+import StationEvent from "../components/mainpage/StationEvent";
 
 import character_man from "../asset/image/moving_man.gif";
 import character_woman from "../asset/image/moving_woman1.gif";
@@ -16,12 +17,13 @@ import LoadingEffect from "../asset/image/pvpPageLoading.gif";
 import morningBackgroundImg from "../asset/image/test_morning.png";
 import dominator_speaker from "../asset/image/dominator_speaker.png";
 
-import { getUserInfo, getTitleList } from "../api/User";
+import { getUserInfo } from "../api/User";
 
 function MainPage(props) {
   const navigate = useNavigate();
   const stompClient = props.stompClient;
   const coinCnt = props.userData.collectedPapers;
+  const pvpRouterClick = props.isMatched;
 
   const [isReady, setIsReady] = React.useState(false); // 비동기 오류 방지
 
@@ -30,7 +32,6 @@ function MainPage(props) {
   const [isClickDoc, setIsClickDoc] = React.useState(false); // 서류 click시
 
   const [modalClick, setModalClick] = React.useState(false); // 메인페이지의 메뉴바 클릭 여부
-  const [pvpRouterClick, setPvpRouterClick] = React.useState(false); // pvp 로딩 테스트 버튼
 
   const [titleModalClick, setTitleModalClick] = React.useState(false); // 메인페이지의 칭호 메뉴 획득하면 띄움
   const [dominatorMsgModalClick, setDominatorMsgModalClick] =
@@ -42,11 +43,32 @@ function MainPage(props) {
 
   const characterList = [character_man, character_woman];
 
+  const [currentStation, setCurrentStation] = React.useState("");
+  const [startStationEvent, setStartStationEvent] = React.useState(false);
+  const eventStationList = ["역삼역", "신도림역", "잠실역"];
+
+  // 지하철 역에 맞는 이벤트 실행
+  React.useEffect(() => {
+    const eventStationCheck = async () => {
+      if (props.store.locationData.current) {
+        if (props.store.locationData.current.name !== currentStation) {
+          setCurrentStation(props.store.locationData.current.name);
+          await setStartStationEvent(false);
+          if (
+            eventStationList.includes(props.store.locationData.current.name)
+          ) {
+            setStartStationEvent(true);
+          }
+        }
+      }
+    };
+    eventStationCheck();
+  }, [props.store.locationData.current]);
+
   React.useEffect(() => {
     setIsReady(true);
     props.setIsLogin(true);
     getUserInfo({ setFunc: props.setUserData });
-    getTitleList({ setFunc: props.setMyTitles });
 
     if (coinCnt > 99) {
       setIsEnough(true);
@@ -125,20 +147,26 @@ function MainPage(props) {
     }
   }, [isEnough]);
 
-  // 매칭 잡혔을 때의 로딩 이펙트 테스트용 함수
+  // 매칭 테스트 버튼 클릭
   function pvpRouterClickHandler() {
-    setPvpRouterClick(true);
-    const targetTag = document.getElementsByClassName("subway-background")[0];
-    const blackBackgroundTag = document.createElement("div");
-    setTimeout(() => {
-      setPvpRouterClick(false);
-      blackBackgroundTag.classList.add("black-background");
-      targetTag.appendChild(blackBackgroundTag);
-    }, 700);
-    setTimeout(() => {
-      navigate("/pvp");
-    }, 1200);
+    props.setIsMatched(true);
   }
+
+  // 매칭 잡혔을 때 로딩 이펙트 시작 + navigate
+  React.useEffect(() => {
+    if (props.isMatched) {
+      const targetTag = document.getElementsByClassName("subway-background")[0];
+      const blackBackgroundTag = document.createElement("div");
+      setTimeout(() => {
+        props.setIsMatched(false);
+        blackBackgroundTag.classList.add("black-background");
+        targetTag.appendChild(blackBackgroundTag);
+      }, 700);
+      setTimeout(() => {
+        navigate("/pvp");
+      }, 1200);
+    }
+  }, [props.isMatched]);
 
   // 칭호 획득 시 ( 처음에는 getTitle은 빈문자열 )
   const getTitle = props.store.getTitle;
@@ -210,12 +238,13 @@ function MainPage(props) {
         )}
         {pvpRouterClick && (
           <img
-            className="test-loading-effect"
+            className="pvp-loading-effect"
             src={LoadingEffect}
             alt="Loading Effect"
           />
         )}
         <div className="character-nickname-title">
+          <div className="character-title">{props.userData.title.name}</div>
           <div className="character-nickname">{props.userData.name}</div>
           {props.userData.characterType + 1 && (
             <img
@@ -232,10 +261,13 @@ function MainPage(props) {
               }}
             />
           )}
-          <div className="character-title">{props.userData.title.name}</div>
         </div>
         {!pvpRouterClick && (
-          <MenuBar setModalClick={setModalClick} setSelectIdx={setSelectIdx} />
+          <MenuBar
+            setModalClick={setModalClick}
+            setSelectIdx={setSelectIdx}
+            setMyTitles={props.setMyTitles}
+          />
         )}
         <div className="get-coin-btn">
           {!isEnough && <div className="get-coin-cnt">{coinCnt}</div>}
@@ -250,6 +282,12 @@ function MainPage(props) {
           userData={props.userData}
           setUserData={props.setUserData}
           setIsClickDoc={setIsClickDoc}
+        />
+      )}
+      {startStationEvent && (
+        <StationEvent
+          startStationEvent={startStationEvent}
+          stationName={props.store.locationData.current.name}
         />
       )}
       <div className="main-router-pvp" onClick={pvpRouterClickHandler}>

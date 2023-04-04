@@ -1,14 +1,14 @@
 // 연결
-function connectSocket(client, setstore, setUserData, store) {
+function connectSocket(client, setstore, setUserData, store, setIsMatched) {
   client.connect({}, () => {
-    subscribeUser(client, setstore, setUserData);
+    subscribeUser(client, setstore, setUserData, setIsMatched);
     // subscribeStation(client, setstore, store.locationData.current);
   });
   return client;
 }
 // 지하철 구독
 function subscribeStation(client, setStore, curStation) {
-  if (curStation != null) {
+  if (curStation !== null) {
     client.subscribe(
       `/sub/stations/${curStation ? curStation.id : 1}`,
       (message) => {
@@ -40,7 +40,7 @@ function subscribeStation(client, setStore, curStation) {
   return client;
 }
 
-function subscribeUser(client, setStore, setUserData) {
+function subscribeUser(client, setStore, setUserData, setIsMatched) {
   client.subscribe("/user/queue", (message) => {
     const payload = JSON.parse(message.body);
 
@@ -122,6 +122,7 @@ function subscribeUser(client, setStore, setUserData) {
             matching: payload.data,
           };
         });
+        setIsMatched(true);
       }
       // 게임 취소 (도망 성공)
       else if (payload.subType === "CANCEL") {

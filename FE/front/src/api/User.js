@@ -55,7 +55,7 @@ function patchUserInfo(payload) {
       .then(({ status, data }) => {
         if (status === 200) {
           console.log("patchUserInfo 성공");
-          getUserInfo({setFunc: payload.setFunc});
+          getUserInfo({ setFunc: payload.setFunc });
         }
       })
       .catch((err) => {
@@ -103,14 +103,11 @@ function getTitleList(payload) {
     })
       .then(({ status, data }) => {
         if (status === 200) {
-          console.log("getTitleList 성공", data);
           payload.setFunc(data);
           // data 예시
           // {
           //   "titleType": 1,
           //   "mainTitleId": 1,
-          //   "dominatorTitles": [
-          //     { "id": 1, "name": "역삼역의 지배자" },
           //   ],
           //   "titles": [
           //     { "id": 1, "name": "쫄보" },
@@ -122,7 +119,6 @@ function getTitleList(payload) {
       })
       .catch((err) => {
         console.log("getTitleList 실패");
-        console.log(err.response);
       });
   }
 }

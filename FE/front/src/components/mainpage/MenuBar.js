@@ -1,11 +1,12 @@
 import * as React from "react";
 import "./MenuBar.css";
+import { getTitleList } from "../../api/User";
 
 function MenuBar(props) {
   const [menuClick, setMenuClick] = React.useState(false);
 
   const handleLocations = [{ left: "20%" }, { left: "40%" }, { left: "60%" }];
-  const handleLabel = ["닉네임", "수식어", "정산서"];
+  const handleLabel = ["닉네임", "칭\n호", "정산서"];
   const subwayHandle = handleLocations.map((value, idx) => {
     return (
       <div
@@ -15,6 +16,9 @@ function MenuBar(props) {
         onClick={async () => {
           await props.setSelectIdx(idx);
           props.setModalClick(true);
+          if (idx === 1) {
+            getTitleList({setFunc: props.setMyTitles})
+          }
         }}
       >
         <div className="handle-rope-label">

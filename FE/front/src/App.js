@@ -15,7 +15,6 @@ import HotSubwayPage from "./pages/HotSubwayPage";
 import DetailSubwayPage from "./pages/DetailSubwayPage";
 import MiniGamePage from "./pages/MiniGamePage";
 import MiniGameReadyPage from "./pages/MiniGameReadyPage";
-import Modal from "./components/mainpage/Modal";
 
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -29,7 +28,7 @@ import {
 function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
-  const [isChangeId, setIsChangeId] = useState(false);
+  const [isMatched, setIsMatched] = useState(false);
 
   // 유저 데이터
   const [userData, setUserData] = useState({
@@ -65,7 +64,7 @@ function App() {
       },
     ],
     size: 10,
-    totalPage: 10,
+    totalPage: 1,
     currentPage: 1,
   });
 
@@ -159,19 +158,13 @@ function App() {
     if (isLogin) {
       const socket = new SockJS("https://j8a304.p.ssafy.io/api/v1/ws");
       setStompClient(
-        connectSocket(Stomp.over(socket), setStore, setUserData, store)
+        connectSocket(Stomp.over(socket), setStore, setUserData, store, setIsMatched)
       );
       setIsConnected(true);
     }
   }, [isLogin]);
 
-  // // 5초 뒤에 isChangeId = true로 지하철 Id가 변경되는 타이밍이라고 가정
-  // const [isChangeId, setIsChangeId] = useState(false);
-  // setTimeout(() => {
-  //   setIsChangeId(true);
-  // }, 5000);
-
-  // isChangeId값의 변화로 지하철역 구독해제하고 새로운 지하철로 재연결
+  // 지하철역 구독해제하고 새로운 지하철로 재연결
   useEffect(() => {
     if (store.locationData) {
       setStompClient(unsubscribeStation(stompClient, store.locationData.prev));
@@ -228,9 +221,11 @@ function App() {
                   stompClient={stompClient}
                   setIsLogin={setIsLogin}
                   myTitles={myTitles}
-                  setMytitles={setMyTitles}
+                  setMyTitles={setMyTitles}
                   myCoinLogs={myCoinLogs}
                   setMyCoinLogs={setMyCoinLogs}
+                  isMatched={isMatched}
+                  setIsMatched={setIsMatched}
                 />
               }
             />
