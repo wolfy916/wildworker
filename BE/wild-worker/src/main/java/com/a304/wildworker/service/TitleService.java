@@ -14,9 +14,12 @@ import com.a304.wildworker.domain.title.strategy.TitleStrategy;
 import com.a304.wildworker.domain.title.strategy.WinnerStrategy;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
+import com.a304.wildworker.dto.response.TitleDto;
 import com.a304.wildworker.event.GetTitleEvent;
 import com.a304.wildworker.exception.NoSuchCodeException;
 import com.a304.wildworker.exception.UserNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.context.ApplicationEventPublisher;
@@ -100,6 +103,15 @@ public class TitleService {
 
         // 칭호 획득 이벤트 발생
         publisher.publishEvent(new GetTitleEvent(user, title));
+    }
+
+    public List<TitleDto> getTitleList(Long userId) {
+        List<TitleDto> titleList = new ArrayList<>();
+        titleAwardedRepository.findByUserId(userId).stream().forEach(titleAwarded -> {
+            titleList.add(TitleDto.of(titleAwarded.getTitle()));
+        });
+
+        return titleList;
     }
 
     public User getUserOrElseThrow(Long userId) {
