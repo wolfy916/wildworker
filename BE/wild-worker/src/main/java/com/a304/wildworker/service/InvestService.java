@@ -423,8 +423,7 @@ public class InvestService {
                 user.setTitleId(newStation.getId());
 
                 // 대표 칭호 변동 Noti 송신
-                sendMainTitleUpdateNotification(user.getId(), new TitleDto(newStation.getId(),
-                        newStation.getName()));
+                sendMainTitleUpdateNotification(user.getId(), TitleDto.of(newStation));
             }
         }
     }

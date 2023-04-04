@@ -6,14 +6,20 @@ import com.a304.wildworker.domain.common.TitleShowType;
 import com.a304.wildworker.domain.dominator.DominatorLog;
 import com.a304.wildworker.domain.dominator.DominatorLogRepository;
 import com.a304.wildworker.domain.station.Station;
+import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.domain.system.SystemData;
+import com.a304.wildworker.domain.title.Title;
+import com.a304.wildworker.domain.title.TitleRepository;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
 import com.a304.wildworker.dto.request.ChangeUserInfoRequest;
+import com.a304.wildworker.dto.response.TitleDto;
 import com.a304.wildworker.dto.response.TitleListResponse;
 import com.a304.wildworker.dto.response.UserResponse;
 import com.a304.wildworker.exception.DuplicatedNameException;
 import com.a304.wildworker.exception.NotOwnTitleException;
+import com.a304.wildworker.exception.StationNotFoundException;
+import com.a304.wildworker.exception.TitleNotFoundException;
 import com.a304.wildworker.exception.UserNotFoundException;
 import java.util.List;
 import java.util.Optional;
@@ -27,13 +33,30 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final DominatorLogRepository dominatorLogRepository;
+    private final TitleRepository titleRepository;
+    private final StationRepository stationRepository;
     private final SystemData systemData;
     private final TitleService titleService;
 
     public UserResponse getUser(String email) {
         User user = Optional.of(userRepository.findByEmail(email)).get()
                 .orElseThrow(UserNotFoundException::new);
-        return UserResponse.of(user);
+        TitleDto titleDto = null;
+
+        // 지배자 칭호인 경우
+        if (user.getTitleShowType() == TitleShowType.DOMINATOR) {
+            if (user.getTitleId().equals(TitleCode.NONE.getId())) {
+                titleDto = TitleDto.of(getTitleOrElseThrow(user.getTitleId()));
+            } else {
+                titleDto = TitleDto.of(getStationOrElseThrow(user.getTitleId()));
+            }
+        }
+        // 일반 칭호인 경우
+        else if (user.getTitleShowType() == TitleShowType.TITLE) {
+            titleDto = TitleDto.of(getTitleOrElseThrow(user.getTitleId()));
+        }
+
+        return UserResponse.of(user, titleDto);
     }
 
     /* 회원정보 수정 */
@@ -96,11 +119,6 @@ public class UserService {
                 .build();
     }
 
-    private User getUserOrElseThrow(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(UserNotFoundException::new);
-    }
-
     /* 유저가 지배하는 역 중 가장 비싼 역 반환 */
     private Station getMostExpensiveStation(Long userId) {
         List<DominatorLog> dominatorLogList = dominatorLogRepository.findByUserIdAndDominateStartTime(
@@ -119,5 +137,20 @@ public class UserService {
         }
 
         return mostExpensiveStation;
+    }
+
+    private User getUserOrElseThrow(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
+    private Station getStationOrElseThrow(Long stationId) {
+        return stationRepository.findById(stationId)
+                .orElseThrow(StationNotFoundException::new);
+    }
+
+    public Title getTitleOrElseThrow(Long titleId) {
+        return titleRepository.findById(titleId)
+                .orElseThrow(TitleNotFoundException::new);
     }
 }
