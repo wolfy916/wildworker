@@ -203,7 +203,7 @@ function App() {
         clearInterval(intervalId);
       };
     }
-  }, [isConnected, testCoordinate]);
+  }, [isConnected]);
 
   // 위치 전송 백에게 전달하는 함수
   const handleSendLocation = (e) => {
