@@ -5,6 +5,7 @@ import com.a304.wildworker.domain.common.BaseEntity;
 import com.a304.wildworker.domain.common.CharacterType;
 import com.a304.wildworker.domain.common.Role;
 import com.a304.wildworker.domain.common.TitleShowType;
+import com.a304.wildworker.domain.title.Title;
 import com.a304.wildworker.ethereum.exception.WalletCreationException;
 import com.a304.wildworker.ethereum.service.WalletProvider;
 import com.a304.wildworker.exception.NotEnoughBalanceException;
@@ -15,11 +16,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
@@ -35,6 +40,7 @@ public class User extends BaseEntity {
     @ToString.Include
     @Column(unique = true, nullable = false)
     private String email;
+    @Setter
     @Column(unique = true, nullable = false)
     private String name;
     @Column(unique = true, nullable = false)
@@ -43,16 +49,18 @@ public class User extends BaseEntity {
     private String walletPassword; // key for blockchain wallet
     @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
     private Long balance;
+    @Setter
     @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private CharacterType characterId;
+    @Setter
     @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private TitleShowType titleShowType;
-    //    @ManyToOne(targetEntity = Title.class, fetch = FetchType.LAZY)
-//    @JoinColumn(nullable = false)
-//    private Title title;
-    private Long title_id;  // TODO
+    @Setter
+    @ManyToOne(targetEntity = Title.class, fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private Title title;
     @Column(nullable = false)
     private int numberOfCollectedPaper;
     private boolean deleted;
@@ -61,7 +69,7 @@ public class User extends BaseEntity {
 //    @OneToMany(mappedBy = "user")
 //    private List<TitleAwarded> titleAwardeds = new ArrayList<>();
 
-    public User(String email) throws WalletCreationException {
+    public User(String email, Title title) throws WalletCreationException {
         this.role = Role.ROLE_USER;
         this.email = email;
         this.name = email;
@@ -70,7 +78,7 @@ public class User extends BaseEntity {
         this.balance = 0L;
         this.characterId = CharacterType.MAN;
         this.titleShowType = TitleShowType.TITLE;
-        this.title_id = Constants.NONE_TITLE_ID;
+        this.title = title;
         this.numberOfCollectedPaper = 0;
     }
 

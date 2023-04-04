@@ -2,6 +2,7 @@ package com.a304.wildworker.controller.rest;
 
 import com.a304.wildworker.domain.sessionuser.PrincipalDetails;
 import com.a304.wildworker.domain.sessionuser.SessionUser;
+import com.a304.wildworker.dto.request.ChangeUserInfoRequest;
 import com.a304.wildworker.dto.response.UserResponse;
 import com.a304.wildworker.exception.NotLoginException;
 import com.a304.wildworker.service.UserService;
@@ -11,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +36,18 @@ public class UserController {
 
         UserResponse response = userService.getUser(user.getEmail());
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping
+    public ResponseEntity<Void> changeUserInfo(
+            @AuthenticationPrincipal PrincipalDetails principal,
+            @RequestBody ChangeUserInfoRequest changeUserInfoRequest) {
+        SessionUser user = Optional.of(principal.getSessionUser())
+                .orElseThrow(NotLoginException::new);
+
+        userService.changeUserInfo(user.getId(), changeUserInfoRequest);
+
+        return ResponseEntity.ok().build();
     }
 
 }

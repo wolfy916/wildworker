@@ -1,6 +1,7 @@
 package com.a304.wildworker.domain.common;
 
 public enum TitleCode {
+    NONE(-1L, 0),
     RISK_TAKER(1L, 20),
     RUNNER(2L, 20),
     POOR(3L, 0),

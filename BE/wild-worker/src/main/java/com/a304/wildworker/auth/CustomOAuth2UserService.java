@@ -3,6 +3,7 @@ package com.a304.wildworker.auth;
 import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.domain.sessionuser.PrincipalDetails;
 import com.a304.wildworker.domain.sessionuser.SessionUser;
+import com.a304.wildworker.domain.title.TitleRepository;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
 import com.a304.wildworker.ethereum.exception.WalletCreationException;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
+    private final TitleRepository titleRepository;
     private final HttpSession httpSession;
 
     @Override
@@ -59,7 +61,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private User findOrSave(OAuth2Attribute attributes) throws WalletCreationException {
         String email = attributes.getEmail();
         User user = userRepository.findByEmail(email)
-                .orElseGet(() -> new User(email));
+                .orElseGet(() -> new User(email, titleRepository.findById(-1L).get()));
 
         return userRepository.save(user);
     }
