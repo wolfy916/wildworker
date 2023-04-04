@@ -1,7 +1,7 @@
 package com.a304.wildworker.domain.activestation;
 
-import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.domain.common.TransactionType;
+import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.domain.system.SystemData;
 import com.a304.wildworker.domain.transaction.TransactionLog;
 import com.a304.wildworker.domain.transaction.TransactionLogRepository;
@@ -17,14 +17,17 @@ public class ActiveStationRepository {
 
     private final SystemData systemData;
     private final TransactionLogRepository transactionLogRepository;
+    private final StationRepository stationRepository;
 
     public ActiveStationRepository(SystemData systemData,
-            TransactionLogRepository transactionLogRepository) {
+            TransactionLogRepository transactionLogRepository,
+            StationRepository stationRepository) {
         activeStations = new ConcurrentHashMap<>();
         this.systemData = systemData;
         this.transactionLogRepository = transactionLogRepository;
+        this.stationRepository = stationRepository;
 
-        for (Long id = 1L; id <= Constants.STATION_COUNT; id++) {
+        for (Long id = 1L, stationCnt = stationRepository.count(); id <= stationCnt; id++) {
             save(new ActiveStation(id));
         }
 
@@ -48,5 +51,5 @@ public class ActiveStationRepository {
         activeStations.put(station.getId(), station);
         return station;
     }
-    
+
 }

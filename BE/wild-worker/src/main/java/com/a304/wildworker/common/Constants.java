@@ -15,7 +15,6 @@ public final class Constants {
     // 역
     public static final int STATION_RANGE = 250;    // 역 범위(반지름) (meter)
     public static final Long ROOT_STATION_ID = -1L; // 루트 Station ID
-    public static final int STATION_COUNT = 51; // 역 개수
 
     // 채굴
     public static final int SELL_LIMIT = 100;   //수동 채굴 가능한 종이 개수

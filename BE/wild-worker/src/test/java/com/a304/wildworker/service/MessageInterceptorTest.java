@@ -48,7 +48,8 @@ public class MessageInterceptorTest {
 
     @BeforeEach
     void setUp() {
-        activeStationRepository = new ActiveStationRepository(systemData, transactionLogRepository);
+        activeStationRepository = new ActiveStationRepository(systemData, transactionLogRepository,
+                stationRepository);
         MockitoAnnotations.openMocks(this);
         interceptor = new MessageInterceptor(
                 new ActiveUserRepository(),

@@ -1,6 +1,5 @@
 package com.a304.wildworker.service;
 
-import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.common.WebSocketUtils;
 import com.a304.wildworker.domain.activestation.ActiveStation;
 import com.a304.wildworker.domain.activestation.ActiveStationRepository;
@@ -187,7 +186,7 @@ public class InvestService {
         List<MyInvestmentInfoResponse> investmentList = new LinkedList<>();
 
         // 내 투자 리스트
-        for (Long id = 1L; id <= Constants.STATION_COUNT; id++) {
+        for (Long id = 1L, stationCnt = stationRepository.count(); id <= stationCnt; id++) {
             ActiveStation activeStation = activeStationRepository.findById(id);
             Map<Long, Long> investors = activeStation.getInvestors();
 
