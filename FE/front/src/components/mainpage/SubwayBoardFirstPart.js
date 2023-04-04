@@ -19,7 +19,7 @@ function SubwayBoardFirstPart(props) {
     <div className="board-content" style={{ justifyContent: "space-around" }}>
       <span className="coin-text">●</span>
       <span className={`board-coin ${props.isFlashing ? "flash" : ""}`}>
-        {props.userData.coin ? props.userData.coin.toLocaleString("ko-KR") : ""}{" "}
+        {props.userData.coin ? props.userData.coin.toLocaleString("ko-KR") : "0"}{" "}
         원
       </span>
     </div>

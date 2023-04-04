@@ -56,7 +56,7 @@ function PvpPage(props) {
       <BattleDialog
         stompClient={stompClient}
         matchingData={matchingData}
-        gameCancelData={gameCancelData}
+        gameCancelData={gameRunData}
         gameStartData={gameStartData}
         //본인정보 받기
         userData={userData}

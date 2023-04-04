@@ -16,7 +16,7 @@ function getUserInfo(payload) {
           //   coin: 0;
           //   collectedPapers: 74;
           //   name: "rnjsxogud916@naver.com";
-          //   titleId: 0;
+          //   title: {id: -1, name: "x"};
           //   titleType: 0;
           // }
         }

@@ -2,7 +2,6 @@
 function connectSocket(client, setstore, setUserData, store, setIsMatched) {
   client.connect({}, () => {
     subscribeUser(client, setstore, setUserData, setIsMatched);
-    // subscribeStation(client, setstore, store.locationData.current);
   });
   return client;
 }

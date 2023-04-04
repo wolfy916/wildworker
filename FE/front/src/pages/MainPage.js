@@ -45,7 +45,7 @@ function MainPage(props) {
 
   const [currentStation, setCurrentStation] = React.useState("");
   const [startStationEvent, setStartStationEvent] = React.useState(false);
-  const eventStationList = ["역삼역", "신도림역", "잠실역"];
+  const eventStationList = ["역삼역", "신도림역", "잠실역", "홍대입구역", "사당역"];
 
   // 지하철 역에 맞는 이벤트 실행
   React.useEffect(() => {

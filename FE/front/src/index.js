@@ -7,7 +7,7 @@ import App from "./App"
 
 document.documentElement.addEventListener('touchstart', function (event) {
   if (event.touches.length > 1) {
-       event.preventDefault(); 
+       event.preventDefault();
      } 
  }, false);
 
