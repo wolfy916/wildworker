@@ -185,7 +185,7 @@ public class InvestService {
             if (amount != null) {
                 Station station = getStationOrElseThrow(id);
                 investmentList.add(MyInvestmentInfoResponse.builder()
-                        .station(new StationDto(station.getId(), station.getName()))
+                        .station(StationDto.of(station))
                         .investment(amount)
                         .percent(getPercent(station.getBalance(), amount))
                         .build());
