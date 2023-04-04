@@ -58,11 +58,10 @@ public class UserService {
 
         // 대표 칭호 고유번호 변경
         if (request.getMainTitleId() != null) {
-            Title title = getTitleOrElseThrow(request.getMainTitleId());
             // 보유 여부 확인
             if (request.getMainTitleId() == -1 ||
                     titleService.alreadyGetTitle(userId, request.getMainTitleId())) {
-                user.setTitle(title);
+                user.setTitleId(request.getMainTitleId());
             } else {
                 throw new NotOwnTitleException();
             }
@@ -80,7 +79,7 @@ public class UserService {
 
         return TitleListResponse.builder()
                 .titleType(user.getTitleShowType().ordinal())
-                .mainTitleId(user.getTitle().getId())
+                .mainTitleId(user.getTitleId())
                 .titles(titleService.getTitleList(userId))
                 .build();
     }
