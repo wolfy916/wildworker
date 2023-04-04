@@ -105,8 +105,11 @@ public class TitleService {
         publisher.publishEvent(new GetTitleEvent(user, title));
     }
 
+    /* 보유칭호 목록 */
     public List<TitleDto> getTitleList(Long userId) {
         List<TitleDto> titleList = new ArrayList<>();
+        titleList.add(TitleDto.of(getTitleOrElseThrow(TitleCode.NONE)));
+
         titleAwardedRepository.findByUserId(userId).stream().forEach(titleAwarded -> {
             titleList.add(TitleDto.of(titleAwarded.getTitle()));
         });
