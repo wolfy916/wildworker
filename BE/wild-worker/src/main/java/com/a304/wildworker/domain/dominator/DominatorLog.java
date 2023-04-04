@@ -26,10 +26,10 @@ import lombok.NoArgsConstructor;
                         columnNames = {"station_id", "dominate_start_time"})})
 public class DominatorLog extends BaseEntity {
 
-    @ManyToOne(targetEntity = Station.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Station.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "station_id", nullable = false)
     private Station station;
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private User user;
     @Column(name = "dominate_start_time", nullable = false)

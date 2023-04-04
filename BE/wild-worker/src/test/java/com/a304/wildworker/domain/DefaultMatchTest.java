@@ -15,8 +15,8 @@ public class DefaultMatchTest {
     @Test
     void testCreateDefaultMatch() {
         Match match = new DefaultMatch(List.of(), League.LOW);
-        assertEquals(DefaultMatch.defaultCost, match.getCost());
-        assertEquals(DefaultMatch.defaultRunCost, match.getRunCost());
+        assertEquals(DefaultMatch.DEFAULT_COST, match.getCost());
+        assertEquals(DefaultMatch.DEFAULT_RUN_COST, match.getRunCost());
     }
 
     @Test

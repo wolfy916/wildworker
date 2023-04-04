@@ -47,6 +47,9 @@ public class Bank {
      */
     public CompletableFuture<TransactionReceipt> autoMine(Station station, User user)
             throws CipherException, IOException {
+        log.info("autoMine");
+        log.info("\tfrom station : {}", station);
+        log.info("\tto user : {}", user);
         String from = station.getAddress();
         String to = getUserWalletAddress(user);
 

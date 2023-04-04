@@ -14,7 +14,7 @@
 .hot-title {
   background: #f3d9d9;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   padding: 3vw;
   box-shadow: 3px 3px 3px 3px gray;
 }
@@ -91,3 +91,13 @@
   height: 100%;
   width: 100%;
 }
+.show {display:block;}
+
+.hot-select {
+  font-family: galmuri9;
+}
+
+.hot-option {
+  font-family: galmuri9;
+}
+

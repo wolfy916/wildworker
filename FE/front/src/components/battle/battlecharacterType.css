@@ -1,5 +1,5 @@
 .battleCharacter {
   transform: scale(0.4) scaleX(-1);
   /* border: 1px black solid; */
-  /* position: absolute; */
+  position: relative;
 }

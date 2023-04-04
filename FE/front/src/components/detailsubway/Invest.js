@@ -17,11 +17,20 @@ function Invest(props) {
     };
     invest(payload);
     props.setModalClick((prev) => !prev);
-    props.setCnt(0)
-    props.setIsRetry((prev) => !prev)
-    // axios 보낼 함수 짜야함
+    props.setCnt(0);
+    props.setIsRetry((prev) => !prev);
   }
-
+  function changeClickHandlerFromHot() {
+    const payload = {
+      investment: userInput,
+      stationId: props.selectedStationId,
+      setFunc: props.setUserData,
+    };
+    invest(payload);
+    props.setModalClick((prev) => !prev);
+    props.setCnt(0);
+    props.setIsRetry((prev) => !prev);
+  }
   return (
     <div className="modal-component">
       <div className="modal-title">투자</div>
@@ -38,8 +47,15 @@ function Invest(props) {
             onChange={userInputHandler}
           />
         </div>
-        <div className="change-investment-btn" onClick={changeClickHandler}>
-          변경하기
+        <div
+          className="change-investment-btn"
+          onClick={
+            props.detailOrHot === 0
+              ? changeClickHandler
+              : changeClickHandlerFromHot
+          }
+        >
+          투자하기
         </div>
       </div>
     </div>
