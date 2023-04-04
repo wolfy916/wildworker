@@ -10,9 +10,14 @@ import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.domain.system.SystemData;
 import com.a304.wildworker.domain.title.Title;
 import com.a304.wildworker.domain.title.TitleRepository;
+import com.a304.wildworker.domain.transaction.TransactionLog;
+import com.a304.wildworker.domain.transaction.TransactionLogRepository;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.domain.user.UserRepository;
 import com.a304.wildworker.dto.request.ChangeUserInfoRequest;
+import com.a304.wildworker.dto.response.CoinInfoResponse;
+import com.a304.wildworker.dto.response.CoinLogResponse;
+import com.a304.wildworker.dto.response.StationDto;
 import com.a304.wildworker.dto.response.TitleDto;
 import com.a304.wildworker.dto.response.TitleListResponse;
 import com.a304.wildworker.dto.response.UserResponse;
@@ -21,9 +26,13 @@ import com.a304.wildworker.exception.NotOwnTitleException;
 import com.a304.wildworker.exception.StationNotFoundException;
 import com.a304.wildworker.exception.TitleNotFoundException;
 import com.a304.wildworker.exception.UserNotFoundException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +45,7 @@ public class UserService {
     private final TitleRepository titleRepository;
     private final StationRepository stationRepository;
     private final SystemData systemData;
+    private final TransactionLogRepository transactionLogRepository;
     private final TitleService titleService;
 
     public UserResponse getUser(String email) {
@@ -141,6 +151,35 @@ public class UserService {
         }
 
         return mostExpensiveStation;
+    }
+
+    /* 코인 내역 조회 */
+    public CoinLogResponse getCoinLog(Long userId, Pageable pageable) {
+        User user = getUserOrElseThrow(userId);
+
+        List<CoinInfoResponse> coinLogList = new ArrayList<>();
+
+        // 요청받은 개수 & 페이지 데이터 읽어오기
+        Page<TransactionLog> transactionLogPage = transactionLogRepository.findByUserOrderByCreatedAtDesc(
+                user, pageable);
+
+        for (TransactionLog log : transactionLogPage.getContent()) {
+            coinLogList.add(CoinInfoResponse.builder()
+                    .station(StationDto.of(log.getStation()))
+                    .type(log.getType().getName())
+                    .value(log.getValue())
+                    .applied((log.getAppliedAt() != null))
+                    .time(log.getCreatedAt()
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                    .build());
+        }
+
+        return CoinLogResponse.builder()
+                .list(coinLogList)
+                .size(transactionLogPage.getPageable().getPageSize())
+                .totalPage(transactionLogPage.getTotalPages())
+                .currentPage(transactionLogPage.getPageable().getPageNumber())
+                .build();
     }
 
     private User getUserOrElseThrow(Long userId) {
