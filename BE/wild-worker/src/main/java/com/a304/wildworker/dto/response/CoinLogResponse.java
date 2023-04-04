@@ -14,8 +14,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public class CoinLogResponse {
 
-    List<CoinInfoResponse> list;
-    int size;
-    int totalPage;
-    int currentPage;
+    private List<CoinInfoResponse> list;
+    private int size;
+    private int totalPage;
+    private int currentPage;
 }

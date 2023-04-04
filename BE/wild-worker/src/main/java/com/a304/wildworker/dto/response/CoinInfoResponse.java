@@ -11,9 +11,9 @@ import lombok.ToString;
 @AllArgsConstructor
 public class CoinInfoResponse {
 
-    StationDto station;
-    String type;
-    Long value;
-    boolean applied;
-    String time;
+    private StationDto station;
+    private String type;
+    private Long value;
+    private boolean applied;
+    private String time;
 }

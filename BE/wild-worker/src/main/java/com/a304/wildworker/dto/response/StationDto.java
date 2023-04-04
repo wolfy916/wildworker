@@ -10,8 +10,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public class StationDto {
 
-    Long id;
-    String name;
+    private Long id;
+    private String name;
 
     public static StationDto of(Station station) {
         return new StationDto(station.getId(), station.getName());
