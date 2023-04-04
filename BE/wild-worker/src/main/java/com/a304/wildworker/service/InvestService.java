@@ -412,6 +412,7 @@ public class InvestService {
     }
 
     /* 지배자 칭호 갱신 */
+    @Transactional
     public void updateDominatorTitle() {
         for (Map.Entry<Long, Station> entry : mainDominateStationMap.entrySet()) {
             User user = getUserOrElseThrow(entry.getKey());
