@@ -1,13 +1,13 @@
-FROM qww1552/base as truffle
+FROM node:alpine
 
-COPY package.json ./
-COPY package-lock.json ./
+WORKDIR ./app
 
-RUN npm install --quiet
+COPY contracts/* ./contracts/
+COPY package.json ./package.json
+COPY deploy/deploy-stations.js ./
+COPY .env ./
 
-COPY truffle-config.js ./
-COPY contracts ./contracts
-COPY migrations ./migrations/
-COPY test ./test/
+RUN npm install -g npm@9.6.3
+RUN npm i
 
-CMD ["truffle", "migrate"]
+ENTRYPOINT ["node", "./deploy-stations.js"]
