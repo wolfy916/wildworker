@@ -3,6 +3,7 @@ package com.a304.wildworker.controller.rest;
 import com.a304.wildworker.domain.sessionuser.PrincipalDetails;
 import com.a304.wildworker.domain.sessionuser.SessionUser;
 import com.a304.wildworker.dto.request.ChangeUserInfoRequest;
+import com.a304.wildworker.dto.response.TitleListResponse;
 import com.a304.wildworker.dto.response.UserResponse;
 import com.a304.wildworker.exception.NotLoginException;
 import com.a304.wildworker.service.UserService;
@@ -38,6 +39,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    /* 회원정보 수정 */
     @PatchMapping
     public ResponseEntity<Void> changeUserInfo(
             @AuthenticationPrincipal PrincipalDetails principal,
@@ -48,6 +50,17 @@ public class UserController {
         userService.changeUserInfo(user.getId(), changeUserInfoRequest);
 
         return ResponseEntity.ok().build();
+    }
+
+    /* 보유 칭호목록 조회 */
+    @GetMapping("/titles")
+    public ResponseEntity<TitleListResponse> getTitles(
+            @AuthenticationPrincipal PrincipalDetails principal) {
+        SessionUser user = Optional.of(principal.getSessionUser())
+                .orElseThrow(NotLoginException::new);
+
+        TitleListResponse response = userService.getTitleList(user.getId());
+        return ResponseEntity.ok(response);
     }
 
 }
