@@ -4,8 +4,8 @@ import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.domain.common.BaseEntity;
 import com.a304.wildworker.domain.common.CharacterType;
 import com.a304.wildworker.domain.common.Role;
+import com.a304.wildworker.domain.common.TitleCode;
 import com.a304.wildworker.domain.common.TitleShowType;
-import com.a304.wildworker.domain.title.Title;
 import com.a304.wildworker.ethereum.exception.WalletCreationException;
 import com.a304.wildworker.ethereum.service.WalletProvider;
 import com.a304.wildworker.exception.NotEnoughBalanceException;
@@ -16,9 +16,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -58,9 +55,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private TitleShowType titleShowType;
     @Setter
-    @ManyToOne(targetEntity = Title.class, fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
-    private Title title;
+    private Long titleId;
     @Column(nullable = false)
     private int numberOfCollectedPaper;
     private boolean deleted;
@@ -69,7 +64,7 @@ public class User extends BaseEntity {
 //    @OneToMany(mappedBy = "user")
 //    private List<TitleAwarded> titleAwardeds = new ArrayList<>();
 
-    public User(String email, Title title) throws WalletCreationException {
+    public User(String email) throws WalletCreationException {
         this.role = Role.ROLE_USER;
         this.email = email;
         this.name = email;
@@ -78,7 +73,7 @@ public class User extends BaseEntity {
         this.balance = 0L;
         this.characterId = CharacterType.MAN;
         this.titleShowType = TitleShowType.TITLE;
-        this.title = title;
+        this.titleId = TitleCode.NONE.getId();
         this.numberOfCollectedPaper = 0;
     }
 
