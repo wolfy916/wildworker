@@ -150,12 +150,7 @@ function getCoinLog(payload) {
         if (status === 200) {
           // console.log("getCoinLog 성공", data);
           payload.setFunc.setMyCoinLogs(data);
-          payload.setFunc.setUserData((prev) => {
-            return {
-              ...prev,
-              coin: data.balance,
-            };
-          });
+          console.log(data);
           // data 예시
           // {
           //   "balance": 1234,  -> 현재 잔액

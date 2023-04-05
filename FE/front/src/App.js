@@ -67,7 +67,7 @@ function App() {
     ],
     size: 10,
     totalPage: 1,
-    currentPage: 1,
+    currentPage: 0,
   });
 
   // 실시간 역 랭킹 데이터
