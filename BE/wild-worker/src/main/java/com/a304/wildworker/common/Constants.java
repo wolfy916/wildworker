@@ -13,7 +13,7 @@ public final class Constants {
     public static final int INTERVAL = 10;
 
     // 역
-    public static final int STATION_RANGE = 250;    // 역 범위(반지름) (meter)
+    public static final int STATION_RANGE = 10000;    // 역 범위(반지름) (meter)
     public static final Long ROOT_STATION_ID = -1L; // 루트 Station ID
 
     // 채굴
