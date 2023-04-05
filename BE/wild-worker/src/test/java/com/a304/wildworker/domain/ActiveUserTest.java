@@ -13,7 +13,7 @@ import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.domain.system.SystemData;
 import com.a304.wildworker.domain.transaction.TransactionLogRepository;
 import com.a304.wildworker.domain.user.UserRepository;
-import com.a304.wildworker.event.SetCoolTimeEvent;
+import com.a304.wildworker.event.SetMatchCoolTimeEvent;
 import com.a304.wildworker.service.EventService;
 import com.a304.wildworker.service.interceptor.MessageInterceptor;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,7 +77,7 @@ public class ActiveUserTest {
         assertTrue(activeUser.isSubscribed() && activeUser.isMatchable()
                 && activeUser.getCoolTime() != null);
 
-        int count = (int) events.stream(SetCoolTimeEvent.class).count();
+        int count = (int) events.stream(SetMatchCoolTimeEvent.class).count();
         assertEquals(1, count);
         assertNotNull(activeUser.getCoolTime());
 

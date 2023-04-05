@@ -2,7 +2,7 @@ package com.a304.wildworker.service;
 
 import com.a304.wildworker.domain.activestation.ActiveStation;
 import com.a304.wildworker.domain.common.League;
-import com.a304.wildworker.domain.common.MatchProgress;
+import com.a304.wildworker.domain.common.MatchStatus;
 import com.a304.wildworker.domain.match.DefaultMatch;
 import com.a304.wildworker.domain.match.Match;
 import com.a304.wildworker.domain.match.strategy.DefaultLeagueStrategy;
@@ -40,7 +40,7 @@ public class DefaultMatchManager {
                 }
 
                 Match match = new DefaultMatch(matchUsers, activeStation.getId(), league);
-                match.changeProgress(MatchProgress.MATCHING);
+                match.changeProgress(MatchStatus.MATCHING);
             }
         }));
     }

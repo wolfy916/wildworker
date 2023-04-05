@@ -1,6 +1,6 @@
 package com.a304.wildworker.event.handler;
 
-import com.a304.wildworker.domain.common.MatchProgress;
+import com.a304.wildworker.domain.common.MatchStatus;
 import com.a304.wildworker.domain.match.Match;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.dto.response.MatchCancelResponse;
@@ -48,7 +48,7 @@ public class SendMiniGameMessageHandler {
                     MiniGameType.MATCHING).data(data);
             messageService.sendToUser(sessionId, response);
         });
-        match.changeProgress(MatchProgress.SELECTING_START);
+        match.changeProgress(MatchStatus.SELECTING_START);
     }
 
     /**

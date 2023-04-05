@@ -1,7 +1,7 @@
 package com.a304.wildworker.event.handler;
 
 import com.a304.wildworker.domain.activeuser.ActiveUser;
-import com.a304.wildworker.event.SetCoolTimeEvent;
+import com.a304.wildworker.event.SetMatchCoolTimeEvent;
 import com.a304.wildworker.service.ActiveStationService;
 import com.a304.wildworker.service.ScheduleService;
 import java.util.Random;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SetCoolTimeEventHandler {
+public class SetMatchCoolTimeEventHandler {
 
     private final static int COOL_TIME_MIN = 10;
     private final static int COOL_TIME_BOUND = 30 - COOL_TIME_MIN;
@@ -23,7 +23,7 @@ public class SetCoolTimeEventHandler {
     private final ScheduleService scheduleService;
 
     @EventListener
-    public void scheduleCoolTime(SetCoolTimeEvent event) {
+    public void scheduleCoolTime(SetMatchCoolTimeEvent event) {
         ActiveUser activeUser = event.getUser();
         log.info("event occur: SetCoolTime - scheduleCoolTime: {}", activeUser.getUserId());
         ScheduledFuture<?> scheduledFuture = scheduleService.scheduleWithDelay(

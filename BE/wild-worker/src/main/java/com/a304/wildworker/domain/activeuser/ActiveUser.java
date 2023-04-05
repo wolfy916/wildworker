@@ -1,7 +1,7 @@
 package com.a304.wildworker.domain.activeuser;
 
 import com.a304.wildworker.domain.activestation.ActiveStation;
-import com.a304.wildworker.event.SetCoolTimeEvent;
+import com.a304.wildworker.event.SetMatchCoolTimeEvent;
 import com.a304.wildworker.event.common.Events;
 import java.security.Principal;
 import java.util.concurrent.ScheduledFuture;
@@ -40,7 +40,7 @@ public class ActiveUser implements Principal {
     public String getName() {
         return String.valueOf(this.userId);
     }
-    
+
     public void setCurrentMatchId(String matchId) {
         if (currentMatchId != null && matchId != null) {
             throw new RuntimeException("이미 게임 중인 플레이어입니다.");    //TODO
@@ -73,7 +73,7 @@ public class ActiveUser implements Principal {
     public void setOrResetCoolTime() {
         if (canMatching()) {
             if (getCoolTime() == null) {
-                Events.raise(SetCoolTimeEvent.of(this));
+                Events.raise(SetMatchCoolTimeEvent.of(this));
             }
         } else {
             this.resetCoolTimeAndRemoveFromPool();

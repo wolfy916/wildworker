@@ -1,7 +1,7 @@
 package com.a304.wildworker.domain.match;
 
 import com.a304.wildworker.domain.common.Duel;
-import com.a304.wildworker.domain.common.MatchProgress;
+import com.a304.wildworker.domain.common.MatchStatus;
 import com.a304.wildworker.domain.common.ResultCode;
 import com.a304.wildworker.domain.common.RunCode;
 import com.a304.wildworker.domain.match.strategy.DuelStrategy;
@@ -14,7 +14,7 @@ import com.a304.wildworker.event.MiniGameEndEvent;
 import com.a304.wildworker.event.MiniGameStartEvent;
 import com.a304.wildworker.event.common.Events;
 import com.a304.wildworker.exception.AlreadySendException;
-import com.a304.wildworker.exception.NotInProgressException;
+import com.a304.wildworker.exception.NotInMatchProgressException;
 import com.a304.wildworker.exception.UserNotFoundException;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +37,7 @@ public abstract class Match {
     protected MiniGame miniGame;
     protected Map<Long, Duel> selected;  //게임 진행 선택(key: userId, value: 도망 여부) value - 0: fight, 1: run
     protected Map<Long, Integer> personalProgress;  //미니 게임 개인 과정
-    private MatchProgress progress;
+    private MatchStatus status;
     private double commissionRate;
     @Setter
     private DuelStrategy duelStrategy;
@@ -75,8 +75,8 @@ public abstract class Match {
         return getTotalCost() - getCommission(userId);
     }
 
-    public void changeProgress(MatchProgress progress) {
-        this.progress = progress;
+    public void changeProgress(MatchStatus progress) {
+        this.status = progress;
         switch (progress) {
             case MATCHING:
                 Events.raise(MatchingSuccessEvent.of(this));
@@ -93,9 +93,9 @@ public abstract class Match {
         }
     }
 
-    private void checkProgress(MatchProgress request) {
-        if (this.progress != request) {
-            throw new NotInProgressException(this.progress, request);
+    private void checkProgress(MatchStatus request) {
+        if (this.status != request) {
+            throw new NotInMatchProgressException(this.status, request);
         }
     }
 
@@ -124,7 +124,7 @@ public abstract class Match {
     }
 
     public void addSelected(long userId, Duel selected) {
-        checkProgress(MatchProgress.SELECTING_START);
+        checkProgress(MatchStatus.SELECTING_START);
 
         if (this.selected.containsKey(userId)) {
             throw new AlreadySendException();
@@ -133,8 +133,8 @@ public abstract class Match {
     }
 
     public void endSelectingProgress() {
-        checkProgress(MatchProgress.SELECTING_START);
-        this.progress = MatchProgress.SELECTING_END;
+        checkProgress(MatchStatus.SELECTING_START);
+        this.status = MatchStatus.SELECTING_END;
 
         for (User user : users) {
             if (!selected.containsKey(user.getId())) {
@@ -143,16 +143,16 @@ public abstract class Match {
         }
 
         if (decideDuel(getRunCode()) == Duel.DUEL) {
-            changeProgress(MatchProgress.MINIGAME_START);
+            changeProgress(MatchStatus.MINIGAME_START);
         } else {
-            changeProgress(MatchProgress.CANCEL);
+            changeProgress(MatchStatus.CANCEL);
         }
 
         Events.raise(MatchSelectEndEvent.of(this)); //pay run cost
     }
 
     public void addPersonalProgress(long userId, int progress) {
-        checkProgress(MatchProgress.MINIGAME_START);
+        checkProgress(MatchStatus.MINIGAME_START);
         if (this.personalProgress.containsKey(userId)) {
             throw new AlreadySendException();
         }
@@ -160,8 +160,8 @@ public abstract class Match {
     }
 
     public void endMiniGameProgress() {
-        checkProgress(MatchProgress.MINIGAME_START);
-        this.progress = MatchProgress.MINIGAME_END;
+        checkProgress(MatchStatus.MINIGAME_START);
+        this.status = MatchStatus.MINIGAME_END;
 
         for (User user : users) {
             if (!personalProgress.containsKey(user.getId())) {
@@ -169,7 +169,7 @@ public abstract class Match {
             }
         }
 
-        changeProgress(MatchProgress.RESULT);
+        changeProgress(MatchStatus.RESULT);
     }
 
     public Long getWinner() {

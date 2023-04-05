@@ -1,6 +1,6 @@
 package com.a304.wildworker.domain.common;
 
-public enum MatchProgress {
+public enum MatchStatus {
     MATCHING,
     SELECTING_START,
     SELECTING_END,
