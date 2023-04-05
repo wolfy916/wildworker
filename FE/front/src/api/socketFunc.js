@@ -5,7 +5,8 @@ function connectSocket(
   setUserData,
   store,
   setIsMatched,
-  setIsObtainTitle
+  setIsObtainTitle,
+  setIsGetError
 ) {
   client.connect({}, () => {
     subscribeUser(
@@ -13,7 +14,8 @@ function connectSocket(
       setstore,
       setUserData,
       setIsMatched,
-      setIsObtainTitle
+      setIsObtainTitle,
+      setIsGetError
     );
   });
   return client;
@@ -36,17 +38,6 @@ function subscribeStation(client, setStore, curStation) {
               };
             });
           }
-          // 지배자 확성기
-          else if (payload.subType === "MESSAGE") {
-            setStore((prev) => {
-              return {
-                ...prev,
-                dominatoreMsg: payload.data.isDominator
-                  ? payload.data.message
-                  : "",
-              };
-            });
-          }
           // 현재 역의 지배자 변동
           else if (payload.subType === "CHANGE_DOMINATOR") {
             setStore((prev) => {
@@ -62,11 +53,6 @@ function subscribeStation(client, setStore, curStation) {
               };
             });
           }
-        } else if (payload.type === "EXCEPTION") {
-          // 확성기 잔액 부족
-          if (payload.subType === "LOW_BALANCE") {
-            console.log(payload.data);
-          }
         }
       }
     );
@@ -79,7 +65,8 @@ function subscribeUser(
   setStore,
   setUserData,
   setIsMatched,
-  setIsObtainTitle
+  setIsObtainTitle,
+  setIsGetError
 ) {
   client.subscribe("/user/queue", (message) => {
     const payload = JSON.parse(message.body);
@@ -94,6 +81,15 @@ function subscribeUser(
               prev: prev.locationData.current,
               current: payload.data.current,
             },
+          };
+        });
+      }
+      // 지배자 확성기
+      else if (payload.subType === "MESSAGE") {
+        setStore((prev) => {
+          return {
+            ...prev,
+            dominatoreMsg: payload.data.isDominator ? payload.data.message : "",
           };
         });
       }
@@ -197,6 +193,12 @@ function subscribeUser(
             gameResult: payload.data,
           };
         });
+      }
+    } else if (payload.type === "EXCEPTION") {
+      // 확성기 실패 -> 지배중인 역이 없습니다.
+      if (payload.subType === "NOT_DOMINATOR") {
+        // console.log(payload.data);
+        setIsGetError(true);
       }
     }
   });

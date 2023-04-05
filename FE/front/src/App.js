@@ -31,6 +31,7 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [isMatched, setIsMatched] = useState(false);
   const [isObtainTitle, setIsObtainTitle] = useState(false);
+  const [isGetError, setIsGetError] = useState(false);
 
   // 유저 데이터
   const [userData, setUserData] = useState({
@@ -166,7 +167,8 @@ function App() {
           setUserData,
           store,
           setIsMatched,
-          setIsObtainTitle
+          setIsObtainTitle,
+          setIsGetError
         )
       );
       setIsConnected(true);
@@ -217,15 +219,15 @@ function App() {
     <div id="App" className="App">
       <Container className="app-container" maxWidth="xs">
         <Box sx={{ height: "100vh" }}>
-            {isObtainTitle && (
-              <Modal
-                modalWidth={70}
-                modalHeight={40}
-                selectModalIdx={6}
-                setModalClick={setIsObtainTitle}
-                store={store}
-              />
-            )}
+          {isObtainTitle && (
+            <Modal
+              modalWidth={70}
+              modalHeight={40}
+              selectModalIdx={6}
+              setModalClick={setIsObtainTitle}
+              store={store}
+            />
+          )}
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route
@@ -244,6 +246,8 @@ function App() {
                   setMyCoinLogs={setMyCoinLogs}
                   isMatched={isMatched}
                   setIsMatched={setIsMatched}
+                  isGetError={isGetError}
+                  setIsGetError={setIsGetError}
                 />
               }
             />

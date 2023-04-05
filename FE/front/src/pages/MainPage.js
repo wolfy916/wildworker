@@ -45,7 +45,13 @@ function MainPage(props) {
 
   const [currentStation, setCurrentStation] = React.useState("");
   const [startStationEvent, setStartStationEvent] = React.useState(false);
-  const eventStationList = ["역삼역", "신도림역", "잠실역", "홍대입구역", "사당역"];
+  const eventStationList = [
+    "역삼역",
+    "신도림역",
+    "잠실역",
+    "홍대입구역",
+    "사당역",
+  ];
 
   // 지하철 역에 맞는 이벤트 실행
   React.useEffect(() => {
@@ -242,7 +248,11 @@ function MainPage(props) {
           />
         )}
         <div className="character-nickname-title">
-          <div className="character-title">{props.userData.title.name==="x" ? " " : props.userData.title.name}</div>
+          <div className="character-title">
+            {props.userData.title.name === "x"
+              ? " "
+              : props.userData.title.name}
+          </div>
           <div className="character-nickname">{props.userData.name}</div>
           {props.userData.characterType + 1 && (
             <img
@@ -314,6 +324,16 @@ function MainPage(props) {
           setModalClick={setDominatorMsgModalClick}
           store={props.store}
           stompClient={props.stompClient}
+        />
+      )}
+      {props.isGetError && (
+        <Modal
+          modalWidth={70}
+          modalHeight={30}
+          selectModalIdx={7}
+          selectErrorIdx={0}
+          setModalClick={props.setIsGetError}
+          store={props.store}
         />
       )}
     </div>

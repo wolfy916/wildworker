@@ -5,7 +5,6 @@ function DominatorMsg(props) {
   const [newMsg, setNewMsg] = React.useState("");
   const dominatorMsg = props.store.dominatorMsg;
   const stompClient = props.stompClient;
-  const currentStation = props.store.locationData.current;
 
   const handleInputChange = (e) => {
     setNewMsg(e.target.value);
@@ -13,16 +12,14 @@ function DominatorMsg(props) {
 
   const changeClickHandler = (e) => {
     setNewMsg(e.target.value);
-    if (currentStation) {
-      handleDominatorMsgClick();
-    }
+    handleDominatorMsgClick();
     props.setModalClick(false);
   };
 
   // 지배자 한마디 소켓 전송
   const handleDominatorMsgClick = (e) => {
     const message = JSON.stringify({ message: newMsg });
-    stompClient.send(`/sub/station/${currentStation.id}/message`, {}, message);
+    stompClient.send("/sub/system/message", {}, message);
   };
 
   return (
