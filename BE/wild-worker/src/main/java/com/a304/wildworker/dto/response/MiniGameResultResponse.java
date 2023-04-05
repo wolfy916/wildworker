@@ -11,10 +11,11 @@ import lombok.ToString;
 
 @Getter
 @ToString
+@AllArgsConstructor
 @Builder(access = AccessLevel.PROTECTED)
 public class MiniGameResultResponse {
 
-    private boolean isWinner;
+    private boolean winner;
     private UserDto enemy;
     private ResultDto result;
     private ReceiptDto receipt;
@@ -26,7 +27,7 @@ public class MiniGameResultResponse {
                 match.getPersonalProgress().get(enemy.getId()));
         ReceiptDto receipt = ReceiptDto.of(match, me);
         return MiniGameResultResponse.builder()
-                .isWinner(match.getWinner().equals(me.getId()))
+                .winner(match.getWinner().equals(me.getId()))
                 .enemy(UserDto.of(enemy))
                 .result(result)
                 .receipt(receipt)
@@ -44,6 +45,7 @@ public class MiniGameResultResponse {
 
     @Getter
     @ToString
+    @AllArgsConstructor
     @Builder(access = AccessLevel.PROTECTED)
     public static class ReceiptDto {
 
