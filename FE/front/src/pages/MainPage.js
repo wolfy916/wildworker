@@ -45,7 +45,7 @@ function MainPage(props) {
 
   const [currentStation, setCurrentStation] = React.useState("");
   const [startStationEvent, setStartStationEvent] = React.useState(false);
-  const eventStationList = ["역삼역", "신도림역", "잠실역", "홍대입구역", "사당역"];
+  const eventStationList = ["역삼역", "신도림역", "잠실역"];
 
   // 지하철 역에 맞는 이벤트 실행
   React.useEffect(() => {
@@ -169,7 +169,7 @@ function MainPage(props) {
   }, [props.isMatched]);
 
   // 칭호 획득 시 ( 처음에는 getTitle은 빈문자열 )
-  const getTitle = "";
+  const getTitle = props.store.getTitle;
   React.useEffect(() => {
     if (getTitle) {
       setTitleModalClick(true);
@@ -203,6 +203,8 @@ function MainPage(props) {
       )[0].style.display = "none";
     }
   }, [isFlashing]);
+
+  const dominatorTitles = "rest api로 가져와야함 지배자 여부";
 
   return (
     <div className="subway-background">
@@ -242,7 +244,7 @@ function MainPage(props) {
           />
         )}
         <div className="character-nickname-title">
-          <div className="character-title">{props.userData.title.name==="x" ? " " : props.userData.title.name}</div>
+          <div className="character-title">{props.userData.title.name}</div>
           <div className="character-nickname">{props.userData.name}</div>
           {props.userData.characterType + 1 && (
             <img
@@ -291,12 +293,15 @@ function MainPage(props) {
       <div className="main-router-pvp" onClick={pvpRouterClickHandler}>
         pvp
       </div>
-      <img
-        onClick={dominatorMsgModalClickHandler}
-        className="main-dominator-msg-btn"
-        src={dominator_speaker}
-        alt="dominator_speaker"
-      />
+
+      {dominatorTitles && (
+        <img
+          onClick={dominatorMsgModalClickHandler}
+          className="main-dominator-msg-btn"
+          src={dominator_speaker}
+          alt="dominator_speaker"
+        />
+      )}
       {titleModalClick && (
         <Modal
           modalWidth={85}
@@ -309,11 +314,11 @@ function MainPage(props) {
       {dominatorMsgModalClick && (
         <Modal
           modalWidth={85}
-          modalHeight={45}
+          modalHeight={75}
           selectModalIdx={5}
-          setModalClick={setDominatorMsgModalClick}
-          store={props.store}
+          dominatorMsg={props.store.dominatorMsg}
           stompClient={props.stompClient}
+          setDominatorMsgModalClick={setDominatorMsgModalClick}
         />
       )}
     </div>

@@ -15,7 +15,6 @@ import HotSubwayPage from "./pages/HotSubwayPage";
 import DetailSubwayPage from "./pages/DetailSubwayPage";
 import MiniGamePage from "./pages/MiniGamePage";
 import MiniGameReadyPage from "./pages/MiniGameReadyPage";
-import Modal from "./components/mainpage/Modal";
 
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -30,7 +29,6 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [isMatched, setIsMatched] = useState(false);
-  const [isObtainTitle, setIsObtainTitle] = useState(false);
 
   // 유저 데이터
   const [userData, setUserData] = useState({
@@ -67,7 +65,7 @@ function App() {
     ],
     size: 10,
     totalPage: 1,
-    currentPage: 0,
+    currentPage: 1,
   });
 
   // 실시간 역 랭킹 데이터
@@ -145,7 +143,7 @@ function App() {
       INVESTMENT: {},
       INVESTMENT_REWARD: {},
     },
-    getTitle: "쫄보",
+    getTitle: "",
     changeTitle: {},
     matching: {},
     gameStart: {},
@@ -165,8 +163,7 @@ function App() {
           setStore,
           setUserData,
           store,
-          setIsMatched,
-          setIsObtainTitle
+          setIsMatched
         )
       );
       setIsConnected(true);
@@ -191,10 +188,8 @@ function App() {
           (position) => {
             if (position.coords) {
               handleSendLocation({
-                // lat: position.coords.latitude,
-                // lon: position.coords.longitude,
-                lat: 37.556748,
-                lon: 126.923643,
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
               });
             }
           },
@@ -219,15 +214,6 @@ function App() {
     <div id="App" className="App">
       <Container className="app-container" maxWidth="xs">
         <Box sx={{ height: "100vh" }}>
-            {isObtainTitle && (
-              <Modal
-                modalWidth={70}
-                modalHeight={40}
-                selectModalIdx={6}
-                setModalClick={setIsObtainTitle}
-                store={store}
-              />
-            )}
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route

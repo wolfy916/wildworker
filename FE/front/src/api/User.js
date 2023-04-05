@@ -1,6 +1,6 @@
 import http from "./Http.js";
 
-// 회원정보 조회
+// 회원정보 조회 ok
 function getUserInfo(payload) {
   if (payload) {
     http({
@@ -9,29 +9,14 @@ function getUserInfo(payload) {
     })
       .then(({ status, data }) => {
         if (status === 200) {
-          // console.log(data);
-          payload.setFunc((prev) => {
-            let titleName;
-            if (data.titleType === 0 && data.title.id !== -1) {
-              titleName = `${data.title.name}의 지배자`;
-            } else {
-              titleName = data.title.name;
-            }
-            return {
-              ...data,
-              title: {
-                ...data.title,
-                name: titleName,
-              },
-            };
-          });
+          payload.setFunc(data);
           // data 예시
           // {
           //   characterType: 0;
           //   coin: 0;
           //   collectedPapers: 74;
           //   name: "rnjsxogud916@naver.com";
-          //   title: {id: -1, name: "x"};
+          //   titleId: 0;
           //   titleType: 0;
           // }
         }
@@ -69,7 +54,7 @@ function patchUserInfo(payload) {
     })
       .then(({ status, data }) => {
         if (status === 200) {
-          // console.log("patchUserInfo 성공");
+          console.log("patchUserInfo 성공");
           getUserInfo({ setFunc: payload.setFunc });
         }
       })
@@ -148,9 +133,14 @@ function getCoinLog(payload) {
     })
       .then(({ status, data }) => {
         if (status === 200) {
-          // console.log("getCoinLog 성공", data);
+          console.log("getCoinLog 성공", data);
           payload.setFunc.setMyCoinLogs(data);
-          console.log(data);
+          payload.setFunc.setUserData((prev) => {
+            return {
+              ...prev,
+              coin: data.balance,
+            };
+          });
           // data 예시
           // {
           //   "balance": 1234,  -> 현재 잔액
