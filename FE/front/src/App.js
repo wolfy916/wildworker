@@ -68,7 +68,7 @@ function App() {
     ],
     size: 10,
     totalPage: 1,
-    currentPage: 1,
+    currentPage: 0,
   });
 
   // 실시간 역 랭킹 데이터
@@ -146,7 +146,7 @@ function App() {
       INVESTMENT: {},
       INVESTMENT_REWARD: {},
     },
-    getTitle: "",
+    getTitle: "쫄보",
     changeTitle: {},
     matching: {},
     gameStart: {},
@@ -168,7 +168,7 @@ function App() {
           store,
           setIsMatched,
           setIsObtainTitle,
-          setIsGetError
+          setIsGetError,
         )
       );
       setIsConnected(true);

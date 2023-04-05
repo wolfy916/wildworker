@@ -51,6 +51,7 @@ function MainPage(props) {
     "잠실역",
     "홍대입구역",
     "사당역",
+    "멀티캠퍼스",
   ];
 
   // 지하철 역에 맞는 이벤트 실행
@@ -76,7 +77,7 @@ function MainPage(props) {
     props.setIsLogin(true);
     getUserInfo({ setFunc: props.setUserData });
 
-    if (coinCnt > 99) {
+    if (coinCnt > 30) {
       setIsEnough(true);
     }
 
@@ -104,13 +105,13 @@ function MainPage(props) {
 
   React.useEffect(() => {
     if (isReady) {
-      if (coinCnt < 99) {
+      if (coinCnt < 30) {
         setIsEnough(false);
         handleGetCnt();
-      } else if (coinCnt === 99) {
+      } else if (coinCnt === 30) {
         setIsEnough(true);
         handleGetCnt();
-      } else if (coinCnt > 99) {
+      } else if (coinCnt > 30) {
         setIsEnough(true);
       }
     }
@@ -175,7 +176,7 @@ function MainPage(props) {
   }, [props.isMatched]);
 
   // 칭호 획득 시 ( 처음에는 getTitle은 빈문자열 )
-  const getTitle = props.store.getTitle;
+  const getTitle = "";
   React.useEffect(() => {
     if (getTitle) {
       setTitleModalClick(true);
@@ -209,8 +210,6 @@ function MainPage(props) {
       )[0].style.display = "none";
     }
   }, [isFlashing]);
-
-  const dominatorTitles = "rest api로 가져와야함 지배자 여부";
 
   return (
     <div className="subway-background">
@@ -303,15 +302,12 @@ function MainPage(props) {
       <div className="main-router-pvp" onClick={pvpRouterClickHandler}>
         pvp
       </div>
-
-      {dominatorTitles && (
-        <img
-          onClick={dominatorMsgModalClickHandler}
-          className="main-dominator-msg-btn"
-          src={dominator_speaker}
-          alt="dominator_speaker"
-        />
-      )}
+      <img
+        onClick={dominatorMsgModalClickHandler}
+        className="main-dominator-msg-btn"
+        src={dominator_speaker}
+        alt="dominator_speaker"
+      />
       {titleModalClick && (
         <Modal
           modalWidth={85}
@@ -324,11 +320,11 @@ function MainPage(props) {
       {dominatorMsgModalClick && (
         <Modal
           modalWidth={85}
-          modalHeight={52}
+          modalHeight={35}
           selectModalIdx={5}
-          dominatorMsg={props.store.dominatorMsg}
           stompClient={props.stompClient}
-          setDominatorMsgModalClick={setDominatorMsgModalClick}
+          setModalClick={setDominatorMsgModalClick}
+          store={props.store}
         />
       )}
       {props.isGetError && (

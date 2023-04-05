@@ -22,6 +22,7 @@ function StationEvent(props) {
     사당역: {person : [businessMan1, businessMan2, businessWoman], limit:20},
     잠실역: {person : [lotteWoman, lotteMan], limit:2},
     홍대입구역: {person : [blackMan, whiteMan, hiphopMan], limit:5},
+    멀티캠퍼스: {person: [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2], limit: 25},
   };
   // useEffect 내부의 재귀함수를 중지하기 위한 트리거
   let stopRecursion = !props.startStationEvent;
@@ -66,7 +67,7 @@ function StationEvent(props) {
     // 함수를 반복문 횟수(아이템 개수 제한)만큼 호출
     function drop() {
       for (let index = 0; index < personLimit; index++) {
-        setTimeout(humanObjectAppear(), 5000 * Math.random());
+        setTimeout(humanObjectAppear(), 5000 * Math.random() * index);
       }
     }
 
