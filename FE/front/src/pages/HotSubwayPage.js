@@ -5,6 +5,8 @@ import "./HotSubwayPage.css";
 import goMap from "../asset/image/goMap.png";
 import myMap from "../asset/image/myMap.png";
 import hotMap from "../asset/image/hotMap.png";
+import two_img from "../asset/image/two_img.png";
+import subway_info from "../asset/image/subway_info.png";
 import Modal from "../components/mainpage/Modal";
 import { getStationRanking, getStationStake } from "../api/Investment.js";
 
@@ -53,8 +55,11 @@ function HotSubwayPage(props) {
         });
       }}
     >
-      <div>
-        <p className="hot-subject">{item.station.name}</p>
+      <div className="hot-div-size">
+        <p className="hot-subject">
+          <img className="hot-twoimg" src={two_img} alt="two_img" />{" "}
+          {item.station.name}
+        </p>
       </div>
       <div>
         <p className="hot-subject">
@@ -74,10 +79,23 @@ function HotSubwayPage(props) {
     <div className="hot-background">
       <div className="hot-holder">
         <div className="hot-title">
-          <p className="hot-subject">실시간 역 순위</p>
-          <select className="hot-select" value={sortingOrder} onChange={handleSortingChange}>
+          <img
+            className="hot-subwayinfo-img"
+            src={subway_info}
+            alt="subway_info"
+          />
+          <p className="hot-title-subject">실시간 역 순위</p>
+          <select
+            className="hot-select"
+            value={sortingOrder}
+            onChange={handleSortingChange}
+          >
             {sortingOptions.map((option) => (
-              <option className="hot-option" key={option.value} value={option.value}>
+              <option
+                className="hot-option"
+                key={option.value}
+                value={option.value}
+              >
                 {option.label}
               </option>
             ))}

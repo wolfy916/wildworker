@@ -30,7 +30,7 @@ function subscribeStation(client, setStore, curStation, setSubwayContentIdx) {
         // 지배자 기능 모음
         if (payload.type === "STATION") {
           // 지배자 강림
-          if (payload.subType === "DOMINATOR") {
+          if (payload.subType === "SHOW_UP_DOMINATOR") {
             setStore((prev) => {
               return {
                 ...prev,
