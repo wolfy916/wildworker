@@ -41,11 +41,13 @@ public class SystemService {
     /* 유저의 현재 좌표를 기준으로 역 조회 후 진입이나 이탈 여부 판단 */
     public StationWithUserResponse checkUserLocation(ActiveUser user, Location userLocation) {
         StationWithUserResponse stationWithUserResponse = null;
+        final int NOT_STATION = 0;
 
         // 유저가 위치하고 있는 역 조회
         StationInfoResponse stationInfoResponse
                 = convertToStationInfoResponse(getStationFromLatLon(userLocation));
-        long currentStationId = (stationInfoResponse != null) ? stationInfoResponse.getId() : 0;
+        long currentStationId =
+                (stationInfoResponse != null) ? stationInfoResponse.getId() : NOT_STATION;
 
         // 기존 상태와 달라진 경우
         if (currentStationId != user.getStationId()) {
@@ -53,7 +55,7 @@ public class SystemService {
             user.setStationId(currentStationId);
 
             // 특정 역 범위에 들어갈 경우
-            if (currentStationId != 0) {
+            if (currentStationId != NOT_STATION) {
                 // 자동 채굴 체크
                 miningService.autoMining(user);
 
