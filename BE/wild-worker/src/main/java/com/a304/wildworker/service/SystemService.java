@@ -8,12 +8,21 @@ import com.a304.wildworker.domain.location.Location;
 import com.a304.wildworker.domain.station.Station;
 import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.domain.system.SystemData;
+import com.a304.wildworker.domain.user.User;
+import com.a304.wildworker.domain.user.UserRepository;
+import com.a304.wildworker.dto.request.DominatorMessage;
 import com.a304.wildworker.dto.response.StationInfoResponse;
 import com.a304.wildworker.dto.response.StationWithUserResponse;
+import com.a304.wildworker.dto.response.common.StationType;
+import com.a304.wildworker.dto.response.common.WSBaseResponse;
+import com.a304.wildworker.exception.NotDominatorException;
+import com.a304.wildworker.exception.UserNotFoundException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -23,18 +32,23 @@ public class SystemService {
 
     private final StationRepository stationRepository;
     private final DominatorLogRepository dominatorLogRepository;
+    private final UserRepository userRepository;
     private final SystemData systemData;
 
     private final MiningService miningService;
 
+    private final SimpMessagingTemplate messagingTemplate;
+
     /* 유저의 현재 좌표를 기준으로 역 조회 후 진입이나 이탈 여부 판단 */
     public StationWithUserResponse checkUserLocation(ActiveUser user, Location userLocation) {
         StationWithUserResponse stationWithUserResponse = null;
+        final int NOT_STATION = 0;
 
         // 유저가 위치하고 있는 역 조회
         StationInfoResponse stationInfoResponse
                 = convertToStationInfoResponse(getStationFromLatLon(userLocation));
-        long currentStationId = (stationInfoResponse != null) ? stationInfoResponse.getId() : 0;
+        long currentStationId =
+                (stationInfoResponse != null) ? stationInfoResponse.getId() : NOT_STATION;
 
         // 기존 상태와 달라진 경우
         if (currentStationId != user.getStationId()) {
@@ -42,9 +56,12 @@ public class SystemService {
             user.setStationId(currentStationId);
 
             // 특정 역 범위에 들어갈 경우
-            if (currentStationId != 0) {
+            if (currentStationId != NOT_STATION) {
                 // 자동 채굴 체크
                 miningService.autoMining(user);
+
+                // 해당 역의 지배자라면 강림 메시지 브로드캐스트
+                sendShowUpDominator(user.getUserId(), currentStationId);
             }
 
             // TODO: 일단 current만 새로 채워 보냄.. 방향 판단하여 prev, next 채우는 것은 추후 예정
@@ -78,6 +95,9 @@ public class SystemService {
     private Station getStationFromLatLon(Location userLocation) {
         Station findStation = null;
         List<Station> stationList = stationRepository.findAll();
+
+        // TODO: 추후 삭제 (시연을 위해 멀티캠퍼스로부터 검색하도록 역순 정렬 & 역 범위 증가)
+        Collections.reverse(stationList);
 
         // 역과의 거리 계산
         for (Station station : stationList) {
@@ -119,4 +139,45 @@ public class SystemService {
         return (rad * 180 / Math.PI);
     }
 
+    /* 지배자의 한마디 */
+    public void sendDominatorMessage(Long userId, DominatorMessage message) {
+        List<DominatorLog> dominateLogList = dominatorLogRepository.findByUserIdAndDominateStartTime(
+                userId, systemData.getNowBaseTimeString());
+
+        if (dominateLogList.isEmpty()) {
+            throw new NotDominatorException();
+        }
+
+        // 전할 메시지
+        WSBaseResponse<DominatorMessage> response = WSBaseResponse.station(StationType.MESSAGE)
+                .data(message);
+
+        for (DominatorLog log : dominateLogList) {
+            // 지배자의 메시지 브로드캐스트
+            messagingTemplate.convertAndSend("/sub/stations/" + log.getStation().getId(),
+                    response);
+        }
+
+    }
+
+    public void sendShowUpDominator(Long userId, Long stationId) {
+        boolean isDominator = dominatorLogRepository.existsByUserIdAndStationIdAndDominateStartTime(
+                userId, stationId, systemData.getNowBaseTimeString());
+
+        // 해당 역의 지배자라면
+        if (isDominator) {
+            User user = getUserOrElseThrow(userId);
+
+            // 지배자의 메시지 브로드캐스트
+            WSBaseResponse<String> response = WSBaseResponse.station(StationType.SHOW_UP_DOMINATOR)
+                    .data(user.getName());
+
+            messagingTemplate.convertAndSend("/sub/stations/" + stationId, response);
+        }
+    }
+
+    private User getUserOrElseThrow(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
+    }
 }

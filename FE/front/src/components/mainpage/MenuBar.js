@@ -61,7 +61,7 @@ function MenuBar(props) {
               setMenuClick(false);
             }, 10);
           }}
-        ></div>
+        > </div>
       )}
       <div
         className="menu-bar"
@@ -98,6 +98,7 @@ function MenuBar(props) {
           }
         }}
       >
+        메 뉴
         {subwayHandle}
       </div>
     </div>

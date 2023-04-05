@@ -1,8 +1,22 @@
 // 연결
-function connectSocket(client, setstore, setUserData, store, setIsMatched) {
+function connectSocket(
+  client,
+  setstore,
+  setUserData,
+  store,
+  setIsMatched,
+  setIsObtainTitle,
+  setIsGetError
+) {
   client.connect({}, () => {
-    subscribeUser(client, setstore, setUserData, setIsMatched);
-    // subscribeStation(client, setstore, store.locationData.current);
+    subscribeUser(
+      client,
+      setstore,
+      setUserData,
+      setIsMatched,
+      setIsObtainTitle,
+      setIsGetError
+    );
   });
   return client;
 }
@@ -24,12 +38,18 @@ function subscribeStation(client, setStore, curStation) {
               };
             });
           }
-          // 지배자 확성기
-          else if (payload.subType === "MESSAGE") {
+          // 현재 역의 지배자 변동
+          else if (payload.subType === "CHANGE_DOMINATOR") {
             setStore((prev) => {
               return {
                 ...prev,
-                dominatoreMsg: payload.data,
+                locationData: {
+                  ...prev.locationData,
+                  current: {
+                    ...prev.locationData.current,
+                    dominator: payload.data,
+                  },
+                },
               };
             });
           }
@@ -40,21 +60,39 @@ function subscribeStation(client, setStore, curStation) {
   return client;
 }
 
-function subscribeUser(client, setStore, setUserData, setIsMatched) {
+function subscribeUser(
+  client,
+  setStore,
+  setUserData,
+  setIsMatched,
+  setIsObtainTitle,
+  setIsGetError
+) {
   client.subscribe("/user/queue", (message) => {
     const payload = JSON.parse(message.body);
 
     //현재 역 변동 & 역 정보
-    if (payload.type === "STATION" && payload.subType === "STATUS") {
-      setStore((prev) => {
-        return {
-          ...prev,
-          locationData: {
-            prev: prev.locationData.current,
-            current: payload.data.current,
-          },
-        };
-      });
+    if (payload.type === "STATION") {
+      if (payload.subType === "STATUS") {
+        setStore((prev) => {
+          return {
+            ...prev,
+            locationData: {
+              prev: prev.locationData.current,
+              current: payload.data.current,
+            },
+          };
+        });
+      }
+      // 지배자 확성기
+      else if (payload.subType === "MESSAGE") {
+        setStore((prev) => {
+          return {
+            ...prev,
+            dominatoreMsg: payload.data.isDominator ? payload.data.message : "",
+          };
+        });
+      }
     }
 
     // 수동 채굴 모음
@@ -86,8 +124,8 @@ function subscribeUser(client, setStore, setUserData, setIsMatched) {
         return {
           ...prev,
           coin: payload.data.balance,
-        }
-      })
+        };
+      });
     }
 
     // 칭호관련 모음
@@ -150,6 +188,12 @@ function subscribeUser(client, setStore, setUserData, setIsMatched) {
             gameResult: payload.data,
           };
         });
+      }
+    } else if (payload.type === "EXCEPTION") {
+      // 확성기 실패 -> 지배중인 역이 없습니다.
+      if (payload.subType === "NOT_DOMINATOR") {
+        // console.log(payload.data);
+        setIsGetError(true);
       }
     }
   });

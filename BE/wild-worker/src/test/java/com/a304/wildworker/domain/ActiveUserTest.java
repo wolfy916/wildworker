@@ -55,7 +55,8 @@ public class ActiveUserTest {
     @BeforeEach
     void setUp() {
         activeUserRepository = new ActiveUserRepository();
-        activeStationRepository = new ActiveStationRepository(systemData, transactionLogRepository);
+        activeStationRepository = new ActiveStationRepository(systemData, transactionLogRepository,
+                stationRepository);
         MockitoAnnotations.openMocks(this);
         interceptor = new MessageInterceptor(
                 activeUserRepository,
