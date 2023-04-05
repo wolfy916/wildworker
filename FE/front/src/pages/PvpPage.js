@@ -6,6 +6,7 @@ import "./PvpPage.css";
 
 function PvpPage(props) {
   const matchingData = props.matchingData;
+  console.log(matchingData);
   // const matchingData = {
   //   id: 1,
   //   cost: 20,
@@ -22,7 +23,7 @@ function PvpPage(props) {
   const stompClient = props.stompClient;
   //userdata 받기
   const userData = props.userData;
-  console.log(userData);
+  // console.log(userData);
   // const userData = {
   //   name: "지원석",
   //   characterType: 0,
@@ -40,7 +41,8 @@ function PvpPage(props) {
         <img src={battleDirection} alt="battleDirection" />
         <BattleCharater characterType={matchingData.enemy.characterType} />
         <p>
-          {matchingData.enemy.title} {matchingData.enemy.name}{" "}
+          {matchingData.enemy.title === "x" ? "" : matchingData.enemy.title}{" "}
+          {matchingData.enemy.name}{" "}
         </p>
       </div>
       <div className="battleCharacter2">
