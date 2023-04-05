@@ -32,9 +32,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 3vw;
+  margin: 0.3vw;
+  padding-top: 1.5vw;
+  padding-bottom: 1.5vw;
   padding-left: 6vw;
   padding-right: 6vw;
+  border: solid 4px black;
+  border-radius: 10px;
+  background-color: #f3d9d9;
 }
 .my-subject {
   font-size: large;
@@ -123,6 +128,7 @@ select option {
 
 .my-select {
   font-family: galmuri9;
+  width: 42.5%;
 }
 
 .my-option {
