@@ -6,6 +6,8 @@ import "./MySubwayPage.css";
 import goMap from "../asset/image/goMap.png";
 import myMap from "../asset/image/myMap.png";
 import hotMap from "../asset/image/hotMap.png";
+import two_img from "../asset/image/two_img.png";
+import subway_info from "../asset/image/subway_info.png";
 
 import { getMyInvestList } from "../api/Investment";
 
@@ -36,11 +38,11 @@ function MySubwayPage(props) {
         });
         const mySubwayData = props.myInvestList.investments.map((item, idx) => (
           <div className="my-content" key={idx}>
-            <div>
-              <p className="my-subject">{item.station.name}</p>
+            <div className="my-div-size">
+              <p className="my-subject"><img className="my-twoimg" src={two_img} alt="two_img" /> {item.station.name}</p>
             </div>
             <div>
-              <p className="my-subject">{item.investment}원</p>
+              <p className="my-subject">{item.investment.toLocaleString("ko-KR")}원</p>
               <p className="my-subject-2">({item.percent}%)</p>
             </div>
           </div>
@@ -56,7 +58,12 @@ function MySubwayPage(props) {
     <div className="my-background">
       <div className="my-holder">
         <div className="my-title">
-          <p className="my-subject">나의 투자 내역</p>
+        <img
+            className="my-subwayinfo-img"
+            src={subway_info}
+            alt="subway_info"
+          />
+          <p className="my-title-subject">나의 투자 내역</p>
           <select className="my-select" value={sortingOrder} onChange={handleSortingChange}>
             {sortingOptions.map((option) => (
               <option className="my-option" key={option.value} value={option.value}>

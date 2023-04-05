@@ -16,11 +16,11 @@ function subscribeStation(client, setStore, curStation) {
         // 지배자 기능 모음
         if (payload.type === "STATION") {
           // 지배자 강림
-          if (payload.subType === "DOMINATOR") {
+          if (payload.subType === "SHOW_UP_DOMINATOR") {
             setStore((prev) => {
               return {
                 ...prev,
-                dominatoreAppear: payload.data,
+                dominatorAppear: payload.data,
               };
             });
           }
@@ -29,7 +29,7 @@ function subscribeStation(client, setStore, curStation) {
             setStore((prev) => {
               return {
                 ...prev,
-                dominatoreMsg: payload.data,
+                dominatorMsg: payload.data.message,
               };
             });
           }

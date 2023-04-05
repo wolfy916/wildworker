@@ -210,8 +210,32 @@ function App() {
     stompClient.send("/pub/system/location", {}, message);
   };
 
+  const [isFlashing, setIsFlashing] = React.useState(false);
+
+  React.useEffect(() => {
+    if (store.dominatorAppear) {
+      setIsFlashing(true);
+      setTimeout(() => {
+        setIsFlashing(false);
+      }, 3000);
+    }
+  }, [store.dominatorAppear]);
+
+  React.useEffect(() => {
+    if (isFlashing) {
+      document.getElementsByClassName(
+        "main-board-modal-wrap"
+      )[0].style.display = "block";
+    } else {
+      document.getElementsByClassName(
+        "main-board-modal-wrap"
+      )[0].style.display = "none";
+    }
+  }, [isFlashing]);
+
   return (
     <div id="App" className="App">
+      <div className="main-board-modal-wrap">지배자 강림</div>
       <Container className="app-container" maxWidth="xs">
         <Box sx={{ height: "100vh" }}>
           <Routes>

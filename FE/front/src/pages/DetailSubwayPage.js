@@ -8,6 +8,9 @@ import goMap from "../asset/image/goMap.png";
 import myMap from "../asset/image/myMap.png";
 import hotMap from "../asset/image/hotMap.png";
 import Modal from "../components/mainpage/Modal";
+import two_img from "../asset/image/two_img.png";
+import king from "../asset/image/king.png";
+
 import { getStationStake } from "../api/Investment.js";
 
 function DetailSubwayPage(props) {
@@ -28,12 +31,21 @@ function DetailSubwayPage(props) {
         });
         const rankingDataSave = props.stationStake.ranking.map((item, idx) => (
           <div className="detail-content" key={idx}>
-            <div>
-              <p className="detail-subject">{item.name}</p>
-            </div>
+            {idx === 0 ? (
+              <div className="detail-div-size">
+                <p className="detail-subject-king">
+                  <img className="detail-kingimg" src={king} alt="king" />{" "}
+                  {item.name}
+                </p>
+              </div>
+            ) : (
+              <div>
+                <p className="detail-subject">{item.name}</p>
+              </div>
+            )}
             <div>
               <p className="detail-subject">
-                {item.investment.toLocaleString("ko-KR")}
+                {item.investment.toLocaleString("ko-KR")}원
               </p>
               <p className="detail-subject-2">({item.percent}%)</p>
             </div>
@@ -52,10 +64,15 @@ function DetailSubwayPage(props) {
         <div className="detail-title">
           {props.stationStake.dominator ? (
             <p className="detail-subject">
-              {props.stationStake.dominator}의 {props.stationStake.stationName}
+              {props.stationStake.dominator}의{" "}
+              <img className="detail-twoimg" src={two_img} alt="two_img" />
+              {props.stationStake.stationName}
             </p>
           ) : (
-            <p className="detail-subject">{props.stationStake.stationName}</p>
+            <p className="detail-subject">
+              <img className="detail-twoimg" src={two_img} alt="two_img" />{" "}
+              {props.stationStake.stationName}
+            </p>
           )}
         </div>
 

@@ -12,7 +12,7 @@
   z-index: 1;
 }
 .detail-title {
-  background: #f3d9d9;
+  background: #d8f7ce;
   display: flex;
   justify-content: center;
   padding: 3vw;
@@ -26,8 +26,8 @@
   padding-bottom: 2vw;
   padding-left: 6vw;
   padding-right: 6vw;
-  border-top: solid black 1px;
-  border-bottom: solid black 1px;
+  border-top: solid rgb(22, 129, 37) 2px;
+  border-bottom: solid rgb(22, 129, 37) 2px;
 }
 .detail-content-box {
   padding-bottom: 5vw;
@@ -42,9 +42,18 @@
 }
 .detail-subject {
   font-size: large;
+  font-weight: bold;
   margin: 0%;
   float: right;
   clear: both;
+}
+.detail-subject-king {
+  font-size: large;
+  font-weight: bold;
+  margin: 0%;
+  float: right;
+  clear: both;
+  text-align: left;
 }
 .detail-subject-1 {
   font-size: large;
@@ -63,7 +72,7 @@
   position: absolute;
   justify-content: space-between;
   align-items: center;
-  bottom:20%;
+  bottom: 20%;
   left: 5%;
   width: 90%;
 }
@@ -73,8 +82,8 @@
   margin: 0%;
   float: right;
   clear: both;
-  background-color: #f3d9d9;
-  border: solid 3px black;
+  background-color: #d8f7ce;
+  border: solid 3px rgb(22, 129, 37);
   border-radius: 30px;
 }
 .detail-router-map-btn {
@@ -84,6 +93,8 @@
   width: 22%;
   bottom: 4%;
   left: 39%;
+  z-index: 1032 !important;
+  animation: bottomBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
 }
 
 .detail-router-map-btn > img {
@@ -99,6 +110,8 @@
   width: 22%;
   bottom: 4%;
   left: 14%;
+  z-index: 1032 !important;
+  animation: bottomBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
 }
 
 .detail-router-my-btn > img {
@@ -114,6 +127,8 @@
   width: 22%;
   bottom: 4%;
   left: 64%;
+  z-index: 1032 !important;
+  animation: bottomBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
 }
 
 .detail-router-hot-btn > img {
@@ -125,4 +140,16 @@
 .detail-scroll-div {
   height: 400%;
   overflow: scroll;
+}
+
+.detail-twoimg {
+  width: 5%;
+}
+
+.detail-kingimg {
+  width: 12%;
+}
+
+.detail-div-size {
+  width: 50%
 }

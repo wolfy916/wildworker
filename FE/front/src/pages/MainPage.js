@@ -180,35 +180,11 @@ function MainPage(props) {
     setDominatorMsgModalClick(true);
   }
 
-  const [isFlashing, setIsFlashing] = React.useState(false);
-  const dominatorAppear = props.store.dominatorAppear;
-
-  React.useEffect(() => {
-    if (dominatorAppear) {
-      setIsFlashing(true);
-      setTimeout(() => {
-        setIsFlashing(false);
-      }, 2000);
-    }
-  }, [dominatorAppear]);
-
-  React.useEffect(() => {
-    if (isFlashing) {
-      document.getElementsByClassName(
-        "main-board-modal-wrap"
-      )[0].style.display = "block";
-    } else {
-      document.getElementsByClassName(
-        "main-board-modal-wrap"
-      )[0].style.display = "none";
-    }
-  }, [isFlashing]);
 
   const dominatorTitles = "rest api로 가져와야함 지배자 여부";
 
   return (
     <div className="subway-background">
-      <div className="main-board-modal-wrap">지배자 강림</div>
       <SubwayBoard
         getCoinClick={getCoinClick}
         setGetCoinClick={setGetCoinClick}

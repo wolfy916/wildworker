@@ -230,6 +230,7 @@ function SubwayMapPage(props) {
         >
           <map name="photo-map"></map>
         </div>
+      </div>
         <Link className="map-router-my-btn" to="/map/mine">
           <img src={myMap} alt="myMap" />
         </Link>
@@ -239,7 +240,6 @@ function SubwayMapPage(props) {
         <Link className="map-router-hot-btn" to="/map/hot">
           <img src={hotMap} alt="hotMap" />
         </Link>
-      </div>
     </div>
   );
 }
