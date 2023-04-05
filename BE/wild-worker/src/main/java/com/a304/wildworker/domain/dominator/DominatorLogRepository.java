@@ -13,4 +13,7 @@ public interface DominatorLogRepository extends JpaRepository<DominatorLog, Long
 
     List<DominatorLog> findByUserIdAndDominateStartTime(long userId,
             String dominateStartTime);
+
+    boolean existsByUserIdAndStationIdAndDominateStartTime(long userId, long stationId,
+            String dominateStartTime);
 }
