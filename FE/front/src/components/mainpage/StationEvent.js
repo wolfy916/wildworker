@@ -17,12 +17,22 @@ import hiphopMan from "../../asset/image/hiphopMan.png";
 function StationEvent(props) {
   const stationName = props.stationName;
   const stationEventObj = {
-    역삼역: {person : [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2], limit:15},
-    신도림역: {person : [businessMan1, businessMan2, businessWoman], limit:20},
-    사당역: {person : [businessMan1, businessMan2, businessWoman], limit:20},
-    잠실역: {person : [lotteWoman, lotteMan], limit:2},
-    홍대입구역: {person : [blackMan, whiteMan, hiphopMan], limit:5},
-    멀티캠퍼스: {person: [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2], limit: 25},
+    없음: { person: [ssafyMan1], limit: 0 },
+    역삼역: {
+      person: [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2],
+      limit: 15,
+    },
+    신도림역: {
+      person: [businessMan1, businessMan2, businessWoman],
+      limit: 20,
+    },
+    사당역: { person: [businessMan1, businessMan2, businessWoman], limit: 20 },
+    잠실역: { person: [lotteWoman, lotteMan], limit: 2 },
+    홍대입구역: { person: [blackMan, whiteMan, hiphopMan], limit: 5 },
+    멀티캠퍼스: {
+      person: [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2],
+      limit: 25,
+    },
   };
   // useEffect 내부의 재귀함수를 중지하기 위한 트리거
   let stopRecursion = !props.startStationEvent;
@@ -30,7 +40,6 @@ function StationEvent(props) {
   // useEffect를 사용하여 drop()을 한 번 실행
   React.useEffect(() => {
     const personLimit = stationEventObj[stationName].limit;
-
     // 수동 채굴 아이템 1개를 만드는 재귀 함수
     function humanObjectAppear() {
       // 재귀함수 중지 트리거
@@ -47,9 +56,10 @@ function StationEvent(props) {
       const MIN_DURATION = 13;
       const delay = Math.random() * 5;
       const heightPosition = Math.random() * 30;
+      const randomNumber = Math.floor(Math.random() * 2) + 1;
       humanObject.classList.add("human-object");
       humanObject.style.bottom = `${heightPosition}%`;
-      humanObject.style.animation = `humanObjectAppear ${MIN_DURATION}s linear`;
+      humanObject.style.animation = `humanObjectAppear${randomNumber} ${MIN_DURATION}s linear`;
       humanObject.style.animationDelay = `${delay}s`;
       humanObject.style.backgroundImage = `url(${randomValue})`;
       humanObject.style.zIndex = `${30 - Math.floor(heightPosition) + 1000}`;
@@ -67,7 +77,7 @@ function StationEvent(props) {
     // 함수를 반복문 횟수(아이템 개수 제한)만큼 호출
     function drop() {
       for (let index = 0; index < personLimit; index++) {
-        setTimeout(humanObjectAppear(), 5000 * Math.random() * index);
+        setTimeout(humanObjectAppear(), 5000 * index);
       }
     }
 

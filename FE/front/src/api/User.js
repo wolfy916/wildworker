@@ -72,8 +72,12 @@ function patchUserInfo(payload) {
         }
       })
       .catch((err) => {
-        console.log("patchUserInfo 실패");
+        console.log(err);
         console.log(err.response);
+        console.log(err.response.data);
+        if (err.response.status === 409) {
+          payload.setErrFunc(true);
+        }
       });
   }
 }

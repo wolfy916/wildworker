@@ -18,7 +18,7 @@ function DominatorMsg(props) {
   // 지배자 한마디 소켓 전송
   const handleDominatorMsgClick = (e) => {
     const message = JSON.stringify({ message: newMsg });
-    stompClient.send("/sub/system/message", {}, message);
+    stompClient.send("/pub/system/message", {}, message);
   };
 
   return (

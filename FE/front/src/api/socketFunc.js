@@ -21,7 +21,7 @@ function connectSocket(
   return client;
 }
 // 지하철 구독
-function subscribeStation(client, setStore, curStation) {
+function subscribeStation(client, setStore, curStation, setSubwayContentIdx) {
   if (curStation !== null) {
     client.subscribe(
       `/sub/stations/${curStation ? curStation.id : 1}`,
@@ -34,7 +34,7 @@ function subscribeStation(client, setStore, curStation) {
             setStore((prev) => {
               return {
                 ...prev,
-                dominatoreAppear: payload.data,
+                dominatorAppear: payload.data,
               };
             });
           }
@@ -52,6 +52,17 @@ function subscribeStation(client, setStore, curStation) {
                 },
               };
             });
+          }
+          // 지배자 확성기
+          else if (payload.subType === "MESSAGE") {
+            setStore((prev) => {
+              console.log(payload.data.message);
+              return {
+                ...prev,
+                dominatorMsg: payload.data.message,
+              };
+            });
+            setSubwayContentIdx(2);
           }
         }
       }
@@ -84,17 +95,7 @@ function subscribeUser(
           };
         });
       }
-      // 지배자 확성기
-      else if (payload.subType === "MESSAGE") {
-        setStore((prev) => {
-          return {
-            ...prev,
-            dominatoreMsg: payload.data.isDominator ? payload.data.message : "",
-          };
-        });
-      }
     }
-
     // 수동 채굴 모음
     else if (payload.type === "MINING") {
       // 서류 종이 카운트
@@ -141,10 +142,10 @@ function subscribeUser(
       }
       // 내 대표 칭호 변동
       else if (payload.subType === "MAIN_TITLE_UPDATE") {
-        setStore((prev) => {
+        setUserData((prev) => {
           return {
             ...prev,
-            changeTitle: payload.data,
+            title: { id: payload.data.id, name: payload.data.name },
           };
         });
       }

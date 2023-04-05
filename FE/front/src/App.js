@@ -32,6 +32,8 @@ function App() {
   const [isMatched, setIsMatched] = useState(false);
   const [isObtainTitle, setIsObtainTitle] = useState(false);
   const [isGetError, setIsGetError] = useState(false);
+  const [subwayContentIdx, setSubwayContentIdx] = React.useState(0);
+  const [nicknameErr, setNicknameErr] = useState(false);
 
   // 유저 데이터
   const [userData, setUserData] = useState({
@@ -168,7 +170,7 @@ function App() {
           store,
           setIsMatched,
           setIsObtainTitle,
-          setIsGetError,
+          setIsGetError
         )
       );
       setIsConnected(true);
@@ -180,7 +182,12 @@ function App() {
     if (store.locationData) {
       setStompClient(unsubscribeStation(stompClient, store.locationData.prev));
       setStompClient(
-        subscribeStation(stompClient, setStore, store.locationData.current)
+        subscribeStation(
+          stompClient,
+          setStore,
+          store.locationData.current,
+          setSubwayContentIdx
+        )
       );
     }
   }, [store.locationData]);
@@ -248,6 +255,10 @@ function App() {
                   setIsMatched={setIsMatched}
                   isGetError={isGetError}
                   setIsGetError={setIsGetError}
+                  subwayContentIdx={subwayContentIdx}
+                  setSubwayContentIdx={setSubwayContentIdx}
+                  nicknameErr={nicknameErr}
+                  setNicknameErr={setNicknameErr}
                 />
               }
             />

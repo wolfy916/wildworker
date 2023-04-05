@@ -23,7 +23,6 @@ function MainPage(props) {
   const navigate = useNavigate();
   const stompClient = props.stompClient;
   const coinCnt = props.userData.collectedPapers;
-  const pvpRouterClick = props.isMatched;
 
   const [isReady, setIsReady] = React.useState(false); // 비동기 오류 방지
 
@@ -67,6 +66,8 @@ function MainPage(props) {
             setStartStationEvent(true);
           }
         }
+      } else {
+        setStartStationEvent(false);
       }
     };
     eventStationCheck();
@@ -154,11 +155,6 @@ function MainPage(props) {
     }
   }, [isEnough]);
 
-  // 매칭 테스트 버튼 클릭
-  function pvpRouterClickHandler() {
-    props.setIsMatched(true);
-  }
-
   // 매칭 잡혔을 때 로딩 이펙트 시작 + navigate
   React.useEffect(() => {
     if (props.isMatched) {
@@ -221,6 +217,8 @@ function MainPage(props) {
         setUserData={props.setUserData}
         store={props.store}
         setStore={props.setStore}
+        subwayContentIdx={props.subwayContentIdx}
+        setSubwayContentIdx={props.setSubwayContentIdx}
       />
       <div className="subway">
         {modalClick && (
@@ -239,9 +237,10 @@ function MainPage(props) {
             setIsToggled={setIsToggled}
             myCoinLogs={props.myCoinLogs}
             setMyCoinLogs={props.setMyCoinLogs}
+            setNicknameErr={props.setNicknameErr}
           />
         )}
-        {pvpRouterClick && (
+        {props.isMatched && (
           <img
             className="pvp-loading-effect"
             src={LoadingEffect}
@@ -271,7 +270,7 @@ function MainPage(props) {
             />
           )}
         </div>
-        {!pvpRouterClick && (
+        {!props.isMatched && (
           <MenuBar
             setModalClick={setModalClick}
             setSelectIdx={setSelectIdx}
@@ -296,12 +295,13 @@ function MainPage(props) {
       {startStationEvent && (
         <StationEvent
           startStationEvent={startStationEvent}
-          stationName={props.store.locationData.current.name}
+          stationName={
+            props.store.locationData.current
+              ? props.store.locationData.current.name
+              : "없음"
+          }
         />
       )}
-      <div className="main-router-pvp" onClick={pvpRouterClickHandler}>
-        pvp
-      </div>
       <img
         onClick={dominatorMsgModalClickHandler}
         className="main-dominator-msg-btn"
@@ -337,6 +337,17 @@ function MainPage(props) {
           store={props.store}
         />
       )}
+      {props.nicknameErr && (
+        <Modal
+          modalWidth={70}
+          modalHeight={30}
+          selectModalIdx={7}
+          selectErrorIdx={1}
+          setModalClick={props.setNicknameErr}
+          store={props.store}
+        />
+      )}
+
     </div>
   );
 }
