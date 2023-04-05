@@ -1,6 +1,5 @@
 package com.a304.wildworker.dto.response;
 
-import com.a304.wildworker.domain.common.CharacterType;
 import com.a304.wildworker.domain.match.Match;
 import com.a304.wildworker.domain.user.User;
 import lombok.Builder;
@@ -35,13 +34,13 @@ public class MatchingResponse {
 
         private String name;
         private String title;
-        private CharacterType characterType;
+        private int characterType;
 
         public static UserDto of(User user) {
             return UserDto.builder()
                     .name(user.getName())
-                    .title("없음")        //TODO: title 수정
-                    .characterType(user.getCharacterId())
+                    .title(user.getTitle().getName())
+                    .characterType(user.getCharacterId().ordinal())
                     .build();
         }
     }
