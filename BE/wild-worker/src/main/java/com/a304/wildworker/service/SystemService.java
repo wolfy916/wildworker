@@ -56,6 +56,9 @@ public class SystemService {
             if (currentStationId != 0) {
                 // 자동 채굴 체크
                 miningService.autoMining(user);
+
+                // 해당 역의 지배자라면 강림 메시지 브로드캐스트
+                sendShowUpDominator(user.getUserId(), currentStationId);
             }
 
             // TODO: 일단 current만 새로 채워 보냄.. 방향 판단하여 prev, next 채우는 것은 추후 예정
@@ -149,6 +152,22 @@ public class SystemService {
                     response);
         }
 
+    }
+
+    public void sendShowUpDominator(Long userId, Long stationId) {
+        boolean isDominator = dominatorLogRepository.existsByUserIdAndStationIdAndDominateStartTime(
+                userId, stationId, systemData.getNowBaseTimeString());
+
+        // 해당 역의 지배자라면
+        if (isDominator) {
+            User user = getUserOrElseThrow(userId);
+
+            // 지배자의 메시지 브로드캐스트
+            WSBaseResponse<String> response = WSBaseResponse.station(StationType.SHOW_UP_DOMINATOR)
+                    .data(user.getName());
+
+            messagingTemplate.convertAndSend("/sub/stations/" + stationId, response);
+        }
     }
 
     private User getUserOrElseThrow(Long userId) {
