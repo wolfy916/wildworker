@@ -191,10 +191,8 @@ function App() {
           (position) => {
             if (position.coords) {
               handleSendLocation({
-                // lat: position.coords.latitude,
-                // lon: position.coords.longitude,
-                lat: 37.556748,
-                lon: 126.923643,
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
               });
             }
           },
