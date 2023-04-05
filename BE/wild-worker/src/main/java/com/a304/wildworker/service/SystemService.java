@@ -135,19 +135,20 @@ public class SystemService {
         List<DominatorLog> dominateLogList = dominatorLogRepository.findByUserIdAndDominateStartTime(
                 userId, systemData.getNowBaseTimeString());
 
-        if (dominateLogList.size() > 0) {
-            // 전할 메시지
-            WSBaseResponse<DominatorMessage> response = WSBaseResponse.station(StationType.MESSAGE)
-                    .data(message);
-
-            for (DominatorLog log : dominateLogList) {
-                // 지배자의 메시지 브로드캐스트
-                messagingTemplate.convertAndSend("/sub/stations/" + log.getStation().getId(),
-                        response);
-            }
-        } else {
+        if (dominateLogList.isEmpty()) {
             throw new NotDominatorException();
         }
+
+        // 전할 메시지
+        WSBaseResponse<DominatorMessage> response = WSBaseResponse.station(StationType.MESSAGE)
+                .data(message);
+
+        for (DominatorLog log : dominateLogList) {
+            // 지배자의 메시지 브로드캐스트
+            messagingTemplate.convertAndSend("/sub/stations/" + log.getStation().getId(),
+                    response);
+        }
+
     }
 
     private User getUserOrElseThrow(Long userId) {
