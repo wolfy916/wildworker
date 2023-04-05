@@ -56,7 +56,6 @@ function subscribeStation(client, setStore, curStation, setSubwayContentIdx) {
           // 지배자 확성기
           else if (payload.subType === "MESSAGE") {
             setStore((prev) => {
-              console.log(payload.data.message);
               return {
                 ...prev,
                 dominatorMsg: payload.data.message,
@@ -193,7 +192,6 @@ function subscribeUser(
     } else if (payload.type === "EXCEPTION") {
       // 확성기 실패 -> 지배중인 역이 없습니다.
       if (payload.subType === "NOT_DOMINATOR") {
-        // console.log(payload.data);
         setIsGetError(true);
       }
     }

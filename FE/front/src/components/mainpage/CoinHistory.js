@@ -12,10 +12,7 @@ function CoinHistory(props) {
     getCoinLog({
       size: 8,
       page: 0,
-      setFunc: {
-        setMyCoinLogs: props.setMyCoinLogs,
-        setUserData: props.setUserData,
-      },
+      setFunc: props.setMyCoinLogs,
     });
   }, []);
 
