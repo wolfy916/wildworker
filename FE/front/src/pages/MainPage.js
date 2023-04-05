@@ -217,6 +217,8 @@ function MainPage(props) {
         setUserData={props.setUserData}
         store={props.store}
         setStore={props.setStore}
+        subwayContentIdx={props.subwayContentIdx}
+        setSubwayContentIdx={props.setSubwayContentIdx}
       />
       <div className="subway">
         {modalClick && (

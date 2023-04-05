@@ -21,7 +21,7 @@ function connectSocket(
   return client;
 }
 // 지하철 구독
-function subscribeStation(client, setStore, curStation) {
+function subscribeStation(client, setStore, curStation, setSubwayContentIdx) {
   if (curStation !== null) {
     client.subscribe(
       `/sub/stations/${curStation ? curStation.id : 1}`,
@@ -61,6 +61,7 @@ function subscribeStation(client, setStore, curStation) {
                 ...prev,
                 dominatorMsg: payload.data.message,
               };
+              setSubwayContentIdx(2);
             });
           }
         }

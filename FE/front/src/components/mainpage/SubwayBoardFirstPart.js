@@ -2,8 +2,6 @@ import * as React from "react";
 import "./SubwayBoardFirstPart.css";
 
 function SubwayBoardFirstPart(props) {
-  const [contentIdx, setContentIdx] = React.useState(0);
-
   const stationContent = (
     <div className="board-content">
       {/* <div className="subway-board-grid"></div> */}
@@ -53,13 +51,13 @@ function SubwayBoardFirstPart(props) {
   const contentList = [stationContent, coinContent, dominatorContent];
 
   function pageMoveClickHandler() {
-    setContentIdx((prev) => (prev + 1) % 3);
+    props.setSubwayContentIdx((prev) => (prev + 1) % 3);
   }
 
   return (
     <div className="board-first-part" onClick={pageMoveClickHandler}>
       {props.store.locationData.current != null
-        ? contentList[contentIdx]
+        ? contentList[props.setSubwayContentIdx]
         : coinContent}
     </div>
   );
