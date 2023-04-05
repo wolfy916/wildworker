@@ -9,7 +9,7 @@ import myMap from "../asset/image/myMap.png";
 import hotMap from "../asset/image/hotMap.png";
 import current_point from "../asset/image/current_point.gif";
 import money from "../asset/image/money.gif";
-import sangjun from "../asset/image/sangjun.png";
+import mulcam from "../asset/image/mulcam.png";
 import "./SubwayMapPage.css";
 
 import { getMyInvestList } from "../api/Investment";
@@ -116,7 +116,7 @@ function SubwayMapPage(props) {
     }
   }, [props.myInvestList]);
 
-  const mulcam = 52;
+  const mulcampus = 52;
 
   useEffect(() => {
     if (cnt === 2) {
@@ -133,6 +133,7 @@ function SubwayMapPage(props) {
           imgTag.style.position = "absolute";
           imgTag.style.bottom = "10%";
           imgTag.style.left = "-20%";
+          imgTag.style.zIndex = 1500;
           currentPoint.appendChild(imgTag);
 
           areaTag.appendChild(currentPoint);
@@ -147,6 +148,7 @@ function SubwayMapPage(props) {
           imgTag.style.position = "absolute";
           imgTag.style.bottom = "15%";
           imgTag.style.left = "-30%";
+          imgTag.style.zIndex = 2000;
           currentPoint.appendChild(imgTag);
 
           const blinkAnimationStyle = document.createElement("style");
@@ -157,11 +159,11 @@ function SubwayMapPage(props) {
           areaTag.appendChild(currentPoint);
         }
 
-        if (mulcam === i) {
+        if (mulcampus === i) {
           const currentPoint = document.createElement("div");
           const imgTag = document.createElement("img");
 
-          imgTag.setAttribute("src", `${sangjun}`);
+          imgTag.setAttribute("src", `${mulcam}`);
           imgTag.style.width = "120%";
           imgTag.style.position = "absolute";
           imgTag.style.bottom = "10%";
