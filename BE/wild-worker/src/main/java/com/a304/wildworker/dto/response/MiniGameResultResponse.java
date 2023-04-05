@@ -20,7 +20,7 @@ public class MiniGameResultResponse {
     private ResultDto result;
     private ReceiptDto receipt;
 
-    public static MiniGameResultResponse of(Match match, User me) {
+    public static MiniGameResultResponse of(Match match, User me, UserDto enemyDto) {
         User enemy = match.getEnemy(me);
         ResultDto result = ResultDto.of(
                 match.getPersonalProgress().get(me.getId()),
@@ -28,7 +28,7 @@ public class MiniGameResultResponse {
         ReceiptDto receipt = ReceiptDto.of(match, me);
         return MiniGameResultResponse.builder()
                 .winner(match.getWinner().equals(me.getId()))
-                .enemy(UserDto.of(enemy))
+                .enemy(enemyDto)
                 .result(result)
                 .receipt(receipt)
                 .build();

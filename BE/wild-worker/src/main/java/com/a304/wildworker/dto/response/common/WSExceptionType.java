@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum WSExceptionType implements SubType {
-    NOT_DOMINATOR;
+    NOT_DOMINATOR
 }

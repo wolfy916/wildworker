@@ -24,4 +24,5 @@ public enum TitleCode {
     public int getCondition() {
         return condition;
     }
+    
 }
