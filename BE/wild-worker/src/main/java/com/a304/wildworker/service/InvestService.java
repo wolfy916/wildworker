@@ -1,8 +1,11 @@
 package com.a304.wildworker.service;
 
-import com.a304.wildworker.common.Constants;
+import com.a304.wildworker.common.WebSocketUtils;
 import com.a304.wildworker.domain.activestation.ActiveStation;
 import com.a304.wildworker.domain.activestation.ActiveStationRepository;
+import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
+import com.a304.wildworker.domain.common.TitleCode;
+import com.a304.wildworker.domain.common.TitleShowType;
 import com.a304.wildworker.domain.common.TransactionType;
 import com.a304.wildworker.domain.dominator.DominatorLog;
 import com.a304.wildworker.domain.dominator.DominatorLogRepository;
@@ -19,7 +22,9 @@ import com.a304.wildworker.dto.response.StationDto;
 import com.a304.wildworker.dto.response.StationInvestmentDto;
 import com.a304.wildworker.dto.response.StationRankInfoResponse;
 import com.a304.wildworker.dto.response.StationRankResponse;
+import com.a304.wildworker.dto.response.TitleDto;
 import com.a304.wildworker.dto.response.common.StationType;
+import com.a304.wildworker.dto.response.common.TitleType;
 import com.a304.wildworker.dto.response.common.WSBaseResponse;
 import com.a304.wildworker.ethereum.contract.Bank;
 import com.a304.wildworker.event.ChangedBalanceEvent;
@@ -37,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -55,11 +61,14 @@ public class InvestService {
     private final UserRepository userRepository;
     private final DominatorLogRepository dominatorLogRepository;
     private final ActiveStationRepository activeStationRepository;
+    private final ActiveUserRepository activeUserRepository;
     private final Bank bank;
     private final SystemData systemData;
 
     private final ApplicationEventPublisher publisher;
     private final SimpMessagingTemplate messagingTemplate;
+
+    private Map<Long, Station> mainDominateStationMap;
 
     /* 실시간 역 순위 */
     public StationRankResponse showStationRank(int size, String order) throws IOException {
@@ -177,7 +186,7 @@ public class InvestService {
         List<MyInvestmentInfoResponse> investmentList = new LinkedList<>();
 
         // 내 투자 리스트
-        for (Long id = 1L; id <= Constants.STATION_COUNT; id++) {
+        for (Long id = 1L, stationCnt = stationRepository.count(); id <= stationCnt; id++) {
             ActiveStation activeStation = activeStationRepository.findById(id);
             Map<Long, Long> investors = activeStation.getInvestors();
 
@@ -185,7 +194,7 @@ public class InvestService {
             if (amount != null) {
                 Station station = getStationOrElseThrow(id);
                 investmentList.add(MyInvestmentInfoResponse.builder()
-                        .station(new StationDto(station.getId(), station.getName()))
+                        .station(StationDto.of(station))
                         .investment(amount)
                         .percent(getPercent(station.getBalance(), amount))
                         .build());
@@ -283,6 +292,9 @@ public class InvestService {
             isInitInvestmentTime = true;
         }
 
+        // 지배자의 대표 역 map 초기화
+        mainDominateStationMap = new ConcurrentHashMap<>();
+
         for (Station station : stationRepository.findAll()) {
             ActiveStation activeStation = activeStationRepository.findById(station.getId());
 
@@ -299,12 +311,15 @@ public class InvestService {
             }
 
             // 지배자 설정
-            setNewDominator(station, dominator);
+            setNewDominatorAndTitle(station, dominator);
 
             // 이더리움에서도 정산 요청
             bank.distributeInvestReward(station).thenAccept(
                     (receipt -> log.info("distribute invest reward receipt : {}", receipt)));
         }
+
+        // 지배자 칭호 갱신
+        updateDominatorTitle();
     }
 
     /**
@@ -345,14 +360,47 @@ public class InvestService {
 
     /* 지배자 설정 */
     @Transactional
-    public void setNewDominator(Station station, User dominator) {
+    public void setNewDominatorAndTitle(Station station, User dominator) {
         String dominatorName = null;
 
-        // 현재 지배자가 존재하는 경우 설정
+        // 현재 지배자가 존재하는 경우
         if (dominator != null) {
+            // 지배자 설정
             dominatorName = dominator.getName();
             dominatorLogRepository.save(
                     new DominatorLog(station, dominator, systemData.getNowBaseTimeString()));
+
+            // 해당 유저가 <지배자> 칭호 장착 중일 때
+            if (dominator.getTitleShowType() == TitleShowType.DOMINATOR) {
+                // 해당 유저가 지배한 역 중 가장 비싼 역 찾아서 갱신
+                Station mostExpensiveStation = mainDominateStationMap.get(dominator.getId());
+                if (mostExpensiveStation == null ||
+                        mostExpensiveStation.getBalance() < station.getBalance()) {
+                    mainDominateStationMap.put(dominator.getId(), station);
+                }
+            }
+
+            // 이전 지배자 찾기
+            Optional<DominatorLog> prevDominatorLog =
+                    dominatorLogRepository.findByStationIdAndDominateStartTime(station.getId(),
+                            systemData.getPrevBaseTimeString());
+
+            // 이전 지배자 존재하는 경우
+            if (prevDominatorLog.isPresent()) {
+                User prevDominator = prevDominatorLog.get().getUser();
+
+                // 이전 지배자가 지배자 칭호 전시 중 && 지배자 바뀐 경우
+                if ((prevDominator.getTitleShowType() == TitleShowType.DOMINATOR)
+                        && (prevDominator.getId() != dominator.getId())) {
+
+                    // 이전 지배자 정보 변경
+                    prevDominator.setTitleId(TitleCode.NONE.getId());
+
+                    // 대표 칭호 변동 Noti 송신
+                    sendMainTitleUpdateNotification(prevDominator.getId(),
+                            new TitleDto(TitleCode.NONE.getId(), "x"));
+                }
+            }
         }
 
         // 새로운 지배자를 역 구독자들에게 Noti (지배자가 변경되지 않은 경우에도 보냄)
@@ -360,6 +408,36 @@ public class InvestService {
                 .data(dominatorName);
 
         messagingTemplate.convertAndSend("/sub/stations/" + station.getId(), response);
+    }
+
+    /* 지배자 칭호 갱신 */
+    @Transactional
+    public void updateDominatorTitle() {
+        for (Map.Entry<Long, Station> entry : mainDominateStationMap.entrySet()) {
+            User user = getUserOrElseThrow(entry.getKey());
+            Station newStation = entry.getValue();
+
+            // 기존 칭호와 달라진 경우
+            if (!user.getTitleId().equals(newStation.getId())) {
+                // 대표 칭호 역 설정
+                user.setTitleId(newStation.getId());
+
+                // 대표 칭호 변동 Noti 송신
+                sendMainTitleUpdateNotification(user.getId(), TitleDto.of(newStation));
+            }
+        }
+    }
+
+    /* 대표 칭호 변동 Noti 송신 */
+    public void sendMainTitleUpdateNotification(Long userId, TitleDto title) {
+        activeUserRepository.findById(userId).ifPresent(activeUser -> {
+            WSBaseResponse<TitleDto> response = WSBaseResponse.title(TitleType.MAIN_TITLE_UPDATE)
+                    .data(title);
+
+            messagingTemplate.convertAndSendToUser(activeUser.getWebsocketSessionId(),
+                    "/queue", response,
+                    WebSocketUtils.createHeaders(activeUser.getWebsocketSessionId()));
+        });
     }
 
     private User getUserOrElseThrow(Long userId) {

@@ -3,6 +3,7 @@ package com.a304.wildworker.controller.ws;
 import com.a304.wildworker.common.WebSocketUtils;
 import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.location.Location;
+import com.a304.wildworker.dto.request.DominatorMessage;
 import com.a304.wildworker.dto.response.StationWithUserResponse;
 import com.a304.wildworker.dto.response.common.MiningType;
 import com.a304.wildworker.dto.response.common.StationType;
@@ -72,5 +73,13 @@ public class SystemController {
 
         messagingTemplate.convertAndSendToUser(sessionId, "/queue", response,
                 WebSocketUtils.createHeaders(sessionId));
+    }
+
+    /* 지배자의 한 마디 */
+    @MessageMapping("/message")
+    public void sendDominatorMessage(@Header("simpSessionId") String sessionId,
+            @Header("simpUser") ActiveUser user, DominatorMessage message)
+            throws CipherException, IOException {
+        systemService.sendDominatorMessage(user.getUserId(), message);
     }
 }

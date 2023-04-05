@@ -4,13 +4,13 @@
   border: solid black 2px;
   background-color: rgb(255, 255, 255);
   z-index: 1;
-  top:3%;
-  right:5%;
+  top: 3%;
+  right: 5%;
   align-items: center;
 }
 .map-station-color-content {
   text-align: center;
-  width:33vw;
+  width: 33vw;
   margin: 0;
   padding: 1vw;
 }
@@ -22,11 +22,13 @@
 }
 .map-router-main-btn {
   box-sizing: border-box;
-  position: fixed;
+  position: absolute;
   height: 12%;
   width: 22%;
   bottom: 4%;
   left: 39%;
+  z-index: 3000 !important;
+  animation: bottomBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
 }
 
 .map-router-main-btn > img {
@@ -42,6 +44,8 @@
   width: 22%;
   bottom: 4%;
   left: 14%;
+  z-index: 3000;
+  animation: bottomBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
 }
 
 .map-router-my-btn > img {
@@ -57,6 +61,8 @@
   width: 22%;
   bottom: 4%;
   left: 64%;
+  z-index: 3000;
+  animation: bottomBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
 }
 
 .map-router-hot-btn > img {
@@ -421,7 +427,7 @@ area:nth-of-type(51) {
   height: 5%;
 }
 area:nth-of-type(52) {
-  top: 40%;
-  left: 5%;
-  width: 40%;
+  top: 67%;
+  left: 66%;
+  width: 11%;
 }

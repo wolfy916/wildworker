@@ -23,7 +23,6 @@ function MainPage(props) {
   const navigate = useNavigate();
   const stompClient = props.stompClient;
   const coinCnt = props.userData.collectedPapers;
-  const pvpRouterClick = props.isMatched;
 
   const [isReady, setIsReady] = React.useState(false); // 비동기 오류 방지
 
@@ -45,7 +44,14 @@ function MainPage(props) {
 
   const [currentStation, setCurrentStation] = React.useState("");
   const [startStationEvent, setStartStationEvent] = React.useState(false);
-  const eventStationList = ["역삼역", "신도림역", "잠실역"];
+  const eventStationList = [
+    "역삼역",
+    "신도림역",
+    "잠실역",
+    "홍대입구역",
+    "사당역",
+    "멀티캠퍼스",
+  ];
 
   // 지하철 역에 맞는 이벤트 실행
   React.useEffect(() => {
@@ -60,6 +66,8 @@ function MainPage(props) {
             setStartStationEvent(true);
           }
         }
+      } else {
+        setStartStationEvent(false);
       }
     };
     eventStationCheck();
@@ -70,7 +78,7 @@ function MainPage(props) {
     props.setIsLogin(true);
     getUserInfo({ setFunc: props.setUserData });
 
-    if (coinCnt > 99) {
+    if (coinCnt > 30) {
       setIsEnough(true);
     }
 
@@ -98,13 +106,13 @@ function MainPage(props) {
 
   React.useEffect(() => {
     if (isReady) {
-      if (coinCnt < 99) {
+      if (coinCnt < 30) {
         setIsEnough(false);
         handleGetCnt();
-      } else if (coinCnt === 99) {
+      } else if (coinCnt === 30) {
         setIsEnough(true);
         handleGetCnt();
-      } else if (coinCnt > 99) {
+      } else if (coinCnt > 30) {
         setIsEnough(true);
       }
     }
@@ -147,11 +155,6 @@ function MainPage(props) {
     }
   }, [isEnough]);
 
-  // 매칭 테스트 버튼 클릭
-  function pvpRouterClickHandler() {
-    props.setIsMatched(true);
-  }
-
   // 매칭 잡혔을 때 로딩 이펙트 시작 + navigate
   React.useEffect(() => {
     if (props.isMatched) {
@@ -169,7 +172,7 @@ function MainPage(props) {
   }, [props.isMatched]);
 
   // 칭호 획득 시 ( 처음에는 getTitle은 빈문자열 )
-  const getTitle = props.store.getTitle;
+  const getTitle = "";
   React.useEffect(() => {
     if (getTitle) {
       setTitleModalClick(true);
@@ -180,35 +183,9 @@ function MainPage(props) {
     setDominatorMsgModalClick(true);
   }
 
-  const [isFlashing, setIsFlashing] = React.useState(false);
-  const dominatorAppear = props.store.dominatorAppear;
-
-  React.useEffect(() => {
-    if (dominatorAppear) {
-      setIsFlashing(true);
-      setTimeout(() => {
-        setIsFlashing(false);
-      }, 2000);
-    }
-  }, [dominatorAppear]);
-
-  React.useEffect(() => {
-    if (isFlashing) {
-      document.getElementsByClassName(
-        "main-board-modal-wrap"
-      )[0].style.display = "block";
-    } else {
-      document.getElementsByClassName(
-        "main-board-modal-wrap"
-      )[0].style.display = "none";
-    }
-  }, [isFlashing]);
-
-  const dominatorTitles = "rest api로 가져와야함 지배자 여부";
 
   return (
     <div className="subway-background">
-      <div className="main-board-modal-wrap">지배자 강림</div>
       <SubwayBoard
         getCoinClick={getCoinClick}
         setGetCoinClick={setGetCoinClick}
@@ -216,6 +193,8 @@ function MainPage(props) {
         setUserData={props.setUserData}
         store={props.store}
         setStore={props.setStore}
+        subwayContentIdx={props.subwayContentIdx}
+        setSubwayContentIdx={props.setSubwayContentIdx}
       />
       <div className="subway">
         {modalClick && (
@@ -234,9 +213,10 @@ function MainPage(props) {
             setIsToggled={setIsToggled}
             myCoinLogs={props.myCoinLogs}
             setMyCoinLogs={props.setMyCoinLogs}
+            setNicknameErr={props.setNicknameErr}
           />
         )}
-        {pvpRouterClick && (
+        {props.isMatched && (
           <img
             className="pvp-loading-effect"
             src={LoadingEffect}
@@ -244,7 +224,11 @@ function MainPage(props) {
           />
         )}
         <div className="character-nickname-title">
-          <div className="character-title">{props.userData.title.name}</div>
+          <div className="character-title">
+            {props.userData.title.name === "x"
+              ? " "
+              : props.userData.title.name}
+          </div>
           <div className="character-nickname">{props.userData.name}</div>
           {props.userData.characterType + 1 && (
             <img
@@ -262,7 +246,7 @@ function MainPage(props) {
             />
           )}
         </div>
-        {!pvpRouterClick && (
+        {!props.isMatched && (
           <MenuBar
             setModalClick={setModalClick}
             setSelectIdx={setSelectIdx}
@@ -287,21 +271,19 @@ function MainPage(props) {
       {startStationEvent && (
         <StationEvent
           startStationEvent={startStationEvent}
-          stationName={props.store.locationData.current.name}
+          stationName={
+            props.store.locationData.current
+              ? props.store.locationData.current.name
+              : "없음"
+          }
         />
       )}
-      <div className="main-router-pvp" onClick={pvpRouterClickHandler}>
-        pvp
-      </div>
-
-      {dominatorTitles && (
-        <img
-          onClick={dominatorMsgModalClickHandler}
-          className="main-dominator-msg-btn"
-          src={dominator_speaker}
-          alt="dominator_speaker"
-        />
-      )}
+      <img
+        onClick={dominatorMsgModalClickHandler}
+        className="main-dominator-msg-btn"
+        src={dominator_speaker}
+        alt="dominator_speaker"
+      />
       {titleModalClick && (
         <Modal
           modalWidth={85}
@@ -314,13 +296,34 @@ function MainPage(props) {
       {dominatorMsgModalClick && (
         <Modal
           modalWidth={85}
-          modalHeight={75}
+          modalHeight={35}
           selectModalIdx={5}
-          dominatorMsg={props.store.dominatorMsg}
           stompClient={props.stompClient}
-          setDominatorMsgModalClick={setDominatorMsgModalClick}
+          setModalClick={setDominatorMsgModalClick}
+          store={props.store}
         />
       )}
+      {props.isGetError && (
+        <Modal
+          modalWidth={70}
+          modalHeight={30}
+          selectModalIdx={7}
+          selectErrorIdx={0}
+          setModalClick={props.setIsGetError}
+          store={props.store}
+        />
+      )}
+      {props.nicknameErr && (
+        <Modal
+          modalWidth={70}
+          modalHeight={30}
+          selectModalIdx={7}
+          selectErrorIdx={1}
+          setModalClick={props.setNicknameErr}
+          store={props.store}
+        />
+      )}
+
     </div>
   );
 }

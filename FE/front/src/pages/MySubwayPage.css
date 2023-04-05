@@ -5,16 +5,17 @@
 }
 .my-holder {
   width: 100%;
-  height: 10vh;
+  height: 9.5vh;
   position: sticky !important;
   top: 0;
   font-size: 10em;
   z-index: 1;
 }
 .my-title {
-  background: #f3d9d9;
+  background: #d8f7ce;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 3vw;
   box-shadow: 3px 3px 3px 3px gray;
 }
@@ -26,24 +27,36 @@
   padding-bottom: 2vw;
   padding-left: 6vw;
   padding-right: 6vw;
-  border-bottom: solid black 1px;
+  border-bottom: solid rgb(22, 129, 37) 2px;
 }
 .my-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 3vw;
-  padding-left: 6vw;
-  padding-right: 6vw;
+  margin-top: 2vw;
+  margin-bottom: 2vw;
+  padding-top: 1.5vw;
+  padding-bottom: 1.5vw;
+  padding-left: 3vw;
+  padding-right: 5vw;
+  border: solid 2px rgb(22, 129, 37);
+  border-radius: 10px;
+  background-color: #d8f7ce;
 }
 .my-subject {
   font-size: large;
+  font-weight: bold;
+  padding: 0%;
   margin: 0%;
+  float: right;
+  clear: both;
+  text-align: left;
 }
 .my-subject-2 {
   font-size: small;
   margin: 0%;
   float: right;
+  clear: both;
 }
 .my-router-map-btn {
   box-sizing: border-box;
@@ -52,6 +65,8 @@
   width: 22%;
   bottom: 4%;
   left: 39%;
+  z-index: 1032 !important;
+  animation: bottomBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
 }
 
 .my-router-map-btn > img {
@@ -67,6 +82,8 @@
   width: 22%;
   bottom: 4%;
   left: 14%;
+  z-index: 1032 !important;
+  animation: bottomBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
 }
 
 .my-router-my-btn > img {
@@ -82,6 +99,8 @@
   width: 22%;
   bottom: 4%;
   left: 64%;
+  z-index: 1032 !important;
+  animation: bottomBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
 }
 
 .my-router-hot-btn > img {
@@ -123,8 +142,31 @@ select option {
 
 .my-select {
   font-family: galmuri9;
+  width: 42.5%;
 }
 
 .my-option {
   font-family: galmuri9;
+}
+
+.my-twoimg {
+  width: 11%;
+}
+
+.my-div-size {
+  width: 50%;
+}
+
+.my-subwayinfo-img {
+  width: 4%;
+}
+
+.my-title-subject {
+  font-size: 6vw;
+  font-weight: bold;
+  padding: 0%;
+  margin: 0%;
+  float: right;
+  clear: both;
+  text-align: left;
 }

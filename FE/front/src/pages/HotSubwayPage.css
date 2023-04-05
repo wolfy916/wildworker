@@ -12,9 +12,10 @@
   z-index: 1;
 }
 .hot-title {
-  background: #f3d9d9;
+  background: #d8f7ce;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 3vw;
   box-shadow: 3px 3px 3px 3px gray;
 }
@@ -26,21 +27,30 @@
   padding-bottom: 2vw;
   padding-left: 6vw;
   padding-right: 6vw;
-  border-bottom: solid black 1px;
+  border-bottom: solid rgb(22, 129, 37) 2px;
 }
 .hot-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 3vw;
-  padding-left: 6vw;
-  padding-right: 6vw;
+  margin-top: 2vw;
+  margin-bottom: 2vw;
+  padding-top: 1.5vw;
+  padding-bottom: 1.5vw;
+  padding-left: 3vw;
+  padding-right: 5vw;
+  border: solid 2px rgb(22, 129, 37);
+  border-radius: 10px;
+  background-color: #d8f7ce;
 }
 .hot-subject {
   font-size: large;
+  font-weight: bold;
+  padding: 0%;
   margin: 0%;
   float: right;
   clear: both;
+  text-align: left;
 }
 .hot-subject-2 {
   font-size: small;
@@ -55,6 +65,8 @@
   width: 22%;
   bottom: 4%;
   left: 39%;
+  z-index: 1032 !important;
+  animation: bottomBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
 }
 .hot-router-map-btn > img {
   box-sizing: border-box;
@@ -69,6 +81,8 @@
   width: 22%;
   bottom: 4%;
   left: 14%;
+  z-index: 1032 !important;
+  animation: bottomBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
 }
 
 .hot-router-my-btn > img {
@@ -84,6 +98,8 @@
   width: 22%;
   bottom: 4%;
   left: 64%;
+  z-index: 1032 !important;
+  animation: bottomBtnAppear 0.5s ease-in-out 0s 1 normal forwards;
 }
 
 .hot-router-hot-btn > img {
@@ -91,13 +107,37 @@
   height: 100%;
   width: 100%;
 }
-.show {display:block;}
+.show {
+  display: block;
+}
 
 .hot-select {
   font-family: galmuri9;
+  width: 41%;
 }
 
 .hot-option {
   font-family: galmuri9;
 }
 
+.hot-twoimg {
+  width: 11%;
+}
+
+.hot-div-size {
+  width: 50%;
+}
+
+.hot-subwayinfo-img {
+  width: 4%;
+}
+
+.hot-title-subject {
+  font-size: 6vw;
+  font-weight: bold;
+  padding: 0%;
+  margin: 0%;
+  float: right;
+  clear: both;
+  text-align: left;
+}
