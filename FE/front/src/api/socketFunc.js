@@ -34,7 +34,7 @@ function subscribeStation(client, setStore, curStation) {
             setStore((prev) => {
               return {
                 ...prev,
-                dominatoreAppear: payload.data,
+                dominatorAppear: payload.data,
               };
             });
           }
@@ -50,6 +50,16 @@ function subscribeStation(client, setStore, curStation) {
                     dominator: payload.data,
                   },
                 },
+              };
+            });
+          }
+          // 지배자 확성기
+          else if (payload.subType === "MESSAGE") {
+            setStore((prev) => {
+              console.log(payload.data.message);
+              return {
+                ...prev,
+                dominatorMsg: payload.data.message,
               };
             });
           }
@@ -84,17 +94,7 @@ function subscribeUser(
           };
         });
       }
-      // 지배자 확성기
-      else if (payload.subType === "MESSAGE") {
-        setStore((prev) => {
-          return {
-            ...prev,
-            dominatoreMsg: payload.data.isDominator ? payload.data.message : "",
-          };
-        });
-      }
     }
-
     // 수동 채굴 모음
     else if (payload.type === "MINING") {
       // 서류 종이 카운트

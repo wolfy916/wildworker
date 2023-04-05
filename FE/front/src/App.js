@@ -168,7 +168,7 @@ function App() {
           store,
           setIsMatched,
           setIsObtainTitle,
-          setIsGetError,
+          setIsGetError
         )
       );
       setIsConnected(true);
@@ -207,7 +207,7 @@ function App() {
         clearInterval(intervalId);
       };
     }
-  }, [isConnected]);
+  }, [isConnected, test]);
 
   // 위치 전송 백에게 전달하는 함수
   const handleSendLocation = (e) => {

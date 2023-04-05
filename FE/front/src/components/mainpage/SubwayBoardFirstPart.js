@@ -19,16 +19,19 @@ function SubwayBoardFirstPart(props) {
     <div className="board-content" style={{ justifyContent: "space-around" }}>
       <span className="coin-text">●</span>
       <span className={`board-coin ${props.isFlashing ? "flash" : ""}`}>
-        {props.userData.coin ? props.userData.coin.toLocaleString("ko-KR") : "0"}{" "}
+        {props.userData.coin
+          ? props.userData.coin.toLocaleString("ko-KR")
+          : "0"}{" "}
         원
       </span>
     </div>
   );
+
   const dominatorContent = (
     <div className="board-content" style={{ flexDirection: "column" }}>
       <div className="board-dominator-chat">
-        {props.store.locationData.current != null ? (
-          props.store.locationData.current.dominator != null ? (
+        {props.store.locationData.current ? (
+          props.store.dominatorMsg ? (
             <span style={{ color: "#fec189" }}>
               {props.store.locationData.current.dominator}
             </span>
@@ -38,8 +41,8 @@ function SubwayBoardFirstPart(props) {
         ) : (
           ""
         )}
-        {props.store.locationData.current != null
-          ? props.store.locationData.current.dominator != null
+        {props.store.locationData.current
+          ? props.store.dominatorMsg
             ? ` : ${props.store.dominatorMsg}`
             : "지배자의 한마디 없음"
           : "역이 아님"}

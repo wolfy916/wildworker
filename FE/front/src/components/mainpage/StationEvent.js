@@ -17,12 +17,22 @@ import hiphopMan from "../../asset/image/hiphopMan.png";
 function StationEvent(props) {
   const stationName = props.stationName;
   const stationEventObj = {
-    역삼역: {person : [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2], limit:15},
-    신도림역: {person : [businessMan1, businessMan2, businessWoman], limit:20},
-    사당역: {person : [businessMan1, businessMan2, businessWoman], limit:20},
-    잠실역: {person : [lotteWoman, lotteMan], limit:2},
-    홍대입구역: {person : [blackMan, whiteMan, hiphopMan], limit:5},
-    멀티캠퍼스: {person: [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2], limit: 25},
+    없음: { person: [ssafyMan1], limit: 0 },
+    역삼역: {
+      person: [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2],
+      limit: 15,
+    },
+    신도림역: {
+      person: [businessMan1, businessMan2, businessWoman],
+      limit: 20,
+    },
+    사당역: { person: [businessMan1, businessMan2, businessWoman], limit: 20 },
+    잠실역: { person: [lotteWoman, lotteMan], limit: 2 },
+    홍대입구역: { person: [blackMan, whiteMan, hiphopMan], limit: 5 },
+    멀티캠퍼스: {
+      person: [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2],
+      limit: 25,
+    },
   };
   // useEffect 내부의 재귀함수를 중지하기 위한 트리거
   let stopRecursion = !props.startStationEvent;
