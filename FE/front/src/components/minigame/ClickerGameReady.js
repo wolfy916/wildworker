@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../minigame/ClickerGameReady.css";
 
-function ClickerGameReadyPage(props) {
+function ClickerGameReadyPage() {
   const [timeLeft, setTimeLeft] = useState(3);
   const navigate = useNavigate();
   const navData = { gameType: 1 };

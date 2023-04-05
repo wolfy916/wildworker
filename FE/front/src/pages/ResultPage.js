@@ -1,35 +1,61 @@
 import * as React from "react";
 import BattleCharLoser from "../components/battle/battleCharLoser";
 import battleDialogImg from "../asset/image/battleTalk.png";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BattleCharWinner from "../components/battle/battleCharWinner";
 import "./ResultPage.css";
+import BattleCharType from "../components/battle/battlecharacterType";
 
 function ResultPage(props) {
-  // const gameResultData = props.gameResultData;
+  const matchingData = props.matchingData;
+  const gameResultData = props.gameResultData;
+  // console.log(gameResultData);
   const userData = props.userData;
   // console.log(userData);
-  const gameResultData = {
-    isWinner: false,
-    enemy: {
-      name: "권태형",
-      title: "신도림의 지배자",
-      characterType: 1,
-    },
-    result: {
-      me: 12,
-      enemy: 11,
-    },
-    receipt: {
-      cost: -20,
-      runCost: 0,
-      reward: 40,
-      commission: -2,
-      total: 18,
-    },
-  };
+  // console.log(userData);
 
-  const isWinner = gameResultData.isWinner;
+  // const matchingData = {
+  //   id: 1,
+  //   cost: 20,
+  //   runCost: 5,
+  //   enemy: {
+  //     name: "권태형",
+  //     title: "신도림역의 지배자",
+  //     characterType: 1,
+  //     relativeStrength: 0,
+  //   },
+  //   timeLimit: 5,
+  // };
+  // const userData = {
+  //   characterType: 0,
+  //   coin: 0,
+  //   collectedPapers: 0,
+  //   name: "이름바꿔",
+  //   title: { id: 1, name: "x" },
+  //   titleType: 0,
+  // };
+
+  // const gameResultData = {
+  //   winner: false,
+  //   enemy: {
+  //     name: "권태형",
+  //     title: "신도림의 지배자",
+  //     characterType: 1,
+  //   },
+  //   result: {
+  //     me: 12,
+  //     enemy: 11,
+  //   },
+  //   receipt: {
+  //     cost: -20,
+  //     runCost: 0,
+  //     reward: 40,
+  //     commission: -2,
+  //     total: 18,
+  //   },
+  // };
+
+  // const winner = gameResultData.winner;
 
   const navigate = useNavigate();
 
@@ -43,62 +69,73 @@ function ResultPage(props) {
       <div className="battle-result-1">
         {/* 본인 */}
         <p className="battle-result-p1">
-          {userData.title.name} <br /> {userData.name}
+          {userData.title.name === "x" ? "" : userData.title.name} <br />{" "}
+          {userData.name}
         </p>
         <div className="battle-result-char">
           {/* 승리 패배시 컴포넌트 분리 */}
-          {
+          {gameResultData ? (
             {
               true: <BattleCharWinner characterType={userData.characterType} />,
               false: <BattleCharLoser characterType={userData.characterType} />,
-            }[isWinner]
-          }
+            }[gameResultData.winner]
+          ) : (
+            <BattleCharType characterType={userData.characterType} />
+          )}
         </div>
         {/* 승리했을때 패배했을때 분리하기 */}
-        {
+        {gameResultData ? (
           {
             true: <p className="battle-result-win-p2">승리</p>,
             false: <p className="battle-result-lose-p2">패배</p>,
-          }[isWinner]
-        }
+          }[gameResultData.winner]
+        ) : (
+          <p className="battle-result-win-p2">대기</p>
+        )}
+
         <div className="battle-result-p3">
-          맞춘 개수: {gameResultData.result.me}개
+          맞춘 개수: {gameResultData ? gameResultData.result.me : ""}개
         </div>
       </div>
 
       <div className="battle-result-2">
         {/* 적 */}
         <p className="battle-result2-p1">
-          {gameResultData.enemy.title}
-          <br /> {gameResultData.enemy.name}
+          {matchingData.enemy.title === "x" ? "" : matchingData.enemy.title}
+          <br /> {matchingData.enemy.name}
         </p>
         <div className="battle-result2-char">
           {/* 승리 패배시 분리 */}
-          {
+          {gameResultData ? (
             {
               false: (
                 <BattleCharWinner
-                  characterType={gameResultData.enemy.characterType}
+                  characterType={matchingData.enemy.characterType}
                 />
               ),
               true: (
                 <BattleCharLoser
-                  characterType={gameResultData.enemy.characterType}
+                  characterType={matchingData.enemy.characterType}
                 />
               ),
-            }[isWinner]
-          }
+            }[gameResultData.winner]
+          ) : (
+            <BattleCharType characterType={matchingData.enemy.characterType} />
+          )}
         </div>
 
         {/* 승리 패배시 분리 */}
-        {
+        {gameResultData ? (
           {
             false: <p className="battle-result2-win-p2">승리</p>,
             true: <p className="battle-result2-lose-p2">패배</p>,
-          }[isWinner]
-        }
+          }[gameResultData.winner]
+        ) : (
+          <p className="battle-result2-lose-p2">대기</p>
+        )}
+
         <div className="battle-result2-p3">
-          맞춘 개수: {gameResultData.result.enemy}개
+          맞춘 개수: {gameResultData ? gameResultData.result.enemy : ""}개
         </div>
       </div>
 
@@ -109,12 +146,14 @@ function ResultPage(props) {
           alt="battleDialogImg"
         />
         {/* 승리했을때 패배했을때 컴포넌트로 분리하기 */}
-        {
+        {gameResultData ? (
           {
             true: <p className="battleResult-talk-p">결투에서 승리했다!!!!</p>,
             false: <p className="battleResult-talk-p">결투에서 패배했다...</p>,
-          }[isWinner]
-        }
+          }[gameResultData.winner]
+        ) : (
+          <p className="battleResult-talk-p">...</p>
+        )}
       </div>
     </div>
   );

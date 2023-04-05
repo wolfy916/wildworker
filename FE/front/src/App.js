@@ -151,9 +151,9 @@ function App() {
     getTitle: "쫄보",
     changeTitle: {},
     matching: {},
-    gameStart: {},
+    gameStart: null,
     gameCancel: {},
-    gameResult: {},
+    gameResult: null,
   });
   // 소켓 인스턴스 생성하고, 상태관리에 넣음
   const [stompClient, setStompClient] = useState({});
@@ -200,6 +200,14 @@ function App() {
           (position) => {
             if (position.coords) {
               handleSendLocation({
+                // lat: 37.500658, //역삼역
+                // lon: 127.03643,
+                // lat: 37.513305, //잠실역
+                // lon: 127.100129,
+                // lat: 37.556748, //홍대입구역
+                // lon: 126.923643,
+                // lat: 37.476536, //사당역
+                // lon: 126.981631,
                 lat: position.coords.latitude,
                 lon: position.coords.longitude,
               });
@@ -363,12 +371,18 @@ function App() {
                 <PvpResultPage
                   gameResultData={store.gameResult}
                   userData={userData}
+                  matchingData={store.matching}
                 />
               }
             />
             <Route
               path="/pvp/receipt"
-              element={<PvpReceipPage gameResultData={store.gameResult} />}
+              element={
+                <PvpReceipPage
+                  gameResultData={store.gameResult}
+                  setStore={setStore}
+                />
+              }
             />
           </Routes>
         </Box>
