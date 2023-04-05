@@ -8,11 +8,11 @@ import lombok.Getter;
  * Match 삭제 이벤트 (게임 취소, 게임 종료)
  */
 @Getter
-public class DeleteMatchEvent implements DomainEvent {
+public class MatchDeleteEvent implements DomainEvent {
 
     protected Match match;
 
-    public DeleteMatchEvent(Match match) {
+    public MatchDeleteEvent(Match match) {
         this.match = match;
     }
 }

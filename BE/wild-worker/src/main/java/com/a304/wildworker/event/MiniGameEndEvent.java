@@ -2,7 +2,7 @@ package com.a304.wildworker.event;
 
 import com.a304.wildworker.domain.match.Match;
 
-public class MiniGameEndEvent extends DeleteMatchEvent {
+public class MiniGameEndEvent extends MatchDeleteEvent {
 
     private MiniGameEndEvent(Match match) {
         super(match);
