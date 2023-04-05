@@ -77,7 +77,7 @@ function MainPage(props) {
     props.setIsLogin(true);
     getUserInfo({ setFunc: props.setUserData });
 
-    if (coinCnt > 99) {
+    if (coinCnt > 30) {
       setIsEnough(true);
     }
 
@@ -105,13 +105,13 @@ function MainPage(props) {
 
   React.useEffect(() => {
     if (isReady) {
-      if (coinCnt < 99) {
+      if (coinCnt < 30) {
         setIsEnough(false);
         handleGetCnt();
-      } else if (coinCnt === 99) {
+      } else if (coinCnt === 30) {
         setIsEnough(true);
         handleGetCnt();
-      } else if (coinCnt > 99) {
+      } else if (coinCnt > 30) {
         setIsEnough(true);
       }
     }
