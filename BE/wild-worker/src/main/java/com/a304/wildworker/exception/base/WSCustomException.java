@@ -4,7 +4,7 @@ import com.a304.wildworker.dto.response.common.WSExceptionType;
 import lombok.Getter;
 
 @Getter
-public abstract class WSCustomException extends CustomException {
+public abstract class WSCustomException extends RuntimeException {
 
     private final WSExceptionType wsExceptionType;
 

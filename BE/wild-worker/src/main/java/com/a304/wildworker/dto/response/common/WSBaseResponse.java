@@ -3,6 +3,8 @@ package com.a304.wildworker.dto.response.common;
 
 import com.a304.wildworker.domain.common.TransactionType;
 import com.a304.wildworker.dto.response.MessageDto;
+import com.a304.wildworker.exception.base.CustomException;
+import com.a304.wildworker.exception.base.WSCustomException;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,9 +25,17 @@ public class WSBaseResponse<T> {
                 MessageDto.of(message));
     }
 
-    public static WSBaseResponse<?> exception(WSExceptionType exceptionType, String message) {
-        return new WSBaseResponse<>(Type.EXCEPTION, exceptionType,
+    public static WSBaseResponse<?> exception(WSExceptionType subType, String message) {
+        return new WSBaseResponse<>(Type.EXCEPTION, subType,
                 MessageDto.of(message));
+    }
+
+    public static WSBaseResponse<?> exception(WSCustomException e) {
+        return WSBaseResponse.exception(e.getWsExceptionType(), e.getMessage());
+    }
+
+    public static WSBaseResponse<?> exception(CustomException e) {
+        return WSBaseResponse.exception(e.getStatus(), e.getMessage());
     }
 
     public static BodyBuilder station(StationType subType) {
