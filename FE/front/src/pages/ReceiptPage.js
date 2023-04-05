@@ -1,11 +1,11 @@
-import * as React from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./ReceiptPage.css";
 
 function ReceiptPage(props) {
   const gameResultData = props.gameResultData;
   const setStore = props.setStore;
-  console.log(gameResultData);
+  // console.log(gameResultData);
   // const gameResultData = {
   //   isWinner: true,
   //   enemy: {
@@ -26,18 +26,19 @@ function ReceiptPage(props) {
   //   },
   // };
 
-  setStore((prev) => {
-    // console.log(prev);
-    // console.log(prev.gameResult);
-    return {
-      ...prev,
-      gameResult: null,
-      gameStart: null,
-    };
-  });
   const navigate = useNavigate();
   function handleTouchStart(event) {
     // 다음 페이지로 이동하는 로직을 작성합니다.
+    setStore((prev) => {
+      // console.log(prev);
+      // console.log(prev.gameResult);
+      return {
+        ...prev,
+        gameResult: null,
+        gameStart: null,
+      };
+    });
+    console.log(gameResultData);
     navigate("/main");
     console.log("go to mainPage");
   }
