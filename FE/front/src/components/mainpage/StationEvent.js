@@ -17,11 +17,17 @@ import hiphopMan from "../../asset/image/hiphopMan.png";
 function StationEvent(props) {
   const stationName = props.stationName;
   const stationEventObj = {
-    역삼역: {person : [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2], limit:15},
-    신도림역: {person : [businessMan1, businessMan2, businessWoman], limit:20},
-    사당역: {person : [businessMan1, businessMan2, businessWoman], limit:20},
-    잠실역: {person : [lotteWoman, lotteMan], limit:2},
-    홍대입구역: {person : [blackMan, whiteMan, hiphopMan], limit:5},
+    역삼역: {
+      person: [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2],
+      limit: 15,
+    },
+    신도림역: {
+      person: [businessMan1, businessMan2, businessWoman],
+      limit: 20,
+    },
+    사당역: { person: [businessMan1, businessMan2, businessWoman], limit: 20 },
+    잠실역: { person: [lotteWoman, lotteMan], limit: 2 },
+    홍대입구역: { person: [blackMan, whiteMan, hiphopMan], limit: 5 },
   };
   // useEffect 내부의 재귀함수를 중지하기 위한 트리거
   let stopRecursion = !props.startStationEvent;
@@ -43,6 +49,7 @@ function StationEvent(props) {
       const targetValue =
         document.getElementsByClassName("subway-background")[0];
       const humanObject = document.createElement("div");
+      humanObject.style.transform = `scaleX(${-1})`;
       const MIN_DURATION = 13;
       const delay = Math.random() * 5;
       const heightPosition = Math.random() * 30;
@@ -66,7 +73,7 @@ function StationEvent(props) {
     // 함수를 반복문 횟수(아이템 개수 제한)만큼 호출
     function drop() {
       for (let index = 0; index < personLimit; index++) {
-        setTimeout(humanObjectAppear(), 5000 * Math.random());
+        setTimeout(humanObjectAppear(), 5000 * Math.random() * index);
       }
     }
 
