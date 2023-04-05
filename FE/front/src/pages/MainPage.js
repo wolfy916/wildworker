@@ -175,7 +175,7 @@ function MainPage(props) {
   }, [props.isMatched]);
 
   // 칭호 획득 시 ( 처음에는 getTitle은 빈문자열 )
-  const getTitle = "";
+  const getTitle = props.store.getTitle;
   React.useEffect(() => {
     if (getTitle) {
       setTitleModalClick(true);
@@ -194,7 +194,7 @@ function MainPage(props) {
       setIsFlashing(true);
       setTimeout(() => {
         setIsFlashing(false);
-      }, 1000);
+      }, 2000);
     }
   }, [dominatorAppear]);
 
@@ -209,6 +209,8 @@ function MainPage(props) {
       )[0].style.display = "none";
     }
   }, [isFlashing]);
+
+  const dominatorTitles = "rest api로 가져와야함 지배자 여부";
 
   return (
     <div className="subway-background">
@@ -301,29 +303,32 @@ function MainPage(props) {
       <div className="main-router-pvp" onClick={pvpRouterClickHandler}>
         pvp
       </div>
-      <img
-        onClick={dominatorMsgModalClickHandler}
-        className="main-dominator-msg-btn"
-        src={dominator_speaker}
-        alt="dominator_speaker"
-      />
+
+      {dominatorTitles && (
+        <img
+          onClick={dominatorMsgModalClickHandler}
+          className="main-dominator-msg-btn"
+          src={dominator_speaker}
+          alt="dominator_speaker"
+        />
+      )}
       {titleModalClick && (
         <Modal
           modalWidth={85}
-          modalHeight={75}
+          modalHeight={35}
           selectModalIdx={4}
-          getTitleData={props.store.getTitle}
+          getTitle={props.store.getTitle}
           setTitleModalClick={setTitleModalClick}
         />
       )}
       {dominatorMsgModalClick && (
         <Modal
           modalWidth={85}
-          modalHeight={45}
+          modalHeight={52}
           selectModalIdx={5}
-          setModalClick={setDominatorMsgModalClick}
-          store={props.store}
+          dominatorMsg={props.store.dominatorMsg}
           stompClient={props.stompClient}
+          setDominatorMsgModalClick={setDominatorMsgModalClick}
         />
       )}
       {props.isGetError && (

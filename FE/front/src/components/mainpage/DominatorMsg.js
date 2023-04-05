@@ -3,7 +3,6 @@ import "./DominatorMsg.css";
 
 function DominatorMsg(props) {
   const [newMsg, setNewMsg] = React.useState("");
-  const dominatorMsg = props.store.dominatorMsg;
   const stompClient = props.stompClient;
 
   const handleInputChange = (e) => {
@@ -24,10 +23,12 @@ function DominatorMsg(props) {
 
   return (
     <div className="modal-component">
-      <div className="modal-title">지배자 확성기</div>
+      <div className="modal-title">확성기</div>
       <div className="modal-content">
-        <div className="current-msg-info">기존 확성 내용</div>
-        <div className="current-msg">{dominatorMsg}</div>
+        <div className="current-msg-info">현재 확성 내용</div>
+        <div className="current-msg">
+          {props.dominatorMsg ? props.dominatorMsg : "내용이 없습니다."}
+        </div>
         <div className="change-msg">
           <input
             className="change-msg-input"
@@ -39,7 +40,7 @@ function DominatorMsg(props) {
           />
         </div>
         <div className="change-msg-btn" onClick={changeClickHandler}>
-          게시하기
+          변경하기
         </div>
       </div>
     </div>

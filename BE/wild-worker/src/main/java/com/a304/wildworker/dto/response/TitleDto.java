@@ -1,5 +1,6 @@
 package com.a304.wildworker.dto.response;
 
+import com.a304.wildworker.domain.station.Station;
 import com.a304.wildworker.domain.title.Title;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,5 +14,9 @@ public class TitleDto {
 
     public static TitleDto of(Title title) {
         return new TitleDto(title.getId(), title.getName());
+    }
+
+    public static TitleDto of(Station station) {
+        return new TitleDto(station.getId(), station.getName());
     }
 }

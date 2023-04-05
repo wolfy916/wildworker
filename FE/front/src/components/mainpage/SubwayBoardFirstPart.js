@@ -27,8 +27,6 @@ function SubwayBoardFirstPart(props) {
   const dominatorContent = (
     <div className="board-content" style={{ flexDirection: "column" }}>
       <div className="board-dominator-chat">
-        {/* <span style={{ color: "#fec189" }}>{`${props.dominator}`}</span> //{" "}
-        {props.store.dominatorMsg.message} */}
         {props.store.locationData.current != null ? (
           props.store.locationData.current.dominator != null ? (
             <span style={{ color: "#fec189" }}>

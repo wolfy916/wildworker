@@ -130,9 +130,8 @@ function subscribeUser(
 
     // 칭호관련 모음
     else if (payload.type === "TITLE") {
-      // 칭호 획득 알람
+      // 칭호 획득
       if (payload.subType === "GET") {
-        setIsObtainTitle(true);
         setStore((prev) => {
           return {
             ...prev,
@@ -142,14 +141,10 @@ function subscribeUser(
       }
       // 내 대표 칭호 변동
       else if (payload.subType === "MAIN_TITLE_UPDATE") {
-        setUserData((prev) => {
+        setStore((prev) => {
           return {
             ...prev,
-            title: {
-              id: payload.data.id,
-              name:
-                payload.data.id === -1 ? "x" : `${payload.data.name}의 지배자`,
-            },
+            changeTitle: payload.data,
           };
         });
       }

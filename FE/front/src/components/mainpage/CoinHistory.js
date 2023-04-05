@@ -11,7 +11,7 @@ function CoinHistory(props) {
   React.useEffect(() => {
     getCoinLog({
       size: 8,
-      page: 0,
+      page: 1,
       setFunc: {
         setMyCoinLogs: props.setMyCoinLogs,
         setUserData: props.setUserData,
@@ -42,17 +42,17 @@ function CoinHistory(props) {
         <div className="coin-history-head">
           <div className="coin-history-balance">
             <div>현재 잔액 :</div>
-            <div>{props.userData.coin.toLocaleString("ko-KR")} 원</div>
+            <div>{props.myCoinLogs.balance.toLocaleString("ko-KR")} 원</div>
           </div>
         </div>
         <div className="coin-history-body">
           {coinLogTags}
           {!(
-            (props.myCoinLogs.currentPage === 0) ===
-            props.myCoinLogs.totalPage - 1
+            (props.myCoinLogs.currentPage === 1) ===
+            props.myCoinLogs.totalPage
           ) && (
             <div className="coin-history-page-move">
-              {props.myCoinLogs.currentPage !== 0 && (
+              {props.myCoinLogs.currentPage !== 1 && (
                 <div
                   className="coin-history-page-left"
                   onClick={leftClickHandler}
@@ -60,7 +60,7 @@ function CoinHistory(props) {
                   {"<- 이전"}
                 </div>
               )}
-              {props.myCoinLogs.currentPage !== props.myCoinLogs.totalPage - 1 && (
+              {props.myCoinLogs.currentPage !== props.myCoinLogs.totalPage && (
                 <div
                   className="coin-history-page-right"
                   onClick={rightClickHandler}
