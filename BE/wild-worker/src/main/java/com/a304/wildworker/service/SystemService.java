@@ -41,11 +41,13 @@ public class SystemService {
     /* 유저의 현재 좌표를 기준으로 역 조회 후 진입이나 이탈 여부 판단 */
     public StationWithUserResponse checkUserLocation(ActiveUser user, Location userLocation) {
         StationWithUserResponse stationWithUserResponse = null;
+        final int NOT_STATION = 0;
 
         // 유저가 위치하고 있는 역 조회
         StationInfoResponse stationInfoResponse
                 = convertToStationInfoResponse(getStationFromLatLon(userLocation));
-        long currentStationId = (stationInfoResponse != null) ? stationInfoResponse.getId() : 0;
+        long currentStationId =
+                (stationInfoResponse != null) ? stationInfoResponse.getId() : NOT_STATION;
 
         // 기존 상태와 달라진 경우
         if (currentStationId != user.getStationId()) {
@@ -53,9 +55,12 @@ public class SystemService {
             user.setStationId(currentStationId);
 
             // 특정 역 범위에 들어갈 경우
-            if (currentStationId != 0) {
+            if (currentStationId != NOT_STATION) {
                 // 자동 채굴 체크
                 miningService.autoMining(user);
+
+                // 해당 역의 지배자라면 강림 메시지 브로드캐스트
+                sendShowUpDominator(user.getUserId(), currentStationId);
             }
 
             // TODO: 일단 current만 새로 채워 보냄.. 방향 판단하여 prev, next 채우는 것은 추후 예정
@@ -149,6 +154,22 @@ public class SystemService {
                     response);
         }
 
+    }
+
+    public void sendShowUpDominator(Long userId, Long stationId) {
+        boolean isDominator = dominatorLogRepository.existsByUserIdAndStationIdAndDominateStartTime(
+                userId, stationId, systemData.getNowBaseTimeString());
+
+        // 해당 역의 지배자라면
+        if (isDominator) {
+            User user = getUserOrElseThrow(userId);
+
+            // 지배자의 메시지 브로드캐스트
+            WSBaseResponse<String> response = WSBaseResponse.station(StationType.SHOW_UP_DOMINATOR)
+                    .data(user.getName());
+
+            messagingTemplate.convertAndSend("/sub/stations/" + stationId, response);
+        }
     }
 
     private User getUserOrElseThrow(Long userId) {
