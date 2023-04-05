@@ -1,13 +1,27 @@
 // 연결
-function connectSocket(client, setstore, setUserData, store, setIsMatched) {
+function connectSocket(
+  client,
+  setstore,
+  setUserData,
+  store,
+  setIsMatched,
+  setIsObtainTitle,
+  setIsGetError
+) {
   client.connect({}, () => {
-    subscribeUser(client, setstore, setUserData, setIsMatched);
-    // subscribeStation(client, setstore, store.locationData.current);
+    subscribeUser(
+      client,
+      setstore,
+      setUserData,
+      setIsMatched,
+      setIsObtainTitle,
+      setIsGetError
+    );
   });
   return client;
 }
 // 지하철 구독
-function subscribeStation(client, setStore, curStation) {
+function subscribeStation(client, setStore, curStation, setSubwayContentIdx) {
   if (curStation !== null) {
     client.subscribe(
       `/sub/stations/${curStation ? curStation.id : 1}`,
@@ -24,14 +38,31 @@ function subscribeStation(client, setStore, curStation) {
               };
             });
           }
+          // 현재 역의 지배자 변동
+          else if (payload.subType === "CHANGE_DOMINATOR") {
+            setStore((prev) => {
+              return {
+                ...prev,
+                locationData: {
+                  ...prev.locationData,
+                  current: {
+                    ...prev.locationData.current,
+                    dominator: payload.data,
+                  },
+                },
+              };
+            });
+          }
           // 지배자 확성기
           else if (payload.subType === "MESSAGE") {
             setStore((prev) => {
+              console.log(payload.data.message);
               return {
                 ...prev,
                 dominatorMsg: payload.data.message,
               };
             });
+            setSubwayContentIdx(2);
           }
         }
       }
@@ -40,23 +71,31 @@ function subscribeStation(client, setStore, curStation) {
   return client;
 }
 
-function subscribeUser(client, setStore, setUserData, setIsMatched) {
+function subscribeUser(
+  client,
+  setStore,
+  setUserData,
+  setIsMatched,
+  setIsObtainTitle,
+  setIsGetError
+) {
   client.subscribe("/user/queue", (message) => {
     const payload = JSON.parse(message.body);
 
     //현재 역 변동 & 역 정보
-    if (payload.type === "STATION" && payload.subType === "STATUS") {
-      setStore((prev) => {
-        return {
-          ...prev,
-          locationData: {
-            prev: prev.locationData.current,
-            current: payload.data.current,
-          },
-        };
-      });
+    if (payload.type === "STATION") {
+      if (payload.subType === "STATUS") {
+        setStore((prev) => {
+          return {
+            ...prev,
+            locationData: {
+              prev: prev.locationData.current,
+              current: payload.data.current,
+            },
+          };
+        });
+      }
     }
-
     // 수동 채굴 모음
     else if (payload.type === "MINING") {
       // 서류 종이 카운트
@@ -103,10 +142,10 @@ function subscribeUser(client, setStore, setUserData, setIsMatched) {
       }
       // 내 대표 칭호 변동
       else if (payload.subType === "MAIN_TITLE_UPDATE") {
-        setStore((prev) => {
+        setUserData((prev) => {
           return {
             ...prev,
-            changeTitle: payload.data,
+            title: { id: payload.data.id, name: payload.data.name },
           };
         });
       }
@@ -150,6 +189,12 @@ function subscribeUser(client, setStore, setUserData, setIsMatched) {
             gameResult: payload.data,
           };
         });
+      }
+    } else if (payload.type === "EXCEPTION") {
+      // 확성기 실패 -> 지배중인 역이 없습니다.
+      if (payload.subType === "NOT_DOMINATOR") {
+        // console.log(payload.data);
+        setIsGetError(true);
       }
     }
   });

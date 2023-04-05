@@ -13,11 +13,11 @@ public final class Constants {
     public static final int INTERVAL = 10;
 
     // 역
-    public static final int STATION_RANGE = 250;    // 역 범위(반지름) (meter)
+    public static final int STATION_RANGE = 10000;    // 역 범위(반지름) (meter)
     public static final Long ROOT_STATION_ID = -1L; // 루트 Station ID
 
     // 채굴
-    public static final int SELL_LIMIT = 100;   //수동 채굴 가능한 종이 개수
+    public static final int SELL_LIMIT = 30;   //수동 채굴 가능한 종이 개수
     public static final long AMOUNT_MANUAL_MINE = 100L; //수동 채굴 금액
     public static final long AMOUNT_AUTO_MINE = 100L;   //자동 채굴 금액
 

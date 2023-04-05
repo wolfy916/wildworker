@@ -43,6 +43,8 @@ function SubwayBoard(props) {
             <SubwayBoardFirstPart
               store={props.store}
               userData={props.userData}
+              subwayContentIdx={props.subwayContentIdx}
+              setSubwayContentIdx={props.setSubwayContentIdx}
               isFlashing={isFlashing}
             />
             {props.store.locationData.current != null ? (

@@ -9,14 +9,28 @@ function getUserInfo(payload) {
     })
       .then(({ status, data }) => {
         if (status === 200) {
-          payload.setFunc(data);
+          payload.setFunc((prev) => {
+            let titleName;
+            if (data.titleType === 0 && data.title.id !== -1) {
+              titleName = `${data.title.name}의 지배자`;
+            } else {
+              titleName = data.title.name;
+            }
+            return {
+              ...data,
+              title: {
+                ...data.title,
+                name: titleName,
+              },
+            };
+          });
           // data 예시
           // {
           //   characterType: 0;
           //   coin: 0;
           //   collectedPapers: 74;
           //   name: "rnjsxogud916@naver.com";
-          //   titleId: 0;
+          //   title: {id: -1, name: "x"};
           //   titleType: 0;
           // }
         }
@@ -54,13 +68,16 @@ function patchUserInfo(payload) {
     })
       .then(({ status, data }) => {
         if (status === 200) {
-          console.log("patchUserInfo 성공");
           getUserInfo({ setFunc: payload.setFunc });
         }
       })
       .catch((err) => {
-        console.log("patchUserInfo 실패");
+        console.log(err);
         console.log(err.response);
+        console.log(err.response.data);
+        if (err.response.status === 409) {
+          payload.setErrFunc(true);
+        }
       });
   }
 }
@@ -133,14 +150,7 @@ function getCoinLog(payload) {
     })
       .then(({ status, data }) => {
         if (status === 200) {
-          console.log("getCoinLog 성공", data);
           payload.setFunc.setMyCoinLogs(data);
-          payload.setFunc.setUserData((prev) => {
-            return {
-              ...prev,
-              coin: data.balance,
-            };
-          });
           // data 예시
           // {
           //   "balance": 1234,  -> 현재 잔액
