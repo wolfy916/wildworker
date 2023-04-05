@@ -6,6 +6,8 @@ import CoinHistory from "./CoinHistory";
 import Invest from "../detailsubway/Invest";
 import TitleGet from "./TitleGet";
 import DominatorMsg from "./DominatorMsg";
+import obtainTitle from "./obtainTitle";
+import ErrorMessage from "./ErrorMessage";
 
 function Modal(props) {
   const modalWidth = props.modalWidth;
@@ -20,6 +22,8 @@ function Modal(props) {
     Invest,
     TitleGet,
     DominatorMsg,
+    obtainTitle,
+    ErrorMessage,
   ][props.selectModalIdx];
 
   function modalCloseClick() {

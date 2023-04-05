@@ -12,13 +12,13 @@ function DominatorMsg(props) {
   const changeClickHandler = (e) => {
     setNewMsg(e.target.value);
     handleDominatorMsgClick();
-    props.setDominatorMsgModalClick(false);
+    props.setModalClick(false);
   };
 
   // 지배자 한마디 소켓 전송
   const handleDominatorMsgClick = (e) => {
     const message = JSON.stringify({ message: newMsg });
-    stompClient.send("/sub/station/{station-id}/message", {}, message);
+    stompClient.send("/sub/system/message", {}, message);
   };
 
   return (
