@@ -6,12 +6,13 @@ import CoinHistory from "./CoinHistory";
 import Invest from "../detailsubway/Invest";
 import TitleGet from "./TitleGet";
 import DominatorMsg from "./DominatorMsg";
-import obtainTitle from "./obtainTitle";
 
 function Modal(props) {
   const modalWidth = props.modalWidth;
   const modalHeight = props.modalHeight;
   const setModalClick = props.setModalClick;
+  const setTitleModalClick = props.setTitleModalClick;
+  const setDominatorMsgModalClick = props.setDominatorMsgModalClick;
   const selectContent = [
     NickName,
     Title,
@@ -19,12 +20,13 @@ function Modal(props) {
     Invest,
     TitleGet,
     DominatorMsg,
-    obtainTitle,
   ][props.selectModalIdx];
 
   function modalCloseClick() {
     if (props.selectModalIdx === 4) {
-      props.setTitleModalClick(false);
+      setTitleModalClick(false);
+    } else if (props.selectModalIdx === 5) {
+      setDominatorMsgModalClick(false);
     } else {
       setModalClick(false);
     }
@@ -35,8 +37,6 @@ function Modal(props) {
       const wrapTag = document.getElementsByClassName("modal-wrap")[0];
       wrapTag.style.width = `${width}%`;
       wrapTag.style.height = `${height}%`;
-      wrapTag.style.left = `${50 - width / 2}%`;
-      wrapTag.style.top = `${50 - height / 2}%`;
     }
     modalSet(modalWidth, modalHeight);
   }, [modalWidth, modalHeight]);
