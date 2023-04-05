@@ -34,7 +34,7 @@ function App() {
   const [isGetError, setIsGetError] = useState(false);
   const [subwayContentIdx, setSubwayContentIdx] = React.useState(0);
   const [nicknameErr, setNicknameErr] = useState(false);
-  
+
   // 유저 데이터
   const [userData, setUserData] = useState({
     characterType: 0,
@@ -200,10 +200,8 @@ function App() {
           (position) => {
             if (position.coords) {
               handleSendLocation({
-                // lat: position.coords.latitude,
-                // lon: position.coords.longitude,
-                lat: 37.5012964,
-                lon: 127.0396103,
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
               });
             }
           },
