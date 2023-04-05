@@ -17,12 +17,12 @@ public class MatchingResponse {
     private UserDto enemy;
     private int timeLimit;
 
-    public static MatchingResponse of(Match match, User enemy) {
+    public static MatchingResponse of(Match match, UserDto enemy) {
         return MatchingResponse.builder()
                 .id(match.getId())
                 .cost(match.getCost())
                 .runCost(match.getRunCost())
-                .enemy(UserDto.of(enemy))
+                .enemy(enemy)
                 .timeLimit(match.getTimeLimitSec())
                 .build();
     }
@@ -36,10 +36,10 @@ public class MatchingResponse {
         private String title;
         private int characterType;
 
-        public static UserDto of(User user) {
+        public static UserDto of(User user, TitleDto titleDto) {
             return UserDto.builder()
                     .name(user.getName())
-                    .title(user.getTitle().getName())
+                    .title(titleDto.getName())
                     .characterType(user.getCharacterId().ordinal())
                     .build();
         }
