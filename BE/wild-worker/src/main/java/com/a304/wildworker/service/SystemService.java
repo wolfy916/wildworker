@@ -17,6 +17,7 @@ import com.a304.wildworker.dto.response.common.StationType;
 import com.a304.wildworker.dto.response.common.WSBaseResponse;
 import com.a304.wildworker.exception.NotDominatorException;
 import com.a304.wildworker.exception.UserNotFoundException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -94,6 +95,9 @@ public class SystemService {
     private Station getStationFromLatLon(Location userLocation) {
         Station findStation = null;
         List<Station> stationList = stationRepository.findAll();
+
+        // TODO: 추후 삭제 (시연을 위해 멀티캠퍼스로부터 검색하도록 역순 정렬 & 역 범위 증가)
+        Collections.reverse(stationList);
 
         // 역과의 거리 계산
         for (Station station : stationList) {
