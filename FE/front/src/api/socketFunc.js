@@ -8,16 +8,30 @@ function connectSocket(
   setIsObtainTitle,
   setIsGetError
 ) {
-  client.connect({}, () => {
-    subscribeUser(
-      client,
-      setstore,
-      setUserData,
-      setIsMatched,
-      setIsObtainTitle,
-      setIsGetError
-    );
-  });
+  client.connect(
+    {},
+    () => {
+      subscribeUser(
+        client,
+        setstore,
+        setUserData,
+        setIsMatched,
+        setIsObtainTitle,
+        setIsGetError
+      );
+    },
+    () => {
+      connectSocket(
+        client,
+        setstore,
+        setUserData,
+        store,
+        setIsMatched,
+        setIsObtainTitle,
+        setIsGetError
+      );
+    }
+  );
   return client;
 }
 // 지하철 구독
