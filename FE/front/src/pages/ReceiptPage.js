@@ -1,11 +1,11 @@
-import * as React from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./ReceiptPage.css";
 
 function ReceiptPage(props) {
   const gameResultData = props.gameResultData;
   const setStore = props.setStore;
-  console.log(gameResultData);
+  // console.log(gameResultData);
   // const gameResultData = {
   //   isWinner: true,
   //   enemy: {
@@ -38,6 +38,7 @@ function ReceiptPage(props) {
         gameStart: null,
       };
     });
+    console.log(gameResultData);
     navigate("/main");
     console.log("go to mainPage");
   }
