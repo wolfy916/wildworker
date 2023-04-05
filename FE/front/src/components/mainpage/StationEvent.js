@@ -40,7 +40,6 @@ function StationEvent(props) {
   // useEffect를 사용하여 drop()을 한 번 실행
   React.useEffect(() => {
     const personLimit = stationEventObj[stationName].limit;
-
     // 수동 채굴 아이템 1개를 만드는 재귀 함수
     function humanObjectAppear() {
       // 재귀함수 중지 트리거
@@ -57,9 +56,10 @@ function StationEvent(props) {
       const MIN_DURATION = 13;
       const delay = Math.random() * 5;
       const heightPosition = Math.random() * 30;
+      const randomNumber = Math.floor(Math.random() * 2) + 1;
       humanObject.classList.add("human-object");
       humanObject.style.bottom = `${heightPosition}%`;
-      humanObject.style.animation = `humanObjectAppear ${MIN_DURATION}s linear`;
+      humanObject.style.animation = `humanObjectAppear${randomNumber} ${MIN_DURATION}s linear`;
       humanObject.style.animationDelay = `${delay}s`;
       humanObject.style.backgroundImage = `url(${randomValue})`;
       humanObject.style.zIndex = `${30 - Math.floor(heightPosition) + 1000}`;
@@ -77,7 +77,7 @@ function StationEvent(props) {
     // 함수를 반복문 횟수(아이템 개수 제한)만큼 호출
     function drop() {
       for (let index = 0; index < personLimit; index++) {
-        setTimeout(humanObjectAppear(), 5000 * Math.random() * index);
+        setTimeout(humanObjectAppear(), 5000 * index);
       }
     }
 

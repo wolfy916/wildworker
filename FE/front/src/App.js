@@ -193,8 +193,10 @@ function App() {
           (position) => {
             if (position.coords) {
               handleSendLocation({
-                lat: position.coords.latitude,
-                lon: position.coords.longitude,
+                // lat: position.coords.latitude,
+                // lon: position.coords.longitude,
+                lat: 37.5012964,
+                lon: 127.0396103,
               });
             }
           },
@@ -207,7 +209,7 @@ function App() {
         clearInterval(intervalId);
       };
     }
-  }, [isConnected, test]);
+  }, [isConnected]);
 
   // 위치 전송 백에게 전달하는 함수
   const handleSendLocation = (e) => {

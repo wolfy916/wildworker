@@ -8,11 +8,19 @@
   right: -18%;
   z-index: 1002;
 }
-@keyframes humanObjectAppear {
+@keyframes humanObjectAppear1 {
   from {
     transform: translateX(0%);
   }
   to {
     transform: translateX(-1200%);
+  }
+}
+@keyframes humanObjectAppear2 {
+  from {
+    transform: scaleX(-1) translateX(0%);
+  }
+  to {
+    transform: scaleX(-1) translateX(1200%);
   }
 }

@@ -10,7 +10,6 @@ function getUserInfo(payload) {
       .then(({ status, data }) => {
         if (status === 200) {
           payload.setFunc((prev) => {
-            console.log(data);
             let titleName;
             if (data.titleType === 0 && data.title.id !== -1) {
               titleName = `${data.title.name}의 지배자`;
