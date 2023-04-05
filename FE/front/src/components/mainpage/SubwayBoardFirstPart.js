@@ -57,7 +57,7 @@ function SubwayBoardFirstPart(props) {
   return (
     <div className="board-first-part" onClick={pageMoveClickHandler}>
       {props.store.locationData.current != null
-        ? contentList[props.setSubwayContentIdx]
+        ? contentList[props.subwayContentIdx]
         : coinContent}
     </div>
   );

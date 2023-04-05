@@ -237,6 +237,7 @@ function MainPage(props) {
             setIsToggled={setIsToggled}
             myCoinLogs={props.myCoinLogs}
             setMyCoinLogs={props.setMyCoinLogs}
+            setNicknameErr={props.setNicknameErr}
           />
         )}
         {props.isMatched && (
@@ -336,6 +337,17 @@ function MainPage(props) {
           store={props.store}
         />
       )}
+      {props.nicknameErr && (
+        <Modal
+          modalWidth={70}
+          modalHeight={30}
+          selectModalIdx={7}
+          selectErrorIdx={1}
+          setModalClick={props.setNicknameErr}
+          store={props.store}
+        />
+      )}
+
     </div>
   );
 }

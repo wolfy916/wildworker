@@ -23,6 +23,7 @@ function NickName(props) {
       characterType:
         mySelectGender === props.userData.characterType ? null : mySelectGender,
       setFunc: props.setUserData,
+      setErrFunc: props.setNicknameErr,
     };
     if (validate) {
       props.setModalClick((prev) => !prev);

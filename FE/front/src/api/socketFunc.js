@@ -61,8 +61,8 @@ function subscribeStation(client, setStore, curStation, setSubwayContentIdx) {
                 ...prev,
                 dominatorMsg: payload.data.message,
               };
-              setSubwayContentIdx(2);
             });
+            setSubwayContentIdx(2);
           }
         }
       }
@@ -142,10 +142,10 @@ function subscribeUser(
       }
       // 내 대표 칭호 변동
       else if (payload.subType === "MAIN_TITLE_UPDATE") {
-        setStore((prev) => {
+        setUserData((prev) => {
           return {
             ...prev,
-            changeTitle: payload.data,
+            title: { id: payload.data.id, name: payload.data.name },
           };
         });
       }

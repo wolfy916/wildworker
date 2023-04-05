@@ -33,7 +33,8 @@ function App() {
   const [isObtainTitle, setIsObtainTitle] = useState(false);
   const [isGetError, setIsGetError] = useState(false);
   const [subwayContentIdx, setSubwayContentIdx] = React.useState(0);
-
+  const [nicknameErr, setNicknameErr] = useState(false);
+  
   // 유저 데이터
   const [userData, setUserData] = useState({
     characterType: 0,
@@ -258,6 +259,8 @@ function App() {
                   setIsGetError={setIsGetError}
                   subwayContentIdx={subwayContentIdx}
                   setSubwayContentIdx={setSubwayContentIdx}
+                  nicknameErr={nicknameErr}
+                  setNicknameErr={setNicknameErr}
                 />
               }
             />
