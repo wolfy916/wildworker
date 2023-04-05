@@ -9,6 +9,7 @@ import myMap from "../asset/image/myMap.png";
 import hotMap from "../asset/image/hotMap.png";
 import current_point from "../asset/image/current_point.gif";
 import money from "../asset/image/money.gif";
+import sangjun from "../asset/image/sangjun.png";
 import "./SubwayMapPage.css";
 
 import { getMyInvestList } from "../api/Investment";
@@ -80,7 +81,7 @@ function SubwayMapPage(props) {
     navigate(`/map/detail`, { state: stationId });
   }
 
-  const PAGE_COUNT = 51;
+  const PAGE_COUNT = 52;
 
   const currentPointStyle = {
     position: "relative",
@@ -115,6 +116,8 @@ function SubwayMapPage(props) {
     }
   }, [props.myInvestList]);
 
+  const mulcam = 52;
+
   useEffect(() => {
     if (cnt === 2) {
       const photoMapTag = document.getElementsByName("photo-map")[0];
@@ -122,7 +125,6 @@ function SubwayMapPage(props) {
         const areaTag = document.createElement("area");
         areaTag.setAttribute("alt", "area");
         if (myStationList.includes(i)) {
-          // if (MY_STATION_LIST.includes(i)) {
           const currentPoint = document.createElement("div");
           const imgTag = document.createElement("img");
 
@@ -152,6 +154,20 @@ function SubwayMapPage(props) {
           currentPoint.appendChild(blinkAnimationStyle);
 
           // currentPoint.style.animation = "blink 1s linear infinite";
+          areaTag.appendChild(currentPoint);
+        }
+
+        if (mulcam === i) {
+          const currentPoint = document.createElement("div");
+          const imgTag = document.createElement("img");
+
+          imgTag.setAttribute("src", `${sangjun}`);
+          imgTag.style.width = "120%";
+          imgTag.style.position = "absolute";
+          imgTag.style.bottom = "10%";
+          imgTag.style.left = "-20%";
+          currentPoint.appendChild(imgTag);
+
           areaTag.appendChild(currentPoint);
         }
 

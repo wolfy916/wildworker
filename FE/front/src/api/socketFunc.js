@@ -86,8 +86,8 @@ function subscribeUser(client, setStore, setUserData, setIsMatched) {
         return {
           ...prev,
           coin: payload.data.balance,
-        }
-      })
+        };
+      });
     }
 
     // 칭호관련 모음

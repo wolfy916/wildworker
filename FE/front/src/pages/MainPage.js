@@ -314,7 +314,7 @@ function MainPage(props) {
       {dominatorMsgModalClick && (
         <Modal
           modalWidth={85}
-          modalHeight={75}
+          modalHeight={52}
           selectModalIdx={5}
           dominatorMsg={props.store.dominatorMsg}
           stompClient={props.stompClient}

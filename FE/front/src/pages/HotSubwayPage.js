@@ -16,8 +16,8 @@ function HotSubwayPage(props) {
   const [sortingOrder, setSortingOrder] = useState("investment");
 
   const sortingOptions = [
-    { value: "investment", label: "총 투자 금액" },
-    { value: "commission", label: "10분간 수수료" },
+    { value: "investment", label: "총 투자 금액순" },
+    { value: "commission", label: "10분간 수수료순" },
   ];
 
   function handleSortingChange(event) {

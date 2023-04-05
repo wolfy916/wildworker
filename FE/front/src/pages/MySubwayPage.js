@@ -16,8 +16,8 @@ function MySubwayPage(props) {
   const [sortingOrder, setSortingOrder] = useState("investment");
 
   const sortingOptions = [
-    { value: "investment", label: "나의 투자 금액" },
-    { value: "percent", label: "나의 지분율" },
+    { value: "investment", label: "나의 투자 금액순" },
+    { value: "percent", label: "나의 지분율순" },
     { value: "name", label: "이름순" },
   ];
 
