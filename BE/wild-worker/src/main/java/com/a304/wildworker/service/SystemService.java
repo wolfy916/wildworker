@@ -8,12 +8,20 @@ import com.a304.wildworker.domain.location.Location;
 import com.a304.wildworker.domain.station.Station;
 import com.a304.wildworker.domain.station.StationRepository;
 import com.a304.wildworker.domain.system.SystemData;
+import com.a304.wildworker.domain.user.User;
+import com.a304.wildworker.domain.user.UserRepository;
+import com.a304.wildworker.dto.request.DominatorMessage;
 import com.a304.wildworker.dto.response.StationInfoResponse;
 import com.a304.wildworker.dto.response.StationWithUserResponse;
+import com.a304.wildworker.dto.response.common.StationType;
+import com.a304.wildworker.dto.response.common.WSBaseResponse;
+import com.a304.wildworker.exception.NotDominatorException;
+import com.a304.wildworker.exception.UserNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -23,9 +31,12 @@ public class SystemService {
 
     private final StationRepository stationRepository;
     private final DominatorLogRepository dominatorLogRepository;
+    private final UserRepository userRepository;
     private final SystemData systemData;
 
     private final MiningService miningService;
+
+    private final SimpMessagingTemplate messagingTemplate;
 
     /* 유저의 현재 좌표를 기준으로 역 조회 후 진입이나 이탈 여부 판단 */
     public StationWithUserResponse checkUserLocation(ActiveUser user, Location userLocation) {
@@ -119,4 +130,29 @@ public class SystemService {
         return (rad * 180 / Math.PI);
     }
 
+    /* 지배자의 한마디 */
+    public void sendDominatorMessage(Long userId, DominatorMessage message) {
+        List<DominatorLog> dominateLogList = dominatorLogRepository.findByUserIdAndDominateStartTime(
+                userId, systemData.getNowBaseTimeString());
+
+        if (dominateLogList.isEmpty()) {
+            throw new NotDominatorException();
+        }
+
+        // 전할 메시지
+        WSBaseResponse<DominatorMessage> response = WSBaseResponse.station(StationType.MESSAGE)
+                .data(message);
+
+        for (DominatorLog log : dominateLogList) {
+            // 지배자의 메시지 브로드캐스트
+            messagingTemplate.convertAndSend("/sub/stations/" + log.getStation().getId(),
+                    response);
+        }
+
+    }
+
+    private User getUserOrElseThrow(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
+    }
 }

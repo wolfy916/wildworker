@@ -2,7 +2,8 @@ package com.a304.wildworker.exception.handler;
 
 import com.a304.wildworker.common.WebSocketUtils;
 import com.a304.wildworker.dto.response.common.WSBaseResponse;
-import com.a304.wildworker.exception.base.CustomException;
+import com.a304.wildworker.exception.base.RestCustomException;
+import com.a304.wildworker.exception.base.WSCustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,21 +26,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     @ResponseBody
-    public ResponseEntity<?> handleRestException(CustomException e) {
+    public ResponseEntity<?> handleRestException(RestCustomException e) {
         log.info("exception2: {}", e.getMessage());
         return ResponseEntity.status(e.getStatus()).body(e.getMessage());
     }
 
 
     @MessageExceptionHandler
-    @SendToUser("/queue")
-    public WSBaseResponse<?> handleWSException(CustomException e,
+    public void handleWSException(WSCustomException e,
             @Header("simpSessionId") String sessionId) {
         log.info("WS Exception: {} :from {}", e.getMessage(), sessionId);
-        messagingTemplate.convertAndSendToUser(sessionId, "/queue", WSBaseResponse.exception(e),
+        messagingTemplate.convertAndSendToUser(sessionId, "/queue",
+                WSBaseResponse.exception(e.getWsExceptionType(), e.getMessage()),
                 WebSocketUtils.createHeaders(sessionId));
-
-        return WSBaseResponse.exception(e);
     }
 
     @MessageExceptionHandler(MethodArgumentNotValidException.class)
