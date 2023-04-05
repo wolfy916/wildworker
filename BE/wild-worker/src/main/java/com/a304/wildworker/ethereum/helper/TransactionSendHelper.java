@@ -1,9 +1,9 @@
 package com.a304.wildworker.ethereum.helper;
 
+import com.a304.wildworker.ethereum.config.RootNonce;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -26,13 +26,15 @@ import org.web3j.utils.Numeric;
 @Component
 public class TransactionSendHelper {
 
+    private final RootNonce rootNonce;
     private final Web3j web3j;
     private final String senderAddress;
     private final TransactionManager transactionManager;
     private final Long chainId;
 
-    public TransactionSendHelper(Web3j web3j, Credentials root,
+    public TransactionSendHelper(RootNonce rootNonce, Web3j web3j, Credentials root,
             @Value("${web3.chain-id}") Long chainId) {
+        this.rootNonce = rootNonce;
         this.web3j = web3j;
         this.senderAddress = root.getAddress();
         this.chainId = chainId;
@@ -57,12 +59,8 @@ public class TransactionSendHelper {
         BigInteger baseFeePerGas = Numeric.decodeQuantity(block.getBaseFeePerGas());
         BigInteger amountUsed = baseFeePerGas; // TODO: 2023-03-23 값 조정 필요
 
-        EthSendTransaction ethSendTransaction = transactionManager.sendEIP1559Transaction(
-                chainId,
-                amountUsed,
-                baseFeePerGas,
-                gasLimit,
-                contractAddress,
+        EthSendTransaction ethSendTransaction = transactionManager.sendEIP1559Transaction(chainId,
+                amountUsed, baseFeePerGas, gasLimit, contractAddress,
                 FunctionEncoder.encode(function), null);
 
         return getTransactionReceipt(ethSendTransaction);
@@ -92,55 +90,48 @@ public class TransactionSendHelper {
      * @throws IOException
      */
     public CompletableFuture<TransactionReceipt> sendContractAsync(String contractAddress,
-            String fromAddress,
-            Function function)
-            throws IOException {
+            String fromAddress, Function function) throws IOException {
         log.info("transaction start");
         log.info("\tcontract : {}", contractAddress);
         log.info("\tsender : {}", fromAddress);
 
-        return getBlock().thenCombine(getNonce(fromAddress), (block, nonce) -> {
+        return getBlock().thenCompose(block -> {
             BigInteger gasLimit = block.getGasLimit();
             BigInteger baseFeePerGas = Numeric.decodeQuantity(block.getBaseFeePerGas());
             BigInteger amountUsed = baseFeePerGas; // TODO: 2023-03-23 값 조정 필요
 
-            try {
-                log.info("\t\ttransaction sending");
-                return web3j.ethSendTransaction(
-                                Transaction.createFunctionCallTransaction(
-                                        fromAddress,
-                                        nonce,
-                                        amountUsed,
-                                        gasLimit,
-                                        contractAddress,
-                                        FunctionEncoder.encode(function)
-                                ))
-                        .sendAsync()
-                        .thenApply(ethSendTransaction -> {
-                                    TransactionReceipt transactionReceipt;
-                                    try {
-                                        transactionReceipt = getTransactionReceipt(ethSendTransaction);
-                                        if (ethSendTransaction.hasError()) {
-                                            transactionReceipt = getDefaultTransactionReceipt(
-                                                    contractAddress, fromAddress, block, nonce,
-                                                    amountUsed, ethSendTransaction,
-                                                    ethSendTransaction.getError().getMessage());
-                                        }
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                        transactionReceipt = getDefaultTransactionReceipt(contractAddress,
-                                                fromAddress, block, nonce, amountUsed,
-                                                ethSendTransaction, e.getMessage());
+            log.info("\t\ttransaction sending");
+            return web3j.ethSendTransaction(
+                            Transaction.createFunctionCallTransaction(
+                                    fromAddress,
+                                    getNonce(),
+                                    amountUsed,
+                                    gasLimit,
+                                    contractAddress,
+                                    FunctionEncoder.encode(function)
+                            ))
+                    .sendAsync()
+                    .thenApply(ethSendTransaction -> {
+                                TransactionReceipt transactionReceipt;
+                                try {
+                                    transactionReceipt = getTransactionReceipt(ethSendTransaction);
+                                    if (ethSendTransaction.hasError()) {
+                                        transactionReceipt = getDefaultTransactionReceipt(
+                                                contractAddress, fromAddress, block, getNonce(),
+                                                amountUsed, ethSendTransaction,
+                                                ethSendTransaction.getError().getMessage());
                                     }
-                                    log.info("\t\ttransaction receipt : {}", transactionReceipt);
-                                    log.info("transaction end");
-                                    return transactionReceipt;
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    transactionReceipt = getDefaultTransactionReceipt(contractAddress,
+                                            fromAddress, block, getNonce(), amountUsed,
+                                            ethSendTransaction, e.getMessage());
                                 }
-                        ).get(); // TODO: 2023-03-27 내부 로직 수정 필요
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
+                                log.info("\t\ttransaction receipt : {}", transactionReceipt);
+                                log.info("transaction end");
+                                return transactionReceipt;
+                            }
+                    ); // TODO: 2023-03-27 내부 로직 수정 필요
         });
     }
 
@@ -173,6 +164,10 @@ public class TransactionSendHelper {
     private CompletableFuture<BigInteger> getNonce(String address) {
         return web3j.ethGetTransactionCount(address, DefaultBlockParameterName.LATEST).sendAsync()
                 .thenApply(EthGetTransactionCount::getTransactionCount);
+    }
+
+    private BigInteger getNonce() {
+        return this.rootNonce.getNonce();
     }
 
     /**
