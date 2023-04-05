@@ -26,18 +26,18 @@ function ReceiptPage(props) {
   //   },
   // };
 
-  setStore((prev) => {
-    // console.log(prev);
-    // console.log(prev.gameResult);
-    return {
-      ...prev,
-      gameResult: null,
-      gameStart: null,
-    };
-  });
   const navigate = useNavigate();
   function handleTouchStart(event) {
     // 다음 페이지로 이동하는 로직을 작성합니다.
+    setStore((prev) => {
+      // console.log(prev);
+      // console.log(prev.gameResult);
+      return {
+        ...prev,
+        gameResult: null,
+        gameStart: null,
+      };
+    });
     navigate("/main");
     console.log("go to mainPage");
   }
