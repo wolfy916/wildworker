@@ -43,7 +43,7 @@ function CalculationGame(props) {
     setValue("");
   }
 
-  const [timeLeft, setTimeLeft] = useState(300);
+  const [timeLeft, setTimeLeft] = useState(30);
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -116,6 +116,13 @@
   top: 10%;
   left: 8%;
 }
+.battle-dialog-next {
+  position: absolute;
+  top: 75%;
+  left: 8%;
+  font-size: 90%;
+  /* border: 1px black solid; */
+}
 
 p {
   font-family: galmuri9;

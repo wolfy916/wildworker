@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import BattleCharLoser from "../components/battle/battleCharLoser";
 import battleDialogImg from "../asset/image/battleTalk.png";
 import { useNavigate } from "react-router-dom";
@@ -9,8 +9,8 @@ import BattleCharType from "../components/battle/battlecharacterType";
 function ResultPage(props) {
   const matchingData = props.matchingData;
   const gameResultData = props.gameResultData;
-  // console.log(gameResultData);
   const userData = props.userData;
+  // console.log(gameResultData);
   // console.log(userData);
   // console.log(userData);
 
@@ -62,8 +62,9 @@ function ResultPage(props) {
   function handleTouchStart(event) {
     // 다음 페이지로 이동하는 로직을 작성합니다.
     navigate("/pvp/receipt");
-    console.log("go to receiptPage");
+    // console.log("go to receiptPage");
   }
+
   return (
     <div className="Pvp-Result">
       <div className="battle-result-1">
@@ -145,6 +146,8 @@ function ResultPage(props) {
           src={battleDialogImg}
           alt="battleDialogImg"
         />
+        <p className="battle-dialog-next">클릭해서 넘어가기</p>
+
         {/* 승리했을때 패배했을때 컴포넌트로 분리하기 */}
         {gameResultData ? (
           {

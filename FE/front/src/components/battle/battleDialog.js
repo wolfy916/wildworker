@@ -26,6 +26,7 @@ export default function BattleDialog(props) {
   const [loadingDot, setloadingDot] = useState("");
   const dotList = [".", "...", ".."];
   const [gameStartClock, setGameStartClock] = useState(true);
+  const [dialogNext, setDialogNext] = useState(true);
 
   //첫번째dialog를 클릭하면 sentenceIndex를 다음 값으로
   function handleClick() {
@@ -129,6 +130,7 @@ export default function BattleDialog(props) {
   function selectStartOrCancel() {
     setmsg("결투하기: -" + matchingData.cost + "원");
     setmsgCancel("도망가기: -" + matchingData.runCost + "원");
+    runDialogNext();
   }
   //결투와 도망에만 쓰이는 클릭버튼
   function msgClick() {
@@ -227,10 +229,19 @@ export default function BattleDialog(props) {
     setmsg("적이 도망쳤다!!");
     leftGameTime();
   }
+  function runDialogNext() {
+    setDialogNext(false);
+  }
 
   return (
     <div className="battleDialog">
       <img src={battleDialogImg} alt="battleDialogImg" />
+      {dialogNext ? (
+        <p className="battle-dialog-next">클릭해서 넘어가기</p>
+      ) : (
+        <p className="battle-dialog-next"></p>
+      )}
+
       <div className="battleDialog-talk" onClick={handleClick}>
         {/* <div>{sentences[index]}</div> */}
         <p className="battle-dialog-start" onClick={msgClick}>
