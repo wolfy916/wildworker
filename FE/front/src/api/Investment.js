@@ -33,7 +33,6 @@ function getStationRanking(payload) {
       }
     }).catch(err => {
       console.log("getStationRanking 실패");
-      console.log(err.response);
     });
   }
 }
@@ -73,7 +72,6 @@ function getStationStake(payload) {
       }
     }).catch(err => {
       console.log("getStationStake 실패");
-      console.log(err.response);
     });
   }
 }
@@ -90,7 +88,7 @@ function invest(payload) {
     })
       .then(({ status, data }) => {
         if (status === 200) {
-          payload.setFunc((prev) => {
+          payload.setFunc.setUserData((prev) => {
             return {
               ...prev,
               coin: prev.coin - payload.investment, 
@@ -99,8 +97,9 @@ function invest(payload) {
         }
       })
       .catch((err) => {
-        console.log("invest 실패");
-        console.log(err);
+        if (err.response.status === 400) {
+          payload.setFunc.setInvestErr(true);
+        };
       });
   }
 }
@@ -140,7 +139,6 @@ function getMyInvestList(payload) {
       })
       .catch((err) => {
         console.log("getMyInvestList 실패");
-        console.log(err.response);
       });
   }
 }

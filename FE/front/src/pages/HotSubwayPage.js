@@ -126,7 +126,7 @@ function HotSubwayPage(props) {
       {modalClick && (
         <Modal
           modalWidth={85}
-          modalHeight={75}
+          modalHeight={55}
           selectModalIdx={3}
           detailOrHot={1}
           setIsRetry={setIsRetry}
@@ -139,6 +139,7 @@ function HotSubwayPage(props) {
           }
           setModalClick={setModalClick}
           setUserData={props.setUserData}
+          setInvestErr={props.setInvestErr}
         />
       )}
     </div>
