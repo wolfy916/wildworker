@@ -34,6 +34,17 @@ function PvpPage(props) {
   //   collectedPapers: 1,
   // };
 
+  // 메인 페이지 여부 보내주기
+  const [isPvp, setIsPvp] = React.useState(true);
+
+  React.useEffect(() => {
+    if (isPvp) {
+      const message = JSON.stringify({ mainPage: false });
+      stompClient.send("/pub/minigame/mainpage", {}, message);
+      setIsPvp(false);
+    }
+  }, [stompClient]);
+
   return (
     <div className="PvpPageBg">
       <div className="battleCharacter1">
