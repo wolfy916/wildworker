@@ -1,6 +1,8 @@
 package com.a304.wildworker.domain.match;
 
+import com.a304.wildworker.exception.NoSuchMatchException;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
 import org.springframework.stereotype.Repository;
@@ -13,6 +15,10 @@ public class MatchRepository {
 
     public MatchRepository() {
         matchs = new ConcurrentHashMap<>();
+    }
+
+    public Match findById(String id) {
+        return Optional.ofNullable(matchs.get(id)).orElseThrow(() -> new NoSuchMatchException(id));
     }
 
     public Match save(Match match) {

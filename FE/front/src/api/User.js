@@ -37,7 +37,6 @@ function getUserInfo(payload) {
       })
       .catch((err) => {
         console.log("getUserInfo 실패");
-        console.log(err.response);
       });
   }
 }
@@ -72,9 +71,6 @@ function patchUserInfo(payload) {
         }
       })
       .catch((err) => {
-        console.log(err);
-        console.log(err.response);
-        console.log(err.response.data);
         if (err.response.status === 409) {
           payload.setErrFunc(true);
         }
@@ -106,7 +102,6 @@ function deleteUserInfo(payload) {
       })
       .catch((err) => {
         console.error("deleteUserInfo 실패");
-        console.log(err.response);
       });
   }
 }
@@ -150,7 +145,7 @@ function getCoinLog(payload) {
     })
       .then(({ status, data }) => {
         if (status === 200) {
-          payload.setFunc.setMyCoinLogs(data);
+          payload.setFunc(data);
           // data 예시
           // {
           //   "balance": 1234,  -> 현재 잔액
@@ -175,7 +170,6 @@ function getCoinLog(payload) {
       })
       .catch((err) => {
         console.log("getCoinLog 실패");
-        console.log(err.response);
       });
   }
 }

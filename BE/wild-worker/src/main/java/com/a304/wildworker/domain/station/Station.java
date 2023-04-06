@@ -41,4 +41,8 @@ public class Station extends BaseEntity {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public void changeCommission(long value) {
+        commission += value;
+    }
 }

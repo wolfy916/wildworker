@@ -13,7 +13,10 @@ function Invest(props) {
     const payload = {
       investment: userInput,
       stationId: props.stationId,
-      setFunc: props.setUserData,
+      setFunc: {
+        setUserData: props.setUserData,
+        setInvestErr: props.setInvestErr,
+      }
     };
     invest(payload);
     props.setModalClick((prev) => !prev);
@@ -24,7 +27,10 @@ function Invest(props) {
     const payload = {
       investment: userInput,
       stationId: props.selectedStationId,
-      setFunc: props.setUserData,
+      setFunc: {
+        setUserData: props.setUserData,
+        setInvestErr: props.setInvestErr,
+      }
     };
     invest(payload);
     props.setModalClick((prev) => !prev);

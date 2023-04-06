@@ -34,6 +34,7 @@ function App() {
   const [isGetError, setIsGetError] = useState(false);
   const [subwayContentIdx, setSubwayContentIdx] = React.useState(0);
   const [nicknameErr, setNicknameErr] = useState(false);
+  const [investErr, setInvestErr] = useState(false);
 
   // 유저 데이터
   const [userData, setUserData] = useState({
@@ -267,6 +268,16 @@ function App() {
               store={store}
             />
           )}
+          {investErr && (
+            <Modal
+              modalWidth={70}
+              modalHeight={30}
+              selectModalIdx={7}
+              selectErrorIdx={2}
+              setModalClick={setInvestErr}
+              userData={userData}
+            />
+          )}
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route
@@ -331,6 +342,7 @@ function App() {
                   stationStake={stationStake}
                   setStationStake={setStationStake}
                   setUserData={setUserData}
+                  setInvestErr={setInvestErr}
                 />
               }
             />
@@ -341,6 +353,7 @@ function App() {
                   stationStake={stationStake}
                   setStationStake={setStationStake}
                   setUserData={setUserData}
+                  setInvestErr={setInvestErr}
                 />
               }
             />

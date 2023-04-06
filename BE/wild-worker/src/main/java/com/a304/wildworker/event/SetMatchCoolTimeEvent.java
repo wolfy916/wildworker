@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor(staticName = "of")
-public class SetCoolTimeEvent implements DomainEvent {
+public class SetMatchCoolTimeEvent implements DomainEvent {
+
     private final ActiveUser user;
 }
