@@ -48,7 +48,7 @@ public class TransactionEventHandler {
                 break;
         }
         transactionLogService.create(type, station, user, value);
-        bankService.banking(type, station, user, Math.abs(value));
+        bankService.sendTransaction(type, station, user, Math.abs(value));
     }
 
 }
