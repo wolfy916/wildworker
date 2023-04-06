@@ -206,15 +206,15 @@
 .board-modal-wrap {
   display: none;
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 500px;
   padding: 50px;
-  height: 400px;
+  height: 300px;
   z-index: 1500;
   color: #eeeb31;
-  font-size: 4rem;
+  font-size: 5rem;
   font-weight: 1000;
   font-family: "galmuri9";
   -webkit-text-stroke: 0.5px rgb(0, 0, 0);

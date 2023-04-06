@@ -31,7 +31,7 @@ function SubwayBoard(props) {
 
   return (
     <div>
-      <div className="board-modal-wrap">코인획득!!</div>
+      <div className="board-modal-wrap">코인획득</div>
       <div className="subway-board-container">
         <div className="subway-board-ceiling"></div>
         <div className="subway-board-bridges">

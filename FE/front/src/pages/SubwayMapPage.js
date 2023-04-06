@@ -15,6 +15,7 @@ import "./SubwayMapPage.css";
 import { getMyInvestList } from "../api/Investment";
 
 function SubwayMapPage(props) {
+  const stompClient = props.stompClient;
   const [cnt, setCnt] = useState(0);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [myStationList, setMyStationList] = useState([]);
@@ -25,6 +26,8 @@ function SubwayMapPage(props) {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [previousZoomLevel, setPreviousZoomLevel] = useState(1);
   const [previousDistance, setPreviousDistance] = useState(0);
+
+  const [MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL] = [0.6, 1.4];
 
   function handleDoubleTouchMove(e) {
     if (e.touches.length === 2) {
@@ -38,13 +41,37 @@ function SubwayMapPage(props) {
         setPreviousZoomLevel(zoomLevel);
       } else {
         const delta = distance - previousDistance;
-        const newZoomLevel = previousZoomLevel + delta / 500;
+        let newZoomLevel = previousZoomLevel + delta / 500;
+        newZoomLevel = Math.max(
+          MIN_ZOOM_LEVEL,
+          Math.min(MAX_ZOOM_LEVEL, newZoomLevel)
+        ); // 범위 제한
+        setZoomLevel(newZoomLevel);
+        // 확대/축소 이외의 경우에만 setPosition 호출
         const mapElement = document.querySelector(".test");
         const rect = mapElement.getBoundingClientRect();
-        const x = (touch1.clientX + touch2.clientX) / 2 - rect.left;
-        const y = (touch1.clientY + touch2.clientY) / 2 - rect.top;
-        setZoomLevel(newZoomLevel);
-        setPosition({ x, y });
+        const centerX = (touch1.clientX + touch2.clientX) / 2;
+        const centerY = (touch1.clientY + touch2.clientY) / 2;
+
+        // 현재 중심점까지의 거리를 구합니다.
+        const distanceToCenterX = centerX - rect.width / 2;
+        const distanceToCenterY = centerY - rect.height / 2;
+        const distanceToCenter = Math.sqrt(
+          distanceToCenterX ** 2 + distanceToCenterY ** 2
+        );
+
+        // 현재 줌 레벨에서 화면 중심을 중심으로 확대/축소 했을 때,
+        // 중심점이 이동해야 할 거리를 계산합니다.
+        const newDistanceToCenter =
+          (distanceToCenter / zoomLevel) * newZoomLevel;
+        const ratio = newDistanceToCenter / distanceToCenter;
+        const deltaX = (centerX - rect.width / 2) * (ratio - 1);
+        const deltaY = (centerY - rect.height / 2) * (ratio - 1);
+        const x = position.x - deltaX;
+        const y = position.y - deltaY;
+        if (x < 60 && x > -350 && y < 100 && y > -610) {
+          setPosition({ x, y });
+        }
       }
     }
   }
@@ -63,8 +90,7 @@ function SubwayMapPage(props) {
       const touch = e.touches[0];
       const x = touch.pageX - startX;
       const y = touch.pageY - startY;
-
-      if (x < 350 && x > -520 && y < 180 && y > -610) {
+      if (x < 150 && x > -500 && y < 180 && y > -610) {
         setPosition({ x, y });
       }
     };
@@ -183,6 +209,17 @@ function SubwayMapPage(props) {
     }
   });
 
+  // 메인 페이지 여부 보내주기
+  const [isSubwayMap, setIsSubwayMap] = React.useState(true);
+
+  React.useEffect(() => {
+    if (isSubwayMap) {
+      const message = JSON.stringify({ isMainPage: false });
+      stompClient.send("/pub/minigame/mainpage", {}, message);
+      setIsSubwayMap(false);
+    }
+  }, [stompClient]);
+
   return (
     <div>
       <SubwayTime remainSec={remainSec} setRemainSec={setRemainSec} />
@@ -231,15 +268,15 @@ function SubwayMapPage(props) {
           <map name="photo-map"></map>
         </div>
       </div>
-        <Link className="map-router-my-btn" to="/map/mine">
-          <img src={myMap} alt="myMap" />
-        </Link>
-        <Link className="map-router-main-btn" to="/main">
-          <img src={goMain} alt="goMain" />
-        </Link>
-        <Link className="map-router-hot-btn" to="/map/hot">
-          <img src={hotMap} alt="hotMap" />
-        </Link>
+      <Link className="map-router-my-btn" to="/map/mine">
+        <img src={myMap} alt="myMap" />
+      </Link>
+      <Link className="map-router-main-btn" to="/main">
+        <img src={goMain} alt="goMain" />
+      </Link>
+      <Link className="map-router-hot-btn" to="/map/hot">
+        <img src={hotMap} alt="hotMap" />
+      </Link>
     </div>
   );
 }
