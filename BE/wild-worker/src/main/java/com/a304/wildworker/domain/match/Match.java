@@ -16,7 +16,7 @@ import com.a304.wildworker.event.MiniGameEndEvent;
 import com.a304.wildworker.event.MiniGameStartEvent;
 import com.a304.wildworker.event.common.Events;
 import com.a304.wildworker.exception.AlreadySendException;
-import com.a304.wildworker.exception.NotInMatchProgressException;
+import com.a304.wildworker.exception.NotInMatchStatusException;
 import com.a304.wildworker.exception.UserNotFoundException;
 import java.util.List;
 import java.util.Map;
@@ -64,34 +64,50 @@ public abstract class Match {
     public abstract long getCost();
 
     public ResultCode getResultCode() {
-        return ResultCode.NONE;     //TODO
+        if (this.status != MatchStatus.CANCEL && this.status != MatchStatus.RESULT) {
+            throw new NotInMatchStatusException(this.status, MatchStatus.RESULT);
+        }
+        if (this.status == MatchStatus.CANCEL) {
+            return ResultCode.NONE;
+        }
+
+        Long winner = getWinner();
+        if (winner == null) {
+            return ResultCode.DRAW;
+        }
+        for (int i = 1; i <= users.size(); i++) {
+            if (users.get(i).getId().equals(winner)) {
+                return ResultCode.fromOrdinary(i);
+            }
+        }
+        return ResultCode.NONE;
     }
 
-    public void changeProgress(MatchStatus progress) {
-        this.status = progress;
-        switch (progress) {
+    public void changeStatus(MatchStatus status) {
+        this.status = status;
+        switch (status) {
             case MATCHING:
-                log.info("change game progress(MATCHING)");
+                log.info("change game status(MATCHING)");
                 Events.raise(MatchingSuccessEvent.of(this));
                 break;
             case CANCEL:
-                log.info("change game progress(CANCEL)");
+                log.info("change game status(CANCEL)");
                 Events.raise(MatchCancelEvent.of(this));
                 break;
             case MINIGAME_START:
-                log.info("change game progress(MINIGAME_START)");
+                log.info("change game status(MINIGAME_START)");
                 Events.raise(MiniGameStartEvent.of(this));
                 break;
             case RESULT:
-                log.info("change game progress(RESULT)");
+                log.info("change game status(RESULT)");
                 Events.raise(MiniGameEndEvent.of(this));
                 break;
         }
     }
 
-    private void checkProgress(MatchStatus request) {
+    private void checkStatus(MatchStatus request) {
         if (this.status != request) {
-            throw new NotInMatchProgressException(this.status, request);
+            throw new NotInMatchStatusException(this.status, request);
         }
     }
 
@@ -120,7 +136,7 @@ public abstract class Match {
     }
 
     public void addSelected(long userId, Duel selected) {
-        checkProgress(MatchStatus.SELECTING_START);
+        checkStatus(MatchStatus.SELECTING_START);
 
         if (this.selected.containsKey(userId)) {
             throw new AlreadySendException();
@@ -130,7 +146,7 @@ public abstract class Match {
 
     public void endSelectingProgress() {
         log.info("게임 진행 선택 완료 후처리 {}", selected.size());
-        checkProgress(MatchStatus.SELECTING_START);
+        checkStatus(MatchStatus.SELECTING_START);
         this.status = MatchStatus.SELECTING_END;
 
         for (User user : users) {
@@ -140,16 +156,16 @@ public abstract class Match {
         }
 
         if (decideDuel(getRunCode()) == Duel.DUEL) {
-            changeProgress(MatchStatus.MINIGAME_START);
+            changeStatus(MatchStatus.MINIGAME_START);
         } else {
-            changeProgress(MatchStatus.CANCEL);
+            changeStatus(MatchStatus.CANCEL);
         }
 
         Events.raise(MatchSelectEndEvent.of(this)); //pay run cost
     }
 
     public void addPersonalProgress(long userId, int progress) {
-        checkProgress(MatchStatus.MINIGAME_START);
+        checkStatus(MatchStatus.MINIGAME_START);
         if (this.personalProgress.containsKey(userId)) {
             throw new AlreadySendException();
         }
@@ -157,7 +173,7 @@ public abstract class Match {
     }
 
     public void endMiniGameProgress() {
-        checkProgress(MatchStatus.MINIGAME_START);
+        checkStatus(MatchStatus.MINIGAME_START);
         this.status = MatchStatus.MINIGAME_END;
 
         for (User user : users) {
@@ -166,7 +182,7 @@ public abstract class Match {
             }
         }
 
-        changeProgress(MatchStatus.RESULT);
+        changeStatus(MatchStatus.RESULT);
     }
 
     /////// for User ////
