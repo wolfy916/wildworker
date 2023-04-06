@@ -2,6 +2,7 @@ package com.a304.wildworker.domain.station;
 
 import com.a304.wildworker.domain.common.BaseEntity;
 import com.a304.wildworker.domain.location.Location;
+import com.a304.wildworker.exception.NotEnoughBalanceException;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -43,6 +44,9 @@ public class Station extends BaseEntity {
     }
 
     public void changeCommission(long value) {
+        if (commission + value < 0) {
+            throw new NotEnoughBalanceException();
+        }
         commission += value;
     }
 }

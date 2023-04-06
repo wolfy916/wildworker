@@ -97,6 +97,9 @@ public class User extends BaseEntity {
     }
 
     public Long changeBalance(Long value) {
+        if (this.balance + value < 0) {
+            throw new NotEnoughBalanceException();
+        }
         return this.balance += value;
     }
 }
