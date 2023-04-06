@@ -158,7 +158,7 @@ function DetailSubwayPage(props) {
       {modalClick && (
         <Modal
           modalWidth={85}
-          modalHeight={75}
+          modalHeight={55}
           selectModalIdx={3}
           detailOrHot={0}
           stationId={location.state}
@@ -171,6 +171,7 @@ function DetailSubwayPage(props) {
           setUserData={props.setUserData}
           setCnt={setCnt}
           setIsRetry={setIsRetry}
+          setInvestErr={props.setInvestErr}
         />
       )}
     </div>

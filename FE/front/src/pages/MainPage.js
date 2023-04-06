@@ -106,13 +106,13 @@ function MainPage(props) {
 
   React.useEffect(() => {
     if (isReady) {
-      if (coinCnt < 30) {
+      if (coinCnt < 29) {
         setIsEnough(false);
         handleGetCnt();
-      } else if (coinCnt === 30) {
+      } else if (coinCnt === 29) {
         setIsEnough(true);
         handleGetCnt();
-      } else if (coinCnt > 30) {
+      } else if (coinCnt > 29) {
         setIsEnough(true);
       }
     }

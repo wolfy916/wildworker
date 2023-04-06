@@ -26,7 +26,11 @@
   font-family: galmuri9;
   font-size: large;
 }
-.battle-dialog-start {
+.battle-dialog-next {
+  position: absolute;
+  top: 75%;
+  left: 8%;
+  font-size: 90%;
   /* border: 1px black solid; */
 }
 

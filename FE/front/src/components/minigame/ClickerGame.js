@@ -9,7 +9,7 @@ function ClickerGame(props) {
   const stompClient = props.stompClient;
   const [moles, setMoles] = useState(MOLE_INITIAL_STATE);
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(200);
+  const [timeLeft, setTimeLeft] = useState(300);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,23 +21,19 @@ function ClickerGame(props) {
     }
     if (timeLeft === 0) {
       // stomClient Send보내기
-      // const result = {
-      //   result: score,
-      // };
-      // const message = JSON.stringify(result);
-      // stompClient.send(
-      //   // `/stations/${stationId}/minigame/${gameId}/progress`,
-      //   {},
-      //   message
-      // );
+      const result = {
+        result: score,
+      };
+      const message = JSON.stringify(result);
+      stompClient.send("/pub/minigame/progress", {}, message);
       navigate("/pvp/result");
     }
   }, [timeLeft, score, stompClient]);
 
   function handleMoleClick(index, event) {
-    console.log(event);
-    console.log(event.pageX);
-    console.log(event.pageY);
+    // console.log(event);
+    // console.log(event.pageX);
+    // console.log(event.pageY);
 
     if (moles[index]) {
       setScore(score + 1);

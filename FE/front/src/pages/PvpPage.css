@@ -16,8 +16,8 @@
 }
 
 .battleCharacter1 > p {
-  margin-top: 32%;
-  margin-left: 6%;
+  margin-top: 28%;
+  margin-left: 7%;
   position: absolute;
   /* border: 1px solid blue; */
 }
@@ -43,8 +43,8 @@
 }
 
 .battleCharacter2 > p {
-  margin-top: 32%;
-  left: 5%;
+  margin-top: 28%;
+  left: 6%;
   position: absolute;
   transform: scaleX(-1);
   text-align: right;

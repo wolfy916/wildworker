@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../minigame/CalGame.css";
 
 function CalculationGame(props) {
@@ -38,13 +38,12 @@ function CalculationGame(props) {
       setScore(score + 1);
       setcurrentMoney(value);
     }
-    // setNum1(value);
     setcurrentFoodValue(String(Math.floor(Math.random() * 100) + "00"));
     setCurrentFood(food[Math.floor(Math.random() * 12)]);
     setValue("");
   }
 
-  const [timeLeft, setTimeLeft] = useState(3);
+  const [timeLeft, setTimeLeft] = useState(30);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,16 +56,11 @@ function CalculationGame(props) {
 
   useEffect(() => {
     if (timeLeft === 0) {
-      // handleFinishGame({result:'맞춘갯수'})
-      // const result = {
-      //   result: score,
-      // };
-      // const message = JSON.stringify(result);
-      // stompClient.send(
-      //   // `/stations/${stationId}/minigame/${gameId}/progress`,
-      //   {},
-      //   message
-      // );
+      const result = {
+        result: score,
+      };
+      const message = JSON.stringify(result);
+      stompClient.send("/pub/minigame/progress", {}, message);
       navigate("/pvp/result");
     }
   }, [timeLeft, navigate, score, stompClient]);
@@ -86,7 +80,6 @@ function CalculationGame(props) {
         </div>
         <div className="minigame-cal-money-value">= {value}원</div>
       </div>
-      {/* <p>You selected: {value}</p> */}
       <div className="minigame-cal-select">
         <div className="minigame-cal-select-number">
           {["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"].map((a, i) => {

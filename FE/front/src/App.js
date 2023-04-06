@@ -34,6 +34,7 @@ function App() {
   const [isGetError, setIsGetError] = useState(false);
   const [subwayContentIdx, setSubwayContentIdx] = React.useState(0);
   const [nicknameErr, setNicknameErr] = useState(false);
+  const [investErr, setInvestErr] = useState(false);
 
   // 유저 데이터
   const [userData, setUserData] = useState({
@@ -151,9 +152,9 @@ function App() {
     getTitle: "쫄보",
     changeTitle: {},
     matching: {},
-    gameStart: {},
+    gameStart: null,
     gameCancel: {},
-    gameResult: {},
+    gameResult: null,
   });
   // 소켓 인스턴스 생성하고, 상태관리에 넣음
   const [stompClient, setStompClient] = useState({});
@@ -285,6 +286,16 @@ function App() {
               store={store}
             />
           )}
+          {investErr && (
+            <Modal
+              modalWidth={70}
+              modalHeight={30}
+              selectModalIdx={7}
+              selectErrorIdx={2}
+              setModalClick={setInvestErr}
+              userData={userData}
+            />
+          )}
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route
@@ -350,6 +361,7 @@ function App() {
                   stationStake={stationStake}
                   setStationStake={setStationStake}
                   setUserData={setUserData}
+                  setInvestErr={setInvestErr}
                 />
               }
             />
@@ -360,6 +372,7 @@ function App() {
                   stationStake={stationStake}
                   setStationStake={setStationStake}
                   setUserData={setUserData}
+                  setInvestErr={setInvestErr}
                 />
               }
             />
@@ -390,12 +403,18 @@ function App() {
                 <PvpResultPage
                   gameResultData={store.gameResult}
                   userData={userData}
+                  matchingData={store.matching}
                 />
               }
             />
             <Route
               path="/pvp/receipt"
-              element={<PvpReceipPage gameResultData={store.gameResult} />}
+              element={
+                <PvpReceipPage
+                  gameResultData={store.gameResult}
+                  setStore={setStore}
+                />
+              }
             />
           </Routes>
         </Box>

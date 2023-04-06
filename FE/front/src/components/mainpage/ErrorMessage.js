@@ -2,8 +2,8 @@ import * as React from "react";
 import "./ErrorMessage.css";
 
 function ErrorMessage(props) {
-  const errFirstSentenceList = ["지배자가 아닌 사람은", "중복된 닉네임은"];
-  const errSecondSentenceList = ["사용할 수 없어요.", "사용할 수 없어요."];
+  const errFirstSentenceList = ["지배자가 아닌 사람은", "중복된 닉네임은", "돈이 부족해요."];
+  const errSecondSentenceList = ["사용할 수 없어요.", "사용할 수 없어요.", `현재 잔액: ${props.userData.coin.toLocaleString("ko-KR")}원`];
   return (
     <div
       className="error-message-container"

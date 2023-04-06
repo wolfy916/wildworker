@@ -8,7 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "mini_game")
 public class MiniGame extends BaseEntity {

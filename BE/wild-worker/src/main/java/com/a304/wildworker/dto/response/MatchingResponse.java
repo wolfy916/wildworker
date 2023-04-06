@@ -1,6 +1,5 @@
 package com.a304.wildworker.dto.response;
 
-import com.a304.wildworker.domain.common.CharacterType;
 import com.a304.wildworker.domain.match.Match;
 import com.a304.wildworker.domain.user.User;
 import lombok.Builder;
@@ -18,12 +17,12 @@ public class MatchingResponse {
     private UserDto enemy;
     private int timeLimit;
 
-    public static MatchingResponse of(Match match, User enemy) {
+    public static MatchingResponse of(Match match, UserDto enemy) {
         return MatchingResponse.builder()
                 .id(match.getId())
                 .cost(match.getCost())
                 .runCost(match.getRunCost())
-                .enemy(UserDto.of(enemy))
+                .enemy(enemy)
                 .timeLimit(match.getTimeLimitSec())
                 .build();
     }
@@ -35,13 +34,13 @@ public class MatchingResponse {
 
         private String name;
         private String title;
-        private CharacterType characterType;
+        private int characterType;
 
-        public static UserDto of(User user) {
+        public static UserDto of(User user, TitleDto titleDto) {
             return UserDto.builder()
                     .name(user.getName())
-                    .title("없음")        //TODO: title 수정
-                    .characterType(user.getCharacterId())
+                    .title(titleDto.getName())
+                    .characterType(user.getCharacterId().ordinal())
                     .build();
         }
     }

@@ -51,6 +51,12 @@ public class UserService {
     public UserResponse getUser(String email) {
         User user = Optional.of(userRepository.findByEmail(email)).get()
                 .orElseThrow(UserNotFoundException::new);
+        TitleDto titleDto = getTitleDto(user);
+
+        return UserResponse.of(user, titleDto);
+    }
+
+    public TitleDto getTitleDto(User user) {
         TitleDto titleDto = null;
 
         // 지배자 칭호인 경우
@@ -66,7 +72,7 @@ public class UserService {
             titleDto = TitleDto.of(getTitleOrElseThrow(user.getTitleId()));
         }
 
-        return UserResponse.of(user, titleDto);
+        return titleDto;
     }
 
     /* 회원정보 수정 */
