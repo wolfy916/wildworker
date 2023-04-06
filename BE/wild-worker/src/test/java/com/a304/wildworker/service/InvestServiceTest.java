@@ -68,7 +68,7 @@ public class InvestServiceTest {
             }
         }
 
-        investService.setDominatorFirstIfExistInRankList(dominator, dominatorInvestInfo, rankList, investInfoList, station);
+        investService.setDominatorFirstIfExistInRankList(dominator.getId(), dominatorInvestInfo, rankList, investInfoList, station);
 
         assertTrue(rankList.get(0).getName().equals(dominator.getName()));
     }
