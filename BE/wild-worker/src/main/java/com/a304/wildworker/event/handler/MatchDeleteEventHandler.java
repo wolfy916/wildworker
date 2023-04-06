@@ -33,7 +33,9 @@ public class MatchDeleteEventHandler {
         List<User> users = event.getMatch().getUsers();
         users.forEach(user -> {
             ActiveUser activeUser = activeUserService.getActiveUser(user.getId());
-            activeUser.setCurrentMatchId(null);
+            if (activeUser != null) {
+                activeUser.setCurrentMatchId(null);
+            }
         });
     }
 

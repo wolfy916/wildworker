@@ -46,13 +46,15 @@ public class SendMiniGameMessageHandler {
 
         match.getUsers().forEach(user -> {
             String sessionId = activeUserService.getSessionIdById(user.getId());
-            User enemy = match.getEnemy(user);
-            TitleDto enemyTitle = userService.getTitleDto(enemy);
-            UserDto enemyDto = UserDto.of(enemy, enemyTitle);
-            MatchingResponse data = MatchingResponse.of(match, enemyDto);
-            WSBaseResponse<MatchingResponse> response = WSBaseResponse.miniGame(
-                    MiniGameType.MATCHING).data(data);
-            messageService.sendToUser(sessionId, response);
+            if (sessionId != null) {
+                User enemy = match.getEnemy(user);
+                TitleDto enemyTitle = userService.getTitleDto(enemy);
+                UserDto enemyDto = UserDto.of(enemy, enemyTitle);
+                MatchingResponse data = MatchingResponse.of(match, enemyDto);
+                WSBaseResponse<MatchingResponse> response = WSBaseResponse.miniGame(
+                        MiniGameType.MATCHING).data(data);
+                messageService.sendToUser(sessionId, response);
+            }
         });
         match.changeStatus(MatchStatus.SELECTING_START);
     }
@@ -68,13 +70,14 @@ public class SendMiniGameMessageHandler {
         Match match = event.getMatch();
         match.getUsers().forEach(user -> {
             String sessionId = activeUserService.getSessionIdById(user.getId());
-            MatchCancelResponse data = MatchCancelResponse.of(match.isRunner(user.getId()));
-            WSBaseResponse<MatchCancelResponse> response =
-                    WSBaseResponse
-                            .miniGame(MiniGameType.CANCEL)
-                            .data(data);
-            messageService.sendToUser(sessionId, response);
-
+            if (sessionId != null) {
+                MatchCancelResponse data = MatchCancelResponse.of(match.isRunner(user.getId()));
+                WSBaseResponse<MatchCancelResponse> response =
+                        WSBaseResponse
+                                .miniGame(MiniGameType.CANCEL)
+                                .data(data);
+                messageService.sendToUser(sessionId, response);
+            }
         });
     }
 
@@ -90,10 +93,13 @@ public class SendMiniGameMessageHandler {
         match.getUsers().forEach(user -> {
             long userId = user.getId();
             String sessionId = activeUserService.getSessionIdById(userId);
-            MiniGameStartResponse data = MiniGameStartResponse.of(match.getMiniGame().getCode());
-            WSBaseResponse<MiniGameStartResponse> response =
-                    WSBaseResponse.miniGame(MiniGameType.START).data(data);
-            messageService.sendToUser(sessionId, response);
+            if (sessionId != null) {
+                MiniGameStartResponse data = MiniGameStartResponse.of(
+                        match.getMiniGame().getCode());
+                WSBaseResponse<MiniGameStartResponse> response =
+                        WSBaseResponse.miniGame(MiniGameType.START).data(data);
+                messageService.sendToUser(sessionId, response);
+            }
         });
     }
 
@@ -108,13 +114,15 @@ public class SendMiniGameMessageHandler {
         Match match = event.getMatch();
         match.getUsers().forEach(user -> {
             String sessionId = activeUserService.getSessionIdById(user.getId());
-            User enemy = match.getEnemy(user);
-            TitleDto enemyTitle = userService.getTitleDto(enemy);
-            UserDto enemyDto = UserDto.of(enemy, enemyTitle);
-            MiniGameResultResponse data = MiniGameResultResponse.of(match, user, enemyDto);
-            WSBaseResponse<MiniGameResultResponse> response = WSBaseResponse.miniGame(
-                    MiniGameType.RESULT).data(data);
-            messageService.sendToUser(sessionId, response);
+            if (sessionId != null) {
+                User enemy = match.getEnemy(user);
+                TitleDto enemyTitle = userService.getTitleDto(enemy);
+                UserDto enemyDto = UserDto.of(enemy, enemyTitle);
+                MiniGameResultResponse data = MiniGameResultResponse.of(match, user, enemyDto);
+                WSBaseResponse<MiniGameResultResponse> response = WSBaseResponse.miniGame(
+                        MiniGameType.RESULT).data(data);
+                messageService.sendToUser(sessionId, response);
+            }
         });
     }
 
