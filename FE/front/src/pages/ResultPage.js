@@ -59,7 +59,10 @@ function ResultPage(props) {
 
   function handleTouchStart(event) {
     // 다음 페이지로 이동하는 로직을 작성합니다.
-    navigate("/pvp/receipt");
+    if (gameResultData) {
+      navigate("/pvp/receipt");
+    }
+
     // console.log("go to receiptPage");
   }
 
@@ -152,6 +155,11 @@ function ResultPage(props) {
           src={battleDialogImg}
           alt="battleDialogImg"
         />
+        {gameResultData ? (
+          <p className="battle-dialog-next">클릭해서 넘어가기</p>
+        ) : (
+          <p className="battle-dialog-next"></p>
+        )}
         <p className="battle-dialog-next">클릭해서 넘어가기</p>
 
         {/* 승리했을때 패배했을때 컴포넌트로 분리하기 */}
