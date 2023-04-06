@@ -93,23 +93,23 @@ function App() {
 
   // 해당 역에 대한 지분 데이터
   const [stationStake, setStationStake] = useState({
-    stationName: null,
-    dominator: null,
+    stationName: "null",
+    dominator: "null",
     totalInvestment: 0,
     prevCommission: 0,
     currentCommission: 0,
     ranking: [
       {
-        rank: null,
-        name: null,
+        rank: 0,
+        name: "null",
         investment: 0,
-        percent: null,
+        percent: 0,
       },
     ],
     mine: {
-      rank: null,
+      rank: 0,
       investment: 0,
-      percent: null,
+      percent: 0,
     },
   });
 
