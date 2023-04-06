@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class DeleteMatchEventHandler {
+public class MatchDeleteEventHandler {
 
     private final ActiveUserService activeUserService;
     private final MatchService matchService;
