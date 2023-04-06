@@ -20,7 +20,7 @@ import lombok.Getter;
 @Getter
 public class DefaultMatch extends Match {
 
-    public static final int SELECT_TIME_LIMIT_SEC = 15;
+    public static final int SELECT_TIME_LIMIT_SEC = 12;
     public static final long DEFAULT_COST = -20;
     public static final long DEFAULT_RUN_COST = -5;
     private final League league;
