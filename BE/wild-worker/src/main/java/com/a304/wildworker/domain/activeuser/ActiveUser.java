@@ -66,7 +66,6 @@ public class ActiveUser implements Principal {
      */
     public void setSubscribed(boolean subscribed) {
         this.subscribed = subscribed;
-        this.matchable = subscribed;    //TODO
         setOrResetCoolTime();
     }
 
