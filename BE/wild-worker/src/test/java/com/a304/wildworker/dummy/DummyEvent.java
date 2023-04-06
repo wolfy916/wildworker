@@ -8,7 +8,7 @@ import com.a304.wildworker.event.MatchingSuccessEvent;
 public class DummyEvent {
 
     public static MatchingSuccessEvent getMatchingSuccessEvent() {
-        Match match = new DefaultMatch(null, League.LOW);
+        Match match = new DefaultMatch(null, 0, League.LOW);
         return MatchingSuccessEvent.of(match);
     }
 
