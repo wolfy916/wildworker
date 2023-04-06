@@ -41,7 +41,7 @@ export default function BattleDialog(props) {
   }, [sentenceIndex]);
 
   //게임 타이머
-  const [timeLeft, setTimeLeft] = useState(25);
+  const [timeLeft, setTimeLeft] = useState(12);
 
   //처음에 시간 받아서 설정
   useEffect(() => {
