@@ -6,7 +6,7 @@ import "./PvpPage.css";
 
 function PvpPage(props) {
   const matchingData = props.matchingData;
-  console.log(matchingData);
+  // console.log(matchingData);
   // const matchingData = {
   //   id: 1,
   //   cost: 20,

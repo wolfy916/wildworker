@@ -40,6 +40,15 @@
   margin-bottom: 14%;
   /* border: 1px solid blue; */
 }
+.battle-result-draw-p2 {
+  top: 3%;
+  width: 100%;
+  position: relative;
+  font-size: 200%;
+  color: black;
+  margin-bottom: 15%;
+  /* border: 1px solid blue; */
+}
 .battle-result-p3 {
   margin-top: 25%;
   width: 100%;
@@ -88,6 +97,15 @@
   margin-bottom: 48%;
   /* border: 1px solid blue; */
 }
+.battle-result2-draw-p2 {
+  top: 7.5%;
+  width: 100%;
+  position: relative;
+  font-size: 200%;
+  color: black;
+  margin-bottom: 48%;
+  /* border: 1px solid blue; */
+}
 .battle-result2-p3 {
   margin-top: 6%;
   width: 100%;
@@ -115,6 +133,13 @@
   position: absolute;
   top: 10%;
   left: 8%;
+}
+.battle-dialog-next {
+  position: absolute;
+  top: 75%;
+  left: 8%;
+  font-size: 90%;
+  /* border: 1px black solid; */
 }
 
 p {

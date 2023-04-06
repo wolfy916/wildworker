@@ -38,9 +38,9 @@ function ReceiptPage(props) {
         gameStart: null,
       };
     });
-    console.log(gameResultData);
+    // console.log(gameResultData);
     navigate("/main");
-    console.log("go to mainPage");
+    // console.log("go to mainPage");
   }
   return (
     <div className="receipt">
@@ -73,6 +73,7 @@ function ReceiptPage(props) {
             </p>
           </div>
           <p className="receipt-text-footer">야생의 직장인</p>
+          <p className="receipt-text-next">클릭해서 넘어가기</p>
         </div>
       </div>
     </div>
