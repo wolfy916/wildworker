@@ -128,8 +128,8 @@ export default function BattleDialog(props) {
     );
   }
   function selectStartOrCancel() {
-    setmsg("결투하기: -" + matchingData.cost + "원");
-    setmsgCancel("도망가기: -" + matchingData.runCost + "원");
+    setmsg("결투하기: " + matchingData.cost + "원");
+    setmsgCancel("도망가기: " + matchingData.runCost + "원");
     runDialogNext();
   }
   //결투와 도망에만 쓰이는 클릭버튼
