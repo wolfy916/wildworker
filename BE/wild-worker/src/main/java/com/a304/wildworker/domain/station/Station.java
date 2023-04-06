@@ -45,7 +45,7 @@ public class Station extends BaseEntity {
 
     public void changeCommission(long value) {
         if (commission + value < 0) {
-            throw new NotEnoughBalanceException();
+            throw new NotEnoughBalanceException(commission, value);
         }
         commission += value;
     }

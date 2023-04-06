@@ -18,6 +18,9 @@ public class MatchRepository {
     }
 
     public Match findById(String id) {
+        if (id == null) {
+            throw new NoSuchMatchException("");
+        }
         return Optional.ofNullable(matchs.get(id)).orElseThrow(() -> new NoSuchMatchException(id));
     }
 
