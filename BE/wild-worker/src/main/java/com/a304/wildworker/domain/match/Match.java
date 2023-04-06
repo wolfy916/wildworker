@@ -2,9 +2,11 @@ package com.a304.wildworker.domain.match;
 
 import com.a304.wildworker.domain.common.Duel;
 import com.a304.wildworker.domain.common.MatchStatus;
+import com.a304.wildworker.domain.common.PersonalWinCode;
 import com.a304.wildworker.domain.common.ResultCode;
 import com.a304.wildworker.domain.common.RunCode;
 import com.a304.wildworker.domain.match.strategy.DuelStrategy;
+import com.a304.wildworker.domain.match.strategy.WinnerStrategy;
 import com.a304.wildworker.domain.minigame.MiniGame;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.event.MatchCancelEvent;
@@ -24,7 +26,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 @AllArgsConstructor
 public abstract class Match {
@@ -35,12 +39,15 @@ public abstract class Match {
     protected final List<User> users;
     @Setter
     protected MiniGame miniGame;
+    protected double commissionRate;
     protected Map<Long, Duel> selected;  //게임 진행 선택(key: userId, value: 도망 여부) value - 0: fight, 1: run
     protected Map<Long, Integer> personalProgress;  //미니 게임 개인 과정
-    private MatchStatus status;
-    private double commissionRate;
+    protected MatchStatus status;
     @Setter
-    private DuelStrategy duelStrategy;
+    protected DuelStrategy duelStrategy;
+    @Setter
+    protected WinnerStrategy winnerStrategy;
+
 
     protected Match(String id, long stationId, List<User> users) {
         this.id = id;
@@ -60,34 +67,23 @@ public abstract class Match {
         return ResultCode.NONE;     //TODO
     }
 
-    private long getTotalCost() {
-        long totalCost = getCost() * users.size();
-        long totalRunCost = getRunCost() * Integer.bitCount(getRunCode().ordinal());
-        return totalCost + totalRunCost;
-    }
-
-    public long getCommission(long userId) {
-
-        return (long) Math.ceil(this.getTotalCost() * commissionRate / 100);
-    }
-
-    public long getReward(long userId) {
-        return getTotalCost() - getCommission(userId);
-    }
-
     public void changeProgress(MatchStatus progress) {
         this.status = progress;
         switch (progress) {
             case MATCHING:
+                log.info("change game progress(MATCHING)");
                 Events.raise(MatchingSuccessEvent.of(this));
                 break;
             case CANCEL:
+                log.info("change game progress(CANCEL)");
                 Events.raise(MatchCancelEvent.of(this));
                 break;
             case MINIGAME_START:
+                log.info("change game progress(MINIGAME_START)");
                 Events.raise(MiniGameStartEvent.of(this));
                 break;
             case RESULT:
+                log.info("change game progress(RESULT)");
                 Events.raise(MiniGameEndEvent.of(this));
                 break;
         }
@@ -133,6 +129,7 @@ public abstract class Match {
     }
 
     public void endSelectingProgress() {
+        log.info("게임 진행 선택 완료 후처리 {}", selected.size());
         checkProgress(MatchStatus.SELECTING_START);
         this.status = MatchStatus.SELECTING_END;
 
@@ -172,12 +169,27 @@ public abstract class Match {
         changeProgress(MatchStatus.RESULT);
     }
 
+    /////// for User ////
+
     public Long getWinner() {
-        return miniGame.getWinner(personalProgress);
+        return winnerStrategy.getWinner(personalProgress);
     }
 
+    public boolean isRunner(Long userId) {
+        return Optional.ofNullable(selected.get(userId)).orElse(Duel.RUN) == Duel.RUN;
+    }
 
-    /////// for User ////
+    public PersonalWinCode isWinner(long userId) {
+        Long winner = getWinner();
+        if (winner == null) {
+            return PersonalWinCode.DRAW;
+        } else if (winner == userId) {
+            return PersonalWinCode.WIN;
+        } else {
+            return PersonalWinCode.LOSE;
+        }
+    }
+
     public User getEnemy(User me) {
         int myIdx = users.indexOf(me);
         if (myIdx < 0) {
@@ -186,19 +198,39 @@ public abstract class Match {
         return users.get((myIdx + 1) % users.size());
     }
 
-    public boolean isRunner(Long userId) {
-        return Optional.ofNullable(selected.get(userId)).orElse(Duel.RUN) == Duel.RUN;
+    /**
+     * 사용자가 획득한 환급비(수수료 차감 전)
+     *
+     * @param userId
+     * @return >= 0
+     */
+    public long getReward(long userId) {
+        long cost = getCost();
+        switch (isWinner(userId)) {
+            case DRAW:
+                return -cost;
+            case WIN:
+                long totalCost = -cost * users.size();
+                long totalRunCost = -getRunCost() * Integer.bitCount(getRunCode().ordinal());
+                return totalCost + totalRunCost;
+        }
+        return 0;
     }
 
-    public boolean isWinner(long userId) {
-        return getWinner() == userId;
+    /**
+     * 환급비에서 제외될 수수료 금액
+     *
+     * @param userId
+     * @return <= 0
+     */
+    public long getCommission(long userId) {
+        if (isWinner(userId) == PersonalWinCode.WIN) {
+            return (long) -Math.ceil(this.getReward(userId) * commissionRate / 100);
+        }
+        return 0;
     }
 
     public long getRunCostById(long userId) {
         return isRunner(userId) ? this.getRunCost() : 0;
     }
-
-//    public long getRewardById(long userId, double commission) {
-//        return isWinner(userId) ? this.getReward(commission) : 0;
-//    }
 }

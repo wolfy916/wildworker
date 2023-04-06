@@ -1,7 +1,9 @@
 package com.a304.wildworker.domain.match;
 
+import com.a304.wildworker.common.Constants;
 import com.a304.wildworker.domain.common.League;
 import com.a304.wildworker.domain.match.strategy.DefaultDuelStrategy;
+import com.a304.wildworker.domain.match.strategy.MaximumInTwoPlayWinnerStrategy;
 import com.a304.wildworker.domain.user.User;
 import java.util.List;
 import java.util.UUID;
@@ -18,15 +20,17 @@ import lombok.Getter;
 @Getter
 public class DefaultMatch extends Match {
 
-    public static final int SELECT_TIME_LIMIT_SEC = 7;
-    public static final long DEFAULT_COST = 20;
-    public static final long DEFAULT_RUN_COST = 5;
+    public static final int SELECT_TIME_LIMIT_SEC = 10;
+    public static final long DEFAULT_COST = -20;
+    public static final long DEFAULT_RUN_COST = -5;
     private final League league;
 
     public DefaultMatch(List<User> users, long stationId, League league) {
         super(UUID.randomUUID().toString(), stationId, users);
         this.league = league;
         this.setDuelStrategy(new DefaultDuelStrategy());
+        this.winnerStrategy = new MaximumInTwoPlayWinnerStrategy();
+        this.commissionRate = Constants.COMMISSION_RATE;
     }
 
     @Override
