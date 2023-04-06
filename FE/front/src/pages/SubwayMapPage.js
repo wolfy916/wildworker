@@ -214,7 +214,7 @@ function SubwayMapPage(props) {
 
   React.useEffect(() => {
     if (isSubwayMap) {
-      const message = JSON.stringify({ isMainPage: false });
+      const message = JSON.stringify({ mainPage: false });
       stompClient.send("/pub/minigame/mainpage", {}, message);
       setIsSubwayMap(false);
     }
