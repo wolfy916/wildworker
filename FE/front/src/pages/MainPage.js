@@ -188,7 +188,7 @@ function MainPage(props) {
 
   React.useEffect(() => {
     if (isMain) {
-      const message = JSON.stringify({ isMainPage: true });
+      const message = JSON.stringify({ mainPage: true });
       stompClient.send("/pub/minigame/mainpage", {}, message);
       setIsMain(false);
     }
