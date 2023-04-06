@@ -129,9 +129,11 @@ public class InvestService {
                 stationId, systemData.getNowBaseTimeString());
 
         // 해당 역에 지배자가 있는 경우
-        User dominator = null;
+        String dominatorName = null;
+        Long dominatorId = -1L;
         if (dominatorLog.isPresent()) {
-            dominator = dominatorLog.get().getUser();
+            dominatorName = dominatorLog.get().getUser().getName();
+            dominatorId = dominatorLog.get().getUser().getId();
         }
 
         // 랭킹 세팅
@@ -141,8 +143,7 @@ public class InvestService {
             InvestmentRankResponse rankResponse = null;
 
             // 지배자 정보 저장
-            if (dominator != null &&
-                    dominator.getId().equals(entry.getKey())) {
+            if (dominatorId.equals(entry.getKey())) {
                 dominatorInvestInfo = entry;
             }
 
@@ -166,7 +167,7 @@ public class InvestService {
         }
 
         // 1위 금액 투자자 중 지배자가 있다면 랭킹 1위로 올림
-        setDominatorFirstIfExistInRankList(dominator, dominatorInvestInfo, rankList, investInfoList, station);
+        setDominatorFirstIfExistInRankList(dominatorId, dominatorInvestInfo, rankList, investInfoList, station);
 
         // 랭킹 번호 매기기
         for (int i = 0; i < rankList.size(); i++) {
@@ -175,7 +176,7 @@ public class InvestService {
 
         InvestmentInfoResponse response = InvestmentInfoResponse.builder()
                 .stationName(station.getName())
-                .dominator(dominator.getName())
+                .dominator(dominatorName)
                 .totalInvestment(station.getBalance())
                 .prevCommission(station.getPrevCommission())
                 .currentCommission(station.getCommission())
@@ -196,7 +197,7 @@ public class InvestService {
                 .build();
     }
 
-    public void setDominatorFirstIfExistInRankList(User dominator, Entry<Long, Long> dominatorInvestInfo, List<InvestmentRankResponse> rankList, List<Entry<Long, Long>> investInfoList, Station station){
+    public void setDominatorFirstIfExistInRankList(Long dominatorId, Entry<Long, Long> dominatorInvestInfo, List<InvestmentRankResponse> rankList, List<Entry<Long, Long>> investInfoList, Station station){
         if (isInInvestInfoList(dominatorInvestInfo)) {
             return;
         }
@@ -205,7 +206,7 @@ public class InvestService {
             return;
         }
 
-        int index = getIndexOfDominator(dominator, investInfoList);
+        int index = getIndexOfDominator(dominatorId, investInfoList);
         rankList.remove(index);
         rankList.add(0, getInvestmentRankResponse(dominatorInvestInfo, station));
     }
@@ -226,10 +227,10 @@ public class InvestService {
         return false;
     }
 
-    private int getIndexOfDominator(User dominator, List<Entry<Long, Long>> investInfoList) {
+    private int getIndexOfDominator(Long dominatorId, List<Entry<Long, Long>> investInfoList) {
         int index = 0;
         for (Entry<Long, Long> investInfo : investInfoList) {
-            if (investInfo.getKey().equals(dominator.getId())){
+            if (investInfo.getKey().equals(dominatorId)){
                 return index;
             }
             index++;
