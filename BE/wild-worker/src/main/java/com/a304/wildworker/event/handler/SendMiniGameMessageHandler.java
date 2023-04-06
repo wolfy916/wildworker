@@ -68,11 +68,13 @@ public class SendMiniGameMessageHandler {
         Match match = event.getMatch();
         match.getUsers().forEach(user -> {
             String sessionId = activeUserService.getSessionIdById(user.getId());
+            MatchCancelResponse data = MatchCancelResponse.of(match.isRunner(user.getId()));
             WSBaseResponse<MatchCancelResponse> response =
                     WSBaseResponse
                             .miniGame(MiniGameType.CANCEL)
-                            .data(MatchCancelResponse.of(match.isRunner(user.getId())));
+                            .data(data);
             messageService.sendToUser(sessionId, response);
+
         });
     }
 

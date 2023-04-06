@@ -17,6 +17,7 @@ public class ScheduleService {
     public ScheduledFuture<?> scheduleWithDelay(Runnable runnable, int delaySec) {
         int coolTime = delaySec * 1000;
         Date startTime = new Date(System.currentTimeMillis() + coolTime);
+        log.debug("schedule: {} {}", coolTime, startTime);
         return scheduler.schedule(runnable, startTime);
     }
 }

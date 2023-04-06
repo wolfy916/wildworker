@@ -24,8 +24,14 @@ public class EventService {
     }
 
     @EventPublish
-    public void endLimitTime(Match match) {
+    public void endMatchSelectLimitTime(Match match) {
         match.endSelectingProgress();
     }
+
+    @EventPublish
+    public void endMiniGameProgressLimitTime(Match match) {
+        match.endMiniGameProgress();
+    }
+
 
 }

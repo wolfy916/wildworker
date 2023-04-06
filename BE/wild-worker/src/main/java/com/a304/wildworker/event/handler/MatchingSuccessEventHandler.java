@@ -53,7 +53,7 @@ public class MatchingSuccessEventHandler {
         Match match = event.getMatch();
 
         scheduleService.scheduleWithDelay(
-                () -> eventService.endLimitTime(match),
+                () -> eventService.endMatchSelectLimitTime(match),
                 match.getTimeLimitSec() + Constants.SELECTING_DELAY_TIME);
     }
 }

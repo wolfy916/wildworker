@@ -1,9 +1,9 @@
 package com.a304.wildworker.dto.response;
 
+import com.a304.wildworker.domain.common.PersonalWinCode;
 import com.a304.wildworker.domain.match.Match;
 import com.a304.wildworker.domain.user.User;
 import com.a304.wildworker.dto.response.MatchingResponse.UserDto;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,10 +12,10 @@ import lombok.ToString;
 @Getter
 @ToString
 @AllArgsConstructor
-@Builder(access = AccessLevel.PROTECTED)
+@Builder
 public class MiniGameResultResponse {
 
-    private boolean winner;
+    private PersonalWinCode winner;
     private UserDto enemy;
     private ResultDto result;
     private ReceiptDto receipt;
@@ -27,7 +27,7 @@ public class MiniGameResultResponse {
                 match.getPersonalProgress().get(enemy.getId()));
         ReceiptDto receipt = ReceiptDto.of(match, me);
         return MiniGameResultResponse.builder()
-                .winner(match.getWinner().equals(me.getId()))
+                .winner(match.isWinner(me.getId()))
                 .enemy(enemyDto)
                 .result(result)
                 .receipt(receipt)
@@ -46,7 +46,7 @@ public class MiniGameResultResponse {
     @Getter
     @ToString
     @AllArgsConstructor
-    @Builder(access = AccessLevel.PROTECTED)
+    @Builder
     public static class ReceiptDto {
 
         private long cost;
@@ -56,12 +56,11 @@ public class MiniGameResultResponse {
         private long total;
 
         public static ReceiptDto of(Match match, User me) {
-            //TODO
             long cost = match.getCost();
             long runCost = match.getRunCostById(me.getId());
             long reward = match.getReward(me.getId());
             long commission = match.getCommission(me.getId());
-            long total = cost - runCost + reward;
+            long total = cost + runCost + reward + commission;
 
             return ReceiptDto.builder()
                     .cost(cost)
