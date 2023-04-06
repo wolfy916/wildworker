@@ -41,7 +41,7 @@ export default function BattleDialog(props) {
   }, [sentenceIndex]);
 
   //게임 타이머
-  const [timeLeft, setTimeLeft] = useState(12);
+  const [timeLeft, setTimeLeft] = useState(14);
 
   //처음에 시간 받아서 설정
   useEffect(() => {
@@ -119,12 +119,10 @@ export default function BattleDialog(props) {
     //첫 dialog
     // 적의 이름 띄워주기
     setmsg(
-      matchingData.enemy.title === "x"
-        ? ""
-        : matchingData.enemy.title +
-            " " +
-            matchingData.enemy.name +
-            "이 나타났다!!!!"
+      (matchingData.enemy.title === "x" ? "" : matchingData.enemy.title) +
+        " " +
+        matchingData.enemy.name +
+        "이 나타났다!!!!"
     );
   }
   function selectStartOrCancel() {
