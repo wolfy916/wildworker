@@ -320,7 +320,7 @@ function MainPage(props) {
           selectModalIdx={7}
           selectErrorIdx={0}
           setModalClick={props.setIsGetError}
-          useData={props.useData}
+          userData={props.userData}
           store={props.store}
         />
       )}
@@ -330,7 +330,7 @@ function MainPage(props) {
           modalHeight={30}
           selectModalIdx={7}
           selectErrorIdx={1}
-          useData={props.useData}
+          userData={props.userData}
           setModalClick={props.setNicknameErr}
           store={props.store}
         />
