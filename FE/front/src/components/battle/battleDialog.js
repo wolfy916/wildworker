@@ -119,7 +119,7 @@ export default function BattleDialog(props) {
     //첫 dialog
     // 적의 이름 띄워주기
     setmsg(
-      (matchingData.enemy.title === "x" ? "" : matchingData.enemy.title) +
+      (matchingData.enemy.title.name === "x" ? "" : matchingData.enemy.title.name) +
         " " +
         matchingData.enemy.name +
         "이 나타났다!!!!"
