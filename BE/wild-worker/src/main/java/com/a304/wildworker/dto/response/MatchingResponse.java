@@ -11,7 +11,6 @@ import lombok.ToString;
 @Builder
 public class MatchingResponse {
 
-    private String id;
     private long cost;
     private long runCost;
     private UserDto enemy;
@@ -19,7 +18,6 @@ public class MatchingResponse {
 
     public static MatchingResponse of(Match match, UserDto enemy) {
         return MatchingResponse.builder()
-                .id(match.getId())
                 .cost(match.getCost())
                 .runCost(match.getRunCost())
                 .enemy(enemy)

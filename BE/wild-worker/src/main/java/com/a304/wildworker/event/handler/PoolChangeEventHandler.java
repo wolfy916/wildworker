@@ -20,7 +20,7 @@ public class PoolChangeEventHandler {
     @EventPublish
     @EventListener
     public void makeMatch(PoolChangeEvent event) {
-        log.info("PoolChangeEvent raise: {}", event);
+        log.info("event: PoolChangeEvent: {}", event);
 
         matchService.makeMatch(event.getActiveStation());
     }
