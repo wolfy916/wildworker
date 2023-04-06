@@ -309,7 +309,7 @@ public class InvestService {
     }
 
     public int getPercent(Long allValue, Long myValue) {
-        return (int) (((double) myValue / allValue) * 100);
+        return (int)((((myValue * 100) * 1000) / allValue) / 1000);
     }
 
     /* 역 투자 */
@@ -403,8 +403,8 @@ public class InvestService {
             }
 
             // 지분율에 따라 수수료 정산
-            long userShare = (long) ((double) investment / station.getBalance()) * 1000;
-            long money = (userShare * station.getCommission()) / 1000;
+            long userShare = getPercent(station.getBalance(), investment);
+            long money = station.getCommission() * userShare / 100;
             user.changeBalance(money);
 
             // 코인 변동 이벤트 발생
