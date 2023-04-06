@@ -170,10 +170,10 @@ function subscribeUser(
       if (payload.subType === "MATCHING") {
         setStore((prev) => {
           let titleName;
-          if (payload.data.titleType === 0 && payload.data.title.id !== -1) {
-            titleName = `${payload.title.name}의 지배자`;
+          if (payload.data.enemy.titleType === 0 && payload.data.enemy.title.id !== -1) {
+            titleName = `${payload.data.enemy.title.name}의 지배자`;
           } else {
-            titleName = payload.title.name;
+            titleName = payload.data.enemy.title.name;
           }
           return {
             ...prev,
@@ -182,7 +182,7 @@ function subscribeUser(
               enemy: {
                 ...payload.data.enemy,
                 title: {
-                  id: payload.data.title.id,
+                  id: payload.data.enemy.title.id,
                   name: titleName,
                 }
               }
