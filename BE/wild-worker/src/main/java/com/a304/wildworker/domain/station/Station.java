@@ -26,7 +26,11 @@ public class Station extends BaseEntity {
     private Long prevCommission;
 
     public void invest(Long amount) {
-        this.balance += amount;
+        if (this.balance == null) {
+            this.balance = 0L;
+        } else {
+            this.balance += amount;
+        }
     }
 
     public void resetCommission() {

@@ -14,7 +14,7 @@ public class DefaultMatchTest {
 
     @Test
     void testCreateDefaultMatch() {
-        Match match = new DefaultMatch(List.of(), League.LOW);
+        Match match = new DefaultMatch(List.of(), 0, League.LOW);
         assertEquals(DefaultMatch.DEFAULT_COST, match.getCost());
         assertEquals(DefaultMatch.DEFAULT_RUN_COST, match.getRunCost());
     }
@@ -23,7 +23,7 @@ public class DefaultMatchTest {
     void testCreateDefaultMatchMiddleLeague() {
         int expectedCost = 200;
         int expectedRunCost = 50;
-        Match match = new DefaultMatch(List.of(), League.MIDDLE);
+        Match match = new DefaultMatch(List.of(), 0, League.MIDDLE);
         assertEquals(expectedCost, match.getCost());
         assertEquals(expectedRunCost, match.getRunCost());
     }
@@ -32,7 +32,7 @@ public class DefaultMatchTest {
     void testCreateDefaultMatchHighLeague() {
         int expectedCost = 2000;
         int expectedRunCost = 500;
-        Match match = new DefaultMatch(List.of(), League.HIGH);
+        Match match = new DefaultMatch(List.of(), 0, League.HIGH);
         assertEquals(expectedCost, match.getCost());
         assertEquals(expectedRunCost, match.getRunCost());
     }
@@ -41,7 +41,7 @@ public class DefaultMatchTest {
     void testCreateDefaultMatchTopLeague() {
         int expectedCost = 20000;
         int expectedRunCost = 5000;
-        Match match = new DefaultMatch(List.of(), League.TOP);
+        Match match = new DefaultMatch(List.of(), 0, League.TOP);
         assertEquals(expectedCost, match.getCost());
         assertEquals(expectedRunCost, match.getRunCost());
     }

@@ -116,37 +116,47 @@ public class InvestService {
         Station station = getStationOrElseThrow(stationId);
         ActiveStation activeStation = activeStationRepository.findById(station.getId());
         Map<Long, Long> investors = activeStation.getInvestors();
-
-        // 해당 역의 지배자 정보 조회
-        Optional<DominatorLog> dominator = dominatorLogRepository.findByStationIdAndDominateStartTime(
-                stationId, systemData.getNowBaseTimeString());
-
-        // 해당 역에 지배자가 있는 경우 이름 가져오기
-        String dominatorName = null;
-        if (dominator.isPresent()) {
-            dominatorName = dominator.get().getUser().getName();
-        }
+        final int RANK_LIMIT = 5;
 
         // 랭킹 정보
-        List<InvestmentRankResponse> rankList = new ArrayList<>(5);
+        List<InvestmentRankResponse> rankList = new ArrayList<>(RANK_LIMIT);
         InvestmentRankResponse mine = null;
-        List<Entry<Long, Long>> entryList = new ArrayList<>(investors.entrySet());
-        entryList.sort(Map.Entry.<Long, Long>comparingByValue().reversed());
+        List<Entry<Long, Long>> investInfoList = new ArrayList<>(investors.entrySet());
+        investInfoList.sort(Map.Entry.<Long, Long>comparingByValue().reversed());
 
+        // 해당 역의 지배자 정보 조회
+        Optional<DominatorLog> dominatorLog = dominatorLogRepository.findByStationIdAndDominateStartTime(
+                stationId, systemData.getNowBaseTimeString());
+
+        // 해당 역에 지배자가 있는 경우
+        User dominator = null;
+        if (dominatorLog.isPresent()) {
+            dominator = dominatorLog.get().getUser();
+        }
+
+        // 랭킹 세팅
         int rank = 1;
-        for (Map.Entry<Long, Long> entry : entryList) {
+        Entry<Long, Long> dominatorInvestInfo = null;
+        for (Map.Entry<Long, Long> entry : investInfoList) {
             InvestmentRankResponse rankResponse = null;
+
+            // 지배자 정보 저장
+            if (dominator != null &&
+                    dominator.getId().equals(entry.getKey())) {
+                dominatorInvestInfo = entry;
+            }
 
             // 5위까지 세팅
             if (rank <= 5) {
-                rankResponse = getInvestmentRankResponse(rank, entry, station);
+                rankResponse = getInvestmentRankResponse(entry, station);
                 rankList.add(rankResponse);
             }
 
             // 내 지분 정보
             if (entry.getKey().equals(userId)) {
                 if (rankResponse == null) {
-                    rankResponse = getInvestmentRankResponse(rank, entry, station);
+                    rankResponse = getInvestmentRankResponse(entry, station);
+                    rankResponse.setRank(rank);
                 }
 
                 mine = rankResponse;
@@ -155,9 +165,17 @@ public class InvestService {
             rank++;
         }
 
+        // 1위 금액 투자자 중 지배자가 있다면 랭킹 1위로 올림
+        setDominatorFirstIfExistInRankList(dominator, dominatorInvestInfo, rankList, investInfoList, station);
+
+        // 랭킹 번호 매기기
+        for (int i = 0; i < rankList.size(); i++) {
+            rankList.get(i).setRank(i+1);
+        }
+
         InvestmentInfoResponse response = InvestmentInfoResponse.builder()
                 .stationName(station.getName())
-                .dominator(dominatorName)
+                .dominator(dominator.getName())
                 .totalInvestment(station.getBalance())
                 .prevCommission(station.getPrevCommission())
                 .currentCommission(station.getCommission())
@@ -168,15 +186,56 @@ public class InvestService {
         return response;
     }
 
-    public InvestmentRankResponse getInvestmentRankResponse(int rank, Map.Entry<Long, Long> entry,
+    public InvestmentRankResponse getInvestmentRankResponse(Map.Entry<Long, Long> entry,
             Station station) {
         User user = getUserOrElseThrow(entry.getKey());
         return InvestmentRankResponse.builder()
-                .rank(rank)
                 .name(user.getName())
                 .investment(entry.getValue())
                 .percent(getPercent(station.getBalance(), entry.getValue()))
                 .build();
+    }
+
+    public void setDominatorFirstIfExistInRankList(User dominator, Entry<Long, Long> dominatorInvestInfo, List<InvestmentRankResponse> rankList, List<Entry<Long, Long>> investInfoList, Station station){
+        if (isInInvestInfoList(dominatorInvestInfo)) {
+            return;
+        }
+
+        if (isNotSameDominatorAmountAndRankFirstAmount(dominatorInvestInfo, rankList)) {
+            return;
+        }
+
+        int index = getIndexOfDominator(dominator, investInfoList);
+        rankList.remove(index);
+        rankList.add(0, getInvestmentRankResponse(dominatorInvestInfo, station));
+    }
+
+    private boolean isNotSameDominatorAmountAndRankFirstAmount(Entry<Long, Long> dominatorInvestInfo,
+            List<InvestmentRankResponse> rankList) {
+        Long dominatorAmount = dominatorInvestInfo.getValue();
+        if (!dominatorAmount.equals(rankList.get(0).getInvestment())) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isInInvestInfoList(Entry<Long, Long> dominatorInvestInfo) {
+        if (dominatorInvestInfo == null) {
+            return true;
+        }
+        return false;
+    }
+
+    private int getIndexOfDominator(User dominator, List<Entry<Long, Long>> investInfoList) {
+        int index = 0;
+        for (Entry<Long, Long> investInfo : investInfoList) {
+            if (investInfo.getKey().equals(dominator.getId())){
+                return index;
+            }
+            index++;
+        }
+
+        return -1;
     }
 
     /* 내가 투자한 역 목록 조회 */
