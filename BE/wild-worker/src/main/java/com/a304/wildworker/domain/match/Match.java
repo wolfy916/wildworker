@@ -75,9 +75,9 @@ public abstract class Match {
         if (winner == null) {
             return ResultCode.DRAW;
         }
-        for (int i = 1; i <= users.size(); i++) {
+        for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getId().equals(winner)) {
-                return ResultCode.fromOrdinary(i);
+                return ResultCode.fromOrdinary(i + 1);
             }
         }
         return ResultCode.NONE;

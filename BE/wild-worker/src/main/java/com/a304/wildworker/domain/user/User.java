@@ -91,14 +91,14 @@ public class User extends BaseEntity {
 
     public void invest(long amount) {
         if (this.balance < amount) {
-            throw new NotEnoughBalanceException();
+            throw new NotEnoughBalanceException(balance, amount);
         }
         this.balance -= amount;
     }
 
     public Long changeBalance(Long value) {
         if (this.balance + value < 0) {
-            throw new NotEnoughBalanceException();
+            throw new NotEnoughBalanceException(balance, value);
         }
         return this.balance += value;
     }
