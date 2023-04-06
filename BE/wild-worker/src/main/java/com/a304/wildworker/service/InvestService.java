@@ -309,6 +309,9 @@ public class InvestService {
     }
 
     public int getPercent(Long allValue, Long myValue) {
+        if (allValue.equals(0L)) {
+            return 0;
+        }
         return (int)((((myValue * 100) * 1000) / allValue) / 1000);
     }
 
