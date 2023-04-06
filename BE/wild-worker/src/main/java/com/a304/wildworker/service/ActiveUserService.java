@@ -3,6 +3,7 @@ package com.a304.wildworker.service;
 import com.a304.wildworker.domain.activeuser.ActiveUser;
 import com.a304.wildworker.domain.activeuser.ActiveUserRepository;
 import com.a304.wildworker.dto.request.MainPageRequest;
+import com.a304.wildworker.event.common.EventPublish;
 import com.a304.wildworker.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ public class ActiveUserService {
         return activeUserRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
+    @EventPublish
     public void setMatchableByMainPage(ActiveUser user, MainPageRequest mainPageRequest) {
         if (mainPageRequest.isMainPage()) {
             user.setMatchable(true);
