@@ -52,7 +52,7 @@ function PvpPage(props) {
         <BattleCharater characterType={userData.characterType} />
         {/* title type, id 있는데 어떻게 받아야 할지 프론트 논의필요 */}
         <p>
-          {userData.title.name}
+          {userData.title.name === "x" ? "" : userData.title.name}
           <br /> {userData.name}
         </p>
       </div>
