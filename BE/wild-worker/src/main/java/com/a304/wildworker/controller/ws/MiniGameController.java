@@ -1,8 +1,10 @@
 package com.a304.wildworker.controller.ws;
 
 import com.a304.wildworker.domain.activeuser.ActiveUser;
+import com.a304.wildworker.dto.request.MainPageRequest;
 import com.a304.wildworker.dto.request.MatchSelectRequest;
 import com.a304.wildworker.dto.request.MiniGameProgressRequest;
+import com.a304.wildworker.service.ActiveUserService;
 import com.a304.wildworker.service.MatchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Controller;
 public class MiniGameController {
 
     private final MatchService matchService;
+    private final ActiveUserService activeUserService;
 
     @MessageMapping("/select")
     public void select(@Header("simpUser") ActiveUser user, MatchSelectRequest select) {
@@ -31,5 +34,11 @@ public class MiniGameController {
             @Payload MiniGameProgressRequest request) {
         log.info("/minigame/progress: {}", request.getResult());
         matchService.personalProgress(user, request);
+    }
+
+    @MessageMapping("/mainpage")
+    public void getIsMainPage(@Header("simpUser") ActiveUser user,
+            @Payload MainPageRequest request) {
+        activeUserService.setMatchableByMainPage(user, request);
     }
 }
