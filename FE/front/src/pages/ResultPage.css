@@ -40,6 +40,15 @@
   margin-bottom: 14%;
   /* border: 1px solid blue; */
 }
+.battle-result-draw-p2 {
+  top: 3%;
+  width: 100%;
+  position: relative;
+  font-size: 200%;
+  color: black;
+  margin-bottom: 15%;
+  /* border: 1px solid blue; */
+}
 .battle-result-p3 {
   margin-top: 25%;
   width: 100%;
@@ -85,6 +94,15 @@
   position: relative;
   font-size: 200%;
   color: blue;
+  margin-bottom: 48%;
+  /* border: 1px solid blue; */
+}
+.battle-result2-draw-p2 {
+  top: 7.5%;
+  width: 100%;
+  position: relative;
+  font-size: 200%;
+  color: black;
   margin-bottom: 48%;
   /* border: 1px solid blue; */
 }
