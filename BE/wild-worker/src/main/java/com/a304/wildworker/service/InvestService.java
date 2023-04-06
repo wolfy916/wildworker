@@ -116,23 +116,38 @@ public class InvestService {
         Station station = getStationOrElseThrow(stationId);
         ActiveStation activeStation = activeStationRepository.findById(station.getId());
         Map<Long, Long> investors = activeStation.getInvestors();
-
-        // 해당 역의 지배자 정보 조회
-        Optional<DominatorLog> dominator = dominatorLogRepository.findByStationIdAndDominateStartTime(
-                stationId, systemData.getNowBaseTimeString());
-
-        // 해당 역에 지배자가 있는 경우 이름 가져오기
-        String dominatorName = null;
-        if (dominator.isPresent()) {
-            dominatorName = dominator.get().getUser().getName();
-        }
+        final int RANK_LIMIT = 5;
 
         // 랭킹 정보
-        List<InvestmentRankResponse> rankList = new ArrayList<>(5);
+        List<InvestmentRankResponse> rankList = new ArrayList<>(RANK_LIMIT);
         InvestmentRankResponse mine = null;
         List<Entry<Long, Long>> entryList = new ArrayList<>(investors.entrySet());
         entryList.sort(Map.Entry.<Long, Long>comparingByValue().reversed());
 
+        // 해당 역의 지배자 정보 조회
+        Optional<DominatorLog> dominatorLog = dominatorLogRepository.findByStationIdAndDominateStartTime(
+                stationId, systemData.getNowBaseTimeString());
+
+        // 해당 역에 지배자가 있는 경우
+        String dominatorName = null;
+        if (dominatorLog.isPresent()) {
+            User dominator = dominatorLog.get().getUser();
+
+            // 이름 가져오기
+            dominatorName = dominator.getName();
+
+            // 랭킹 1위로 미리 올리기
+            for (int i = 0, end = entryList.size(); i < end; i++) {
+                if (entryList.get(i).getKey().equals(dominator.getId())) {
+                    Entry<Long, Long> dominatorEntry = entryList.get(i);
+                    entryList.remove(i);
+                    entryList.add(0, dominatorEntry);
+                    break;
+                }
+            }
+        }
+        
+        // 랭킹 세팅
         int rank = 1;
         for (Map.Entry<Long, Long> entry : entryList) {
             InvestmentRankResponse rankResponse = null;
