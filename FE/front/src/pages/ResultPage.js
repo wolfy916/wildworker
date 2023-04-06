@@ -94,7 +94,7 @@ function ResultPage(props) {
             2: <p className="battle-result-lose-p2">패배</p>,
           }[gameResultData.winner]
         ) : (
-          <p className="battle-result-draw-p2">대기</p>
+          <p className="battle-result-draw-p2">대기중...</p>
         )}
 
         <div className="battle-result-p3">
@@ -141,7 +141,7 @@ function ResultPage(props) {
             0: <p className="battle-result2-draw-p2">무승부</p>,
           }[gameResultData.winner]
         ) : (
-          <p className="battle-result2-draw-p2">대기</p>
+          <p className="battle-result2-draw-p2">대기중...</p>
         )}
 
         <div className="battle-result2-p3">
@@ -160,8 +160,6 @@ function ResultPage(props) {
         ) : (
           <p className="battle-dialog-next"></p>
         )}
-        <p className="battle-dialog-next">클릭해서 넘어가기</p>
-
         {/* 승리했을때 패배했을때 컴포넌트로 분리하기 */}
         {gameResultData ? (
           {
