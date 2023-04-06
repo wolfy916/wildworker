@@ -14,7 +14,7 @@ public class BankService {
 
     private final Bank bank;
 
-    public void banking(TransactionType type, Station station, User user, long amount)
+    public void sendTransaction(TransactionType type, Station station, User user, long amount)
             throws Exception {
         switch (type) {
             case MINI_GAME_COST:
