@@ -54,7 +54,7 @@ public class SendMiniGameMessageHandler {
                     MiniGameType.MATCHING).data(data);
             messageService.sendToUser(sessionId, response);
         });
-        match.changeProgress(MatchStatus.SELECTING_START);
+        match.changeStatus(MatchStatus.SELECTING_START);
     }
 
     /**

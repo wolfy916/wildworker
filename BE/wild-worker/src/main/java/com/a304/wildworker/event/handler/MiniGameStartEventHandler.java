@@ -38,6 +38,7 @@ public class MiniGameStartEventHandler {
         MiniGameCode miniGameCode = match.getMiniGame().getCode();
         scheduleService.scheduleWithDelay(() -> eventService.endMiniGameProgressLimitTime(match),
                 Constants.SELECTING_DELAY_TIME
+                        + Constants.SELECTING_DELAY_TIME
                         + miniGameCode.getTimeLimit()
                         + Constants.SELECTING_DELAY_TIME);
     }
