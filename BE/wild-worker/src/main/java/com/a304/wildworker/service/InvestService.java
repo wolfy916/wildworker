@@ -403,7 +403,7 @@ public class InvestService {
             }
 
             // 지분율에 따라 수수료 정산
-            long userShare = (long) ((double) investment / station.getBalance()) * 1000;
+            long userShare = (long) (((double) investment / station.getBalance()) * 1000);
             long money = (userShare * station.getCommission()) / 1000;
             user.changeBalance(money);
 
