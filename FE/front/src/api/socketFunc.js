@@ -169,9 +169,24 @@ function subscribeUser(
       // 게임 매칭
       if (payload.subType === "MATCHING") {
         setStore((prev) => {
+          let titleName;
+          if (payload.data.enemy.titleType === 0 && payload.data.enemy.title.id !== -1) {
+            titleName = `${payload.data.enemy.title.name}의 지배자`;
+          } else {
+            titleName = payload.data.enemy.title.name;
+          }
           return {
             ...prev,
-            matching: payload.data,
+            matching: {
+              ...payload.data,
+              enemy: {
+                ...payload.data.enemy,
+                title: {
+                  id: payload.data.enemy.title.id,
+                  name: titleName,
+                }
+              }
+            },
           };
         });
         setIsMatched(true);

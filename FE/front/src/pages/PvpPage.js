@@ -52,7 +52,7 @@ function PvpPage(props) {
         <img src={battleDirection} alt="battleDirection" />
         <BattleCharater characterType={matchingData.enemy.characterType} />
         <p>
-          {matchingData.enemy.title === "x" ? "" : matchingData.enemy.title}{" "}
+          {matchingData.enemy.title.name === "x" ? "" : matchingData.enemy.title.name}{" "}
           <br />
           {matchingData.enemy.name}{" "}
         </p>

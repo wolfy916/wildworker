@@ -105,7 +105,7 @@ function ResultPage(props) {
       <div className="battle-result-2">
         {/* 적 */}
         <p className="battle-result2-p1">
-          {matchingData.enemy.title === "x" ? "" : matchingData.enemy.title}
+          {matchingData.enemy.title.name === "x" ? "" : matchingData.enemy.title.name}
           <br /> {matchingData.enemy.name}
         </p>
         <div className="battle-result2-char">
