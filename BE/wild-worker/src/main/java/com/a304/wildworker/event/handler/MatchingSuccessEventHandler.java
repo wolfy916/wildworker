@@ -34,7 +34,9 @@ public class MatchingSuccessEventHandler {
         List<User> users = match.getUsers();
         users.forEach(user -> {
             ActiveUser activeUser = activeUserService.getActiveUser(user.getId());
-            activeUser.setCurrentMatchId(match.getId());
+            if (activeUser != null) {
+                activeUser.setCurrentMatchId(match.getId());
+            }
         });
     }
 

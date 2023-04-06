@@ -26,7 +26,7 @@ public class SetMatchCoolTimeEventHandler {
     public void scheduleCoolTime(SetMatchCoolTimeEvent event) {
         ActiveUser activeUser = event.getUser();
         int coolTime = getRandomCoolTime();
-        log.debug("event occur: SetCoolTime - scheduleCoolTime - user {}, coolTime {}",
+        log.info("event occur: SetCoolTime - scheduleCoolTime - user {}, coolTime {}",
                 activeUser.getUserId(), coolTime);
         ScheduledFuture<?> scheduledFuture = scheduleService.scheduleWithDelay(
                 scheduledTaskForCoolTimeEnd(activeUser, activeUser.getStationId()),
