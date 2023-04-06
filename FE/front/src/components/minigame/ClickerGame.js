@@ -61,7 +61,7 @@ function ClickerGame(props) {
 
   function getCoinEffect(x, y) {
     const target = document.querySelector(".minigame-clicker-body");
-    console.log(x, y);
+    // console.log(x, y);
 
     // + 1 이펙트를 넣을 div Tag 생성 및 속성 설정
     const getClickerScoreEffectObject = document.createElement("div");
