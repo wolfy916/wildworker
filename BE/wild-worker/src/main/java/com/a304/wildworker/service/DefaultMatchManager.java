@@ -40,7 +40,7 @@ public class DefaultMatchManager {
                 }
 
                 Match match = new DefaultMatch(matchUsers, activeStation.getId(), league);
-                match.changeProgress(MatchStatus.MATCHING);
+                match.changeStatus(MatchStatus.MATCHING);
             }
         }));
     }
