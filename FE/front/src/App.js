@@ -209,6 +209,8 @@ function App() {
                 // lon: 126.923643,
                 // lat: 37.476536, //사당역
                 // lon: 126.981631,
+                // lat: 37.508815, //신도림역
+                // lon: 126.891222,
                 lat: position.coords.latitude,
                 lon: position.coords.longitude,
               });
@@ -256,7 +258,23 @@ function App() {
 
   return (
     <div id="App" className="App">
-      <div className="main-board-modal-wrap">지배자 강림</div>
+      <div className="main-board-modal-wrap">
+        <span>
+          {store.locationData.current
+            ? store.locationData.current.name
+            : "null"}
+          <br />
+          지배자
+        </span>
+        <br />
+        <span>
+          {store.locationData.current
+            ? store.locationData.current.dominator
+            : "null"}
+        </span>
+        <br />
+        <span>강림</span>
+      </div>
       <Container className="app-container" maxWidth="xs">
         <Box sx={{ height: "100vh" }}>
           {isObtainTitle && (
@@ -320,6 +338,7 @@ function App() {
                 <SubwayMapPage
                   myInvestList={myInvestList}
                   setMyInvestList={setMyInvestList}
+                  stompClient={stompClient}
                   store={store}
                 />
               }

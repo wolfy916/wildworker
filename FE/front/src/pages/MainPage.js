@@ -183,6 +183,16 @@ function MainPage(props) {
     setDominatorMsgModalClick(true);
   }
 
+  // 메인 페이지 여부 보내주기
+  const [isMain, setIsMain] = React.useState(true);
+
+  React.useEffect(() => {
+    if (isMain) {
+      const message = JSON.stringify({ isMainPage: true });
+      stompClient.send("/pub/minigame/mainpage", {}, message);
+      setIsMain(false);
+    }
+  }, [stompClient]);
 
   return (
     <div className="subway-background">
@@ -323,7 +333,6 @@ function MainPage(props) {
           store={props.store}
         />
       )}
-
     </div>
   );
 }
