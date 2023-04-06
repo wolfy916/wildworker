@@ -25,10 +25,12 @@ public class SetMatchCoolTimeEventHandler {
     @EventListener
     public void scheduleCoolTime(SetMatchCoolTimeEvent event) {
         ActiveUser activeUser = event.getUser();
-        log.info("event occur: SetCoolTime - scheduleCoolTime: {}", activeUser.getUserId());
+        int coolTime = getRandomCoolTime();
+        log.debug("event occur: SetCoolTime - scheduleCoolTime - user {}, coolTime {}",
+                activeUser.getUserId(), coolTime);
         ScheduledFuture<?> scheduledFuture = scheduleService.scheduleWithDelay(
                 scheduledTaskForCoolTimeEnd(activeUser, activeUser.getStationId()),
-                getRandomCoolTime());
+                coolTime);
         activeUser.setCoolTime(scheduledFuture);
     }
 
@@ -38,7 +40,7 @@ public class SetMatchCoolTimeEventHandler {
 
     public Runnable scheduledTaskForCoolTimeEnd(ActiveUser activeUser, Long stationId) {
         return () -> {
-            log.info("event occur: coolTimeEnd!: {}", activeUser.getUserId());
+            log.info("event: coolTimeEnd: user {}, station {}", activeUser.getUserId(), stationId);
             //동일한 역 && 매칭 가능한 상태 -> pool에 추가
             if (stationId.equals(activeUser.getStationId()) && activeUser.canMatching()) {
                 activeStationService.insertToStationPool(activeUser, stationId);
