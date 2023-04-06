@@ -33,14 +33,16 @@ public class MatchingResponse {
     public static class UserDto {
 
         private String name;
-        private String title;
         private int characterType;
+        private TitleDto title;
+        private int titleType;
 
-        public static UserDto of(User user, TitleDto titleDto) {
+        public static UserDto of(User user, TitleDto title) {
             return UserDto.builder()
                     .name(user.getName())
-                    .title(titleDto.getName())
                     .characterType(user.getCharacterId().ordinal())
+                    .titleType(user.getTitleShowType().ordinal())
+                    .title(title)
                     .build();
         }
     }
