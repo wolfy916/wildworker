@@ -209,10 +209,10 @@ function App() {
                 // lon: 126.92408165116801,
                 // lat: 37.476536, //사당역
                 // lon: 126.981631,
-                // lat: 37.508815, //신도림역
-                // lon: 126.891222,
-                lat: position.coords.latitude,
-                lon: position.coords.longitude,
+                lat: 37.508815, //신도림역
+                lon: 126.891222,
+                // lat: position.coords.latitude,
+                // lon: position.coords.longitude,
               });
             }
           },
