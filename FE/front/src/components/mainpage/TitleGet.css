@@ -1,0 +1,27 @@
+.current-investment-info{
+    text-align: start;
+    font-size: 1.2rem;
+    margin-top: 10%;
+}
+.title-get{
+    font-size: 1.7rem;
+    margin-top: 10%;
+}
+.title-get-img{
+    margin-top:20%;
+    width: 60%;
+}
+
+.title-check-btn{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.2rem;
+    margin-top: 10%;
+    padding: 5%;
+    height: 10%;
+    width: 30%;
+    background-color: white;
+    border: solid 3px black;
+    border-radius: 30px;
+}

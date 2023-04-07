@@ -1,0 +1,173 @@
+.receipt {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #abaaa7;
+  background-color: rgba(31, 46, 43, 1);
+}
+
+.receipt-backimg {
+  margin-top: 20%;
+  margin-left: -10%;
+  height: 90%;
+  width: 100%;
+  /* border: 1px black solid; */
+
+  background-image: url(../asset/image/receiptBackground.png);
+  background-size: 195%;
+  background-position: 33.5% 90%;
+  background-repeat: no-repeat;
+}
+.receipt-ticket {
+  /* border: 1px solid black; */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 10.5%;
+  top: 4.5%;
+  background-image: url(../asset/image/receipt.png);
+  background-size: 80%;
+  background-repeat: no-repeat;
+  z-index: 998;
+  animation: moveReceipt 1.2s linear alternate;
+}
+@keyframes moveReceipt {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+.receipt-whiteblock {
+  /* border: 1px solid black; */
+
+  position: absolute;
+  width: 100%;
+  height: 20%;
+  top: 89.5%;
+  background-color: rgba(31, 46, 43, 1);
+  z-index: 1002;
+}
+.receipt-back-text {
+  /* border: 1px solid black; */
+  position: absolute;
+  width: 100%;
+  height: 11%;
+  top: 40%;
+  left: 1.5%;
+  color: white;
+  font-family: galmuri9;
+  font-size: 160%;
+  z-index: 998;
+}
+.receipt-Img {
+  height: 100%;
+  width: 100%;
+}
+
+.receipt-text {
+  /* border: 1px black solid; */
+  position: relative;
+  height: 90%;
+  width: 75%;
+  animation: moveText 1.2s linear alternate;
+  z-index: 1001;
+}
+@keyframes moveText {
+  0% {
+    transform: translateY(120%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+.receipt-text-header {
+  margin-top: 15%;
+  /* border: 1px blue solid; */
+  font-size: 150%;
+  margin-left: 30%;
+  width: 80%;
+  height: 5%;
+  margin-bottom: 4%;
+}
+.receipt-text-main {
+  /* border: 1px blue solid; */
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  width: 50%;
+  margin-top: 20%;
+  margin-left: 40%;
+  /* flex-wrap: wrap; */
+}
+.receipt-text-main-left {
+  /* border: 1px red solid; */
+  margin-top: 1%;
+  margin-bottom: 4%;
+  /* width: 20%; */
+  font-size: 150%;
+  /* justify-content: space-around; */
+  margin-left: 18%;
+}
+.receipt-text-main-right {
+  /* border: 1px red solid; */
+  margin-top: 1%;
+  margin-bottom: 5%;
+  font-size: 120%;
+  /* justify-content: space-around; */
+  margin-left: 0%;
+  text-align: right;
+}
+
+.receipt-text-footer {
+  /* border: 1px blue solid; */
+  margin-left: 42%;
+  width: 60%;
+  margin-top: 12%;
+  font-size: 150%;
+}
+
+.receipt-text-main-total1 {
+  /* border: 1px red solid; */
+  margin-top: 4%;
+  margin-bottom: 1%;
+  /* width: 20%; */
+  /* justify-content: space-around; */
+  margin-left: 18%;
+  font-size: 150%;
+}
+
+.receipt-text-next {
+  position: absolute;
+  top: 85%;
+  left: 45%;
+  font-size: 90%;
+  /* border: 1px black solid; */
+}
+
+.receipt-text-main-total2 {
+  /* border: 1px red solid; */
+  margin-top: 0%;
+  margin-bottom: 1%;
+  /* width: 39%; */
+  /* justify-content: space-around; */
+  font-size: 120%;
+  margin-left: 0%;
+  text-align: right;
+  line-height: 200%;
+}
+.receipt-button-home {
+  /* border: 1px solid black; */
+  margin-top: 20%;
+}
+.p {
+  font-family: galmuri9;
+}
+
+@font-face {
+  font-family: "galmuri9";
+  src: url(/src/asset/font/Galmuri9.ttf);
+  font-weight: normal;
+  font-style: normal;
+}

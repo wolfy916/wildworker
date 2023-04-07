@@ -1,0 +1,116 @@
+.minigame-cal {
+  /* border: 1px black solid; */
+  width: 100%;
+  height: 100%;
+}
+
+.minigame-cal-Headline {
+  font-family: galmuri9;
+  margin-top: 10%;
+}
+.minigame-cal-timer {
+  font-family: galmuri9;
+  font-size: 200%;
+}
+.minigame-cal-score-board {
+  font-size: 100%;
+  width: 100%;
+  height: 25%;
+}
+.minigame-cal-currentmoney {
+  font-size: 130%;
+  border-bottom: 1px black solid;
+  text-align: right;
+  font-family: galmuri9;
+  width: 70%;
+  margin-left: 10%;
+}
+
+.minigame-cal-currentfood {
+  margin-left: 5%;
+  text-align: right;
+  margin-bottom: 1%;
+  width: 95%;
+  /* border: 1px solid black; */
+}
+.minigame-cal-money-value {
+  font-size: 130%;
+  /* border: 1px black solid; */
+  font-family: galmuri9;
+  text-align: right;
+  width: 60%;
+  margin-left: 20%;
+}
+.minigame-cal-select {
+  /* border: 1px purple solid; */
+  margin-top: -10%;
+  display: flex;
+  width: 100%;
+  height: 20%;
+}
+
+.minigame-cal-select-number {
+  width: 100%;
+  /* border: 1px blue solid; */
+}
+
+.minigame-cal-btn {
+  background-color: white;
+  margin-bottom: 0.5%;
+  font-family: galmuri9;
+  width: 20%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  border-radius: 10%;
+  font-size: 160%;
+}
+.minigame-cal-select-submit {
+  /* border: 1px purple solid; */
+  display: flex;
+  width: 100%;
+  height: 10%;
+  margin-top: 0.7%;
+}
+
+.minigame-cal-submit {
+  /* border: 1px red solid; */
+  background-color: white;
+  width: 50%;
+  height: 100%;
+}
+.minigame-cal-clear-btn {
+  background-color: white;
+  font-family: galmuri9;
+  width: 50%;
+  border-radius: 7%;
+  font-size: 130%;
+}
+.minigame-cal-submit-btn {
+  /* border: 1px black solid; */
+  background-color: white;
+  margin-left: 0%;
+  font-family: galmuri9;
+  width: 100%;
+  height: 100%;
+  font-size: 120%;
+  border-radius: 7%;
+}
+
+.minigame-cal-pixelart-crab {
+  background-image: url(../../asset/image/pixelartCrab.gif);
+  background-size: 100%;
+  height: 40%;
+  background-repeat: no-repeat;
+  /* border: 1px black solid; */
+}
+.minigame-cal-pixelart-metamong {
+  background-image: url(../../asset/image/pixelartMetamong.gif);
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 10%;
+  background-size: 34%;
+  height: 13%;
+  /* background-repeat: no-repeat; */
+  background-position: center;
+  /* border: 1px black solid; */
+}

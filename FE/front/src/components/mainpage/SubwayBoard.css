@@ -1,0 +1,221 @@
+.subway-board-container {
+  height: 27%;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  z-index: 1002;
+}
+.subway-board-ceiling {
+  box-sizing: border-box;
+  height: 10%;
+  width: 100%;
+  background: #ececec;
+  border: 5px solid #000000;
+  position: absolute;
+  top: 0 px;
+  z-index: 1002;
+  animation: smoothAppear 0.5s ease-in-out 0s 1 normal forwards;
+}
+.subway-board-bridges {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  position: absolute;
+  top: 8%;
+  height: 14%;
+  width: 100%;
+  z-index: 1001;
+}
+.subway-board-bridge {
+  box-sizing: border-box;
+  background: #ececec;
+  border: 5px solid #000000;
+  height: 100%;
+  width: 5%;
+  z-index: 1001;
+  animation: smoothAppear 1s ease-in-out 0s 1 normal forwards;
+}
+.subway-board-wrapper {
+  box-sizing: border-box;
+  height: 76%;
+  width: 90%;
+  background: #ececec;
+  border: 5px solid #000000;
+  border-radius: 40px;
+  position: absolute;
+  top: 20%;
+  margin: 0 5%;
+  z-index: 1002;
+  animation: smoothAppear 1s ease-in-out 0s 1 normal forwards;
+}
+.subway-board-screen {
+  box-sizing: border-box;
+  width: 94%;
+  height: 88%;
+  margin-top: 3%;
+  margin-left: 3%;
+  background: #000000;
+  border: 5px solid #000000;
+  border-radius: 30px;
+  z-index: 1002;
+  overflow: hidden;
+}
+.subway-board-grid {
+  box-sizing: border-box;
+  width: 94%;
+  height: 88%;
+  position: absolute;
+  top: 6%;
+  left: 3%;
+  border: 5px solid black;
+  border-radius: 30px;
+  background-size: 5px 5px;
+  background-image: linear-gradient(to right, black 1px, transparent 0px),
+    linear-gradient(to bottom, black 1px, transparent 0px);
+  opacity: 1;
+  z-index: 1003;
+}
+
+.board-second-part {
+  color: #86f55f;
+  box-sizing: border-box;
+  height: 35%;
+  font-size: 140%;
+  font-family: "galmuri9";
+  animation: slide 10s linear infinite;
+  animation-play-state: running;
+  white-space: nowrap;
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-200%);
+  }
+}
+
+.current-station {
+  font-family: "galmuri9";
+  color: #fec189;
+}
+
+@keyframes flicker-title {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #ff0000, 0 0 11px #ff0000, 0 0 19px #ff0000,
+      0 0 40px #ff0000;
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+
+@keyframes flicker-nickname {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #86f55f, 0 0 11px #86f55f, 0 0 19px #86f55f,
+      0 0 40px #86f55f;
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+
+@keyframes flicker-station {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #fec189, 0 0 11px #fec189, 0 0 19px #fec189,
+      0 0 40px #fec189;
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+
+@keyframes flicker-coin {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #eeeb31, 0 0 11px #eeeb31, 0 0 19px #eeeb31,
+      0 0 40px #eeeb31;
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+
+@keyframes smoothAppear {
+  0%,
+  50% {
+    transform: translateY(-200%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.flash {
+  animation: flash 1s infinite;
+}
+
+@keyframes flash {
+  0% {
+    color: #fff;
+    opacity: 0.5;
+  }
+  50% {
+    color: rgb(217, 255, 49);
+    opacity: 1;
+  }
+  100% {
+    color: #fff;
+    opacity: 0.5;
+  }
+}
+
+.board-modal-wrap {
+  display: none;
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  padding: 50px;
+  height: 300px;
+  z-index: 1500;
+  color: #eeeb31;
+  font-size: 5rem;
+  font-weight: 1000;
+  font-family: "galmuri9";
+  -webkit-text-stroke: 0.5px rgb(0, 0, 0);
+}

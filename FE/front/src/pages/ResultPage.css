@@ -1,0 +1,154 @@
+.Pvp-Result {
+  /* border: 1px black solid; */
+  height: 99%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.battle-result-1 {
+  /* border: 1px solid red; */
+  position: relative;
+  width: 49%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.battle-result-p1 {
+  margin-top: 40%;
+  width: 100%;
+  position: relative;
+  margin-bottom: 0%;
+  /* border: 1px solid blue; */
+}
+.battle-result-win-p2 {
+  top: 3%;
+  width: 100%;
+  position: relative;
+  font-size: 200%;
+  color: red;
+  margin-bottom: 15%;
+  /* border: 1px solid blue; */
+}
+.battle-result-lose-p2 {
+  top: 3%;
+  width: 100%;
+  position: relative;
+  font-size: 200%;
+  color: blue;
+  margin-bottom: 14%;
+  /* border: 1px solid blue; */
+}
+.battle-result-draw-p2 {
+  top: 3%;
+  width: 100%;
+  position: relative;
+  font-size: 200%;
+  color: black;
+  margin-bottom: 15%;
+  /* border: 1px solid blue; */
+}
+.battle-result-p3 {
+  margin-top: 25%;
+  width: 100%;
+  position: relative;
+  /* border: 1px solid yellow; */
+  font-family: galmuri9;
+}
+.battle-result-char {
+  width: 100%;
+  height: 35%;
+  /* border: 1px solid blue; */
+  position: relative;
+}
+
+.battle-result-2 {
+  /* border: 1px solid red; */
+  position: relative;
+  width: 49%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.battle-result2-p1 {
+  margin-top: 40%;
+  width: 100%;
+  position: relative;
+  margin-bottom: 0%;
+  /* border: 1px solid blue; */
+}
+.battle-result2-win-p2 {
+  margin-top: 41%;
+  width: 100%;
+  position: relative;
+  font-size: 200%;
+  color: red;
+  margin-bottom: 25%;
+  /* border: 1px solid blue; */
+}
+.battle-result2-lose-p2 {
+  top: 7.5%;
+  width: 100%;
+  position: relative;
+  font-size: 200%;
+  color: blue;
+  margin-bottom: 48%;
+  /* border: 1px solid blue; */
+}
+.battle-result2-draw-p2 {
+  top: 7.5%;
+  width: 100%;
+  position: relative;
+  font-size: 200%;
+  color: black;
+  margin-bottom: 48%;
+  /* border: 1px solid blue; */
+}
+.battle-result2-p3 {
+  margin-top: 6%;
+  width: 100%;
+  position: relative;
+  /* border: 1px solid yellow; */
+  font-family: galmuri9;
+}
+.battle-result2-char {
+  width: 100%;
+  height: 30%;
+  /* border: 1px solid blue; */
+  position: relative;
+}
+
+.battleResult-talk {
+  position: relative;
+  width: 100%;
+  height: 30%;
+}
+.battleResult-talk > img {
+  width: 100%;
+  height: 100%;
+}
+.battleResult-talk-p {
+  position: absolute;
+  top: 10%;
+  left: 8%;
+}
+.battle-dialog-next {
+  position: absolute;
+  top: 75%;
+  left: 8%;
+  font-size: 90%;
+  /* border: 1px black solid; */
+}
+
+p {
+  font-family: galmuri9;
+}
+
+@font-face {
+  font-family: "galmuri9";
+  src: url(/src/asset/font/Galmuri9.ttf);
+  font-weight: normal;
+  font-style: normal;
+}
