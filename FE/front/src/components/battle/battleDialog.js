@@ -36,7 +36,7 @@ export default function BattleDialog(props) {
   }
 
   useEffect(() => {
-    console.log(sentenceIndex);
+    // console.log(sentenceIndex);
     sentences[sentenceIndex]();
   }, [sentenceIndex]);
 
@@ -88,7 +88,7 @@ export default function BattleDialog(props) {
       //그래서 첫번째 분기 시간이 0일때 props를 가져오면 될까.. test필요함.
       const gameCancelData = props.gameCancelData;
       const gameStartData = props.gameStartData;
-      console.log("도망에 대한 결과 받기");
+      // console.log("도망에 대한 결과 받기");
       //더미데이터: 도망가자마자 6번 index로 가게
       // setSentenceIndex(6);
       //도망여부 받기
@@ -136,7 +136,7 @@ export default function BattleDialog(props) {
       //결투하기 연결
       //역주소랑 게임아이디 받아야 함.
       setSentenceIndex(2);
-      console.log("결투하기 연결");
+      // console.log("결투하기 연결");
       const duel = {
         duel: true,
       };
@@ -147,7 +147,7 @@ export default function BattleDialog(props) {
   function cancelClick() {
     if (sentenceIndex === 1) {
       //도망치기 연결
-      console.log("도망치기 연결");
+      // console.log("도망치기 연결");
       setSentenceIndex(3);
       const duel = {
         duel: false,
@@ -159,13 +159,13 @@ export default function BattleDialog(props) {
   }
 
   function loadBattle() {
-    console.log("결투를 위한 로딩");
+    // console.log("결투를 위한 로딩");
     setmsg("");
     setmsgCancel("");
   }
 
   function loadCancel() {
-    console.log("도망을 위한 로딩");
+    // console.log("도망을 위한 로딩");
     setmsg("");
     setmsgCancel("");
   }
@@ -182,26 +182,26 @@ export default function BattleDialog(props) {
     if (gametimeLeft === 0) {
       if (sentenceIndex === 4) {
         //결투시작
-        console.log("결투시작");
+        // console.log("결투시작");
         navigate("ready");
       }
       //
       if (sentenceIndex === 5) {
         //도망실패
-        console.log("도망 실패");
+        // console.log("도망 실패");
         navigate("ready");
       }
       if (sentenceIndex === 6) {
         //도망성공
         // main stompClient Error로 일단 주석 처리
         navigate("/main");
-        console.log("메인으로 이동!");
+        // console.log("메인으로 이동!");
       }
       if (sentenceIndex === 7) {
         //상대방이 도망성공
         // main stompClient Error로 일단 주석 처리
         navigate("/main");
-        console.log("상대방이 도망성공");
+        // console.log("상대방이 도망성공");
       }
     }
     //여기서 소켓통신해서
