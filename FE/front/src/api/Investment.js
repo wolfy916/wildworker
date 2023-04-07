@@ -45,7 +45,7 @@ function getStationStake(payload) {
       url: `/investment/${payload.stationId}`,
     }).then(({status, data}) => {
       if (status === 200) {
-        console.log(data)
+        // console.log(data)
         payload.setFunc(data);
         // data 예시
         // {

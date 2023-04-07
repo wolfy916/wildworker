@@ -97,7 +97,7 @@ function deleteUserInfo(payload) {
     })
       .then(({ status, data }) => {
         if (status === 200) {
-          console.log("deleteUserInfo 성공");
+          // console.log("deleteUserInfo 성공");
         }
       })
       .catch((err) => {
