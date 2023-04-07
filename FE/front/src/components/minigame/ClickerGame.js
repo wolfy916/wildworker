@@ -70,7 +70,7 @@ function ClickerGame(props) {
     getClickerScoreEffectObject.style.top = y + "px";
     getClickerScoreEffectObject.style.left = x + "px";
 
-    console.log(getClickerScoreEffectObject);
+    // console.log(getClickerScoreEffectObject);
     // .subject-background 태그의 자식 태그로 추가
     target.appendChild(getClickerScoreEffectObject);
 
