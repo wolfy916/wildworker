@@ -26,7 +26,21 @@ import {
   unsubscribeStation,
 } from "../src/api/socketFunc";
 
+import cryMan from "../src/asset/image/battleCharLoserMan.png"
+
 function App() {
+  // 모바일 화면 확인
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth < 420);
+    }
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const [isLogin, setIsLogin] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [isMatched, setIsMatched] = useState(false);
@@ -258,6 +272,13 @@ function App() {
 
   return (
     <div id="App" className="App">
+      {isMobile ? null : (
+        <div className="desktop-screen">
+          <div>해당 서비스는 모바일 화면에서만 지원해요.</div>
+          <img className="cry-man" src={cryMan} alt="우는 남자" />
+          <div>"야생의 직장인" 개발자 일동 올림.</div>
+        </div>
+      )}
       <div className="main-board-modal-wrap">
         <span>
           {store.locationData.current
@@ -275,150 +296,153 @@ function App() {
         <br />
         <span>강림</span>
       </div>
-      <Container className="app-container" maxWidth="xs">
-        <Box sx={{ height: "100vh" }}>
-          {isObtainTitle && (
-            <Modal
-              modalWidth={70}
-              modalHeight={40}
-              selectModalIdx={6}
-              setModalClick={setIsObtainTitle}
-              store={store}
-            />
-          )}
-          {investErr && (
-            <Modal
-              modalWidth={70}
-              modalHeight={30}
-              selectModalIdx={7}
-              selectErrorIdx={2}
-              setModalClick={setInvestErr}
-              userData={userData}
-            />
-          )}
-          <Routes>
-            <Route path="/" element={<LoginPage />} />
-            <Route
-              path="/main"
-              element={
-                <MainPage
-                  store={store}
-                  setStore={setStore}
-                  userData={userData}
-                  setUserData={setUserData}
-                  stompClient={stompClient}
-                  setIsLogin={setIsLogin}
-                  myTitles={myTitles}
-                  setMyTitles={setMyTitles}
-                  myCoinLogs={myCoinLogs}
-                  setMyCoinLogs={setMyCoinLogs}
-                  isMatched={isMatched}
-                  setIsMatched={setIsMatched}
-                  isGetError={isGetError}
-                  setIsGetError={setIsGetError}
-                  subwayContentIdx={subwayContentIdx}
-                  setSubwayContentIdx={setSubwayContentIdx}
-                  nicknameErr={nicknameErr}
-                  setNicknameErr={setNicknameErr}
-                />
-              }
-            />
-            <Route
-              path="/redirect/login"
-              element={
-                <RedirectLogin
-                  setIsLogin={setIsLogin}
-                  setUserData={setUserData}
-                />
-              }
-            />
-            <Route
-              path="/map"
-              element={
-                <SubwayMapPage
-                  myInvestList={myInvestList}
-                  setMyInvestList={setMyInvestList}
-                  stompClient={stompClient}
-                  store={store}
-                />
-              }
-            />
-            <Route
-              path="/map/mine"
-              element={
-                <MySubwayPage
-                  myInvestList={myInvestList}
-                  setMyInvestList={setMyInvestList}
-                />
-              }
-            />
-            <Route
-              path="/map/hot"
-              element={
-                <HotSubwayPage
-                  stationRank={stationRank}
-                  setStationRank={setStationRank}
-                  stationStake={stationStake}
-                  setStationStake={setStationStake}
-                  setUserData={setUserData}
-                  setInvestErr={setInvestErr}
-                />
-              }
-            />
-            <Route
-              path="/map/detail"
-              element={
-                <DetailSubwayPage
-                  stationStake={stationStake}
-                  setStationStake={setStationStake}
-                  setUserData={setUserData}
-                  setInvestErr={setInvestErr}
-                />
-              }
-            />
-            <Route
-              path="/pvp"
-              element={
-                <PvpPage
-                  matchingData={store.matching}
-                  gameRunData={store.gameCancel}
-                  gameStartData={store.gameStart}
-                  currentLocationData={store.locationData.current}
-                  stompClient={stompClient}
-                  userData={userData}
-                />
-              }
-            />
-            <Route
-              path="/pvp/ready"
-              element={<MiniGameReadyPage gameStartData={store.gameStart} />}
-            />
-            <Route
-              path="/pvp/minigame"
-              element={<MiniGamePage stompClient={stompClient} />}
-            />
-            <Route
-              path="/pvp/result"
-              element={
-                <PvpResultPage
-                  gameResultData={store.gameResult}
-                  userData={userData}
-                  matchingData={store.matching}
-                />
-              }
-            />
-            <Route
-              path="/pvp/receipt"
-              element={
-                <PvpReceipPage
-                  gameResultData={store.gameResult}
-                  setStore={setStore}
-                />
-              }
-            />
-          </Routes>
-        </Box>
-      </Container>
+
+      {isMobile ? (
+        <Container className="app-container" maxWidth="xs">
+          <Box sx={{ height: "100vh" }}>
+            {isObtainTitle && (
+              <Modal
+                modalWidth={70}
+                modalHeight={40}
+                selectModalIdx={6}
+                setModalClick={setIsObtainTitle}
+                store={store}
+              />
+            )}
+            {investErr && (
+              <Modal
+                modalWidth={70}
+                modalHeight={30}
+                selectModalIdx={7}
+                selectErrorIdx={2}
+                setModalClick={setInvestErr}
+                userData={userData}
+              />
+            )}
+            <Routes>
+              <Route path="/" element={<LoginPage />} />
+              <Route
+                path="/main"
+                element={
+                  <MainPage
+                    store={store}
+                    setStore={setStore}
+                    userData={userData}
+                    setUserData={setUserData}
+                    stompClient={stompClient}
+                    setIsLogin={setIsLogin}
+                    myTitles={myTitles}
+                    setMyTitles={setMyTitles}
+                    myCoinLogs={myCoinLogs}
+                    setMyCoinLogs={setMyCoinLogs}
+                    isMatched={isMatched}
+                    setIsMatched={setIsMatched}
+                    isGetError={isGetError}
+                    setIsGetError={setIsGetError}
+                    subwayContentIdx={subwayContentIdx}
+                    setSubwayContentIdx={setSubwayContentIdx}
+                    nicknameErr={nicknameErr}
+                    setNicknameErr={setNicknameErr}
+                  />
+                }
+              />
+              <Route
+                path="/redirect/login"
+                element={
+                  <RedirectLogin
+                    setIsLogin={setIsLogin}
+                    setUserData={setUserData}
+                  />
+                }
+              />
+              <Route
+                path="/map"
+                element={
+                  <SubwayMapPage
+                    myInvestList={myInvestList}
+                    setMyInvestList={setMyInvestList}
+                    stompClient={stompClient}
+                    store={store}
+                  />
+                }
+              />
+              <Route
+                path="/map/mine"
+                element={
+                  <MySubwayPage
+                    myInvestList={myInvestList}
+                    setMyInvestList={setMyInvestList}
+                  />
+                }
+              />
+              <Route
+                path="/map/hot"
+                element={
+                  <HotSubwayPage
+                    stationRank={stationRank}
+                    setStationRank={setStationRank}
+                    stationStake={stationStake}
+                    setStationStake={setStationStake}
+                    setUserData={setUserData}
+                    setInvestErr={setInvestErr}
+                  />
+                }
+              />
+              <Route
+                path="/map/detail"
+                element={
+                  <DetailSubwayPage
+                    stationStake={stationStake}
+                    setStationStake={setStationStake}
+                    setUserData={setUserData}
+                    setInvestErr={setInvestErr}
+                  />
+                }
+              />
+              <Route
+                path="/pvp"
+                element={
+                  <PvpPage
+                    matchingData={store.matching}
+                    gameRunData={store.gameCancel}
+                    gameStartData={store.gameStart}
+                    currentLocationData={store.locationData.current}
+                    stompClient={stompClient}
+                    userData={userData}
+                  />
+                }
+              />
+              <Route
+                path="/pvp/ready"
+                element={<MiniGameReadyPage gameStartData={store.gameStart} />}
+              />
+              <Route
+                path="/pvp/minigame"
+                element={<MiniGamePage stompClient={stompClient} />}
+              />
+              <Route
+                path="/pvp/result"
+                element={
+                  <PvpResultPage
+                    gameResultData={store.gameResult}
+                    userData={userData}
+                    matchingData={store.matching}
+                  />
+                }
+              />
+              <Route
+                path="/pvp/receipt"
+                element={
+                  <PvpReceipPage
+                    gameResultData={store.gameResult}
+                    setStore={setStore}
+                  />
+                }
+              />
+            </Routes>
+          </Box>
+        </Container>
+      ) : null}
     </div>
   );
 }
