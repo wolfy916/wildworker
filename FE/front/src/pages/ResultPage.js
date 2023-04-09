@@ -105,7 +105,9 @@ function ResultPage(props) {
       <div className="battle-result-2">
         {/* 적 */}
         <p className="battle-result2-p1">
-          {matchingData.enemy.title.name === "x" ? "" : matchingData.enemy.title.name}
+          {matchingData.enemy.title.name === "x"
+            ? ""
+            : matchingData.enemy.title.name}
           <br /> {matchingData.enemy.name}
         </p>
         <div className="battle-result2-char">
@@ -151,7 +153,7 @@ function ResultPage(props) {
 
       <div className="battleResult-talk">
         <img
-          onTouchStart={handleTouchStart}
+          onClick={handleTouchStart}
           src={battleDialogImg}
           alt="battleDialogImg"
         />

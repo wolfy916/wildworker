@@ -126,6 +126,7 @@
   height: 30%;
 }
 .battleResult-talk > img {
+  /* border: 1px solid blue; */
   width: 100%;
   height: 100%;
 }
