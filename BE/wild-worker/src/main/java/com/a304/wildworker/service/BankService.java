@@ -17,6 +17,7 @@ public class BankService {
     public void sendTransaction(TransactionType type, Station station, User user, long amount)
             throws Exception {
         switch (type) {
+            // TODO: callback 받아서 처리
             case MINI_GAME_COST:
                 bank.sendGameCost(station, user, amount);
                 break;
