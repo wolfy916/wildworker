@@ -193,6 +193,22 @@ function App() {
     }
   }, [store.locationData]);
 
+
+  // 자동채굴 TEST
+  // const [testCoordinate, setTestCoordinate] = React.useState({
+  //   lat: 37.500658, // 역삼
+  //   lon: 127.03643,
+  // });
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setTestCoordinate({
+  //       lat: 37.559648801214685, // 신도림
+  //       lon: 126.96429180100907,
+  //     });
+  //   }, 5000);
+  // }, []);
+
   // 실시간 위치 전송 코드
   useEffect(() => {
     if (isConnected) {
@@ -213,6 +229,8 @@ function App() {
                 // lon: 126.891222,
                 lat: position.coords.latitude,
                 lon: position.coords.longitude,
+                // lat: testCoordinate.lat,
+                // lon: testCoordinate.lon,
               });
             }
           },
