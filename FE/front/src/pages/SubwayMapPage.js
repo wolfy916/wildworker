@@ -9,11 +9,11 @@ import myMap from "../asset/image/myMap.png";
 import hotMap from "../asset/image/hotMap.png";
 import current_point from "../asset/image/current_point.gif";
 import money from "../asset/image/money.gif";
-import seoul_img from "../asset/image/seoul_img.png";
-import daejeon_img from "../asset/image/daejeon_img.png";
-import gwangju_img from "../asset/image/gwangju_img.png";
-import gumi_img from "../asset/image/gumi_img.png";
-import buulgyeong_img from "../asset/image/buulgyeong_img.png";
+import campusSeoul from "../asset/image/campusSeoul.png";
+import campusDaejeon from "../asset/image/campusDaejeon.png";
+import campusGwangju from "../asset/image/campusGwangju.png";
+import campusGumi from "../asset/image/campusGumi.png";
+import campusBuulgyeong from "../asset/image/campusBuulgyeong.png";
 
 import "./SubwayMapPage.css";
 
@@ -198,7 +198,7 @@ function SubwayMapPage(props) {
           const currentPoint = document.createElement("div");
           const imgTag = document.createElement("img");
 
-          imgTag.setAttribute("src", `${seoul_img}`);
+          imgTag.setAttribute("src", `${campusSeoul}`);
           imgTag.style.width = "100%";
           imgTag.style.position = "absolute";
           imgTag.style.bottom = "10%";
@@ -211,7 +211,7 @@ function SubwayMapPage(props) {
           const currentPoint = document.createElement("div");
           const imgTag = document.createElement("img");
 
-          imgTag.setAttribute("src", `${daejeon_img}`);
+          imgTag.setAttribute("src", `${campusDaejeon}`);
           imgTag.style.width = "100%";
           imgTag.style.position = "absolute";
           imgTag.style.bottom = "10%";
@@ -224,7 +224,7 @@ function SubwayMapPage(props) {
           const currentPoint = document.createElement("div");
           const imgTag = document.createElement("img");
 
-          imgTag.setAttribute("src", `${gwangju_img}`);
+          imgTag.setAttribute("src", `${campusGwangju}`);
           imgTag.style.width = "100%";
           imgTag.style.position = "absolute";
           imgTag.style.bottom = "10%";
@@ -237,7 +237,7 @@ function SubwayMapPage(props) {
           const currentPoint = document.createElement("div");
           const imgTag = document.createElement("img");
 
-          imgTag.setAttribute("src", `${gumi_img}`);
+          imgTag.setAttribute("src", `${campusGumi}`);
           imgTag.style.width = "100%";
           imgTag.style.position = "absolute";
           imgTag.style.bottom = "10%";
@@ -250,7 +250,7 @@ function SubwayMapPage(props) {
           const currentPoint = document.createElement("div");
           const imgTag = document.createElement("img");
 
-          imgTag.setAttribute("src", `${buulgyeong_img}`);
+          imgTag.setAttribute("src", `${campusBuulgyeong}`);
           imgTag.style.width = "100%";
           imgTag.style.position = "absolute";
           imgTag.style.bottom = "10%";
