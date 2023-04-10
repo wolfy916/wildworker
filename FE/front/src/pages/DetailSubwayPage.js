@@ -128,9 +128,11 @@ function DetailSubwayPage(props) {
           <p className="detail-subject-1">나의 랭킹 및 정보</p>
           {props.stationStake.mine ? (
             <p className="detail-subject-1">
-              {props.stationStake.mine.rank}등{" "}
-              {props.stationStake.mine.investment.toLocaleString("ko-KR")}(
-              {props.stationStake.mine.percent}%)
+              {props.stationStake.mine.rank === 0
+                ? 1
+                : props.stationStake.mine.rank}
+              등 {props.stationStake.mine.investment.toLocaleString("ko-KR")}원
+              ({props.stationStake.mine.percent}%)
             </p>
           ) : (
             <p className="detail-subject-1">투자한 기록이 없어요.</p>
