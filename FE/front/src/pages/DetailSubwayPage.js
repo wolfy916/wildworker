@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import "./DetailSubwayPage.css";
 import goMap from "../asset/image/goMap.png";
@@ -25,8 +24,6 @@ function DetailSubwayPage(props) {
     // cnt 5번은 해야 실시간으로 다 바뀜
     if (cnt < 10) {
       const fetchData = async () => {
-        // console.log(location.state);
-        // console.log(props.stationStake);
         await getStationStake({
           stationId: location.state,
           setFunc: props.setStationStake,
