@@ -12,3 +12,20 @@
   font-weight: normal;
   font-style: normal;
 }
+
+.desktop-screen{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  background-color: cornflowerblue;
+  font-family: "Galmuri9";
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+.cry-man{
+  margin: 5%;
+}

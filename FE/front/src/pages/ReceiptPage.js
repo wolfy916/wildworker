@@ -48,7 +48,7 @@ function ReceiptPage(props) {
         <div className="receipt-whiteblock"></div>
         <div className="receipt-back-text">즐거운 게임이었다.</div>
         <div className="receipt-ticket"></div>
-        <div className="receipt-text" onTouchStart={handleTouchStart}>
+        <div className="receipt-text" onClick={handleTouchStart}>
           <p className="receipt-text-header"></p>
           <div className="receipt-text-main">
             <p className="receipt-text-main-left">게임비</p>
