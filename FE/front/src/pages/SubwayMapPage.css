@@ -428,28 +428,7 @@ area:nth-of-type(51) {
   height: 5%;
 }
 area:nth-of-type(52) {
-  top: 54%;
-  left: 22%;
-  width: 11%;
-}
-area:nth-of-type(53) {
-  top: 54%;
-  left: 45%;
-  width: 11%;
-}
-area:nth-of-type(54) {
-  top: 54%;
-  left: 68%;
-  width: 11%;
-}
-area:nth-of-type(55) {
-  top: 73%;
-  left: 35%;
-  width: 11%;
-}
-
-area:nth-of-type(56) {
-  top: 73%;
-  left: 58%;
+  top: 67%;
+  left: 66%;
   width: 11%;
 }
