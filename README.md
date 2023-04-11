@@ -52,11 +52,15 @@
 
 - 수동 채굴 : 유저는 게임 대기화면에서 서류 아이템을 수집하고, 수집량 조건을 만족했을때 제출하여 코인을 얻을 수 있습니다.
 - 자동 채굴 : 유저가 지하철을 타고 이동하며, 새로운 역에 최초 진입할 때 일정량의 코인을 획득할 수 있습니다.
+
 <img src="$(filename)_assets/b2ff38358ae6e22caa7c2ee6598ce9be30c3cc5d.gif" title="" alt="수동채굴" align="inline">
 
 <br>
 
 ### 2. PVP
+<img src="$(filename)_assets\매칭.PNG" alt="매칭" width=200>
+<img src="$(filename)_assets\매칭-선택.PNG" alt="매칭-선택" width=200>
+
 
 - 메인화면에서 같은 지하철역에 있는 유저들끼리 자동으로 랜덤 매칭되어 PVP를 진행하게 됩니다.
 
