@@ -17,6 +17,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.web3j.crypto.CipherException;
 
 @Slf4j
@@ -51,6 +52,7 @@ public class ChangedBalanceHandler {
     /* 코인내역 추가 & 이더리움에 내역 동기화 */
     @Order(2)
     @EventListener
+    @Transactional
     public void insertCoinLogAndSyncWithEther(ChangedBalanceEvent event)
             throws CipherException, IOException {
         // 코인내역 추가
