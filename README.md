@@ -75,7 +75,9 @@
 ![계산 게임 대기]($(filename)_assets/138d3e3bf357b31e5f3ec259aa32b4dcef31f645.gif) ![계산게임]($(filename)_assets/b7b76ef224fb7840340c53f1014c06a47a47eea0.gif)
 
 - 위 게임에 대한 결과 화면입니다.
-<img src="$(filename)_assets/821e40a23b2a256088a428037e5f5db3d1fb5198.png" title="" alt="승리" data-align="center">
+
+<img src="$(filename)_assets/821e40a23b2a256088a428037e5f5db3d1fb5198.png" title="" alt="게임결과-승리" data-align="center" width=200>
+<img src="$(filename)_assets\매칭-결과.PNG" alt="게임결과-정산서" width=200>
 
 ### 3. 지하철 역 투자
 
