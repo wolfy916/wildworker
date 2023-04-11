@@ -52,11 +52,18 @@
 
 - 수동 채굴 : 유저는 게임 대기화면에서 서류 아이템을 수집하고, 수집량 조건을 만족했을때 제출하여 코인을 얻을 수 있습니다.
 - 자동 채굴 : 유저가 지하철을 타고 이동하며, 새로운 역에 최초 진입할 때 일정량의 코인을 획득할 수 있습니다.
+<<<<<<< HEAD
+=======
+
+>>>>>>> d4fd0b7dd455e43fe9a76f763523ec4c44d4ca0a
 <img src="assets/b2ff38358ae6e22caa7c2ee6598ce9be30c3cc5d.gif" title="" alt="수동채굴" align="inline">
 
 <br>
 
 ### 2. PVP
+<img src="assets/매칭.PNG" alt="매칭" width=200>
+<img src="assets/매칭-선택.PNG" alt="매칭-선택" width=200>
+
 
 - 메인화면에서 같은 지하철역에 있는 유저들끼리 자동으로 랜덤 매칭되어 PVP를 진행하게 됩니다.
 
@@ -72,10 +79,12 @@
 
 2. 회식비 정산 게임
 
-![계산 게임 대기](assets/138d3e3bf357b31e5f3ec259aa32b4dcef31f645.gif) ![계산게임]($(filename)_assets/b7b76ef224fb7840340c53f1014c06a47a47eea0.gif)
+![계산 게임 대기](assets/138d3e3bf357b31e5f3ec259aa32b4dcef31f645.gif) ![계산게임](assets/b7b76ef224fb7840340c53f1014c06a47a47eea0.gif)
 
 - 위 게임에 대한 결과 화면입니다.
-<img src="assets/821e40a23b2a256088a428037e5f5db3d1fb5198.png" title="" alt="승리" data-align="center">
+
+<img src="assets/821e40a23b2a256088a428037e5f5db3d1fb5198.png" title="" alt="게임결과-승리" data-align="center" width=200>
+<img src="assets\매칭-결과.PNG" alt="게임결과-정산서" width=200>
 
 ### 3. 지하철 역 투자
 
