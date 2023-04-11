@@ -34,7 +34,9 @@ function DetailSubwayPage(props) {
               <div className="detail-div-size">
                 <p className="detail-subject-king">
                   <img className="detail-kingimg" src={king} alt="king" />{" "}
-                  {item.name}
+                  {item.name.includes("@")
+                    ? item.name.split("@")[0]
+                    : item.name}
                 </p>
               </div>
             ) : (
@@ -63,8 +65,10 @@ function DetailSubwayPage(props) {
         <div className="detail-title">
           {props.stationStake.dominator ? (
             <p className="detail-subject">
-              {props.stationStake.dominator}의{" "}
-              <img className="detail-twoimg" src={two_img} alt="two_img" />
+              {props.stationStake.dominator.includes("@")
+                ? props.stationStake.dominator.split("@")[0]
+                : props.stationStake.dominator}
+              의 <img className="detail-twoimg" src={two_img} alt="two_img" />
               {props.stationStake.stationName}
             </p>
           ) : (
