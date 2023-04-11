@@ -36,15 +36,11 @@
 
 - Gitlab, Jira, Mattermost, Notion
 
-
-
 ## 기획 배경
 
 - 긴 통근시간, 극심한 교통 혼잡, 정신적 육체적 스트레스 증가, 삶의 만족도를 떨어뜨립니다.
 
 - 지하철을 출퇴근에만 다니는 지루하고 힘든 공간이 아닌 재미있는 공간으로 만들 수는 없을까라는 고민에서 출발하였습니다.
-
-
 
 ## 주요 기능
 
@@ -52,11 +48,14 @@
 
 - 수동 채굴 : 유저는 게임 대기화면에서 서류 아이템을 수집하고, 수집량 조건을 만족했을때 제출하여 코인을 얻을 수 있습니다.
 - 자동 채굴 : 유저가 지하철을 타고 이동하며, 새로운 역에 최초 진입할 때 일정량의 코인을 획득할 수 있습니다.
-<img src="assets/b2ff38358ae6e22caa7c2ee6598ce9be30c3cc5d.gif" title="" alt="수동채굴" align="inline">
+  
+  <img src="assets/b2ff38358ae6e22caa7c2ee6598ce9be30c3cc5d.gif" title="" alt="수동채굴" align="inline">
 
 <br>
 
 ### 2. PVP
+
+![매칭](assets/매칭.PNG) ![매칭선택](assets/매칭-선택.PNG) ![결투-대기](assets/결투-대기.PNG)
 
 - 메인화면에서 같은 지하철역에 있는 유저들끼리 자동으로 랜덤 매칭되어 PVP를 진행하게 됩니다.
 
@@ -72,10 +71,12 @@
 
 2. 회식비 정산 게임
 
-![계산 게임 대기](assets/138d3e3bf357b31e5f3ec259aa32b4dcef31f645.gif) ![계산게임]($(filename)_assets/b7b76ef224fb7840340c53f1014c06a47a47eea0.gif)
+![계산 게임 대기](assets/138d3e3bf357b31e5f3ec259aa32b4dcef31f645.gif) ![계산게임](assets/b7b76ef224fb7840340c53f1014c06a47a47eea0.gif)
 
 - 위 게임에 대한 결과 화면입니다.
-<img src="assets/821e40a23b2a256088a428037e5f5db3d1fb5198.png" title="" alt="승리" data-align="center">
+
+<img src="assets/821e40a23b2a256088a428037e5f5db3d1fb5198.png" title="" alt="게임결과-승리" data-align="center" width=200>
+![매칭결과](assets/매칭-결과.PNG)
 
 ### 3. 지하철 역 투자
 
