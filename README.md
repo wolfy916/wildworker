@@ -58,8 +58,8 @@
 <br>
 
 ### 2. PVP
-<img src="assets\매칭.PNG" alt="매칭" width=200>
-<img src="assets\매칭-선택.PNG" alt="매칭-선택" width=200>
+<img src="assets/매칭.PNG" alt="매칭" width=200>
+<img src="assets/매칭-선택.PNG" alt="매칭-선택" width=200>
 
 
 - 메인화면에서 같은 지하철역에 있는 유저들끼리 자동으로 랜덤 매칭되어 PVP를 진행하게 됩니다.
