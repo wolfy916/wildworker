@@ -72,7 +72,7 @@ public class ChangedBalanceHandler {
                 break;
             }
             // 자동 채굴
-            case AUTO_MINING: {
+            case AUTO_MINING: {     //TODO: callback event로 발행해서 처리
                 bank.autoMine(event.getStation(), event.getUser()).thenAccept(t -> {
                     transactionLog.setAppliedAt(LocalDateTime.now());
                     transactionLogRepository.save(transactionLog);
