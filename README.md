@@ -55,11 +55,7 @@
 
 ### 2. PVP
 
-![매칭](assets/매칭.png)
-
-![매칭선택](assets/매칭-선택.png)
-
-![결투-대기](assets/결투-대기.png)
+![매칭](assets/매칭.PNG) ![매칭선택](assets/매칭-선택.PNG) ![결투-대기](assets/결투-대기.PNG)
 
 - 메인화면에서 같은 지하철역에 있는 유저들끼리 자동으로 랜덤 매칭되어 PVP를 진행하게 됩니다.
 
@@ -80,8 +76,7 @@
 - 위 게임에 대한 결과 화면입니다.
 
 <img src="assets/821e40a23b2a256088a428037e5f5db3d1fb5198.png" title="" alt="게임결과-승리" data-align="center" width=200>
-
-![매칭결과](assets/매칭-결과.png)
+![매칭결과](assets/매칭-결과.PNG)
 
 ### 3. 지하철 역 투자
 
