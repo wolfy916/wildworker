@@ -10,7 +10,7 @@
 
 ## 팀원 소개
 
-![팀원 소개]($(filename)_assets/bed52194067c748936e6a9069d91950fe75c95aa.PNG)
+![팀원 소개](assets/bed52194067c748936e6a9069d91950fe75c95aa.PNG)
 
 <br>
 
@@ -53,13 +53,13 @@
 - 수동 채굴 : 유저는 게임 대기화면에서 서류 아이템을 수집하고, 수집량 조건을 만족했을때 제출하여 코인을 얻을 수 있습니다.
 - 자동 채굴 : 유저가 지하철을 타고 이동하며, 새로운 역에 최초 진입할 때 일정량의 코인을 획득할 수 있습니다.
 
-<img src="$(filename)_assets/b2ff38358ae6e22caa7c2ee6598ce9be30c3cc5d.gif" title="" alt="수동채굴" align="inline">
+<img src="assets/b2ff38358ae6e22caa7c2ee6598ce9be30c3cc5d.gif" title="" alt="수동채굴" align="inline">
 
 <br>
 
 ### 2. PVP
-<img src="$(filename)_assets\매칭.PNG" alt="매칭" width=200>
-<img src="$(filename)_assets\매칭-선택.PNG" alt="매칭-선택" width=200>
+<img src="assets\매칭.PNG" alt="매칭" width=200>
+<img src="assets\매칭-선택.PNG" alt="매칭-선택" width=200>
 
 
 - 메인화면에서 같은 지하철역에 있는 유저들끼리 자동으로 랜덤 매칭되어 PVP를 진행하게 됩니다.
@@ -71,30 +71,30 @@
 - 결투가 성사된 경우, 다음과 같은 두가지 게임을 랜덤으로 진행합니다.
 1. 지하철 자리 앉기 게임
 
-<img title="" src="$(filename)_assets/4642dc15487ddc57b65e3beb8bf28f6c2fe30192.gif" alt="두더지 대기" data-align="inline">
-<img title="" src="$(filename)_assets/2c8054b997e980faa91f59d92bb9007def9abf44.gif" alt="두더지" data-align="inline">
+<img title="" src="assets/4642dc15487ddc57b65e3beb8bf28f6c2fe30192.gif" alt="두더지 대기" data-align="inline">
+<img title="" src="assets/2c8054b997e980faa91f59d92bb9007def9abf44.gif" alt="두더지" data-align="inline">
 
 2. 회식비 정산 게임
 
-![계산 게임 대기]($(filename)_assets/138d3e3bf357b31e5f3ec259aa32b4dcef31f645.gif) ![계산게임]($(filename)_assets/b7b76ef224fb7840340c53f1014c06a47a47eea0.gif)
+![계산 게임 대기](assets/138d3e3bf357b31e5f3ec259aa32b4dcef31f645.gif) ![계산게임](assets/b7b76ef224fb7840340c53f1014c06a47a47eea0.gif)
 
 - 위 게임에 대한 결과 화면입니다.
 
-<img src="$(filename)_assets/821e40a23b2a256088a428037e5f5db3d1fb5198.png" title="" alt="게임결과-승리" data-align="center" width=200>
-<img src="$(filename)_assets\매칭-결과.PNG" alt="게임결과-정산서" width=200>
+<img src="assets/821e40a23b2a256088a428037e5f5db3d1fb5198.png" title="" alt="게임결과-승리" data-align="center" width=200>
+<img src="assets\매칭-결과.PNG" alt="게임결과-정산서" width=200>
 
 ### 3. 지하철 역 투자
 
 - 유저는 보유한 코인으로 2호선 지하철역에 대한 투자를 할 수 있습니다.
 - 어떤 지하철역에 대한 지분율을 갖고 있을때, 해당 역에서 진행되는 모든 게임의 수수료를 지분율에 비례하여 획득할 수 있습니다.
 
-![투자페이지_이동 gif]($(filename)_assets/deaf66574724f58ce70a1c353faa44519a3d6278.gif)
-![멀캠역에투자하는gif]($(filename)_assets/9311792d551c22e83a59c6b8feb403cc199546a2.gif)
+![투자페이지_이동 gif](assets/deaf66574724f58ce70a1c353faa44519a3d6278.gif)
+![멀캠역에투자하는gif](assets/9311792d551c22e83a59c6b8feb403cc199546a2.gif)
 
 - 투자가 많이 일어나는 인기역과 내가 투자한 역을 확인할 수 있습니다.
 
-![인기역_AdobeExpress]($(filename)_assets/b1aea44dab9a6595b3e6825ab0fbbc63dec9b354.gif)
-<img src="$(filename)_assets/17a643fb42bef16a74a416599b97a6b48d454823.gif" title="" alt="나의 투자역" width="176">
+![인기역_AdobeExpress](assets/b1aea44dab9a6595b3e6825ab0fbbc63dec9b354.gif)
+<img src="assets/17a643fb42bef16a74a416599b97a6b48d454823.gif" title="" alt="나의 투자역" width="176">
 <br>
 
 ### 4. 칭호 시스템
@@ -110,16 +110,16 @@
 
 - 위치기반 서비스의 특징을 살려, 특정 지하철역들에 진입하였을 때 출몰하는 오브젝트를 만들었습니다.
 
-![녹화_2023_04_06_14_52_43_972_AdobeExpress]($(filename)_assets/f388f06d3ce753cda5999549cd9dff3a436831e1.gif) 
-![녹화_2023_04_06_14_59_07_946_AdobeExpress]($(filename)_assets/e9c15ccd0ec5aeaccec5b76b591246a090297d30.gif)
-![녹화_2023_04_06_14_56_10_680_AdobeExpress]($(filename)_assets/945b3324cbea063d18ab4a9b181f3e7e23ad8764.gif)
+![녹화_2023_04_06_14_52_43_972_AdobeExpress](assets/f388f06d3ce753cda5999549cd9dff3a436831e1.gif) 
+![녹화_2023_04_06_14_59_07_946_AdobeExpress](assets/e9c15ccd0ec5aeaccec5b76b591246a090297d30.gif)
+![녹화_2023_04_06_14_56_10_680_AdobeExpress](assets/945b3324cbea063d18ab4a9b181f3e7e23ad8764.gif)
 
 <br>
 
 ## ERD
 
-![특화ERD]($(filename)_assets/8ff14080e0d587ae77ea2b57f7f5cc6c86e81a95.png)
+![특화ERD](assets/8ff14080e0d587ae77ea2b57f7f5cc6c86e81a95.png)
 
 ## 시스템 아키텍쳐
 
-![아키텍처]($(filename)_assets/b7ffd380aeb0ff81fb3b7b9a58350a9bf2729bde.jpg)
+![아키텍처](assets/b7ffd380aeb0ff81fb3b7b9a58350a9bf2729bde.jpg)
