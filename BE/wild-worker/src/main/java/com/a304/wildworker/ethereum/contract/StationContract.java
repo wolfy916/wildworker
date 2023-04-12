@@ -27,9 +27,9 @@ public class StationContract {
     public CompletableFuture<TransactionReceipt> autoMine(String stationAddress, String userAddress,
             long amount)
             throws IOException {
-        log.info("autoMine call");
-        log.info("\t from station : {}", stationAddress);
-        log.info("\t to user : {}", userAddress);
+        log.debug("autoMine call");
+        log.debug("\t from station : {}", stationAddress);
+        log.debug("\t to user : {}", userAddress);
 
         Function function = new Function("autoMine",
                 List.of(new Address(userAddress), new Uint256(amount)), Collections.emptyList());
@@ -40,10 +40,10 @@ public class StationContract {
     public CompletableFuture<TransactionReceipt> invest(String stationAddress, String userAddress,
             long amount)
             throws IOException {
-        log.info("invest call");
-        log.info("\t from user : {}", userAddress);
-        log.info("\t to station : {}", stationAddress);
-        log.info("\t amount : {}", amount);
+        log.debug("invest call");
+        log.debug("\t from user : {}", userAddress);
+        log.debug("\t to station : {}", stationAddress);
+        log.debug("\t amount : {}", amount);
 
         Function function = new Function("recordInvestment",
                 List.of(new Address(userAddress), new Uint256(amount)),

@@ -8,10 +8,11 @@ import com.a304.wildworker.dto.response.CoinChangeResponse;
 import com.a304.wildworker.dto.response.common.WSBaseResponse;
 import com.a304.wildworker.ethereum.contract.Bank;
 import com.a304.wildworker.event.ChangedBalanceEvent;
+import com.a304.wildworker.event.TransactionLogAppliedEvent;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -29,6 +30,7 @@ public class ChangedBalanceHandler {
     private final TransactionLogRepository transactionLogRepository;
     private final ActiveUserRepository activeUserRepository;
 
+    private final ApplicationEventPublisher publisher;
     private final SimpMessagingTemplate messagingTemplate;
 
     /* 코인 변동 Noti 송신 */
@@ -48,9 +50,9 @@ public class ChangedBalanceHandler {
     }
 
     /* 코인내역 추가 & 이더리움에 내역 동기화 */
-    @Transactional
     @Order(2)
     @EventListener
+    @Transactional
     public void insertCoinLogAndSyncWithEther(ChangedBalanceEvent event)
             throws CipherException, IOException {
         // 코인내역 추가
@@ -62,20 +64,25 @@ public class ChangedBalanceHandler {
         transactionLogRepository.save(transactionLog);
 
         // 컨트랙트 실행
+        executeContract(event, transactionLog);
+    }
+
+    private void executeContract(ChangedBalanceEvent event, TransactionLog transactionLog)
+            throws CipherException, IOException {
         switch (event.getReason()) {
             // 수동 채굴
             case MANUAL_MINING: {
                 bank.manualMine(event.getUser()).thenAccept(t -> {
-                    transactionLog.setAppliedAt(LocalDateTime.now());
-                    transactionLogRepository.save(transactionLog);
+                    TransactionLogAppliedEvent event1 = new TransactionLogAppliedEvent(
+                            transactionLog.getId());
+                    publisher.publishEvent(event1);
                 });
                 break;
             }
             // 자동 채굴
             case AUTO_MINING: {     //TODO: callback event로 발행해서 처리
                 bank.autoMine(event.getStation(), event.getUser()).thenAccept(t -> {
-                    transactionLog.setAppliedAt(LocalDateTime.now());
-                    transactionLogRepository.save(transactionLog);
+                    publisher.publishEvent(new TransactionLogAppliedEvent(transactionLog.getId()));
                 });
                 break;
             }
@@ -83,9 +90,8 @@ public class ChangedBalanceHandler {
             case INVESTMENT: {
                 bank.invest(event.getStation(), event.getUser(), event.getChangeValue() * -1)
                         .thenAccept(receipt -> {
-                            log.info("invest receipt : {}", receipt);
-                            transactionLog.setAppliedAt(LocalDateTime.now());
-                            transactionLogRepository.save(transactionLog);
+                            publisher.publishEvent(
+                                    new TransactionLogAppliedEvent(transactionLog.getId()));
                         });
                 break;
             }
