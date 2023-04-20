@@ -95,9 +95,9 @@ public class TransactionSendHelper {
             String fromAddress,
             Function function)
             throws IOException {
-        log.info("transaction start");
-        log.info("\tcontract : {}", contractAddress);
-        log.info("\tsender : {}", fromAddress);
+        log.debug("transaction start");
+        log.debug("\tcontract : {}", contractAddress);
+        log.debug("\tsender : {}", fromAddress);
 
         return getBlock().thenCombine(getNonce(fromAddress), (block, nonce) -> {
             BigInteger gasLimit = block.getGasLimit();
@@ -105,7 +105,7 @@ public class TransactionSendHelper {
             BigInteger amountUsed = baseFeePerGas; // TODO: 2023-03-23 값 조정 필요
 
             try {
-                log.info("\t\ttransaction sending");
+                log.debug("\t\ttransaction sending");
                 return web3j.ethSendTransaction(
                                 Transaction.createFunctionCallTransaction(
                                         fromAddress,
@@ -132,8 +132,8 @@ public class TransactionSendHelper {
                                                 fromAddress, block, nonce, amountUsed,
                                                 ethSendTransaction, e.getMessage());
                                     }
-                                    log.info("\t\ttransaction receipt : {}", transactionReceipt);
-                                    log.info("transaction end");
+                                    log.debug("\t\ttransaction receipt : {}", transactionReceipt);
+                                    log.debug("transaction end");
                                     return transactionReceipt;
                                 }
                         ).get(); // TODO: 2023-03-27 내부 로직 수정 필요

@@ -167,11 +167,12 @@ public class InvestService {
         }
 
         // 1위 금액 투자자 중 지배자가 있다면 랭킹 1위로 올림
-        setDominatorFirstIfExistInRankList(dominatorId, dominatorInvestInfo, rankList, investInfoList, station);
+        setDominatorFirstIfExistInRankList(dominatorId, dominatorInvestInfo, rankList,
+                investInfoList, station);
 
         // 랭킹 번호 매기기
         for (int i = 0; i < rankList.size(); i++) {
-            rankList.get(i).setRank(i+1);
+            rankList.get(i).setRank(i + 1);
         }
 
         InvestmentInfoResponse response = InvestmentInfoResponse.builder()
@@ -197,7 +198,9 @@ public class InvestService {
                 .build();
     }
 
-    public void setDominatorFirstIfExistInRankList(Long dominatorId, Entry<Long, Long> dominatorInvestInfo, List<InvestmentRankResponse> rankList, List<Entry<Long, Long>> investInfoList, Station station){
+    public void setDominatorFirstIfExistInRankList(Long dominatorId,
+            Entry<Long, Long> dominatorInvestInfo, List<InvestmentRankResponse> rankList,
+            List<Entry<Long, Long>> investInfoList, Station station) {
         if (isInInvestInfoList(dominatorInvestInfo)) {
             return;
         }
@@ -211,26 +214,21 @@ public class InvestService {
         rankList.add(0, getInvestmentRankResponse(dominatorInvestInfo, station));
     }
 
-    private boolean isNotSameDominatorAmountAndRankFirstAmount(Entry<Long, Long> dominatorInvestInfo,
+    private boolean isNotSameDominatorAmountAndRankFirstAmount(
+            Entry<Long, Long> dominatorInvestInfo,
             List<InvestmentRankResponse> rankList) {
         Long dominatorAmount = dominatorInvestInfo.getValue();
-        if (!dominatorAmount.equals(rankList.get(0).getInvestment())) {
-            return true;
-        }
-        return false;
+        return !dominatorAmount.equals(rankList.get(0).getInvestment());
     }
 
     private boolean isInInvestInfoList(Entry<Long, Long> dominatorInvestInfo) {
-        if (dominatorInvestInfo == null) {
-            return true;
-        }
-        return false;
+        return dominatorInvestInfo == null;
     }
 
     private int getIndexOfDominator(Long dominatorId, List<Entry<Long, Long>> investInfoList) {
         int index = 0;
         for (Entry<Long, Long> investInfo : investInfoList) {
-            if (investInfo.getKey().equals(dominatorId)){
+            if (investInfo.getKey().equals(dominatorId)) {
                 return index;
             }
             index++;
@@ -312,7 +310,7 @@ public class InvestService {
         if (allValue.equals(0L)) {
             return 0;
         }
-        return (int)((((myValue * 100) * 1000) / allValue) / 1000);
+        return (int) ((((myValue * 100) * 1000) / allValue) / 1000);
     }
 
     /* 역 투자 */
@@ -377,8 +375,9 @@ public class InvestService {
             setNewDominatorAndTitle(station, dominator);
 
             // 이더리움에서도 정산 요청
-            bank.distributeInvestReward(station).thenAccept(
-                    (receipt -> log.info("distribute invest reward receipt : {}", receipt)));
+            bank.distributeInvestReward(station);
+//                .thenAccept(
+//                    (receipt -> log.info("distribute invest reward receipt : {}", receipt)));
         }
 
         // 지배자 칭호 갱신

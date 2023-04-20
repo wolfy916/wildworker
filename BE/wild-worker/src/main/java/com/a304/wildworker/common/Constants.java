@@ -24,4 +24,6 @@ public final class Constants {
     public static final int SELECTING_DELAY_TIME = 4;   //선택 여유 시간
 
     public static final double COMMISSION_RATE = 0.5;   //게임 수수료 비율(%)
+
+    public static final String DEFAULT_USER_NAME = "직장인";
 }

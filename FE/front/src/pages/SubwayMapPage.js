@@ -9,7 +9,12 @@ import myMap from "../asset/image/myMap.png";
 import hotMap from "../asset/image/hotMap.png";
 import current_point from "../asset/image/current_point.gif";
 import money from "../asset/image/money.gif";
-import mulcam from "../asset/image/mulcam.png";
+import campusSeoul from "../asset/image/campusSeoul.png";
+import campusDaejeon from "../asset/image/campusDaejeon.png";
+import campusGwangju from "../asset/image/campusGwangju.png";
+import campusGumi from "../asset/image/campusGumi.png";
+import campusBuulgyeong from "../asset/image/campusBuulgyeong.png";
+
 import "./SubwayMapPage.css";
 
 import { getMyInvestList } from "../api/Investment";
@@ -107,7 +112,7 @@ function SubwayMapPage(props) {
     navigate(`/map/detail`, { state: stationId });
   }
 
-  const PAGE_COUNT = 52;
+  const PAGE_COUNT = 56;
 
   const currentPointStyle = {
     position: "relative",
@@ -142,7 +147,11 @@ function SubwayMapPage(props) {
     }
   }, [props.myInvestList]);
 
-  const mulcampus = 52;
+  const seoul = 52;
+  const daejeon = 53;
+  const gwangju = 54;
+  const gumi = 55;
+  const buulgyeong = 56;
 
   useEffect(() => {
     if (cnt === 2) {
@@ -185,12 +194,64 @@ function SubwayMapPage(props) {
           areaTag.appendChild(currentPoint);
         }
 
-        if (mulcampus === i) {
+        if (seoul === i) {
           const currentPoint = document.createElement("div");
           const imgTag = document.createElement("img");
 
-          imgTag.setAttribute("src", `${mulcam}`);
-          imgTag.style.width = "120%";
+          imgTag.setAttribute("src", `${campusSeoul}`);
+          imgTag.style.width = "100%";
+          imgTag.style.position = "absolute";
+          imgTag.style.bottom = "10%";
+          imgTag.style.left = "-20%";
+          currentPoint.appendChild(imgTag);
+
+          areaTag.appendChild(currentPoint);
+        }
+        if (daejeon === i) {
+          const currentPoint = document.createElement("div");
+          const imgTag = document.createElement("img");
+
+          imgTag.setAttribute("src", `${campusDaejeon}`);
+          imgTag.style.width = "100%";
+          imgTag.style.position = "absolute";
+          imgTag.style.bottom = "10%";
+          imgTag.style.left = "-20%";
+          currentPoint.appendChild(imgTag);
+
+          areaTag.appendChild(currentPoint);
+        }
+        if (gwangju === i) {
+          const currentPoint = document.createElement("div");
+          const imgTag = document.createElement("img");
+
+          imgTag.setAttribute("src", `${campusGwangju}`);
+          imgTag.style.width = "100%";
+          imgTag.style.position = "absolute";
+          imgTag.style.bottom = "10%";
+          imgTag.style.left = "-20%";
+          currentPoint.appendChild(imgTag);
+
+          areaTag.appendChild(currentPoint);
+        }
+        if (gumi === i) {
+          const currentPoint = document.createElement("div");
+          const imgTag = document.createElement("img");
+
+          imgTag.setAttribute("src", `${campusGumi}`);
+          imgTag.style.width = "100%";
+          imgTag.style.position = "absolute";
+          imgTag.style.bottom = "10%";
+          imgTag.style.left = "-20%";
+          currentPoint.appendChild(imgTag);
+
+          areaTag.appendChild(currentPoint);
+        }
+        if (buulgyeong === i) {
+          const currentPoint = document.createElement("div");
+          const imgTag = document.createElement("img");
+
+          imgTag.setAttribute("src", `${campusBuulgyeong}`);
+          imgTag.style.width = "100%";
           imgTag.style.position = "absolute";
           imgTag.style.bottom = "10%";
           imgTag.style.left = "-20%";

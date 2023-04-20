@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import "./DetailSubwayPage.css";
 import goMap from "../asset/image/goMap.png";
@@ -25,8 +24,6 @@ function DetailSubwayPage(props) {
     // cnt 5번은 해야 실시간으로 다 바뀜
     if (cnt < 10) {
       const fetchData = async () => {
-        // console.log(location.state);
-        // console.log(props.stationStake);
         await getStationStake({
           stationId: location.state,
           setFunc: props.setStationStake,
@@ -37,7 +34,9 @@ function DetailSubwayPage(props) {
               <div className="detail-div-size">
                 <p className="detail-subject-king">
                   <img className="detail-kingimg" src={king} alt="king" />{" "}
-                  {item.name}
+                  {item.name.includes("@")
+                    ? item.name.split("@")[0]
+                    : item.name}
                 </p>
               </div>
             ) : (
@@ -66,8 +65,10 @@ function DetailSubwayPage(props) {
         <div className="detail-title">
           {props.stationStake.dominator ? (
             <p className="detail-subject">
-              {props.stationStake.dominator}의{" "}
-              <img className="detail-twoimg" src={two_img} alt="two_img" />
+              {props.stationStake.dominator.includes("@")
+                ? props.stationStake.dominator.split("@")[0]
+                : props.stationStake.dominator}
+              의 <img className="detail-twoimg" src={two_img} alt="two_img" />
               {props.stationStake.stationName}
             </p>
           ) : (
@@ -128,9 +129,11 @@ function DetailSubwayPage(props) {
           <p className="detail-subject-1">나의 랭킹 및 정보</p>
           {props.stationStake.mine ? (
             <p className="detail-subject-1">
-              {props.stationStake.mine.rank}등{" "}
-              {props.stationStake.mine.investment.toLocaleString("ko-KR")}(
-              {props.stationStake.mine.percent}%)
+              {props.stationStake.mine.rank === 0
+                ? 1
+                : props.stationStake.mine.rank}
+              등 {props.stationStake.mine.investment.toLocaleString("ko-KR")}원
+              ({props.stationStake.mine.percent}%)
             </p>
           ) : (
             <p className="detail-subject-1">투자한 기록이 없어요.</p>

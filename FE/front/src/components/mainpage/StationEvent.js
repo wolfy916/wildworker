@@ -29,9 +29,25 @@ function StationEvent(props) {
     사당역: { person: [businessMan1, businessMan2, businessWoman], limit: 20 },
     잠실역: { person: [lotteWoman, lotteMan], limit: 2 },
     홍대입구역: { person: [blackMan, whiteMan, hiphopMan], limit: 5 },
-    멀티캠퍼스: {
+    서울캠퍼스: {
       person: [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2],
-      limit: 25,
+      limit: 20,
+    },
+    대전캠퍼스: {
+      person: [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2],
+      limit: 20,
+    },
+    광주캠퍼스: {
+      person: [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2],
+      limit: 20,
+    },
+    구미캠퍼스: {
+      person: [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2],
+      limit: 20,
+    },
+    부울경캠퍼스: {
+      person: [ssafyMan1, ssafyMan2, ssafyWoman1, ssafyWoman2],
+      limit: 20,
     },
   };
   // useEffect 내부의 재귀함수를 중지하기 위한 트리거

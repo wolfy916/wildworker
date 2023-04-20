@@ -59,6 +59,7 @@ function subscribeStation(client, setStore, curStation, setSubwayContentIdx) {
                 ...prev,
                 locationData: {
                   ...prev.locationData,
+                  prev: prev.locationData.current,
                   current: {
                     ...prev.locationData.current,
                     dominator: payload.data,
@@ -149,9 +150,10 @@ function subscribeUser(
         setStore((prev) => {
           return {
             ...prev,
-            getTitle: payload.data,
+            getTitle: payload.data.name,
           };
         });
+        setIsObtainTitle(true);
       }
       // 내 대표 칭호 변동
       else if (payload.subType === "MAIN_TITLE_UPDATE") {
