@@ -75,8 +75,7 @@
 
 - 위 게임에 대한 결과 화면입니다.
 
-<img src="assets/821e40a23b2a256088a428037e5f5db3d1fb5198.png" title="" alt="게임결과-승리" data-align="center" width=200>
-![매칭결과](assets/매칭-결과.PNG)
+<img src="assets/821e40a23b2a256088a428037e5f5db3d1fb5198.png" title="" alt="게임결과-승리" data-align="center" width=200> ![매칭결과](assets/매칭-결과.PNG)
 
 ### 3. 지하철 역 투자
 
