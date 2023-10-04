@@ -50,6 +50,7 @@
 - 자동 채굴 : 유저가 지하철을 타고 이동하며, 새로운 역에 최초 진입할 때 일정량의 코인을 획득할 수 있습니다.
   
   <img src="assets/b2ff38358ae6e22caa7c2ee6598ce9be30c3cc5d.gif" title="" alt="수동채굴" align="inline">
+  <img src="https://github.com/wolfy916/wildworker/assets/109320678/8bc63f48-468f-4eac-b925-29f3b76c1cea" width="176">
 
 <br>
 
